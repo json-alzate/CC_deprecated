@@ -1,0 +1,53 @@
+<ion-header>
+    <ion-toolbar>
+
+        <!--Web only-->
+        <!--TODO adicionar enlace a pagina principal-->
+        <ion-thumbnail slot="start" class="ion-margin-horizontal ion-hide-md-down">
+            <img src="assets/home_icon.png" />
+        </ion-thumbnail>
+
+        <!-- mobile only-->
+        <ion-buttons slot="start" class="ion-hide-md-up">
+            <ion-menu-toggle>
+                <ion-button>
+                    <ion-icon slot="icon-only" name="menu-outline"></ion-icon>
+                </ion-button>
+            </ion-menu-toggle>
+        </ion-buttons>
+
+        <ion-buttons slot="start" class="ion-hide-md-down">
+
+            <ion-button class="ion-text-capitalize" fill="clear">
+                <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
+                Ejercicios
+            </ion-button>
+            <ion-button class="ion-text-capitalize" fill="clear">
+                <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
+                Elo
+            </ion-button>
+            <ion-button class="ion-text-capitalize" fill="clear">
+                <ion-icon name="color-palette-outline" slot="start"></ion-icon>
+                Pinturas
+            </ion-button>
+            <ion-button class="ion-text-capitalize" fill="clear">
+                <ion-icon name="hammer-outline" slot="start"></ion-icon>
+                Herramientas
+            </ion-button>
+
+        </ion-buttons>
+
+        <ion-buttons slot="end" class="ion-hide-md-down">
+            <ion-button>
+                <ion-icon slot="start" name="notifications-outline"></ion-icon>
+                <ion-badge slot="end" color="danger">42</ion-badge>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-avatar slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
+            <img
+                src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
+        </ion-avatar>
+
+    </ion-toolbar>
+</ion-header>
