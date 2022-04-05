@@ -1,9 +1,13 @@
 <ion-app>
 
+  <!--Mobile-->
   <ion-menu [swipeGesture]="false" side="start" menuId="first" contentId="main">
     <ion-header>
+
       <ion-toolbar>
-        <ion-avatar slot="start" class="ion-padding">
+
+
+        <!-- <ion-avatar slot="start" class="ion-padding">
           <img
             src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
         </ion-avatar>
@@ -13,8 +17,14 @@
           <ion-button>
             <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
           </ion-button>
-        </ion-buttons>
+        </ion-buttons> -->
+
+        <ion-button  expand="block" fill="clear" shape="round">
+          Click me
+        </ion-button>
+
       </ion-toolbar>
+
     </ion-header>
     <ion-content>
 
@@ -68,9 +78,11 @@
         <ion-title>Footer - No Border</ion-title>
       </ion-toolbar>
     </ion-footer>
-    
-  </ion-menu>
 
+  </ion-menu>
+  <!--End Mobile-->
+
+  <!--Web-->
   <ion-menu [swipeGesture]="false" contentId="main" menuId="menu-profile" side="end" type="overlay">
     <ion-header color="dark">
       <ion-toolbar>

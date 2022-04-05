@@ -20,6 +20,9 @@ import { CustomRouterStateSerializer } from '@redux/states/router.state';
 
 import * as fromEffects from '@redux/effects';
 import * as fromGuards from '@guards/index';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 
 const PROVIDERS = [
   ...fromGuards.guards
@@ -42,6 +45,9 @@ const PROVIDERS = [
       logOnly: environment.production
     }),
     EffectsModule.forRoot(fromEffects.EFFECTS),
+    provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
   ],
   providers: [
     PROVIDERS,

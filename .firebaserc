@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "chesscolate": {
+      "hosting": {
+        "app": [
+          "chesscolate"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "chesscolate"
+  }
+}
