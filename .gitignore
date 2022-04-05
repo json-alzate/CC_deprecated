@@ -30,4 +30,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
-/environments/private
+/environments/private/
+src/environments/private/keys.ts
