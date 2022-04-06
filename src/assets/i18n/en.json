@@ -1,3 +1,5 @@
 {
-    "test": "Hello"
+    "MOBILE_MENU": {
+        "login": "Login / Sing up"
+    }
 }

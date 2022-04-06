@@ -6,22 +6,29 @@
 
       <ion-toolbar>
 
+        <ng-container *ngIf="profile$ | async; else elseTemplateLoginButton">
 
-        <!-- <ion-avatar slot="start" class="ion-padding">
-          <img
-            src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
-        </ion-avatar>
-        <ion-title>Start Menu</ion-title>
+          <ion-avatar slot="start" class="ion-padding">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
+          </ion-avatar>
+          <ion-title>Start Menu</ion-title>
 
-        <ion-buttons slot="end">
-          <ion-button>
-            <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+          <ion-buttons slot="end">
+            <ion-button>
+              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            </ion-button>
+          </ion-buttons>
+
+        </ng-container>
+        <ng-template #elseTemplateLoginButton>
+
+          <ion-button (click)="presentModalLogin()" expand="block" fill="clear">
+            {{ 'MOBILE_MENU.login' | transloco }}
           </ion-button>
-        </ion-buttons> -->
 
-        <ion-button expand="block" fill="clear" shape="round">
-          {{ 'test' | transloco }}
-        </ion-button>
+        </ng-template>
+
 
       </ion-toolbar>
 
