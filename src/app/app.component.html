@@ -19,8 +19,8 @@
           </ion-button>
         </ion-buttons> -->
 
-        <ion-button  expand="block" fill="clear" shape="round">
-          Click me
+        <ion-button expand="block" fill="clear" shape="round">
+          {{ 'test' | transloco }}
         </ion-button>
 
       </ion-toolbar>
@@ -35,7 +35,7 @@
           <ion-label>Inicio</ion-label>
         </ion-item>
 
-        <ion-accordion value="training" >
+        <ion-accordion value="training">
           <ion-item slot="header" expand="inset">
             <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
             <ion-label>Ejercicios</ion-label>

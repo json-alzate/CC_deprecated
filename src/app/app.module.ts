@@ -23,6 +23,8 @@ import * as fromGuards from '@guards/index';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { HttpClientModule } from '@angular/common/http';
+import { TranslocoRootModule } from './transloco-root.module';
 
 const PROVIDERS = [
   ...fromGuards.guards
@@ -48,6 +50,8 @@ const PROVIDERS = [
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    HttpClientModule,
+    TranslocoRootModule,
   ],
   providers: [
     PROVIDERS,
