@@ -2,8 +2,10 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform, isPlatform } from '@ionic/angular';
 import { Device } from '@capacitor/device';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+
 
 
 // rxjs
@@ -38,6 +40,7 @@ export class AppComponent {
   constructor(
     private modalController: ModalController,
     private translocoService: TranslocoService,
+    private platform: Platform,
     private store: Store<AuthState>
   ) {
 
@@ -45,24 +48,30 @@ export class AppComponent {
       select(getProfile)
     );
     this.getLang();
+    this.initializeApp(); 
+  }
+
+  initializeApp() {
+
+    if (!isPlatform('capacitor')) {
+      GoogleAuth.initialize();
+    }
+    // this.platform.ready().then(() => {
+    //   GoogleAuth.initialize()
+    // })
   }
 
   async getLang() {
     const lang = await Device.getLanguageCode();
-    
-    if( lang.value.slice(0,2) === 'es' ){
+    if (lang.value.slice(0, 2) === 'es') {
       this.translocoService.setActiveLang('es');
     }
-
   }
 
   async presentModalLogin() {
     const modal = await this.modalController.create({
       component: LoginComponent,
-      componentProps: { value: 123 }
     });
-
     await modal.present();
-
   }
 }

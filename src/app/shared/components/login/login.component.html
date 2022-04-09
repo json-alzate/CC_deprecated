@@ -1,3 +1,41 @@
-<p>
-  login works!
-</p>
+<ion-content>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="close()" size="small">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-slides>
+
+
+    <ion-slide>
+
+      <div class="ion-padding">
+
+        <h1>Ajedrez libre!.</h1>
+
+        <hr class="solid">
+
+        <ion-row class="row-buttons-providers">
+          <ion-col size="12">
+            <ion-button expand="block" color="dark" size="large" (click)="loginGoogle()" >
+              <ion-icon slot="start" src="assets\images\logos\Google__G__Logo.svg"></ion-icon>
+              Ingresa con Google
+            </ion-button>
+          </ion-col>
+          <ion-col size="12">
+            <ion-button expand="block" fill="clear">
+              <ion-icon slot="start" name="mail-outline"></ion-icon>
+              Email y contraseña
+            </ion-button>
+          </ion-col>
+        </ion-row>
+
+      </div>
+
+
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>
