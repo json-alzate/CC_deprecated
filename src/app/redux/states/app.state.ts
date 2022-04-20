@@ -6,10 +6,12 @@ import { RouterStateUrl } from './router.state';
 
 // states
 import { UIState } from './ui.state';
+import { AuthState } from './auth.state';
 
 
 
 export interface AppState {
   ui: UIState;
+  auth: AuthState;
   router: RouterReducerState<RouterStateUrl>;
 }

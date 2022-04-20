@@ -1,6 +1,7 @@
 import { keys } from './private/keys';
 
 export const environment = {
-    production: false,
-    environmentName: 'staging'
+  firebase: keys.firebase,
+  production: false,
+  environmentName: 'staging'
 };

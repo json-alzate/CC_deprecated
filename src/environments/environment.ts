@@ -6,7 +6,7 @@ import { keys } from './private/keys';
 export const environment = {
   production: false,
   environmentName: 'dev',
-  firebase: keys.firebase
+  firebase: keys.firebase,
 };
 
 

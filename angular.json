@@ -32,7 +32,7 @@
               }
             ],
             "styles": [
-              "src/theme/variables.scss", 
+              "src/theme/variables.scss",
               "node_modules/cm-chessboard/assets/styles/cm-chessboard.css",
               "src/global.scss"
             ],
@@ -195,6 +195,16 @@
               "cordovaBuildTarget": "app:ionic-cordova-build:production",
               "devServerTarget": "app:serve:production"
             }
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "app:build:production",
+            "firebaseProject": "chesscolate",
+            "firebaseHostingSite": "chesscolate"
           }
         }
       }

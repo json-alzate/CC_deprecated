@@ -32,3 +32,8 @@ npm-debug.log*
 /www
 /environments/private/
 src/environments/private/keys.ts
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
