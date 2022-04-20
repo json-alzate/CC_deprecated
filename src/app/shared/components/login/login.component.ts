@@ -1,6 +1,6 @@
 // core and third party libraries
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, IonicSlides } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 
 // rxjs
@@ -27,6 +27,12 @@ import { requestLoginGoogle } from '@redux/actions/auth.actions';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
+
+  slideOptions =  {
+    allowTouchMove: false,
+    allowSlidePrev: false,
+    allowSlideNext: false
+  };
 
   constructor(
     private modalController: ModalController,
