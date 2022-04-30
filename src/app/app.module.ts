@@ -29,6 +29,9 @@ import { provideFirestore, getFirestore } from '@angular/fire/firestore';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslocoRootModule } from './transloco-root.module';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
+
 const PROVIDERS = [
   ...fromGuards.guards
 ];
@@ -50,6 +53,7 @@ const PROVIDERS = [
       logOnly: environment.production
     }),
     EffectsModule.forRoot(fromEffects.EFFECTS),
+    SocketIoModule.forRoot(config),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),

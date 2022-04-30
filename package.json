@@ -37,7 +37,8 @@
     "@ngrx/store-devtools": "^13.0.2",
     "chess.js": "^0.12.1",
     "cm-chessboard": "^3.16.8",
-    "rxjs": "~6.6.0",
+    "ngx-socket-io": "^4.2.0",
+    "rxjs": "~7.5.5",
     "tslib": "^2.2.0",
     "zone.js": "~0.11.4"
   },

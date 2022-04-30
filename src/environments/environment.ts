@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   environmentName: 'dev',
   firebase: keys.firebase,
+  socketUrl: 'https://chesscolate.json.com.co:3000/'
 };
 
 

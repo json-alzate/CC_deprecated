@@ -5,6 +5,8 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ModalController, Platform, isPlatform } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import { Socket } from 'ngx-socket-io';
+
 
 
 
@@ -41,6 +43,7 @@ export class AppComponent {
     private modalController: ModalController,
     private translocoService: TranslocoService,
     private platform: Platform,
+    private socket: Socket,
     private store: Store<AuthState>
   ) {
 
@@ -48,7 +51,7 @@ export class AppComponent {
       select(getProfile)
     );
     this.getLang();
-    this.initializeApp(); 
+    this.initializeApp();
   }
 
   initializeApp() {
@@ -56,6 +59,8 @@ export class AppComponent {
     if (!isPlatform('capacitor')) {
       GoogleAuth.initialize();
     }
+
+    this.socket.connect();
     // this.platform.ready().then(() => {
     //   GoogleAuth.initialize()
     // })
