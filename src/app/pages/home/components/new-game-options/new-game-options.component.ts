@@ -9,6 +9,10 @@ export class NewGameOptionsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  segmentChanged(event: any) {
+
+  }
 
 }

@@ -1,9 +1,71 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle>
-    <ion-card-title>Awesome Title</ion-card-title>
-  </ion-card-header>
-  <ion-card-content>
-    Awesome content
-  </ion-card-content>
-</ion-card>
+<ion-segment (ionChange)="segmentChanged($event)" value="friends">
+  <ion-segment-button value="friends">
+    <ion-label>Nuevo juego</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="enemies">
+    <ion-label>Lobby</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+<div class="div-game-options">
+
+
+  <ion-row>
+    <ion-col size="3">
+      <ion-button size="large" expand="block" color="medium">
+        5<small>+</small>3
+      </ion-button>
+    </ion-col>
+    <ion-col size="3">
+      <ion-button size="large" expand="block">
+        10<small>+</small>0
+      </ion-button>
+    </ion-col>
+    <ion-col size="3">
+      <ion-button size="large" expand="block" color="medium">
+        15<small>+</small>10
+      </ion-button>
+    </ion-col>
+    <ion-col size="3">
+      <ion-button size="large" expand="block" color="medium">
+        40<small>+</small>40
+      </ion-button>
+    </ion-col>
+
+  </ion-row>
+
+  <ion-row>
+    <ion-col size="4">
+      <ion-button size="large" expand="block" color="medium">
+        <ion-icon slot="icon-only" src="assets/images/pieces/wK.svg"></ion-icon>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="4">
+      <ion-button size="large" expand="block">
+        <ion-icon slot="icon-only" name="shuffle"></ion-icon>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="4">
+      <ion-button size="large" expand="block" color="medium">
+        <ion-icon slot="icon-only" src="assets/images/pieces/bK.svg"></ion-icon>
+      </ion-button>
+    </ion-col>
+
+    <ion-col size="12" class="ion-no-marging ion-no-padding">
+      <ion-button size="small" expand="block" fill="clear">
+        Personalizar
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+</div>
+
+<ion-row class="ion-margin-top">
+  <ion-col offset="2" size="8">
+    <ion-button size="large" color="success" expand="block">
+      Jugar
+    </ion-button>
+  </ion-col>
+</ion-row>
