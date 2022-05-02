@@ -4,12 +4,8 @@
 
     <ion-grid fixed>
         <ion-row>
-            <ion-col size="2">
-                <ion-button  expand="block"  shape="round">
-                    Click me
-                </ion-button>
-            </ion-col>
-            <ion-col size="7" class="col-game">
+
+            <ion-col offset-lg="2" offset-xl="2" size-sm="12" size-md="12" size-lg="7" size-xl="7" class="col-game">
 
                 <ion-card class="ion-no-margin ion-no-padding">
                     <ion-card-content class="ion-no-margin ion-no-padding">
@@ -26,16 +22,22 @@
                         <div class="board" id="board1">
                         </div>
 
+                   
+
                     </ion-card-content>
                 </ion-card>
 
             </ion-col>
-            <ion-col size="2">
-                <ion-button  expand="block"  shape="round">
+            <ion-col size="2" class="ion-hide-lg-down">
+                <ion-button expand="block" shape="round">
                     Click me
                 </ion-button>
             </ion-col>
         </ion-row>
     </ion-grid>
+
+    <div class="div-start-game-options" >
+        <app-new-game-options></app-new-game-options>
+    </div>
 
 </ion-content>

@@ -1,5 +1,21 @@
+// core and third party libraries
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
+import { ModalController } from '@ionic/angular';
+
+// rxjs
+
+// states
+
+// actions
+
+// selectors
+
+// models
+
+// services
+
+// components
 
 
 import {
@@ -822,175 +838,32 @@ export class HomePage implements OnInit {
   ];
 
   constructor(
+    private modalController: ModalController,
     private socket: Socket
   ) {
     this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((game: any) => {
-      
-      const i1 = this.usersTest.findIndex(key => key.uidUser === game.white.uidUser);
-      this.usersTest.splice(i1, 1);
-      const i2 = this.usersTest.findIndex(key => key.uidUser === game.black.uidUser);
-      this.usersTest.splice(i2, 1);
 
-      console.log('quedan  ', this.usersTest.length, this.usersTest);
     });
   }
 
   ngOnInit() {
-
-    // const u = this.usersTest.find(key => key.uidUser === "Lorne_Neva");
-    // const i1 = this.usersTest.findIndex(key => key.uidUser === "Lorne_Neva");
-    // console.log(i1, u, this.usersTest.length);
-
-    // this.testEmit();
   }
 
   ionViewDidEnter() {
     this.loadBoard();
-    this.ejectGames();
   }
 
   async loadBoard() {
     this.board = await new Chessboard(document.getElementById('board1'), {
-      position: 'start',
+      position: 'empty',
       style: {},
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
   }
 
 
-  ejectGames() {
 
-  }
 
-  testEmit() {
-    const users = [
-      {
-        "uidUser": "A",
-        "time": 10,
-        "lang": "es",
-        "elo": 1555,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "B",
-        "time": 10,
-        "lang": "es",
-        "elo": 1120,
-        "color": "random",
-        "country": "Ven"
-      },
-      {
-        "uidUser": "C",
-        "time": 5,
-        "lang": "es",
-        "elo": 1682,
-        "color": "white",
-        "country": "Esp"
-      },
-      {
-        "uidUser": "D",
-        "time": 10,
-        "lang": "es",
-        "elo": 1700,
-        "color": "random",
-        "country": "Bol"
-      },
-      {
-        "uidUser": "E",
-        "time": 10,
-        "lang": "es",
-        "elo": 2556,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "F",
-        "time": 10,
-        "lang": "es",
-        "elo": 1824,
-        "color": "random",
-        "country": "Hon"
-      },
-      {
-        "uidUser": "G",
-        "time": 10,
-        "lang": "en",
-        "elo": 1921,
-        "color": "random",
-        "country": "Usa"
-      },
-      {
-        "uidUser": "H",
-        "time": 10,
-        "lang": "es",
-        "elo": 1622,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "I",
-        "time": 10,
-        "lang": "es",
-        "elo": 1457,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "J",
-        "time": 10,
-        "lang": "es",
-        "elo": 2457,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "K",
-        "time": "10",
-        "lang": "es",
-        "elo": 1425,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "L",
-        "time": "15",
-        "lang": "es",
-        "elo": 1478,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "M",
-        "time": "5",
-        "lang": "es",
-        "elo": 1930,
-        "color": "random",
-        "country": "Col"
-      },
-      {
-        "uidUser": "N",
-        "time": "10",
-        "lang": "es",
-        "elo": 1555,
-        "color": "random",
-        "country": "Col"
-      }
-    ];
 
-    let i = 0;
-
-    setInterval(() => {
-      console.log('interval');
-
-      if (i < this.usersTest.length) {
-        console.log('solicitando ', this.usersTest[i]);
-
-        this.socket.emit('1_in_matchEngine_requestGame', this.usersTest[i]);
-        i++
-      }
-    }, 2000);
-
-  }
 
 }

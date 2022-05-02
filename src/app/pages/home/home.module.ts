@@ -7,6 +7,8 @@ import { SharedModule } from '@shared/shared.module';
 
 
 import { HomePageRoutingModule } from './home-routing.module';
+import * as fromComponents from './components/';
+// import * as fromContainers from './containers';
 
 import { HomePage } from './home.page';
 
@@ -18,6 +20,12 @@ import { HomePage } from './home.page';
     HomePageRoutingModule,
     SharedModule
   ],
-  declarations: [HomePage]
+  declarations: [
+    HomePage,
+    ...fromComponents.COMPONENTS
+  ],
+  entryComponents: [
+    ...fromComponents.ENTRY_COMPONENTS
+  ]
 })
 export class HomePageModule {}

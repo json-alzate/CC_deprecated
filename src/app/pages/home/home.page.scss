@@ -4,5 +4,14 @@
     display: block;
 }
 
+.div-start-game-options {
+    position: absolute;
+    top: 10vh;
+    left: 40vw;
+    height: 40vh;
+    background-color: #ffffff;
+    z-index: 9;
+}
+
 .col-game {
 }
