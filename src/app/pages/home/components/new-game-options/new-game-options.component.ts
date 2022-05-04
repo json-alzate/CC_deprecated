@@ -7,11 +7,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NewGameOptionsComponent implements OnInit {
 
+  time = 10.0;
+  color: 'random' | 'white' | 'black' = 'random';
+  segment: 'game' | 'lobby' = 'game'
+
   constructor() { }
 
   ngOnInit() { }
 
   segmentChanged(event: any) {
+
+  }
+
+  onPlay() {
 
   }
 

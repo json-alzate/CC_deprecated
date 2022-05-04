@@ -1,71 +1,90 @@
-<ion-segment (ionChange)="segmentChanged($event)" value="friends">
-  <ion-segment-button value="friends">
+<ion-segment (ionChange)="segmentChanged($event)" [value]="segment">
+  <ion-segment-button value="game" (click)="segment = 'game'">
     <ion-label>Nuevo juego</ion-label>
   </ion-segment-button>
-  <ion-segment-button value="enemies">
-    <ion-label>Lobby</ion-label>
+  <ion-segment-button value="lobby" (click)="segment = 'lobby'">
+    <ion-label>
+      Lobby
+      <ion-badge color="light">22</ion-badge>
+    </ion-label>
   </ion-segment-button>
 </ion-segment>
 
-<div class="div-game-options">
+<span [ngSwitch]="segment">
+  <span *ngSwitchCase="'game'">
 
 
-  <ion-row>
-    <ion-col size="3">
-      <ion-button size="large" expand="block" color="medium">
-        5<small>+</small>3
-      </ion-button>
-    </ion-col>
-    <ion-col size="3">
-      <ion-button size="large" expand="block">
-        10<small>+</small>0
-      </ion-button>
-    </ion-col>
-    <ion-col size="3">
-      <ion-button size="large" expand="block" color="medium">
-        15<small>+</small>10
-      </ion-button>
-    </ion-col>
-    <ion-col size="3">
-      <ion-button size="large" expand="block" color="medium">
-        40<small>+</small>40
-      </ion-button>
-    </ion-col>
+    <div class="div-game-options">
 
-  </ion-row>
 
-  <ion-row>
-    <ion-col size="4">
-      <ion-button size="large" expand="block" color="medium">
-        <ion-icon slot="icon-only" src="assets/images/pieces/wK.svg"></ion-icon>
-      </ion-button>
-    </ion-col>
+      <ion-row>
+        <ion-col size="3">
+          <ion-button size="large" expand="block" [color]=" time === 5.3 ? 'primary' : 'medium'" (click)="time = 5.3">
+            5<small>+</small>3
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button size="large" expand="block" [color]=" time === 10.0 ? 'primary' : 'medium'" (click)="time = 10.0">
+            10<small>+</small>0
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button size="large" expand="block" [color]=" time === 15.10 ? 'primary' : 'medium'"
+            (click)="time = 15.10">
+            15<small>+</small>10
+          </ion-button>
+        </ion-col>
+        <ion-col size="3">
+          <ion-button size="large" expand="block" [color]=" time === 40.40 ? 'primary' : 'medium'"
+            (click)="time = 40.40">
+            40<small>+</small>40
+          </ion-button>
+        </ion-col>
 
-    <ion-col size="4">
-      <ion-button size="large" expand="block">
-        <ion-icon slot="icon-only" name="shuffle"></ion-icon>
-      </ion-button>
-    </ion-col>
+      </ion-row>
 
-    <ion-col size="4">
-      <ion-button size="large" expand="block" color="medium">
-        <ion-icon slot="icon-only" src="assets/images/pieces/bK.svg"></ion-icon>
-      </ion-button>
-    </ion-col>
+      <ion-row>
+        <ion-col size="4">
+          <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
+            (click)="color = 'white'">
+            <ion-icon slot="icon-only" src="assets/images/pieces/wK.svg"></ion-icon>
+          </ion-button>
+        </ion-col>
 
-    <ion-col size="12" class="ion-no-marging ion-no-padding">
-      <ion-button size="small" expand="block" fill="clear">
-        Personalizar
-      </ion-button>
-    </ion-col>
-  </ion-row>
+        <ion-col size="4">
+          <ion-button size="large" expand="block" [color]=" color === 'random' ? 'primary' : 'medium' "
+            (click)="color = 'random'">
+            <ion-icon slot="icon-only" name="shuffle"></ion-icon>
+          </ion-button>
+        </ion-col>
 
-</div>
+        <ion-col size="4">
+          <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
+            (click)="color = 'black'">
+            <ion-icon slot="icon-only" src="assets/images/pieces/bK.svg"></ion-icon>
+          </ion-button>
+        </ion-col>
 
-<ion-row class="ion-margin-top">
-  <ion-col offset="2" size="8">
-    <ion-button size="large" color="success" expand="block">
-      Jugar
-    </ion-button>
-  </ion-col>
-</ion-row>
+        <!-- <ion-col size="12" class="ion-no-marging ion-no-padding">
+            <ion-button size="small" expand="block" fill="clear" (click)="showCustomOptions = true" >
+              Personalizar
+            </ion-button>
+          </ion-col> -->
+      </ion-row>
+
+    </div>
+
+    <ion-row class="ion-margin-top">
+      <ion-col offset="2" size="8">
+        <ion-button size="large" color="success" expand="block">
+          Jugar
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+  </span>
+  <span *ngSwitchCase="'lobby'">
+    lobby
+  </span>
+
+</span>
