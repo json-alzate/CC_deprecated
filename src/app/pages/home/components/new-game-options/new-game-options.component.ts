@@ -1,4 +1,21 @@
+// core and third party libraries
 import { Component, OnInit } from '@angular/core';
+
+// rxjs
+
+// states
+
+// actions
+
+// selectors
+
+// models
+
+// services
+import { SocketService } from '@services/sockt.service';
+
+// components
+
 
 @Component({
   selector: 'app-new-game-options',
@@ -9,9 +26,11 @@ export class NewGameOptionsComponent implements OnInit {
 
   time = 10.0;
   color: 'random' | 'white' | 'black' = 'random';
-  segment: 'game' | 'lobby' = 'game'
+  segment: 'game' | 'lobby' = 'game';
+  searchingGame = false;
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit() { }
 
@@ -21,6 +40,12 @@ export class NewGameOptionsComponent implements OnInit {
 
   onPlay() {
 
+    this.searchingGame = true;
+
+  }
+
+  onCancel() {
+    this.searchingGame = false;
   }
 
 }
