@@ -28,6 +28,8 @@ import { requestLoginGoogle } from '@redux/actions/auth.actions';
 })
 export class LoginComponent implements OnInit {
 
+  showEmailPassword = false;
+
   slideOptions =  {
     allowTouchMove: false,
     allowSlidePrev: false,
