@@ -26,6 +26,7 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 import { Profile } from '@models/profile.model';
 
 // services
+import { AuthService } from '@services/auth.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -42,6 +43,7 @@ export class AppComponent {
   constructor(
     private modalController: ModalController,
     private translocoService: TranslocoService,
+    private authService: AuthService,
     private platform: Platform,
     private socket: Socket,
     private store: Store<AuthState>
@@ -61,6 +63,8 @@ export class AppComponent {
     }
 
     this.socket.connect();
+
+    this.authService.authState();
     // this.platform.ready().then(() => {
     //   GoogleAuth.initialize()
     // })

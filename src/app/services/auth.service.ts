@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import {
   Auth,
@@ -6,11 +7,14 @@ import {
   onAuthStateChanged,
   signInWithCredential
 } from '@angular/fire/auth';
+
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 
 import { from } from 'rxjs';
 
+// Services
+import { ProfileService } from '@services/profile.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,11 +22,11 @@ import { from } from 'rxjs';
 export class AuthService {
 
   constructor(
-    private auth: Auth
+    private auth: Auth,
+    private profileService: ProfileService
   ) { }
 
   async loginGoogle() {
-    this.authState();
     const answer = await GoogleAuth.signIn();
     const credential = GoogleAuthProvider.credential(answer.authentication.idToken, answer.authentication.accessToken);
     await signInWithCredential(this.auth, credential);
@@ -33,6 +37,13 @@ export class AuthService {
   }
 
   authState() {
-    onAuthStateChanged(this.auth, (credential) => { console.log('User is logged in ', credential) })
+    onAuthStateChanged(this.auth, (credential) => {
+      if (credential) {
+        this.profileService.getProfile(credential);
+      }
+    });
   }
+
+
+
 }
