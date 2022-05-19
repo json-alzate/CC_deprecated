@@ -6,6 +6,8 @@ import { ModalController, Platform, isPlatform } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Socket } from 'ngx-socket-io';
+import { initializeApp } from 'firebase/app';
+import { environment } from '@environments/environment';
 
 
 
@@ -27,6 +29,7 @@ import { Profile } from '@models/profile.model';
 
 // services
 import { AuthService } from '@services/auth.service';
+import { FirestoreService } from '@services/firestore.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -45,6 +48,7 @@ export class AppComponent {
     private translocoService: TranslocoService,
     private authService: AuthService,
     private platform: Platform,
+    private firestoreService: FirestoreService,
     private socket: Socket,
     private store: Store<AuthState>
   ) {
@@ -68,6 +72,15 @@ export class AppComponent {
     // this.platform.ready().then(() => {
     //   GoogleAuth.initialize()
     // })
+  }
+
+  async initFirebase() {
+    initializeApp(environment.firebase);
+    console.log('-- APPINIT: Firebase App initialized');
+    await this.authService.init();
+    console.log('-- APPINIT: Firebase Auth initialized');
+    await this.firestoreService.init();
+    console.log('-- APPINIT: Firebase Firestore initialized');
   }
 
   async getLang() {
