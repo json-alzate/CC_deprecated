@@ -34,7 +34,6 @@ import { from, Subject } from 'rxjs';
 // models
 
 // services
-import { ProfileService } from '@services/profile.service';
 
 // components
 
@@ -47,9 +46,7 @@ export class AuthService {
 
   private auth: Auth;
 
-  constructor(
-    private profileService: ProfileService
-  ) { }
+  constructor() { }
 
   init() {
     this.auth = this.setAuth();
@@ -67,7 +64,7 @@ export class AuthService {
     }
     return auth;
   }
-  
+
 
   async loginGoogle() {
     const answer = await GoogleAuth.signIn();
@@ -79,7 +76,10 @@ export class AuthService {
     return from(this.auth.signOut());
   }
 
-
+  /**
+   * Para escuchar el estado del usuario logueado
+   * @returns Subject<FirebaseUser>
+   */
   getAuthState(): Subject<FirebaseUser> {
     const authState = new Subject<FirebaseUser>();
     this.auth.onAuthStateChanged(user => {

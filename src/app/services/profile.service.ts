@@ -15,6 +15,15 @@ export class ProfileService {
     private firestore: Firestore
   ) { }
 
+  /**
+   * Valida si el perfil existe en la BD y lo lleva al estado redux.
+   * Sino existe se inicia el proceso para registrar el perfil en la BD
+   * @param uid 
+   */
+  checkProfile(uid: string) {
+
+  }
+
 
   async getProfile(credentials) {
 
@@ -33,7 +42,7 @@ export class ProfileService {
 
     const docSnap = await getDoc(userDoc);
     if (docSnap.exists()) {
-      console.log( docSnap.data() );
+      console.log(docSnap.data());
     } else {
       console.log(`No user found with uid`);
     }
