@@ -1,30 +1,73 @@
-
+//core and third party libraries
 import { Injectable } from '@angular/core';
+import { Capacitor } from '@capacitor/core';
+
 import {
+  User as FirebaseUser,
+  UserCredential,
   Auth,
+  FacebookAuthProvider,
   GoogleAuthProvider,
-  signOut,
-  onAuthStateChanged,
-  signInWithCredential
-} from '@angular/fire/auth';
+  OAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  createUserWithEmailAndPassword,
+  signInWithCredential,
+  initializeAuth,
+  indexedDBLocalPersistence
+} from 'firebase/auth';
+import { getApp } from 'firebase/app';
 
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
+// rxjs
+import { from, Subject } from 'rxjs';
 
-import { from } from 'rxjs';
+// states
 
-// Services
+// actions
+
+// selectors
+
+// models
+
+// services
 import { ProfileService } from '@services/profile.service';
+
+// components
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private auth: Auth;
+
   constructor(
-    private auth: Auth,
     private profileService: ProfileService
   ) { }
+
+  init() {
+    this.auth = this.setAuth();
+  }
+
+
+  setAuth() {
+    let auth;
+    if (Capacitor.isNativePlatform()) {
+      auth = initializeAuth(getApp(), {
+        persistence: indexedDBLocalPersistence
+      });
+    } else {
+      auth = getAuth();
+    }
+    return auth;
+  }
+  
 
   async loginGoogle() {
     const answer = await GoogleAuth.signIn();
@@ -33,15 +76,16 @@ export class AuthService {
   }
 
   logout() {
-    return from(signOut(this.auth));
+    return from(this.auth.signOut());
   }
 
-  authState() {
-    onAuthStateChanged(this.auth, (credential) => {
-      if (credential) {
-        this.profileService.getProfile(credential);
-      }
+
+  getAuthState(): Subject<FirebaseUser> {
+    const authState = new Subject<FirebaseUser>();
+    this.auth.onAuthStateChanged(user => {
+      authState.next(user);
     });
+    return authState;
   }
 
 

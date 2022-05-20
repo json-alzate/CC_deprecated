@@ -68,7 +68,9 @@ export class AppComponent {
 
     this.socket.connect();
 
-    this.authService.authState();
+    this.authService.getAuthState().subscribe( () => {
+
+    });
     // this.platform.ready().then(() => {
     //   GoogleAuth.initialize()
     // })
