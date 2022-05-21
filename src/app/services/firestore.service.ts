@@ -25,12 +25,17 @@ import {
   increment
 } from 'firebase/firestore';
 
+
+// Models
+import { Profile } from '@models/profile.model';
+
 @Injectable({
   providedIn: 'root'
 })
 export class FirestoreService {
 
   private db: Firestore;
+
 
   constructor() { }
 
@@ -68,6 +73,32 @@ export class FirestoreService {
   async enableNetwork() {
     await enableNetwork(this.db);
   }
+
+
+  /**************************************************************/
+  /* PROFILE                                                      */
+  /**************************************************************/
+
+  /**
+   * Get a user from Firestore
+   *
+   * @param uid
+   * @returns Promise<User>
+   */
+  async getProfile(uid: string): Promise<Profile> {
+
+    const profileDocRef = doc(this.db, 'Users', uid);
+    const docSnap = await getDoc(profileDocRef);
+    if (docSnap.exists()) {
+      return docSnap.data() as Profile;
+    } else {
+      console.log(`No user found with uid ${uid}`);
+      return null;
+    }
+
+  }
+
+
 
 
 }

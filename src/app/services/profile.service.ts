@@ -1,9 +1,24 @@
+// core and third party libraries
 import { Injectable } from '@angular/core';
 
-import { Firestore, doc, onSnapshot, DocumentReference, getDoc } from 'firebase/firestore';
 
-// modeles
+// rxjs
+
+// states
+
+// actions
+
+// selectors
+
+// models
+import { User as FirebaseUser } from 'firebase/auth';
 import { Profile } from '@models/profile.model';
+
+// services
+import { FirestoreService } from '@services/firestore.service';
+
+// components
+
 
 @Injectable({
   providedIn: 'root'
@@ -12,44 +27,37 @@ export class ProfileService {
 
 
   constructor(
-    private firestore: Firestore
+    private firestoreService: FirestoreService
   ) { }
 
   /**
    * Valida si el perfil existe en la BD y lo lleva al estado redux.
    * Sino existe se inicia el proceso para registrar el perfil en la BD
-   * @param uid 
+   * @param dataAuth 
    */
-  checkProfile(uid: string) {
+  async checkProfile(dataAuth: FirebaseUser) {
 
-  }
-
-
-  async getProfile(credentials) {
-
-    // TODO: obtener el usuario desde firestore
-
-    const userDoc = doc(this.firestore, `users/${credentials?.uid}`)
-    console.log('el usurio recuperado ', userDoc);
-
-    // onSnapshot(userDoc, snap => {
-
-    //   console.log('snap ', snap);
-
-    //   // ...
-    // });
-
-
-    const docSnap = await getDoc(userDoc);
-    if (docSnap.exists()) {
-      console.log(docSnap.data());
+    const profile = await this.firestoreService.getProfile(dataAuth?.uid);
+    if (profile) {
+      console.log('el perfil ', profile);
     } else {
-      console.log(`No user found with uid`);
+      console.log('no existe a crearlo');
+      this.setInitialProfile(dataAuth);
     }
 
   }
 
-  setInitialProfile(profile: Profile) {
+
+  private setInitialProfile(dataAuth: FirebaseUser) {
+
+    const profileForSet: Profile = {
+      uid: '',
+      email: dataAuth.email,
+      name: dataAuth.displayName,
+      urlAvatar: dataAuth.photoURL,
+      elo: 1500,
+      createAt: new Date().getTime()
+    }
 
   }
 
