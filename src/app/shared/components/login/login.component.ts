@@ -1,6 +1,6 @@
 // core and third party libraries
-import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, OnInit, Input } from '@angular/core';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { Store } from '@ngrx/store';
 
 // rxjs
@@ -28,9 +28,13 @@ import { requestLoginGoogle } from '@redux/actions/auth.actions';
 })
 export class LoginComponent implements OnInit {
 
+  @Input() showAs: 'modal' | 'popover';
+
   showEmailPassword = false;
 
+
   constructor(
+    private popoverController: PopoverController,
     private modalController: ModalController,
     private store: Store<AuthState>
   ) { }
@@ -40,10 +44,15 @@ export class LoginComponent implements OnInit {
   loginGoogle() {
     const action = requestLoginGoogle();
     this.store.dispatch(action);
+    this.close();
   }
 
   close() {
-    this.modalController.dismiss();
+    if (this.showAs === 'modal') {
+      this.modalController.dismiss();
+    } else if (this.showAs === 'popover') {
+      this.popoverController.dismiss();
+    }
   }
 
 }

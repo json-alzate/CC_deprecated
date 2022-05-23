@@ -841,9 +841,9 @@ export class HomePage implements OnInit {
     private modalController: ModalController,
     private socket: Socket
   ) {
-    this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((game: any) => {
-
-    });
+    // TODO: Activar lsitener socket
+    // this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((game: any) => {
+    // });
   }
 
   ngOnInit() {

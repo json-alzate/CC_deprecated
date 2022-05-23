@@ -99,6 +99,15 @@ export class FirestoreService {
   }
 
 
+  /**
+   * Crea un nuevo perfil
+   * @param profile 
+   * @returns Promise<void>
+   */
+  createProfile(profile: Profile) {
+    return setDoc(doc(this.db, 'Users', profile.uid), profile);
+  }
+
 
 
 }

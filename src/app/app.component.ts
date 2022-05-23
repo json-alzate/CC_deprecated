@@ -108,6 +108,7 @@ export class AppComponent {
   async presentModalLogin() {
     const modal = await this.modalController.create({
       component: LoginComponent,
+      componentProps: { showAs: 'modal' },
     });
     await modal.present();
   }

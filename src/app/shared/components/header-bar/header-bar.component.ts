@@ -58,6 +58,7 @@ export class HeaderBarComponent implements OnInit {
   async presentPopover(ev: any) {
     const popover = await this.popoverController.create({
       component: LoginComponent,
+      componentProps: { showAs: 'popover' },
       event: ev,
       translucent: true
     });

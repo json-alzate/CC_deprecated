@@ -1,6 +1,6 @@
 // core and third party libraries
 import { Injectable } from '@angular/core';
-
+import { TranslocoService } from '@ngneat/transloco';
 
 // rxjs
 
@@ -15,6 +15,7 @@ import { User as FirebaseUser } from 'firebase/auth';
 import { Profile } from '@models/profile.model';
 
 // services
+import { UtilsService } from '@services/utils.service';
 import { FirestoreService } from '@services/firestore.service';
 
 // components
@@ -27,6 +28,8 @@ export class ProfileService {
 
 
   constructor(
+    private utilsService: UtilsService,
+    private translocoService: TranslocoService,
     private firestoreService: FirestoreService
   ) { }
 
@@ -48,16 +51,21 @@ export class ProfileService {
   }
 
 
-  private setInitialProfile(dataAuth: FirebaseUser) {
+  private async setInitialProfile(dataAuth: FirebaseUser) {
 
     const profileForSet: Profile = {
-      uid: '',
+      uid: dataAuth.uid,
       email: dataAuth.email,
       name: dataAuth.displayName,
       urlAvatar: dataAuth.photoURL,
       elo: 1500,
+      lang: this.translocoService.getActiveLang(),
       createAt: new Date().getTime()
-    }
+    };
+
+    await this.firestoreService.createProfile(profileForSet);
+
+
 
   }
 
