@@ -1,10 +1,10 @@
 // core and third party libraries
 import { Component, OnInit, Input } from '@angular/core';
-import { MenuController, ModalController, PopoverController } from '@ionic/angular';
+import { MenuController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 
 // rxjs
-import { Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 // states
@@ -21,7 +21,6 @@ import { Profile } from '@models/profile.model';
 // services
 
 // components
-import { LoginComponent } from '@shared/components/login/login.component';
 
 
 @Component({
@@ -37,9 +36,7 @@ export class HeaderBarComponent implements OnInit {
 
   constructor(
     private store: Store<AuthState>,
-    private menuController: MenuController,
-    private modalController: ModalController,
-    private popoverController: PopoverController
+    private menuController: MenuController
   ) {
     this.profile$ = this.store.pipe(
       select(getProfile)
@@ -48,24 +45,8 @@ export class HeaderBarComponent implements OnInit {
 
   ngOnInit() { }
 
-  async presentModalLogin() {
-    const modal = await this.modalController.create({
-      component: LoginComponent,
-    });
-    await modal.present();
-  }
-
-  async presentPopover(ev: any) {
-    const popover = await this.popoverController.create({
-      component: LoginComponent,
-      componentProps: { showAs: 'popover' },
-      event: ev,
-      translucent: true
-    });
-    await popover.present();
-  }
-
   openMenuProfile() {
     this.menuController.open('menu-profile');
   }
+
 }

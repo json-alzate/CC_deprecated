@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
   }
 
   close() {
+    console.log(this.showAs);
+    
     if (this.showAs === 'modal') {
       this.modalController.dismiss();
     } else if (this.showAs === 'popover') {
