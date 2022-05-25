@@ -38,7 +38,6 @@ import { from, Subject } from 'rxjs';
 // components
 
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -65,16 +64,15 @@ export class AuthService {
     return auth;
   }
 
-
+  /**
+   * Ingresa con Google
+   */
   async loginGoogle() {
     const answer = await GoogleAuth.signIn();
     const credential = GoogleAuthProvider.credential(answer.authentication.idToken, answer.authentication.accessToken);
     await signInWithCredential(this.auth, credential);
   }
 
-  logout() {
-    return from(this.auth.signOut());
-  }
 
   /**
    * Para escuchar el estado del usuario logueado
@@ -88,6 +86,27 @@ export class AuthService {
     return authState;
   }
 
+
+  /**
+   * Registra un usuario con email y contrasena
+   * @param email 
+   * @param password 
+   */
+  async createUserWithEmailAndPassword(email: string, password: string) {
+    const auth = this.setAuth();
+     createUserWithEmailAndPassword(auth, email, password).catch(error => {
+      console.log('el error ', error);
+     });
+  }
+
+
+  /**
+   * Cierra sesión
+   * @returns 
+   */
+  logout() {
+    return from(this.auth.signOut());
+  }
 
 
 }
