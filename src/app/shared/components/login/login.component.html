@@ -1,5 +1,11 @@
 <ion-content class="ion-padding">
 
+  <ion-fab *ngIf="showEmailPassword" vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="showEmailPassword = false" size="small">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button (click)="close()" size="small">
       <ion-icon name="close-outline"></ion-icon>
@@ -33,7 +39,7 @@
   </ng-container>
   <ng-template #elseTemplateShowEmail>
 
-    <ion-segment value="singUp" class="ion-margin-bottom">
+    <ion-segment [value]="segmentEmailPassword" class="ion-margin-bottom" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="login">
         <ion-label> Ingresar </ion-label>
       </ion-segment-button>
@@ -45,29 +51,37 @@
     <span [ngSwitch]="segmentEmailPassword">
       <span *ngSwitchCase="'login'">
 
-        <ion-row>
-          <ion-col size="12">
-            <ion-item>
-              <ion-label position="floating">Email</ion-label>
-              <ion-input type="email"></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="12">
-            <ion-item>
-              <ion-label position="floating">Contrasena</ion-label>
-              <ion-input type="password"></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+        <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin($event)">
 
-        <ion-row>
-          <ion-col size="12">
-            <ion-button expand="block">
-              Acceder
-            </ion-button>
-          </ion-col>
-        </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="floating">Contraseña</ion-label>
+                <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-button (click)="resetPassword()" expand="block" fill="clear">
+                Restablecer contraseña
+              </ion-button>
+            </ion-col>
+          </ion-row>
 
+          <ion-row>
+            <ion-col size="12">
+              <ion-button type="submit" expand="block" [disabled]="!formLogin.valid">
+                Acceder
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </form>
 
 
       </span>
@@ -79,26 +93,26 @@
             <ion-col size="12">
               <ion-item>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input required formControlName="email" type="email" maxlength="100"></ion-input>
+                <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">Contrasena</ion-label>
-                <ion-input required formControlName="password" type="password" maxlength="100"></ion-input>
+                <ion-label position="floating">contraseña</ion-label>
+                <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">Repite contrasena</ion-label>
-                <ion-input required formControlName="rePassword" type="password" maxlength="100"></ion-input>
+                <ion-label position="floating">Confirmar contraseña</ion-label>
+                <ion-input formControlName="rePassword" type="password" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
 
           <ion-row>
             <ion-col size="12">
-              <ion-button  type="submit" expand="block" [disabled]="!formSingUp.valid">
+              <ion-button type="submit" expand="block" [disabled]="!formSingUp.valid">
                 Registrarme
               </ion-button>
             </ion-col>

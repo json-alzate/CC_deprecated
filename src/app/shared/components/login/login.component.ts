@@ -12,7 +12,7 @@ import { AuthState } from '@redux/states/auth.state';
 
 
 // actions
-import { requestLoginGoogle, requestSingUpEmail } from '@redux/actions/auth.actions';
+import { requestLoginGoogle, requestSingUpEmail, requestLoginEmail } from '@redux/actions/auth.actions';
 
 // selectors
 
@@ -36,11 +36,13 @@ export class LoginComponent implements OnInit {
   @Input() showAs: 'modal' | 'popover';
 
   formSingUp: FormGroup;
+  formLogin: FormGroup;
 
   showEmailPassword = false;
-  segmentEmailPassword: 'login' | 'singUp' = 'singUp';
+  segmentEmailPassword: 'login' | 'singUp' = 'login';
 
-
+  // TODO: Mostrar error al iniciar/registrarse
+  // TODO: Ajustar ui = no cambiar tamaño al cambiar segment
   constructor(
     private formBuilder: FormBuilder,
     private popoverController: PopoverController,
@@ -49,21 +51,23 @@ export class LoginComponent implements OnInit {
     private store: Store<AuthState>
   ) {
     this.buildFormSingUp();
-   }
+    this.buildFormLogin();
+    this.listenAuthState();
+  }
 
   ngOnInit() { }
 
-  listenAuthState(){
+
+  listenAuthState() {
     // se inicia a escuchar el estado del auth para cerrar el componente
     this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
-      console.log('dataAuth ', dataAuth);
-
-      // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
-      if (dataAuth) {
+      if (dataAuth) {        
         this.close();
       }
     });
+
   }
+
 
   /**
    * Ingresa con Google
@@ -75,6 +79,46 @@ export class LoginComponent implements OnInit {
   }
 
 
+  segmentChanged(ev: any) {
+    this.segmentEmailPassword = ev?.detail?.value;
+  }
+
+  // Ingresar
+  buildFormLogin() {
+    this.formLogin = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.maxLength(100)]],
+      password: ['', [Validators.required]]
+    });
+  }
+
+  get emailFieldLogin() {
+    return this.formLogin.get('email');
+  }
+
+  get passwordFielLogin() {
+    return this.formLogin.get('password');
+  }
+
+  onSubmitLogin($event: Event) {
+    $event.preventDefault();
+    if (this.formLogin.valid) {
+      const credentials = {
+        email: this.emailFieldLogin.value,
+        password: this.passwordFielLogin.value
+      };
+      const action = requestLoginEmail(credentials);
+      this.store.dispatch(action);
+    } else {
+      this.emailFieldLogin.markAsDirty();
+      this.passwordFielLogin.markAsDirty();
+    }
+  }
+
+
+
+  // ----------------------------------------------------------------------------
+
+  // Registrarse
   buildFormSingUp() {
     this.formSingUp = this.formBuilder.group({
       email: ['', [Validators.required, Validators.maxLength(100)]],
@@ -87,40 +131,41 @@ export class LoginComponent implements OnInit {
     return this.formSingUp.get('email');
   }
 
-  get passwordFielSingUpd() {
+  get passwordFielSingUp() {
     return this.formSingUp.get('password');
   }
 
-  get rePasswordFielSingUpd() {
+  get rePasswordFielSingUp() {
     return this.formSingUp.get('rePassword');
   }
 
 
-
   onSubmitSingUp($event: Event) {
-    console.log('dispara');
-    
+
     $event.preventDefault();
     if (this.formSingUp.valid) {
       const credentials = {
         email: this.emailFieldSingUp.value,
-        password: this.passwordFielSingUpd.value,
-        rePassword: this.rePasswordFielSingUpd.value
+        password: this.passwordFielSingUp.value,
+        rePassword: this.rePasswordFielSingUp.value
       };
       const action = requestSingUpEmail(credentials);
       this.store.dispatch(action);
       this.formSingUp.reset();
-      // this.close();
     } else {
       this.emailFieldSingUp.markAsDirty();
-      this.passwordFielSingUpd.markAsDirty();
+      this.passwordFielSingUp.markAsDirty();
     }
   }
 
+  // ----------------------------------------------------------------------------
+
+  // Recuperar password
+  resetPassword() {
+    // TODO: 
+  }
 
   close() {
-    console.log(this.showAs);
-    
     if (this.showAs === 'modal') {
       this.modalController.dismiss();
     } else if (this.showAs === 'popover') {

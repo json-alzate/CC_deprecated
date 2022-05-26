@@ -88,16 +88,29 @@ export class AuthService {
 
 
   /**
-   * Registra un usuario con email y contrasena
+   * Registra un usuario con email y contraseña
    * @param email 
    * @param password 
    */
   async createUserWithEmailAndPassword(email: string, password: string) {
     const auth = this.setAuth();
-     createUserWithEmailAndPassword(auth, email, password).catch(error => {
+    createUserWithEmailAndPassword(auth, email, password).catch(error => {
       console.log('el error ', error);
-     });
+    });
   }
+
+  /**
+   * Ingresa con email y contraseña 
+   * @param email 
+   * @param password 
+   */
+  async signInWithEmailAndPassword(email, password) {
+    const auth = this.setAuth();
+    signInWithEmailAndPassword(auth, email, password).catch(error => {
+      console.log('el error ', error);
+    });
+  }
+
 
 
   /**
