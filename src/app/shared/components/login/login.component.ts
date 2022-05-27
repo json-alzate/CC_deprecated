@@ -45,8 +45,6 @@ export class LoginComponent implements OnInit {
   errorLogin: string;
   errorSingUp: string;
 
-  // TODO: Mostrar error al iniciar/registrarse
-  // TODO: Ajustar ui = no cambiar tamaño al cambiar segment
   constructor(
     private formBuilder: FormBuilder,
     private popoverController: PopoverController,

@@ -100,7 +100,6 @@ export class AuthService {
   async createUserWithEmailAndPassword(email: string, password: string) {
     const auth = this.setAuth();
     createUserWithEmailAndPassword(auth, email, password).catch(error => {
-      console.log('error', error);
       let message = 'Error al registrar';
       if (error.code === 'auth/email-already-in-use') {
         message = 'El email ya está en uso';
