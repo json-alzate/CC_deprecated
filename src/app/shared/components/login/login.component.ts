@@ -41,6 +41,9 @@ export class LoginComponent implements OnInit {
   showEmailPassword = false;
   segmentEmailPassword: 'login' | 'singUp' = 'login';
 
+  errorLogin: string;
+  errorSingUp: string;
+
   // TODO: Mostrar error al iniciar/registrarse
   // TODO: Ajustar ui = no cambiar tamaño al cambiar segment
   constructor(
@@ -55,7 +58,14 @@ export class LoginComponent implements OnInit {
     this.listenAuthState();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+
+    // setTimeout(() => {
+    //   this.errorLogin = 'Error al iniciar sesión';
+    //   this.errorSingUp = 'Error al registrarse';
+    // }, 3000);
+    
+   }
 
 
   listenAuthState() {

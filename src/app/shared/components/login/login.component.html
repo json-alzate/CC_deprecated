@@ -84,6 +84,15 @@
         </form>
 
 
+        <div class="message" [class.active]="errorLogin">
+          <ion-label color="danger" >
+            <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
+            {{errorLogin}}
+          </ion-label>
+        </div>
+
+        <div style="height: 1.5vh;" ></div>
+
       </span>
       <span *ngSwitchCase="'singUp'">
 
@@ -119,6 +128,13 @@
           </ion-row>
 
         </form>
+
+        <div class="message" [class.active]="errorSingUp">
+          <ion-label color="danger" >
+            <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
+            {{errorSingUp}}
+          </ion-label>
+        </div>
 
       </span>
     </span>
