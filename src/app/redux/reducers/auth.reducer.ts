@@ -2,12 +2,16 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import { AuthState } from '@redux/states/auth.state';
 import {
+    setErrorLogin,
+    setErrorRegister,
     setProfile,
     logOut
 } from '@redux/actions/auth.actions';
 
 export const initialState: AuthState = {
-    profile: null
+    profile: null,
+    errorLogin: null,
+    errorRegister: null
 };
 
 export const iauthReducer = createReducer(
@@ -16,6 +20,20 @@ export const iauthReducer = createReducer(
         return {
             ...state,
             profile
+        };
+    }),
+
+    on(setErrorLogin, (state, { error }) => {
+        return {
+            ...state,
+            errorLogin: error
+        };
+    }),
+
+    on(setErrorRegister, (state, { error }) => {
+        return {
+            ...state,
+            errorRegister: error
         };
     }),
 

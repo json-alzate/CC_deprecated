@@ -15,6 +15,7 @@ import { AuthState } from '@redux/states/auth.state';
 import { requestLoginGoogle, requestSingUpEmail, requestLoginEmail } from '@redux/actions/auth.actions';
 
 // selectors
+import { getErrorLogin, getErrorRegister } from '@redux/selectors/auth.selectors';
 
 // models
 import { User as FirebaseUser } from 'firebase/auth';
@@ -60,10 +61,13 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
-    // setTimeout(() => {
-    //   this.errorLogin = 'Error al iniciar sesión';
-    //   this.errorSingUp = 'Error al registrarse';
-    // }, 3000);
+    this.store.select(getErrorLogin).subscribe((error: string) => {
+      this.errorLogin = error;
+    });
+
+    this.store.select(getErrorRegister).subscribe((error: string) => {
+      this.errorSingUp = error;
+    });
     
    }
 
@@ -90,6 +94,8 @@ export class LoginComponent implements OnInit {
 
 
   segmentChanged(ev: any) {
+    this.errorLogin = null;
+    this.errorSingUp = null;
     this.segmentEmailPassword = ev?.detail?.value;
   }
 

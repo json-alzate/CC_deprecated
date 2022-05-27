@@ -15,6 +15,16 @@ export const requestSingUpEmail = createAction(
     props<{ email: string, password: string, rePassword: string }>()
 );
 
+export const setErrorLogin = createAction(
+    '[Auth] setErrorLogin',
+    props<{ error: string }>()
+);
+
+export const setErrorRegister = createAction(
+    '[Auth] setErrorRegister',
+    props<{ error: string }>()
+);
+
 export const setProfile = createAction(
     '[Auth] setProfile',
     props<{ profile: Profile }>()
