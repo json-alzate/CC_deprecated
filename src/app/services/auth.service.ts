@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 
+import { TranslocoService } from '@ngneat/transloco';
+
+
 import {
   User as FirebaseUser,
   UserCredential,
@@ -49,6 +52,7 @@ export class AuthService {
   private auth: Auth;
 
   constructor(
+    private translocoService: TranslocoService,
     private store: Store<AuthState>
   ) { }
 
@@ -100,9 +104,9 @@ export class AuthService {
   async createUserWithEmailAndPassword(email: string, password: string) {
     const auth = this.setAuth();
     createUserWithEmailAndPassword(auth, email, password).catch(error => {
-      let message = 'Error al registrar';
+      let message = this.translocoService.translate('RegisterError');
       if (error.code === 'auth/email-already-in-use') {
-        message = 'El email ya está en uso';
+        message = this.translocoService.translate('EmailReadyInUse');
       }
       const action = setErrorRegister({ error: message });
       this.store.dispatch(action);
@@ -117,7 +121,7 @@ export class AuthService {
   async signInWithEmailAndPassword(email, password) {
     const auth = this.setAuth();
     signInWithEmailAndPassword(auth, email, password).catch(error => {
-      const message = 'Error al iniciar sesión';
+      const message = this.translocoService.translate('LoginError');
       const action = setErrorLogin({ error: message });
       this.store.dispatch(action);
     });

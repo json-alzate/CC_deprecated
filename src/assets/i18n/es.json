@@ -1,5 +1,15 @@
 {
-    "MOBILE_MENU": {
-        "login": "Iniciar sesión / registrarse"
-    }
+    "LoginMenuBar": "Ingresar / Registrarse",
+    "FreeChess": "Ajedrez gratis",
+    "LoginGoogle": "Ingresar con Google",
+    "LoginEmailPassword": "Email y contraseña",
+    "Login": "Ingresar",
+    "Register": "Registrarse",
+    "Email": "Email",
+    "Password": "Contraseña",
+    "ConfirmPassword": "Confirmar contraseña",
+    "LoginError": "Error de inicio de sesión",
+    "RegisterError": "Error de registro",
+    "ResetPassword": "Restablecer contraseña",
+    "EmailReadyInUse": "El correo ya está en uso"
 }

@@ -15,7 +15,7 @@
   <div class="ion-hide-md-up" style="height: 25vh;">
   </div>
 
-  <h4 class="ion-text-center">Ajedrez libre.</h4>
+  <h4 class="ion-text-center">{{ 'FreeChess' | transloco }}</h4>
 
   <hr class="solid">
 
@@ -25,13 +25,13 @@
       <ion-col size="12">
         <ion-button class="btn-login" expand="block" color="dark" (click)="loginGoogle()">
           <ion-icon slot="start" src="assets\images\logos\Google__G__Logo.svg"></ion-icon>
-          Ingresa con Google
+          {{ 'LoginGoogle' | transloco }}
         </ion-button>
       </ion-col>
       <ion-col size="12">
         <ion-button expand="block" fill="clear" (click)="showEmailPassword = true">
           <ion-icon slot="start" name="mail-outline"></ion-icon>
-          Email y contraseña
+          {{ 'LoginEmailPassword' | transloco }}
         </ion-button>
       </ion-col>
     </ion-row>
@@ -41,10 +41,10 @@
 
     <ion-segment [value]="segmentEmailPassword" class="ion-margin-bottom" (ionChange)="segmentChanged($event)">
       <ion-segment-button value="login">
-        <ion-label> Ingresar </ion-label>
+        <ion-label> {{ 'Login' | transloco }} </ion-label>
       </ion-segment-button>
       <ion-segment-button value="singUp">
-        <ion-label>Registrarse</ion-label>
+        <ion-label>{{ 'Register' }}</ion-label>
       </ion-segment-button>
     </ion-segment>
 
@@ -56,19 +56,23 @@
           <ion-row>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">Email</ion-label>
+                <ion-label position="floating">
+                  {{ 'Email' | transloco }}
+                </ion-label>
                 <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">Contraseña</ion-label>
+                <ion-label position="floating">
+                  {{ 'Password' | transloco }}
+                </ion-label>
                 <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-button (click)="resetPassword()" expand="block" fill="clear">
-                Restablecer contraseña
+                {{ 'ResetPassword' | transloco }}
               </ion-button>
             </ion-col>
           </ion-row>
@@ -76,7 +80,7 @@
           <ion-row>
             <ion-col size="12">
               <ion-button type="submit" expand="block" [disabled]="!formLogin.valid">
-                Acceder
+                {{ 'Login' | transloco }}
               </ion-button>
             </ion-col>
           </ion-row>
@@ -85,13 +89,13 @@
 
 
         <div class="message" [class.active]="errorLogin">
-          <ion-label color="danger" >
+          <ion-label color="danger">
             <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
             {{errorLogin}}
           </ion-label>
         </div>
 
-        <div style="height: 1.5vh;" ></div>
+        <div style="height: 1.5vh;"></div>
 
       </span>
       <span *ngSwitchCase="'singUp'">
@@ -101,19 +105,19 @@
           <ion-row>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">Email</ion-label>
+                <ion-label position="floating">{{ 'Email' | transloco }}</ion-label>
                 <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">contraseña</ion-label>
+                <ion-label position="floating">{{ 'Password' | transloco }}</ion-label>
                 <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
             <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">Confirmar contraseña</ion-label>
+                <ion-label position="floating">{{ 'ConfirmPassword' | transloco }}</ion-label>
                 <ion-input formControlName="rePassword" type="password" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
@@ -122,7 +126,7 @@
           <ion-row>
             <ion-col size="12">
               <ion-button type="submit" expand="block" [disabled]="!formSingUp.valid">
-                Registrarme
+                {{ 'Register' | transloco }}
               </ion-button>
             </ion-col>
           </ion-row>
@@ -130,7 +134,7 @@
         </form>
 
         <div class="message" [class.active]="errorSingUp">
-          <ion-label color="danger" >
+          <ion-label color="danger">
             <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
             {{errorSingUp}}
           </ion-label>

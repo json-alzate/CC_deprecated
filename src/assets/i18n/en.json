@@ -1,5 +1,15 @@
 {
-    "MOBILE_MENU": {
-        "login": "Login / Sing up"
-    }
+    "LoginMenuBar": "Login / Sing up",
+    "FreeChess": "Free Chess",
+    "LoginGoogle": "Login with Google",
+    "LoginEmailPassword": "Email and Password",
+    "Login": "Login",
+    "Register": "Register",
+    "Email": "Email",
+    "Password": "Password",
+    "ConfirmPassword": "Confirm Password",
+    "LoginError": "Login Error",
+    "RegisterError": "Register Error",
+    "ResetPassword": "Reset Password",
+    "EmailReadyInUse": "Email is already in use"
 }
