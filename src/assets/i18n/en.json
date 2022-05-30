@@ -11,5 +11,8 @@
     "LoginError": "Login Error",
     "RegisterError": "Register Error",
     "ResetPassword": "Reset Password",
-    "EmailReadyInUse": "Email is already in use"
+    "EmailReadyInUse": "Email is already in use",
+    "Cancel": "Cancel",
+    "Send": "Send",
+    "PasswordRestoreMessage": "Email sent with password reset instructions"
 }

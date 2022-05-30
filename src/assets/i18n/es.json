@@ -11,5 +11,9 @@
     "LoginError": "Error de inicio de sesión",
     "RegisterError": "Error de registro",
     "ResetPassword": "Restablecer contraseña",
-    "EmailReadyInUse": "El correo ya está en uso"
+    "EmailReadyInUse": "El correo ya está en uso",
+    "Cancel": "Cancelar",
+    "Send": "Enviar",
+    "PasswordRestoreMessage": "Correo enviado con instrucciones para la restablecer contraseña"
+
 }

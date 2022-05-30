@@ -128,6 +128,18 @@ export class AuthService {
   }
 
 
+  /**
+ * Send a password reset email
+ *
+ * @param email
+ * @returns Promise<void>
+ */
+  sendPasswordResetEmail(email: string) {
+    const auth = this.setAuth();
+    return sendPasswordResetEmail(auth, email);
+  }
+
+
 
   /**
    * Cierra sesión

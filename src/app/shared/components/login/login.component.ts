@@ -38,12 +38,15 @@ export class LoginComponent implements OnInit {
 
   formSingUp: FormGroup;
   formLogin: FormGroup;
+  formResetPassword: FormGroup;
 
+  showResetPassword = false;
   showEmailPassword = false;
   segmentEmailPassword: 'login' | 'singUp' = 'login';
 
   errorLogin: string;
   errorSingUp: string;
+  showPasswordRestoreMessage = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -54,6 +57,7 @@ export class LoginComponent implements OnInit {
   ) {
     this.buildFormSingUp();
     this.buildFormLogin();
+    this.buildFormResetPassword();
     this.listenAuthState();
   }
 
@@ -61,6 +65,7 @@ export class LoginComponent implements OnInit {
 
     this.store.select(getErrorLogin).subscribe((error: string) => {
       this.errorLogin = error;
+      this.showPasswordRestoreMessage = false;
     });
 
     this.store.select(getErrorRegister).subscribe((error: string) => {
@@ -173,10 +178,35 @@ export class LoginComponent implements OnInit {
   }
 
   // ----------------------------------------------------------------------------
+  // Reset password
+  
+  buildFormResetPassword() {
+    this.formResetPassword = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.maxLength(100)]]
+    });
+  }
+
+  get emailFieldResetPassword() {
+    return this.formResetPassword.get('email');
+  }
 
   // Recuperar password
-  resetPassword() {
-    // TODO: 
+  resetPassword($event: Event) {
+    $event.preventDefault();
+    if(this.formResetPassword.valid) {
+
+      this.authService.sendPasswordResetEmail(this.emailFieldResetPassword.value).then((data) => {
+        this.showResetPassword = false;
+        this.segmentEmailPassword = 'login';
+        this.formResetPassword.reset();
+        this.showPasswordRestoreMessage = true;
+        
+      });
+
+    } else {
+      this.emailFieldResetPassword.markAsDirty();
+    }
+
   }
 
   close() {
