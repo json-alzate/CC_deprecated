@@ -65,20 +65,26 @@ export class LoginComponent implements OnInit {
 
     this.store.select(getErrorLogin).subscribe((error: string) => {
       this.errorLogin = error;
-      this.showPasswordRestoreMessage = false;
+      if (error) {
+        this.showPasswordRestoreMessage = false;
+        this.emailFieldLogin.setValue('');
+        this.passwordFielLogin.setValue('');
+      }
     });
 
     this.store.select(getErrorRegister).subscribe((error: string) => {
       this.errorSingUp = error;
+      this.passwordFielSingUp.setValue('');
+      this.rePasswordFielSingUp.setValue('');
     });
-    
-   }
+
+  }
 
 
   listenAuthState() {
     // se inicia a escuchar el estado del auth para cerrar el componente
     this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
-      if (dataAuth) {        
+      if (dataAuth) {
         this.close();
       }
     });
@@ -179,7 +185,7 @@ export class LoginComponent implements OnInit {
 
   // ----------------------------------------------------------------------------
   // Reset password
-  
+
   buildFormResetPassword() {
     this.formResetPassword = this.formBuilder.group({
       email: ['', [Validators.required, Validators.maxLength(100)]]
@@ -193,14 +199,14 @@ export class LoginComponent implements OnInit {
   // Recuperar password
   resetPassword($event: Event) {
     $event.preventDefault();
-    if(this.formResetPassword.valid) {
+    if (this.formResetPassword.valid) {
 
       this.authService.sendPasswordResetEmail(this.emailFieldResetPassword.value).then((data) => {
         this.showResetPassword = false;
         this.segmentEmailPassword = 'login';
         this.formResetPassword.reset();
         this.showPasswordRestoreMessage = true;
-        
+
       });
 
     } else {
