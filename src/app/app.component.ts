@@ -103,7 +103,6 @@ export class AppComponent {
     
     if (lang.value.slice(0, 2) === 'es') {
       this.translocoService.setActiveLang('es');
-      console.log('lang ', lang);
     }
   }
 

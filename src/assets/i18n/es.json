@@ -14,6 +14,8 @@
     "EmailReadyInUse": "El correo ya está en uso",
     "Cancel": "Cancelar",
     "Send": "Enviar",
-    "PasswordRestoreMessage": "Correo enviado con instrucciones para la restablecer contraseña"
+    "PasswordRestoreMessage": "Correo enviado con instrucciones para la restablecer contraseña",
+    "PasswordRestoreTitle": "Enviaremos un correo electrónico con las instrucciones para recuperar tu contraseña."
+
 
 }

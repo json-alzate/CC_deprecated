@@ -14,5 +14,6 @@
     "EmailReadyInUse": "Email is already in use",
     "Cancel": "Cancel",
     "Send": "Send",
-    "PasswordRestoreMessage": "Email sent with password reset instructions"
+    "PasswordRestoreMessage": "Email sent with password reset instructions",
+    "PasswordRestoreTittle": "We sent you an email with instructions on how to reset your password"
 }

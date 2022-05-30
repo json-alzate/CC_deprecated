@@ -48,6 +48,8 @@ export class LoginComponent implements OnInit {
   errorSingUp: string;
   showPasswordRestoreMessage = false;
 
+  emailRegexValidator = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
+
   constructor(
     private formBuilder: FormBuilder,
     private popoverController: PopoverController,
@@ -111,8 +113,8 @@ export class LoginComponent implements OnInit {
   // Ingresar
   buildFormLogin() {
     this.formLogin = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.maxLength(100)]],
-      password: ['', [Validators.required]]
+      email: ['', [Validators.required, Validators.pattern(this.emailRegexValidator)]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -146,9 +148,9 @@ export class LoginComponent implements OnInit {
   // Registrarse
   buildFormSingUp() {
     this.formSingUp = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.maxLength(100)]],
-      password: ['', [Validators.required]],
-      rePassword: ['', [Validators.required]]
+      email: ['', [Validators.required, Validators.pattern(this.emailRegexValidator) ]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      rePassword: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -188,7 +190,7 @@ export class LoginComponent implements OnInit {
 
   buildFormResetPassword() {
     this.formResetPassword = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.maxLength(100)]]
+      email: ['', [Validators.required, Validators.pattern(this.emailRegexValidator)]]
     });
   }
 
