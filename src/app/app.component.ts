@@ -6,6 +6,8 @@ import { ModalController, Platform, isPlatform } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Socket } from 'ngx-socket-io';
+import { initializeApp } from 'firebase/app';
+import { environment } from '@environments/environment';
 
 
 
@@ -23,9 +25,13 @@ import { AuthState } from '@redux/states/auth.state';
 import { getProfile } from '@redux/selectors/auth.selectors';
 
 // models
+import { User as FirebaseUser } from 'firebase/auth';
 import { Profile } from '@models/profile.model';
 
 // services
+import { FirestoreService } from '@services/firestore.service';
+import { AuthService } from '@services/auth.service';
+import { ProfileService } from '@services/profile.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -42,32 +48,59 @@ export class AppComponent {
   constructor(
     private modalController: ModalController,
     private translocoService: TranslocoService,
+    private authService: AuthService,
+    private profileService: ProfileService,
     private platform: Platform,
+    private firestoreService: FirestoreService,
     private socket: Socket,
     private store: Store<AuthState>
   ) {
 
+    this.initApp();
+    this.getLang();
+    // Se escuchan los datos del usuario desde el store
     this.profile$ = this.store.pipe(
       select(getProfile)
     );
-    this.getLang();
-    this.initializeApp();
+
   }
 
-  initializeApp() {
+  initApp() {
 
+    this.initFirebase();
+    // se debe inicializar para la web
     if (!isPlatform('capacitor')) {
       GoogleAuth.initialize();
     }
-
-    this.socket.connect();
     // this.platform.ready().then(() => {
     //   GoogleAuth.initialize()
     // })
+    // se prepara para utilizar los sockets
+    this.socket.connect();
+
   }
 
+  async initFirebase() {
+    initializeApp(environment.firebase);
+    await this.authService.init();
+    await this.firestoreService.init();
+    // se obtiene el estado del usuario -login-
+    this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
+      console.log('dataAuth ', dataAuth);
+
+      // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
+      if (dataAuth) {
+        this.profileService.checkProfile(dataAuth);
+      }
+    });
+  }
+
+  /**
+   * Se obtiene el idioma
+   */
   async getLang() {
     const lang = await Device.getLanguageCode();
+    
     if (lang.value.slice(0, 2) === 'es') {
       this.translocoService.setActiveLang('es');
     }
@@ -76,7 +109,9 @@ export class AppComponent {
   async presentModalLogin() {
     const modal = await this.modalController.create({
       component: LoginComponent,
+      componentProps: { showAs: 'modal' },
     });
     await modal.present();
   }
+
 }

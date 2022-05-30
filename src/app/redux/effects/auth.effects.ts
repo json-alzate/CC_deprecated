@@ -3,7 +3,7 @@ import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { merge } from 'rxjs';
 import { switchMap, catchError, mergeMap, tap, take } from 'rxjs/operators';
 
-import { requestLoginGoogle, logOut } from '@redux/actions/auth.actions';
+import { requestLoginGoogle, logOut, requestSingUpEmail, requestLoginEmail } from '@redux/actions/auth.actions';
 import { addMessageToast, clearMessageToast } from '@redux/actions/ui.actions';
 
 
@@ -18,6 +18,28 @@ export class AuthEffects {
             ofType(requestLoginGoogle),
             tap(() => {
                 this.authService.loginGoogle();
+            }),
+            take(1)
+        )
+    );
+
+
+    requestSingUpEmail$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(requestSingUpEmail),
+            tap(({ email, password }) => {
+                this.authService.createUserWithEmailAndPassword(email, password);
+            }),
+            take(1)
+        )
+    );
+
+
+    requestLoginEmail$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(requestLoginEmail),
+            tap(({ email, password }) => {
+                this.authService.signInWithEmailAndPassword(email, password);
             }),
             take(1)
         )

@@ -44,10 +44,31 @@
             </ion-button>
         </ion-buttons>
 
-        <ion-avatar slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
-            <img
-                src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
-        </ion-avatar>
+        <ng-container *ngIf="profile$ | async; else elseTemplateLoginButton">
+
+            <ion-avatar slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
+            </ion-avatar>
+
+        </ng-container>
+        <ng-template #elseTemplateLoginButton>
+
+            <ion-buttons slot="end" class="ion-hide-md-down">
+                <ion-button id="nested-button" size="large" expand="block" fill="solid" color="primary">
+                    {{ 'LoginMenuBar' | transloco }}
+                </ion-button>
+            </ion-buttons>
+
+            <ion-popover trigger="nested-button" alignment="end">
+                <ng-template>
+                    <app-login [showAs]="'popover'"></app-login>
+                </ng-template>
+            </ion-popover>
+
+        </ng-template>
+
+
 
     </ion-toolbar>
 </ion-header>

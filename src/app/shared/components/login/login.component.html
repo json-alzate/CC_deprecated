@@ -1,73 +1,229 @@
-<ion-content>
+<ion-content class="ion-padding">
+
+  <ion-fab *ngIf="showEmailPassword" vertical="top" horizontal="start" slot="fixed">
+    <ion-fab-button (click)="showEmailPassword = false" size="small">
+      <ion-icon name="arrow-back-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-fab vertical="top" horizontal="end" slot="fixed">
     <ion-fab-button (click)="close()" size="small">
       <ion-icon name="close-outline"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-  <ion-slides>
+
+  <div class="ion-hide-md-up" style="height: 25vh;">
+  </div>
+
+  <h4 class="ion-text-center">{{ 'FreeChess' | transloco }}</h4>
+
+  <hr class="solid">
 
 
-    <ion-slide>
-
-      <div class="ion-padding">
-
-        <h1>Ajedrez libre!.</h1>
-
-        <hr class="solid">
-
-        <ion-row class="row-buttons-providers">
-          <ion-col size="12">
-            <ion-button expand="block" color="dark" size="large" (click)="loginGoogle()">
-              <ion-icon slot="start" src="assets\images\logos\Google__G__Logo.svg"></ion-icon>
-              Ingresa con Google
-            </ion-button>
-          </ion-col>
-          <ion-col size="12">
-            <ion-button expand="block" fill="clear">
-              <ion-icon slot="start" name="mail-outline"></ion-icon>
-              Email y contraseña
-            </ion-button>
-          </ion-col>
-        </ion-row>
-
-      </div>
 
 
-    </ion-slide>
+  <ng-container *ngIf="!showEmailPassword; else elseTemplateShowEmail">
 
-    <ion-slide>
-      <ion-row>
-        <ion-col size="12">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="12">
-          <ion-item>
-            <ion-label position="floating">Contrasena</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="12">
-          <ion-item>
-            <ion-label position="floating">Repite contrasena</ion-label>
-            <ion-input></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+    <ion-row class="row-buttons-providers">
+      <ion-col size="12">
+        <ion-button class="btn-login" expand="block" color="dark" (click)="loginGoogle()">
+          <ion-icon slot="start" src="assets\images\logos\Google__G__Logo.svg"></ion-icon>
+          {{ 'LoginGoogle' | transloco }}
+        </ion-button>
+      </ion-col>
+      <ion-col size="12">
+        <ion-button expand="block" fill="clear" (click)="showEmailPassword = true">
+          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          {{ 'LoginEmailPassword' | transloco }}
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
-      <ion-row>
-        <ion-col size="12">
-          <ion-button expand="block" fill="clear" shape="round">
-            Click me
-          </ion-button>
-        </ion-col>
-      </ion-row>
+  </ng-container>
+  <ng-template #elseTemplateShowEmail>
 
-    </ion-slide>
 
-  </ion-slides>
+    <div class="div-container-forms">
+
+
+      <ng-container *ngIf="showResetPassword; else elseTemplateShowResetPassword">
+
+        <ion-segment value="resetPassword" class="ion-margin-bottom">
+          <ion-segment-button value="resetPassword">
+            <ion-label> {{ 'ResetPassword' | transloco }} </ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <form [formGroup]="formResetPassword" (ngSubmit)="resetPassword($event)">
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-note>
+                {{ 'PasswordRestoreTittle' | transloco }}
+              </ion-note>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="floating">
+                  {{ 'Email' | transloco }}
+                </ion-label>
+                <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-row>
+            <ion-col size="6">
+
+              <ion-button color="danger" (click)="showResetPassword = false" expand="block">
+                {{ 'Cancel' | transloco }}
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" type="submit" [disabled]="!formResetPassword.valid">
+                {{ 'Send' | transloco }}
+              </ion-button>
+            </ion-col>
+          </ion-row>
+
+        </form>
+
+
+
+
+      </ng-container>
+      <ng-template #elseTemplateShowResetPassword>
+
+
+        <ion-segment [value]="segmentEmailPassword" class="ion-margin-bottom" (ionChange)="segmentChanged($event)">
+          <ion-segment-button value="login">
+            <ion-label> {{ 'Login' | transloco }} </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="singUp">
+            <ion-label>{{ 'Register' | transloco }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+
+        <span [ngSwitch]="segmentEmailPassword">
+          <span *ngSwitchCase="'login'">
+
+            <form [formGroup]="formLogin" (ngSubmit)="onSubmitLogin($event)">
+
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label position="floating">
+                      {{ 'Email' | transloco }}
+                    </ion-label>
+                    <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label position="floating">
+                      {{ 'Password' | transloco }}
+                    </ion-label>
+                    <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-button (click)=" showResetPassword = true " expand="block" fill="clear">
+                    {{ 'ResetPassword' | transloco }}
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col size="12">
+                  <ion-button type="submit" expand="block" [disabled]="!formLogin.valid">
+                    {{ 'Login' | transloco }}
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+
+            </form>
+
+
+            <ng-container *ngIf="showPasswordRestoreMessage; else elseTemplateShowPasswordRestoreMessage">
+
+              <div class="message" [class.active]="showPasswordRestoreMessage">
+                <ion-label>
+                  <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
+                  <small>
+                    {{ 'PasswordRestoreMessage' | transloco }}
+                  </small>
+                </ion-label>
+              </div>
+
+            </ng-container>
+            <ng-template #elseTemplateShowPasswordRestoreMessage>
+
+              <div class="message" [class.active]="errorLogin">
+                <ion-label color="danger">
+                  <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
+                  {{errorLogin}}
+                </ion-label>
+              </div>
+
+            </ng-template>
+
+
+            <div style="height: 1.5vh;"></div>
+
+          </span>
+          <span *ngSwitchCase="'singUp'">
+
+            <form [formGroup]="formSingUp" (ngSubmit)="onSubmitSingUp($event)">
+
+              <ion-row>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label position="floating">{{ 'Email' | transloco }}</ion-label>
+                    <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label position="floating">{{ 'Password' | transloco }}</ion-label>
+                    <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
+                  </ion-item>
+                </ion-col>
+                <ion-col size="12">
+                  <ion-item>
+                    <ion-label position="floating">{{ 'ConfirmPassword' | transloco }}</ion-label>
+                    <ion-input formControlName="rePassword" type="password" maxlength="100"></ion-input>
+                  </ion-item>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col size="12">
+                  <ion-button type="submit" expand="block" [disabled]="!formSingUp.valid">
+                    {{ 'Register' | transloco }}
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+
+            </form>
+
+            <div class="message" [class.active]="errorSingUp">
+              <ion-label color="danger">
+                <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
+                {{errorSingUp}}
+              </ion-label>
+            </div>
+
+          </span>
+        </span>
+
+      </ng-template>
+    </div>
+  </ng-template>
+
+
+
 
 </ion-content>
