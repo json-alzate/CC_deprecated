@@ -148,7 +148,7 @@ export class LoginComponent implements OnInit {
   // Registrarse
   buildFormSingUp() {
     this.formSingUp = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.pattern(this.emailRegexValidator) ]],
+      email: ['', [Validators.required, Validators.pattern(this.emailRegexValidator)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       rePassword: ['', [Validators.required, Validators.minLength(8)]]
     });
@@ -219,9 +219,9 @@ export class LoginComponent implements OnInit {
 
   close() {
     if (this.showAs === 'modal') {
-      this.modalController.dismiss();
+      this.modalController.dismiss().then(() => { }).catch(() => { });
     } else if (this.showAs === 'popover') {
-      this.popoverController.dismiss();
+      this.popoverController.dismiss().then(() => { }).catch(() => { });
     }
   }
 

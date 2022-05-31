@@ -6,13 +6,12 @@
 
       <ion-toolbar>
 
-        <ng-container *ngIf="profile$ | async; else elseTemplateLoginButton">
+        <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
           <ion-avatar slot="start" class="ion-padding">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
+            <img [src]="profile.urlAvatar">
           </ion-avatar>
-          <ion-title>Start Menu</ion-title>
+          <ion-title> {{profile.name }} </ion-title>
 
           <ion-buttons slot="end">
             <ion-button>

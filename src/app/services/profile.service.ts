@@ -1,12 +1,15 @@
 // core and third party libraries
 import { Injectable } from '@angular/core';
 import { TranslocoService } from '@ngneat/transloco';
+import { Store, select } from '@ngrx/store';
 
 // rxjs
 
 // states
+import { AuthState } from '@redux/states/auth.state';
 
 // actions
+import { setProfile } from '@redux/actions/auth.actions';
 
 // selectors
 
@@ -28,7 +31,7 @@ export class ProfileService {
 
 
   constructor(
-    private utilsService: UtilsService,
+    private store: Store<AuthState>,
     private translocoService: TranslocoService,
     private firestoreService: FirestoreService
   ) { }
@@ -42,9 +45,10 @@ export class ProfileService {
 
     const profile = await this.firestoreService.getProfile(dataAuth?.uid);
     if (profile) {
-      console.log('el perfil ', profile);
+      console.log('profile existe', profile);
+      
+      this.setProfile(profile);
     } else {
-      console.log('no existe a crearlo');
       this.setInitialProfile(dataAuth);
     }
 
@@ -64,9 +68,16 @@ export class ProfileService {
     };
 
     await this.firestoreService.createProfile(profileForSet);
-
-
+    this.setProfile(profileForSet);
 
   }
+
+
+  // set profile
+  setProfile(profile: Profile) {
+    const action = setProfile({ profile });
+    this.store.dispatch(action);
+  }
+
 
 }

@@ -44,12 +44,16 @@
             </ion-button>
         </ion-buttons>
 
-        <ng-container *ngIf="profile$ | async; else elseTemplateLoginButton">
+        <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-            <ion-avatar slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
-                <img
-                    src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
-            </ion-avatar>
+
+            <ion-chip slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
+                <ion-avatar>
+                    <img [src]="profile.urlAvatar">
+                </ion-avatar>
+                <ion-label>{{ profile.name }}</ion-label>
+                <ion-icon name="menu"></ion-icon>
+            </ion-chip>
 
         </ng-container>
         <ng-template #elseTemplateLoginButton>
