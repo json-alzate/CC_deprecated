@@ -11,6 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { environment } from '../environments/environment';
 
+import { SharedModule } from '@shared/shared.module';
+
 
 /* @ngrx */
 import { StoreModule } from '@ngrx/store';
@@ -62,7 +64,8 @@ const PROVIDERS = [
     HttpClientModule,
     TranslocoRootModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ],
   providers: [
     PROVIDERS,

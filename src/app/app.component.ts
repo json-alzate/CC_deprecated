@@ -44,6 +44,8 @@ import { LoginComponent } from '@shared/components/login/login.component';
 export class AppComponent {
 
   profile$: Observable<Profile>;
+  showProfile: boolean;
+  version = environment.version;
 
   constructor(
     private modalController: ModalController,

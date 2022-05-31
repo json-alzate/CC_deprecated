@@ -4,5 +4,6 @@ export const environment = {
   firebase: keys.firebase,
   production: false,
   environmentName: 'staging',
-  socketUrl: 'https://chesscolate.json.com.co:3000/'
+  socketUrl: 'https://chesscolate.json.com.co:3000/',
+  version: '0.0.1'
 };
