@@ -9,7 +9,7 @@
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
           <ion-avatar slot="start">
-            <img [src]="profile.urlAvatar">
+            <img [src]="profile.urlAvatar" onerror="this.src='/assets/images/profile/error.jpg'">
           </ion-avatar>
           <ion-title> {{profile.name }} </ion-title>
 

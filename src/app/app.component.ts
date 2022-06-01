@@ -88,7 +88,6 @@ export class AppComponent {
     await this.firestoreService.init();
     // se obtiene el estado del usuario -login-
     this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
-      console.log('dataAuth ', dataAuth);
 
       // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
       if (dataAuth) {
