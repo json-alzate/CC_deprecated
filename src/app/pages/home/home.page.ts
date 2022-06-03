@@ -842,7 +842,21 @@ export class HomePage implements OnInit {
     private socket: Socket
   ) {
     // TODO: Activar lsitener socket
-    // this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((game: any) => {
+    // this.socket.fromEvent('ping').subscribe((game: any) => {
+    //   console.log(game, 'game');
+      
+    // });
+    // this.socket.fromEvent('pong').subscribe((game: any) => {
+    //   console.log(game, 'pong');
+      
+    // });
+    // this.socket.on("connect", () => {
+    //   console.log('socket conectado');
+      
+    // });
+
+    // this.socket.on('ping', (data) => {
+    //   console.log('pong', data);
     // });
   }
 
