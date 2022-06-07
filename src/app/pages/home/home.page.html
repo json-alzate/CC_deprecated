@@ -2,18 +2,18 @@
 
 <ion-content>
 
-    <ion-grid >
+    <ion-grid>
         <ion-row>
 
             <ion-col size="2">
-                
+
             </ion-col>
 
             <ion-col size-sm="12" size-md="12" size-lg="7" size-xl="7" class="col-game">
 
                 <ion-card class="ion-no-margin ion-no-padding">
                     <ion-card-content class="ion-no-margin ion-no-padding">
-<!-- 
+                        <!-- 
                         <ion-item>
                             <ion-avatar slot="start">
                                 <img
@@ -26,19 +26,23 @@
                         <div class="board" id="board1">
                         </div>
 
-                   
+
 
                     </ion-card-content>
                 </ion-card>
 
             </ion-col>
             <ion-col size="3" class="ion-hide-lg-down">
-                <app-player></app-player>
+                <app-player [color]="'white'"></app-player>
+                <app-clock></app-clock>
+                <div style="height: 50vh;" ></div>
+                <app-clock></app-clock>
+                <app-player [color]="'black'"></app-player>
             </ion-col>
         </ion-row>
     </ion-grid>
 
-    <div class="div-start-game-options" >
+    <div class="div-start-game-options">
         <app-new-game-options></app-new-game-options>
     </div>
 
