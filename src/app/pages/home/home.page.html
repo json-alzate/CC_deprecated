@@ -2,10 +2,14 @@
 
 <ion-content>
 
-    <ion-grid fixed>
+    <ion-grid >
         <ion-row>
 
-            <ion-col offset-lg="2" offset-xl="2" size-sm="12" size-md="12" size-lg="7" size-xl="7" class="col-game">
+            <ion-col size="2">
+                
+            </ion-col>
+
+            <ion-col size-sm="12" size-md="12" size-lg="7" size-xl="7" class="col-game">
 
                 <ion-card class="ion-no-margin ion-no-padding">
                     <ion-card-content class="ion-no-margin ion-no-padding">
@@ -28,10 +32,8 @@
                 </ion-card>
 
             </ion-col>
-            <ion-col size="2" class="ion-hide-lg-down">
-                <ion-button expand="block" shape="round">
-                    Click me
-                </ion-button>
+            <ion-col size="3" class="ion-hide-lg-down">
+                <app-player></app-player>
             </ion-col>
         </ion-row>
     </ion-grid>
