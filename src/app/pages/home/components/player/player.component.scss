@@ -2,17 +2,9 @@ ion-item {
     --background: transparent;
     ion-label {
         padding: 0px;
+        margin: 0px;
     }
+    height: 3rem;
 }
 
-ion-thumbnail {
-    --size: 10px;
-    img {
-        height: 15px;
-        width: 15px;
-    }
-}
 
-ion-note {
-    font-size: 0.9em;
-}

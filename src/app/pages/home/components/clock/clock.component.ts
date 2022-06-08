@@ -7,7 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClockComponent implements OnInit {
 
-  constructor() { }
+  isActive: boolean = false;
+
+  constructor() {
+    // TODO: listen timer socket
+   }
 
   ngOnInit() {}
 
