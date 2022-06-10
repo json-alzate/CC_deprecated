@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 
-import { getCurrentGameState} from '@redux/reducers/app.reducers';
+import { getCurrentGameState} from '@redux/states/current-game.state';
 
 
 export const getCurrentGame = createSelector(

@@ -2,14 +2,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
+import { Store, select } from '@ngrx/store';
 
 // rxjs
 
 // states
+import { CurrentGameState } from '@redux/states/current-game.state';
 
 // actions
 
 // selectors
+import {  } from '@redux/selectors/current-game.selectors';
 
 // models
 

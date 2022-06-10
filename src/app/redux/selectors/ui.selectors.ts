@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { getUIState } from '@redux/reducers/app.reducers';
+import { getUIState } from '@redux/states/ui.state';
 import { UIState } from '@redux/states/ui.state';
 
 
