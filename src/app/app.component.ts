@@ -100,6 +100,7 @@ export class AppComponent {
    * Se obtiene el idioma
    */
   async getLang() {
+    // TODO: se debe obtener el idioma desde el perfil en caso de existir
     const lang = await Device.getLanguageCode();
     
     if (lang.value.slice(0, 2) === 'es') {

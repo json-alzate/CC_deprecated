@@ -14,6 +14,7 @@ import { ModalController } from '@ionic/angular';
 // models
 
 // services
+import { SocketsService } from '@services/sockets.service';
 
 // components
 
@@ -839,6 +840,7 @@ export class HomePage implements OnInit {
 
   constructor(
     private modalController: ModalController,
+    private socketsService: SocketsService,
     private socket: Socket
   ) {
     // TODO: Activar lsitener socket
@@ -858,6 +860,8 @@ export class HomePage implements OnInit {
     // this.socket.on('ping', (data) => {
     //   console.log('pong', data);
     // });
+
+    this.socketsService.listenMatchGame();
   }
 
   ngOnInit() {

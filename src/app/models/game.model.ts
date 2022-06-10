@@ -1,4 +1,5 @@
 import { User } from '@models/user.model';
+import { UserRequestToPlay } from '@models/sockets.model';
 
 export interface move {
     from: number;
@@ -7,12 +8,16 @@ export interface move {
 
 export interface Game {
     uid: string;
-    playerBlack?: User;
-    playerWhite?: User;
+    playerBlack?: UserRequestToPlay;
+    playerWhite?: UserRequestToPlay;
+    uidUserWhite: string;
+    uidUserBlack: string;
     createAt: number;
     moves: move[];
     movesFen: string[];
-    movesHumanHistoryRow: string[];
+    movesHumanHistoryRow: string[]; // Ke2, Ke4, ...
     pgn: string;
-    timeEvent: string;
+    fen: string;
+    timeControl: number;
+    orientation: 'white' | 'black';
 }
