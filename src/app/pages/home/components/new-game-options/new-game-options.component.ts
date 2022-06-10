@@ -6,7 +6,7 @@ import { TranslocoService } from '@ngneat/transloco';
 // rxjs
 
 // states
-import { CurrentGameState } from '@redux/states/current-game.state';
+import { CurrentGameState, StatusCurrentGame } from '@redux/states/current-game.state';
 
 // actions
 import { setStatusCurrentGame } from '@redux/actions/current-game.actions';
@@ -71,7 +71,7 @@ export class NewGameOptionsComponent implements OnInit {
    */
   onPlay() {
 
-    const action = setStatusCurrentGame({ status: 'loading' });
+    const action = setStatusCurrentGame({ status: StatusCurrentGame.loading });
     this.store.dispatch(action);
 
     const requestGame: UserRequestToPlay = {

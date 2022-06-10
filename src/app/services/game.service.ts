@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 // rxjs
 
 // states
-import { CurrentGameState } from '@redux/states/current-game.state';
+import { CurrentGameState, StatusCurrentGame } from '@redux/states/current-game.state';
 
 // actions
 import { setCurrentGame, setStatusCurrentGame } from '@redux/actions/current-game.actions';
@@ -44,11 +44,11 @@ export class GameService {
       pgn: '',
       fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
       timeControl: gameSocket.timeControl,
-      orientation: uidUser === gameSocket.uidUserBlack ? 'black' : 'white'
+      orientation: uidUser === gameSocket.uidUserBlack ? 'b' : 'w'
     };
 
     this.setCurrentGame(game);
-    this.setStatusCurrentGame('playing');
+    this.setStatusCurrentGame(StatusCurrentGame.playing);
 
   }
 
@@ -57,7 +57,7 @@ export class GameService {
     this.store.dispatch(action);
   }
 
-  private setStatusCurrentGame(status: "loading" | "playing" | "error") {
+  private setStatusCurrentGame(status: StatusCurrentGame) {
     const action = setStatusCurrentGame({ status });
     this.store.dispatch(action);
   }

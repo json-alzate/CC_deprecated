@@ -1,10 +1,11 @@
 import { createAction, props } from '@ngrx/store';
 
+import { StatusCurrentGame } from '@redux/states/current-game.state';
 import { Game } from '@models/game.model';
 
 export const setStatusCurrentGame = createAction(
     '[Current-Game] setStatusCurrentGame',
-    props<{ status: 'loading' | 'playing' | 'error' | null }>()
+    props<{ status: StatusCurrentGame }>()
 );
 
 export const setCurrentGame = createAction(

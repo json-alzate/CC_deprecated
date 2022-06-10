@@ -4,6 +4,7 @@ import { UserRequestToPlay } from '@models/sockets.model';
 export interface move {
     from: number;
     to: number;
+    fen: string;
 }
 
 export interface Game {
@@ -19,5 +20,5 @@ export interface Game {
     pgn: string;
     fen: string;
     timeControl: number;
-    orientation: 'white' | 'black';
+    orientation: 'w' | 'b';
 }

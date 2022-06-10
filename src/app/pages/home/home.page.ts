@@ -7,12 +7,11 @@ import { Store, select } from '@ngrx/store';
 // rxjs
 
 // states
-import { CurrentGameState } from '@redux/states/current-game.state';
+import { CurrentGameState, getCurrentGameState } from '@redux/states/current-game.state';
 
 // actions
 
 // selectors
-import {  } from '@redux/selectors/current-game.selectors';
 
 // models
 
@@ -37,6 +36,8 @@ import {
 export class HomePage implements OnInit {
 
   board;
+
+  currentGameState: CurrentGameState;
 
   usersTest = [
     {
@@ -844,20 +845,21 @@ export class HomePage implements OnInit {
   constructor(
     private modalController: ModalController,
     private socketsService: SocketsService,
+    private store: Store<CurrentGameState>,
     private socket: Socket
   ) {
     // TODO: Activar lsitener socket
     // this.socket.fromEvent('ping').subscribe((game: any) => {
     //   console.log(game, 'game');
-      
+
     // });
     // this.socket.fromEvent('pong').subscribe((game: any) => {
     //   console.log(game, 'pong');
-      
+
     // });
     // this.socket.on("connect", () => {
     //   console.log('socket conectado');
-      
+
     // });
 
     // this.socket.on('ping', (data) => {
@@ -868,6 +870,14 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.store.pipe(select(getCurrentGameState)).subscribe(currentGameState => {
+      this.currentGameState = currentGameState;
+      if( currentGameState?.game ) {
+        this.setPosition(currentGameState.game.fen);
+        this.changeOrientation(currentGameState.game?.orientation);
+      }
+
+    });
   }
 
   ionViewDidEnter() {
@@ -880,6 +890,22 @@ export class HomePage implements OnInit {
       style: {},
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
+  }
+
+
+  setPosition(fen: string) {   
+    this.board.setPosition(fen);
+  }
+
+
+  changeOrientation(orientation?: 'w' | 'b') {
+    
+    if (orientation) {
+      this.board.setOrientation(orientation);
+    } else {
+      this.board.setOrientation(this.board.getOrientation() === 'w' ? 'b' : 'w');
+    }
+
   }
 
 

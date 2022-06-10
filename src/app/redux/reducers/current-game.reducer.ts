@@ -1,11 +1,11 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
-import { CurrentGameState } from '@redux/states/current-game.state';
+import { CurrentGameState, StatusCurrentGame } from '@redux/states/current-game.state';
 import { clearCurrentGame, setCurrentGame, setErrorCurrentGame, setStatusCurrentGame } from '@redux/actions/current-game.actions';
 
 export const initialState: CurrentGameState = {
     game: null,
-    status: null,
+    status: StatusCurrentGame.creating,
     error: null
 };
 
