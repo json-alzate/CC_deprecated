@@ -12,8 +12,11 @@ import { CurrentGameState, getCurrentGameState } from '@redux/states/current-gam
 // actions
 
 // selectors
+import { getProfile } from '@redux/selectors/auth.selectors';
 
 // models
+import { Profile } from '@models/profile.model';
+
 
 // services
 import { SocketsService } from '@services/sockets.service';
@@ -842,6 +845,8 @@ export class HomePage implements OnInit {
     }
   ];
 
+  profile: Profile;
+
   constructor(
     private modalController: ModalController,
     private socketsService: SocketsService,
@@ -866,13 +871,17 @@ export class HomePage implements OnInit {
     //   console.log('pong', data);
     // });
 
+    this.store.pipe(select(getProfile)).subscribe((profile: Profile) => {
+      this.profile = profile;
+    });
+
     this.socketsService.listenMatchGame();
   }
 
   ngOnInit() {
     this.store.pipe(select(getCurrentGameState)).subscribe(currentGameState => {
       this.currentGameState = currentGameState;
-      if( currentGameState?.game ) {
+      if (currentGameState?.game) {
         this.setPosition(currentGameState.game.fen);
         this.changeOrientation(currentGameState.game?.orientation);
       }
@@ -893,13 +902,13 @@ export class HomePage implements OnInit {
   }
 
 
-  setPosition(fen: string) {   
+  setPosition(fen: string) {
     this.board.setPosition(fen);
   }
 
 
   changeOrientation(orientation?: 'w' | 'b') {
-    
+
     if (orientation) {
       this.board.setOrientation(orientation);
     } else {

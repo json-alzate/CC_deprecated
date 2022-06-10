@@ -25,12 +25,12 @@
 
                 <ng-container *ngIf="currentGameState?.status === 'playing'">
 
-                    <app-player [color]="'white'"></app-player>
+                    <app-player [player]="currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack " ></app-player>
                     <app-clock></app-clock>
                     <!-- TODO: div para notación -->
                     <div style="height: 50vh;"></div>
                     <app-clock></app-clock>
-                    <app-player [color]="'black'"></app-player>
+                    <app-player [player]="currentGameState?.game?.playerWhite?.uidUser === profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack "></app-player>
                 </ng-container>
 
             </ion-col>

@@ -11,7 +11,7 @@ import { Component, OnInit, Input } from '@angular/core';
 // selectors
 
 // models
-import { User } from '@models/user.model';
+import { UserRequestToPlay } from '@models/sockets.model';
 
 // services
 
@@ -26,8 +26,7 @@ import { User } from '@models/user.model';
 export class PlayerComponent implements OnInit {
 
 
-  @Input() player: User;
-  @Input() color: 'white' | 'black';
+  @Input() player: UserRequestToPlay;
 
   constructor() { }
 
