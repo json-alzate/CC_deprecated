@@ -14,9 +14,11 @@ import { Subject } from 'rxjs';
 
 // models
 import { UserRequestToPlay, Game } from '@models/sockets.model';
+import { Move } from '@models/game.model';
 
 // services
 import { GameService } from '@services/game.service';
+import { MovesService } from '@services/moves.service';
 
 // components
 
@@ -36,8 +38,14 @@ export class SocketsService {
 
   constructor(
     private socket: Socket,
-    private gameService: GameService
+    private gameService: GameService,
+    private movesService: MovesService
   ) { }
+
+  startConnection() {
+    this.socket.connect();
+    this.listenMoves();
+  }
 
 
   sendRequestNewGame(requestNewGame: UserRequestToPlay) {
@@ -59,14 +67,23 @@ export class SocketsService {
     }
   }
 
+  sendMove(move: Move) {
+    this.socket.emit('3_in_game_move', move);
+  }
+
+  /**
+   * Escucha y adiciona los movimientos según los uids de los juegos que se están jugando
+   */
   listenMoves() {
-    // TODO: listen moves socket
+
     this.socket.fromEvent('4_out_game_move').subscribe((move: any) => {
       console.log('move', move);
-      // this.gameService.updateGameFromSocket(move);
-    });      
+      const find = this.uidsGamesToListenMoves.find(uid => uid === move.uidGame);
+      if (find) {
+        this.movesService.addMoveFromSocket(move);
+      }
+    });
 
-  
   }
 
 

@@ -32,6 +32,7 @@ import { Profile } from '@models/profile.model';
 import { FirestoreService } from '@services/firestore.service';
 import { AuthService } from '@services/auth.service';
 import { ProfileService } from '@services/profile.service';
+import { SocketsService } from '@services/sockets.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -54,7 +55,7 @@ export class AppComponent {
     private profileService: ProfileService,
     private platform: Platform,
     private firestoreService: FirestoreService,
-    private socket: Socket,
+    private socketsService: SocketsService,
     private store: Store<AuthState>
   ) {
 
@@ -78,7 +79,7 @@ export class AppComponent {
     //   GoogleAuth.initialize()
     // })
     // se prepara para utilizar los sockets
-    this.socket.connect();
+    this.socketsService.startConnection();
 
   }
 

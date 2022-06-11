@@ -4,8 +4,8 @@ export interface Move {
     uid: string;
     uidGame: string;
     uidUser: string;
-    from: number;
-    to: number;
+    from: string;
+    to: string;
     fen: string;
     color: string;
     piece: string;

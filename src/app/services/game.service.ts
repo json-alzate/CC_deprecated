@@ -9,11 +9,12 @@ import { CurrentGameState, StatusCurrentGame } from '@redux/states/current-game.
 
 // actions
 import { setCurrentGame, setStatusCurrentGame } from '@redux/actions/current-game.actions';
+import { addMove } from '@redux/actions/moves.actions';
 
 // selectors
 
 // models
-import { Game } from '@models/game.model';
+import { Game, Move } from '@models/game.model';
 import { Game as GameSocket } from '@models/sockets.model';
 
 // services

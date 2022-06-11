@@ -4,7 +4,7 @@ import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import Chess from 'chess.js';
-
+import { createUid } from '@utils/create-uid';
 // rxjs
 
 // states
@@ -44,7 +44,6 @@ export class HomePage implements OnInit {
   chessInstance = new Chess();
 
   currentGameState: CurrentGameState;
-  currentGame: Game;
 
   usersTest = [
     {
@@ -880,7 +879,7 @@ export class HomePage implements OnInit {
     });
 
     this.socketsService.listenMatchGame();
-
+    this.listenMove();
 
   }
 
@@ -920,10 +919,21 @@ export class HomePage implements OnInit {
           const theMove = this.chessInstance.move(objectMove);
           if (theMove) {
 
-            this.board.setPosition(this.chessInstance.fen()).then(() => {
-             console.log('move done', theMove);
-             
-            });
+            const newMoveToSend: Move = {
+              uid: createUid(),
+              uidGame: this.currentGameState.game.uid,
+              uidUser: this.profile.uid,
+              from: event.squareFrom,
+              to: event.squareTo,
+              fen: this.chessInstance.fen(),
+              color: theMove.color,
+              piece: theMove.piece,
+              sean: theMove.san,
+              createAt: new Date().getTime()
+
+            };
+            this.socketsService.sendMove(newMoveToSend);
+
           }
           // return true, if input is accepted/valid, `false` takes the move back
           return theMove;
@@ -938,6 +948,16 @@ export class HomePage implements OnInit {
 
   setPosition(fen: string) {
     this.board.setPosition(fen);
+  }
+
+  listenMove() {
+    this.socket.fromEvent('4_out_game_move').subscribe((move: Move) => {
+      console.log('move', move);
+      if(move.uidGame === this.currentGameState.game.uid) {
+        this.chessInstance.move(move);
+        this.board.setPosition(this.chessInstance.fen());
+      }
+    });
   }
 
 
