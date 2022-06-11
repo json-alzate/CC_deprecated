@@ -1,10 +1,16 @@
-import { User } from '@models/user.model';
 import { UserRequestToPlay } from '@models/sockets.model';
 
-export interface move {
+export interface Move {
+    uid: string;
+    uidGame: string;
+    uidUser: string;
     from: number;
     to: number;
     fen: string;
+    color: string;
+    piece: string;
+    sean: string;
+    createAt: number;
 }
 
 export interface Game {
@@ -14,7 +20,7 @@ export interface Game {
     uidUserWhite: string;
     uidUserBlack: string;
     createAt: number;
-    moves: move[];
+    moves: Move[];
     movesFen: string[];
     movesHumanHistoryRow: string[]; // Ke2, Ke4, ...
     pgn: string;

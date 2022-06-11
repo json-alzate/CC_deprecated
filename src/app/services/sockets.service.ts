@@ -32,6 +32,8 @@ export class SocketsService {
 
   private uidUser: string;
 
+  uidsGamesToListenMoves: string[] = [];
+
   constructor(
     private socket: Socket,
     private gameService: GameService
@@ -49,11 +51,22 @@ export class SocketsService {
       this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((match: Game) => {
         console.log('tenemos match!', match);
         this.readyListenMatchGame = true;
+        this.uidsGamesToListenMoves.push(match.uid);
         this.gameService.startGameFromSocket(match, this.uidUser);
         this.matchGame$.next(match);
       });
 
     }
+  }
+
+  listenMoves() {
+    // TODO: listen moves socket
+    this.socket.fromEvent('4_out_game_move').subscribe((move: any) => {
+      console.log('move', move);
+      // this.gameService.updateGameFromSocket(move);
+    });      
+
+  
   }
 
 

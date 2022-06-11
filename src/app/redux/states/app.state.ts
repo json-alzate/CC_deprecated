@@ -8,6 +8,7 @@ import { RouterStateUrl } from './router.state';
 import { UIState } from './ui.state';
 import { AuthState } from './auth.state';
 import { CurrentGameState  } from './current-game.state';
+import { MovesState } from './moves.state';
 
 
 
@@ -16,4 +17,5 @@ export interface AppState {
   auth: AuthState;
   router: RouterReducerState<RouterStateUrl>;
   currentGameState: CurrentGameState;
+  moves: MovesState
 }

@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
+import Chess from 'chess.js';
 
 // rxjs
 
@@ -16,6 +17,7 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 
 // models
 import { Profile } from '@models/profile.model';
+import { Game, Move } from '@models/game.model';
 
 
 // services
@@ -39,8 +41,10 @@ import {
 export class HomePage implements OnInit {
 
   board;
+  chessInstance = new Chess();
 
   currentGameState: CurrentGameState;
+  currentGame: Game;
 
   usersTest = [
     {
@@ -901,6 +905,34 @@ export class HomePage implements OnInit {
       style: {},
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
+
+
+    this.board.enableMoveInput((event) => {
+      // handle user input here
+      switch (event.type) {
+        case INPUT_EVENT_TYPE.moveStart:
+          // console.log(`moveStart: ${event.square}`);
+          // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+          return true;
+        case INPUT_EVENT_TYPE.moveDone:
+
+          const objectMove = { from: event.squareFrom, to: event.squareTo };
+          const theMove = this.chessInstance.move(objectMove);
+          if (theMove) {
+
+            this.board.setPosition(this.chessInstance.fen()).then(() => {
+             console.log('move done', theMove);
+             
+            });
+          }
+          // return true, if input is accepted/valid, `false` takes the move back
+          return theMove;
+        case INPUT_EVENT_TYPE.moveCanceled:
+          console.log('moveCanceled ', this.chessInstance.pgn());
+      }
+    });
+
+
   }
 
 
