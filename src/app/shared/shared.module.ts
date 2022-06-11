@@ -7,11 +7,13 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 
 import * as fromComponents from './components/';
+import { StringToFlagPipe } from './pipes/string-to-flag.pipe';
 
 
 @NgModule({
   declarations: [
-    ...fromComponents.COMPONENTS
+    ...fromComponents.COMPONENTS,
+    StringToFlagPipe
   ],
   imports: [
     IonicModule,

@@ -876,6 +876,8 @@ export class HomePage implements OnInit {
     });
 
     this.socketsService.listenMatchGame();
+
+
   }
 
   ngOnInit() {

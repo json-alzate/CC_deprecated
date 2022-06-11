@@ -26,7 +26,7 @@
                 <ng-container *ngIf="currentGameState?.status === 'playing'">
 
                     <app-player [player]="currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack " ></app-player>
-                    <app-clock></app-clock>
+                    <app-clock [initListenSocket]="{type:'whiteCountDown', uid: currentGameState?.game?.uid }" ></app-clock>
                     <!-- TODO: div para notación -->
                     <div style="height: 50vh;"></div>
                     <app-clock></app-clock>

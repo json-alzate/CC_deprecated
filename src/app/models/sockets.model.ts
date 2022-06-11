@@ -17,7 +17,5 @@ export interface Game {
     uidUserWhite: string;
     uidUserBlack: string;
     timeControl: number; // tiempo para el juego ejm: 10 minutes
-    uidClockWhite: string;
-    uidClockBlack: string;
     createAt: number;
 }
