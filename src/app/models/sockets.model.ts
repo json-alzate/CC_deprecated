@@ -19,3 +19,9 @@ export interface Game {
     timeControl: number; // tiempo para el juego ejm: 10 minutes
     createAt: number;
 }
+
+export interface OutClockUpdate {
+    uid: string;
+    time: number;
+    type: 'white' | 'black' | 'whiteCountDown';
+}

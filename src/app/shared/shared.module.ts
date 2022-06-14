@@ -7,13 +7,14 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 
 import * as fromComponents from './components/';
-import { StringToFlagPipe } from './pipes/string-to-flag.pipe';
+import * as fromPipes from './pipes';
+
 
 
 @NgModule({
   declarations: [
     ...fromComponents.COMPONENTS,
-    StringToFlagPipe
+    ...fromPipes.PIPES,
   ],
   imports: [
     IonicModule,
@@ -24,7 +25,8 @@ import { StringToFlagPipe } from './pipes/string-to-flag.pipe';
   ],
   exports: [
     ...fromComponents.ENTRY_COMPONENTS,
-    TranslocoModule
+    TranslocoModule,
+    ...fromPipes.PIPES,
   ]
 })
 export class SharedModule { }

@@ -15,9 +15,9 @@ export class ClockComponent implements OnInit {
   @Input()
   set initListenSocket(data) {
     console.log('initListenSocket', data);
-    
+
     this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: any) => {
-      console.log('clockUpdate', clockUpdate);
+      // console.log('clockUpdate', clockUpdate);
 
     });
   }
