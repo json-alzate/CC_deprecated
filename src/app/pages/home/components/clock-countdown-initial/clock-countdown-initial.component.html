@@ -1,18 +1,14 @@
 <div style="height: 50vh;" class="div-container">
 
-  <div class="div-card">
+  <div class="div-card" [ngClass]="{'top': sideOfCountDown === 'top', 'bottom': sideOfCountDown === 'bottom'}">
+
+
 
 
     <ion-card>
       <ion-card-header>
         <ion-card-title class="ion-text-center">
-          <ng-container *ngIf="messageColor === 'white'; else elseTemplate">
-            Tu turno...
-          </ng-container>
-          <ng-template #elseTemplate>
-            Esperando al oponente
-          </ng-template>
-
+          {{ message }}
         </ion-card-title>
       </ion-card-header>
       <ion-card-content>

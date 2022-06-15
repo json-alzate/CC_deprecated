@@ -31,8 +31,7 @@
                     <app-clock [initListenSocket]="{type:'whiteCountDown', uid: currentGameState?.game?.uid }">
                     </app-clock>
 
-                    <app-clock-countdown-initial [setGame]="currentGameState?.game"
-                        [setColorForTimer]="currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? 'black' : 'white'    ">
+                    <app-clock-countdown-initial [setGame]="currentGameState?.game">
                     </app-clock-countdown-initial>
 
                     <!-- TODO: div para notación -->

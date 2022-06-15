@@ -12,8 +12,10 @@ import { Game } from '@models/game.model';
 export class ClockCountdownInitialComponent implements OnInit {
 
   timer: number = 20;
-  messageColor: 'white' | 'black' = 'white';
   game: Game;
+
+  message = '';
+  sideOfCountDown: 'bottom' | 'top' = 'bottom';
 
 
   @Input()
@@ -24,10 +26,6 @@ export class ClockCountdownInitialComponent implements OnInit {
     }
   }
 
-  @Input()
-  set setColorForTimer(color: 'white' | 'black') {
-    this.messageColor = color;
-  }
 
   constructor(
     private socket: Socket
@@ -37,10 +35,41 @@ export class ClockCountdownInitialComponent implements OnInit {
 
   listenSocketCountDown() {
     this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
-      if (clockUpdate?.uid === this.game?.uid && clockUpdate?.type === 'whiteCountDown') {
+      if (clockUpdate?.uid === this.game?.uid && (clockUpdate?.type === 'whiteCountDown' || clockUpdate?.type === 'blackCountDown')) {
+
         this.timer = clockUpdate.time;
+
+        if (clockUpdate.type === 'whiteCountDown') {
+
+          if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
+            this.bottom();
+          } else {
+            this.top();
+          }
+
+        } else {
+
+          if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
+            this.bottom();
+          } else {
+            this.top();
+          }
+
+        }
+
+
       }
     });
+  }
+
+  bottom() {
+    this.sideOfCountDown = 'bottom';
+    this.message = 'Tu turno...';
+  }
+
+  top() {
+    this.sideOfCountDown = 'top';
+    this.message = 'Esperando al oponente';
   }
 
 

@@ -27,4 +27,5 @@ export interface Game {
     fen: string;
     timeControl: number;
     orientation: 'w' | 'b';
+    uidCurrentUser?: string;
 }
