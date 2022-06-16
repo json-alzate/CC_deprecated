@@ -32,6 +32,7 @@ import { Profile } from '@models/profile.model';
 import { FirestoreService } from '@services/firestore.service';
 import { AuthService } from '@services/auth.service';
 import { ProfileService } from '@services/profile.service';
+import { FcmService } from '@services/fcm.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -55,7 +56,8 @@ export class AppComponent {
     private platform: Platform,
     private firestoreService: FirestoreService,
     private socket: Socket,
-    private store: Store<AuthState>
+    private store: Store<AuthState>,
+    private fcmService: FcmService
   ) {
 
     this.initApp();
@@ -79,7 +81,7 @@ export class AppComponent {
     // })
     // se prepara para utilizar los sockets
     this.socket.connect();
-
+    this.fcmService.initPush();
   }
 
   async initFirebase() {
@@ -101,7 +103,7 @@ export class AppComponent {
    */
   async getLang() {
     const lang = await Device.getLanguageCode();
-    
+
     if (lang.value.slice(0, 2) === 'es') {
       this.translocoService.setActiveLang('es');
     }
