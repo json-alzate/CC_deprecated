@@ -23,7 +23,7 @@
             </ion-col>
             <ion-col size="3" class="ion-hide-lg-down">
 
-                <ng-container *ngIf="currentGameState?.game?.status === 'playing'">
+                <ng-container *ngIf="currentGameState?.game?.status">
 
                     <app-player
                         [player]="currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack ">
@@ -31,8 +31,13 @@
                     <app-clock [initListenSocket]="{type:'whiteCountDown', uid: currentGameState?.game?.uid }">
                     </app-clock>
 
-                    <app-clock-countdown-initial [setGame]="currentGameState?.game">
+                    <app-clock-countdown-initial *ngIf="currentGameState?.game?.status !== 'finished'"
+                        [setGame]="currentGameState?.game">
                     </app-clock-countdown-initial>
+
+                    <ng-container *ngIf="currentGameState?.game?.status === 'finished' ">
+                        <app-end-game></app-end-game>
+                    </ng-container>
 
                     <!-- TODO: div para notación -->
                     <!-- <div style="height: 50vh;"></div> -->
@@ -44,15 +49,7 @@
                     </app-player>
                 </ng-container>
 
-                <ng-container *ngIf="currentGameState?.game?.status === 'finished' ">
 
-                    <ion-text color="danger">
-                        <h5>
-                            {{ currentGameState?.game?.cancelReason }}
-                        </h5>
-                    </ion-text>
-
-                </ng-container>
 
 
             </ion-col>

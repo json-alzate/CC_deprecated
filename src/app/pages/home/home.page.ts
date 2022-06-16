@@ -932,6 +932,8 @@ export class HomePage implements OnInit {
               createAt: new Date().getTime()
 
             };
+            console.log('newMoveToSend ', newMoveToSend);
+
             this.socketsService.sendMove(newMoveToSend);
 
           }
@@ -953,7 +955,7 @@ export class HomePage implements OnInit {
   listenMove() {
     this.socket.fromEvent('4_out_game_move').subscribe((move: Move) => {
       console.log('move', move);
-      if(move.uidGame === this.currentGameState.game.uid) {
+      if (move.uidGame === this.currentGameState.game.uid) {
         this.chessInstance.move(move);
         this.board.setPosition(this.chessInstance.fen());
       }
