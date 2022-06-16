@@ -22,3 +22,8 @@ export const setErrorCurrentGame = createAction(
 export const clearCurrentGame = createAction(
     '[Current-Game] clearCurrentGame'
 );
+
+export const cancelCurrentGame = createAction(
+    '[Current-Game] cancelCurrentGame',
+    props<{ cancelReason: string }>()
+)

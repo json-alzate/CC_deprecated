@@ -22,7 +22,7 @@ export const appReducers: ActionReducerMap<AppState> = {
     ui: uiReducer,
     auth: authReducer,
     router: fromRouter.routerReducer,
-    currentGameState: currentGameReducer,
+    currentGame: currentGameReducer,
     moves: movesReducer
 };
 

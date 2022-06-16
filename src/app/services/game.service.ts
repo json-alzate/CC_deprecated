@@ -46,7 +46,8 @@ export class GameService {
       fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
       timeControl: gameSocket.timeControl,
       orientation: uidUser === gameSocket.uidUserBlack ? 'b' : 'w',
-      uidCurrentUser: uidUser
+      uidCurrentUser: uidUser,
+      status: 'playing'
     };
 
     this.setCurrentGame(game);

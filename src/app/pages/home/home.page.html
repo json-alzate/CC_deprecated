@@ -23,7 +23,7 @@
             </ion-col>
             <ion-col size="3" class="ion-hide-lg-down">
 
-                <ng-container *ngIf="currentGameState?.status === 'playing'">
+                <ng-container *ngIf="currentGameState?.game?.status === 'playing'">
 
                     <app-player
                         [player]="currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack ">
@@ -43,6 +43,17 @@
                         [player]="currentGameState?.game?.playerWhite?.uidUser === profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack ">
                     </app-player>
                 </ng-container>
+
+                <ng-container *ngIf="currentGameState?.game?.status === 'finished' ">
+
+                    <ion-text color="danger">
+                        <h5>
+                            {{ currentGameState?.game?.cancelReason }}
+                        </h5>
+                    </ion-text>
+
+                </ng-container>
+
 
             </ion-col>
         </ion-row>

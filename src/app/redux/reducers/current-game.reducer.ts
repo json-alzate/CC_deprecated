@@ -1,7 +1,7 @@
 import { createReducer, on, Action } from '@ngrx/store';
 
 import { CurrentGameState, StatusCurrentGame } from '@redux/states/current-game.state';
-import { clearCurrentGame, setCurrentGame, setErrorCurrentGame, setStatusCurrentGame } from '@redux/actions/current-game.actions';
+import { clearCurrentGame, setCurrentGame, setErrorCurrentGame, setStatusCurrentGame, cancelCurrentGame } from '@redux/actions/current-game.actions';
 
 export const initialState: CurrentGameState = {
     game: null,
@@ -36,6 +36,19 @@ export const icurrentGameReducer = createReducer(
         return {
             ...state,
             status
+        };
+    }),
+
+    on(cancelCurrentGame, (state, { cancelReason }) => {
+        return {
+            ...state,
+            game: {
+                ...state.game,
+                status: 'finished',
+                result: '*',
+                cancelReason
+            },
+            status: StatusCurrentGame.finished
         };
     })
 );

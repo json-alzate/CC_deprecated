@@ -28,4 +28,7 @@ export interface Game {
     timeControl: number;
     orientation: 'w' | 'b';
     uidCurrentUser?: string;
+    status: 'playing' | 'finished';
+    result?: '1-0' | '0-1' | '1/2-1/2' | '*';
+    cancelReason?: string;
 }

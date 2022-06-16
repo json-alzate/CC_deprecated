@@ -5,7 +5,8 @@ export enum StatusCurrentGame {
     loading = 'loading',
     playing = 'playing',
     error = 'error',
-    creating = 'creating'
+    creating = 'creating',
+    finished = 'finished'
 }
 
 export interface CurrentGameState {
@@ -14,4 +15,4 @@ export interface CurrentGameState {
     error: string;
 }
 
-export const getCurrentGameState = createFeatureSelector<CurrentGameState>('currentGameState');
+export const getCurrentGameState = createFeatureSelector<CurrentGameState>('currentGame');
