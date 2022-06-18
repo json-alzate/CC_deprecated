@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 
 import { OutClockUpdate } from '@models/sockets.model';
@@ -8,6 +8,7 @@ import { Game } from '@models/game.model';
   selector: 'app-clock-countdown-initial',
   templateUrl: './clock-countdown-initial.component.html',
   styleUrls: ['./clock-countdown-initial.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClockCountdownInitialComponent implements OnInit {
 
@@ -28,7 +29,8 @@ export class ClockCountdownInitialComponent implements OnInit {
 
 
   constructor(
-    private socket: Socket
+    private socket: Socket,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   ngOnInit() { }
@@ -36,29 +38,19 @@ export class ClockCountdownInitialComponent implements OnInit {
   listenSocketCountDown() {
     this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
       if (clockUpdate?.uid === this.game?.uid && (clockUpdate?.type === 'whiteCountDown' || clockUpdate?.type === 'blackCountDown')) {
+        console.log('clockUpdate', clockUpdate);
 
         this.timer = clockUpdate.time;
 
-        if (clockUpdate.type === 'whiteCountDown') {
+        if (clockUpdate.type === 'whiteCountDown' && this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
 
-          if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
-            this.bottom();
-          } else {
-            this.top();
-          }
-
+          this.bottom();
         } else {
-
-          if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
-            this.bottom();
-          } else {
-            this.top();
-          }
-
+          this.top();
         }
 
-
       }
+      this.changeDetectorRef.markForCheck();
     });
   }
 
