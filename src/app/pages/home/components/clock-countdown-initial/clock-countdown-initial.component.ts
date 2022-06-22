@@ -42,11 +42,20 @@ export class ClockCountdownInitialComponent implements OnInit {
 
         this.timer = clockUpdate.time;
 
-        if (clockUpdate.type === 'whiteCountDown' && this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
+        if (clockUpdate.type === 'whiteCountDown') {
 
-          this.bottom();
+          if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
+            this.bottom();
+          } else {
+            this.top();
+          }
+
         } else {
-          this.top();
+          if (this.game?.playerBlack?.uidUser === this.game?.uidCurrentUser) {
+            this.bottom();
+          } else {
+            this.top();
+          }
         }
 
       }

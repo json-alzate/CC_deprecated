@@ -32,6 +32,8 @@ export class GameService {
 
   startGameFromSocket(gameSocket: GameSocket, uidUser?: string) {
 
+    console.log('uidUser', uidUser);
+    
     const game: Game = {
       uid: gameSocket.uid,
       playerBlack: gameSocket.black,
