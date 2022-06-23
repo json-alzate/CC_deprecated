@@ -8,6 +8,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 import * as fromComponents from './components/';
 import * as fromPipes from './pipes';
+import { GameClockPipe } from './pipes/game-clock.pipe';
 
 
 
@@ -15,6 +16,7 @@ import * as fromPipes from './pipes';
   declarations: [
     ...fromComponents.COMPONENTS,
     ...fromPipes.PIPES,
+    GameClockPipe,
   ],
   imports: [
     IonicModule,

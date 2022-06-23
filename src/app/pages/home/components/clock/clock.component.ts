@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 import { Socket } from 'ngx-socket-io';
 
@@ -6,10 +6,12 @@ import { Socket } from 'ngx-socket-io';
   selector: 'app-clock',
   templateUrl: './clock.component.html',
   styleUrls: ['./clock.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ClockComponent implements OnInit {
 
   isActive: boolean = false;
+  time: number = 60000;
 
 
   @Input()
@@ -23,6 +25,7 @@ export class ClockComponent implements OnInit {
   }
 
   constructor(
+    private changeDetectorRef: ChangeDetectorRef,
     private socket: Socket
   ) {
     // TODO: listen timer socket

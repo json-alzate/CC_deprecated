@@ -77,6 +77,7 @@ export class NewGameOptionsComponent implements OnInit {
     const requestGame: UserRequestToPlay = {
       uidUser: this.profile.uid,
       name: this.profile.name,
+      timeIncrement: 0,
       time: this.time, // tiempo para el juego ejm: 10 minutes
       lang: this.translocoService.getActiveLang(),
       elo: this.profile.elo,
@@ -86,7 +87,7 @@ export class NewGameOptionsComponent implements OnInit {
     };
 
     console.log('requestGame', requestGame);
-    
+
     this.socketsService.sendRequestNewGame(requestGame);
 
 
