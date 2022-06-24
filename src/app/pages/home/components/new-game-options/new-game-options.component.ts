@@ -32,7 +32,7 @@ import { SocketsService } from '@services/sockets.service';
 })
 export class NewGameOptionsComponent implements OnInit {
 
-  time = 10.0;
+  time = 600000; // 10 minutos
   color: 'random' | 'white' | 'black' = 'random';
   segment: 'game' | 'lobby' = 'game';
   searchingGame = false;

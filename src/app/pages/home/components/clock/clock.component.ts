@@ -2,6 +2,9 @@ import { Component, OnInit, Input, ChangeDetectionStrategy, ChangeDetectorRef } 
 
 import { Socket } from 'ngx-socket-io';
 
+import { OutClockUpdate } from '@models/sockets.model';
+
+
 @Component({
   selector: 'app-clock',
   templateUrl: './clock.component.html',
@@ -10,17 +13,40 @@ import { Socket } from 'ngx-socket-io';
 })
 export class ClockComponent implements OnInit {
 
-  isActive: boolean = false;
-  time: number = 60000;
-
+  isActive = false;
+  time = 600000;
 
   @Input()
+  set setActive(data: boolean) {
+    this.isActive = data;
+  }
+
+  @Input()
+  set setTime(data: number) {
+    this.time = data;
+  }
+
+  /**
+      data : {
+        color: 'white' | 'black';
+        uidGame: string;
+        time: number; //  tiempo inicial (tiempo total del juego)
+      }
+   */
+  @Input()
   set initListenSocket(data) {
-    console.log('initListenSocket', data);
+    this.time = data.time;
+    this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
+      if (clockUpdate.uid === data.uidGame && data.color === clockUpdate.type) {
+        this.time = clockUpdate.time;
+      }
 
-    this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: any) => {
-      // console.log('clockUpdate', clockUpdate);
-
+      if (data.color === clockUpdate.type) {
+        this.isActive = true;
+      } else {
+        this.isActive = false;
+      }
+      this.changeDetectorRef.markForCheck();
     });
   }
 

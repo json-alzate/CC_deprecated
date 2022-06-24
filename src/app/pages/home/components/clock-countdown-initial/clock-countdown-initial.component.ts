@@ -38,8 +38,6 @@ export class ClockCountdownInitialComponent implements OnInit {
   listenSocketCountDown() {
     this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
       if (clockUpdate?.uid === this.game?.uid && (clockUpdate?.type === 'whiteCountDown' || clockUpdate?.type === 'blackCountDown')) {
-        console.log('clockUpdate', clockUpdate);
-
         this.timer = clockUpdate.time;
 
         if (clockUpdate.type === 'whiteCountDown') {
