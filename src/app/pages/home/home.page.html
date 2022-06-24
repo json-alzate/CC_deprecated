@@ -36,7 +36,7 @@
                     ">
                     </app-clock>
 
-                    <app-clock-countdown-initial *ngIf="currentGameState?.game?.status !== 'finished'"
+                    <app-clock-countdown-initial *ngIf="showCountDown && currentGameState?.game?.status !== 'finished'"
                         [setGame]="currentGameState?.game">
                     </app-clock-countdown-initial>
 

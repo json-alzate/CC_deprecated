@@ -14,6 +14,7 @@ import { CurrentGameState, getCurrentGameState } from '@redux/states/current-gam
 
 // selectors
 import { getProfile } from '@redux/selectors/auth.selectors';
+import { getMovesByGame } from '@redux/selectors/moves.selectors';
 
 // models
 import { Profile } from '@models/profile.model';
@@ -850,6 +851,9 @@ export class HomePage implements OnInit {
 
   profile: Profile;
 
+  showCountDown = true;
+  currentGame: Game;
+
   constructor(
     private modalController: ModalController,
     private socketsService: SocketsService,
@@ -886,11 +890,12 @@ export class HomePage implements OnInit {
   ngOnInit() {
     this.store.pipe(select(getCurrentGameState)).subscribe(currentGameState => {
       this.currentGameState = currentGameState;
+      this.currentGame = currentGameState?.game;
       if (currentGameState?.game) {
-        this.setPosition(currentGameState.game.fen);
+        this.setPosition(currentGameState.game?.fen);
         this.changeOrientation(currentGameState.game?.orientation);
+        this.listenMovesCurrentGame();
       }
-
     });
   }
 
@@ -952,6 +957,17 @@ export class HomePage implements OnInit {
     this.board.setPosition(fen);
   }
 
+  listenMovesCurrentGame() {
+    this.store.pipe(select(getMovesByGame(this.currentGame.uid))).subscribe((moves: Move[]) => {
+      if (moves.length >= 2) {
+        this.showCountDown = false;
+      }
+    });
+  }
+
+  /**
+   * Listen moves from socket
+   */
   listenMove() {
     this.socket.fromEvent('4_out_game_move').subscribe((move: Move) => {
       console.log('move', move);
@@ -972,9 +988,6 @@ export class HomePage implements OnInit {
     }
 
   }
-
-
-
 
 
 
