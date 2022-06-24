@@ -7,11 +7,16 @@ import { TranslocoModule } from '@ngneat/transloco';
 
 
 import * as fromComponents from './components/';
+import * as fromPipes from './pipes';
+import { GameClockPipe } from './pipes/game-clock.pipe';
+
 
 
 @NgModule({
   declarations: [
-    ...fromComponents.COMPONENTS
+    ...fromComponents.COMPONENTS,
+    ...fromPipes.PIPES,
+    GameClockPipe,
   ],
   imports: [
     IonicModule,
@@ -22,7 +27,8 @@ import * as fromComponents from './components/';
   ],
   exports: [
     ...fromComponents.ENTRY_COMPONENTS,
-    TranslocoModule
+    TranslocoModule,
+    ...fromPipes.PIPES,
   ]
 })
 export class SharedModule { }

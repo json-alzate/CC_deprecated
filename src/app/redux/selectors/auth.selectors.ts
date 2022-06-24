@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { getAuthState } from '@redux/reducers/app.reducers';
+import { getAuthState } from '@redux/states/auth.state';
 
 export const getProfile = createSelector(
     getAuthState,

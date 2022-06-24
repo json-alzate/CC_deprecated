@@ -1,0 +1,21 @@
+h1 {
+    font-size: 5em;
+}
+
+.div-container {
+    position: relative;
+}
+
+.div-card {
+    position: absolute;
+    left: 0;
+    width: 100%;
+}
+
+.top {
+    top: 0;
+}
+
+.bottom {
+    bottom: 0;
+}

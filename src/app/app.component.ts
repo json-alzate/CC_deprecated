@@ -32,6 +32,7 @@ import { Profile } from '@models/profile.model';
 import { FirestoreService } from '@services/firestore.service';
 import { AuthService } from '@services/auth.service';
 import { ProfileService } from '@services/profile.service';
+import { SocketsService } from '@services/sockets.service';
 import { FcmService } from '@services/fcm.service';
 
 // components
@@ -55,6 +56,7 @@ export class AppComponent {
     private profileService: ProfileService,
     private platform: Platform,
     private firestoreService: FirestoreService,
+    private socketsService: SocketsService,
     private socket: Socket,
     private store: Store<AuthState>,
     private fcmService: FcmService
@@ -80,7 +82,8 @@ export class AppComponent {
     //   GoogleAuth.initialize()
     // })
     // se prepara para utilizar los sockets
-    this.socket.connect();
+    this.socketsService.startConnection();
+
     this.fcmService.initPush();
   }
 
@@ -102,6 +105,7 @@ export class AppComponent {
    * Se obtiene el idioma
    */
   async getLang() {
+    // TODO: se debe obtener el idioma desde el perfil en caso de existir
     const lang = await Device.getLanguageCode();
 
     if (lang.value.slice(0, 2) === 'es') {

@@ -2,41 +2,72 @@
 
 <ion-content>
 
-    <ion-grid fixed>
+    <ion-grid>
         <ion-row>
 
-            <ion-col offset-lg="2" offset-xl="2" size-sm="12" size-md="12" size-lg="7" size-xl="7" class="col-game">
+            <ion-col size="2">
+
+            </ion-col>
+
+            <ion-col size-sm="12" size-md="12" size-lg="7" size-xl="7" class="col-game">
 
                 <ion-card class="ion-no-margin ion-no-padding">
                     <ion-card-content class="ion-no-margin ion-no-padding">
 
-                        <!-- <ion-item>
-                            <ion-avatar slot="start">
-                                <img
-                                    src="https://firebasestorage.googleapis.com/v0/b/lullaai-app.appspot.com/o/Chat%2FAgents%2FD0alJ1fO0waFShX3VgiSExN6cCx1%2FEs%2Fjson_Es.png?alt=media&token=bfbef50c-4d58-483b-a893-179ff0fa0e3a" />
-                            </ion-avatar>
-                            <ion-label>Item Avatar</ion-label>
-                        </ion-item> -->
-
-
                         <div class="board" id="board1">
                         </div>
-
-                   
 
                     </ion-card-content>
                 </ion-card>
 
             </ion-col>
-            <ion-col size="2" class="ion-hide-lg-down">
-                <ion-button expand="block" shape="round">
-                    Click me
-                </ion-button>
+            <ion-col size="3" class="ion-hide-lg-down">
+
+                <ng-container *ngIf="currentGameState?.game?.status">
+
+                    <app-player
+                        [player]="currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack ">
+                    </app-player>
+                    <app-clock [initListenSocket]="
+                        {
+                            color: currentGameState?.game?.playerWhite?.uidUser !== profile?.uid ? 'white' : 'black',
+                            uidGame: currentGameState?.game?.uid
+                        }
+                    ">
+                    </app-clock>
+
+                    <app-clock-countdown-initial *ngIf="showCountDown && currentGameState?.game?.status !== 'finished'"
+                        [setGame]="currentGameState?.game">
+                    </app-clock-countdown-initial>
+
+                    <ng-container *ngIf="currentGameState?.game?.status === 'finished' ">
+                        <app-end-game></app-end-game>
+                    </ng-container>
+
+                    <!-- TODO: div para notación -->
+                    <!-- <div style="height: 50vh;"></div> -->
+
+
+                    <app-clock [initListenSocket]="
+                        {
+                            color: currentGameState?.game?.playerWhite?.uidUser === profile?.uid ? 'white' : 'black',
+                            uidGame: currentGameState?.game?.uid
+                        }
+                    "></app-clock>
+                    <app-player
+                        [player]="currentGameState?.game?.playerWhite?.uidUser === profile?.uid ? currentGameState?.game?.playerWhite : currentGameState?.game?.playerBlack ">
+                    </app-player>
+                </ng-container>
+
+
+
+
             </ion-col>
         </ion-row>
     </ion-grid>
 
-    <div class="div-start-game-options" >
+    <div class="div-start-game-options"
+        *ngIf="currentGameState?.status === 'creating' || currentGameState?.status === 'loading'">
         <app-new-game-options></app-new-game-options>
     </div>
 

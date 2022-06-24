@@ -2,18 +2,27 @@
 import { Component, OnInit } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
-
+import { Store, select } from '@ngrx/store';
+import Chess from 'chess.js';
+import { createUid } from '@utils/create-uid';
 // rxjs
 
 // states
+import { CurrentGameState, getCurrentGameState } from '@redux/states/current-game.state';
 
 // actions
 
 // selectors
+import { getProfile } from '@redux/selectors/auth.selectors';
+import { getMovesByGame } from '@redux/selectors/moves.selectors';
 
 // models
+import { Profile } from '@models/profile.model';
+import { Game, Move } from '@models/game.model';
+
 
 // services
+import { SocketsService } from '@services/sockets.service';
 
 // components
 
@@ -33,6 +42,9 @@ import {
 export class HomePage implements OnInit {
 
   board;
+  chessInstance = new Chess();
+
+  currentGameState: CurrentGameState;
 
   usersTest = [
     {
@@ -837,16 +849,54 @@ export class HomePage implements OnInit {
     }
   ];
 
+  profile: Profile;
+
+  showCountDown = true;
+  currentGame: Game;
+
   constructor(
     private modalController: ModalController,
+    private socketsService: SocketsService,
+    private store: Store<CurrentGameState>,
     private socket: Socket
   ) {
     // TODO: Activar lsitener socket
-    // this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((game: any) => {
+    // this.socket.fromEvent('ping').subscribe((game: any) => {
+    //   console.log(game, 'game');
+
     // });
+    // this.socket.fromEvent('pong').subscribe((game: any) => {
+    //   console.log(game, 'pong');
+
+    // });
+    // this.socket.on("connect", () => {
+    //   console.log('socket conectado');
+
+    // });
+
+    // this.socket.on('ping', (data) => {
+    //   console.log('pong', data);
+    // });
+
+    this.store.pipe(select(getProfile)).subscribe((profile: Profile) => {
+      this.profile = profile;
+    });
+
+    this.socketsService.listenMatchGame();
+    this.listenMove();
+
   }
 
   ngOnInit() {
+    this.store.pipe(select(getCurrentGameState)).subscribe(currentGameState => {
+      this.currentGameState = currentGameState;
+      this.currentGame = currentGameState?.game;
+      if (currentGameState?.game) {
+        this.setPosition(currentGameState.game?.fen);
+        this.changeOrientation(currentGameState.game?.orientation);
+        this.listenMovesCurrentGame();
+      }
+    });
   }
 
   ionViewDidEnter() {
@@ -859,10 +909,85 @@ export class HomePage implements OnInit {
       style: {},
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
+
+
+    this.board.enableMoveInput((event) => {
+      // handle user input here
+      switch (event.type) {
+        case INPUT_EVENT_TYPE.moveStart:
+          // console.log(`moveStart: ${event.square}`);
+          // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+          return true;
+        case INPUT_EVENT_TYPE.moveDone:
+
+          const objectMove = { from: event.squareFrom, to: event.squareTo };
+          const theMove = this.chessInstance.move(objectMove);
+          if (theMove) {
+
+            const newMoveToSend: Move = {
+              uid: createUid(),
+              uidGame: this.currentGameState.game.uid,
+              uidUser: this.profile.uid,
+              from: event.squareFrom,
+              to: event.squareTo,
+              fen: this.chessInstance.fen(),
+              color: theMove.color,
+              piece: theMove.piece,
+              sean: theMove.san,
+              createAt: new Date().getTime()
+
+            };
+            console.log('newMoveToSend ', newMoveToSend);
+
+            this.socketsService.sendMove(newMoveToSend);
+
+          }
+          // return true, if input is accepted/valid, `false` takes the move back
+          return theMove;
+        case INPUT_EVENT_TYPE.moveCanceled:
+          console.log('moveCanceled ', this.chessInstance.pgn());
+      }
+    });
+
+
   }
 
 
+  setPosition(fen: string) {
+    this.board.setPosition(fen);
+  }
 
+  listenMovesCurrentGame() {
+    this.store.pipe(select(getMovesByGame(this.currentGame.uid))).subscribe((moves: Move[]) => {
+      if (moves.length >= 2) {
+        this.showCountDown = false;
+      }
+    });
+  }
+
+  /**
+   * Listen moves from socket
+   */
+  listenMove() {
+    this.socket.fromEvent('4_out_game_move').subscribe((move: Move) => {
+      console.log('move', move);
+      if (move.uidGame === this.currentGameState.game.uid) {
+        this.chessInstance.move(move);
+        this.board.setPosition(this.chessInstance.fen());
+      }
+    });
+  }
+
+
+  changeOrientation(orientation?: 'w' | 'b') {
+
+    if (orientation) {
+      this.board.setOrientation(orientation);
+    } else {
+      this.board.setOrientation(this.board.getOrientation() === 'w' ? 'b' : 'w');
+    }
+
+  }
 
 
 

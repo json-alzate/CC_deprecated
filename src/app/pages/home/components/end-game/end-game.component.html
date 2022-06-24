@@ -1,0 +1,43 @@
+<ng-container *ngIf="currentGame?.result">
+
+  <div style="height: 50vh;" class="div-container">
+
+    <div class="div-card">
+
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">
+            Partida terminada.
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+          <span [ngSwitch]="currentGame?.result">
+            <span *ngSwitchCase="'1-0'">
+
+            </span>
+            <span *ngSwitchCase="'0-1'">
+
+            </span>
+            <span *ngSwitchCase="'1/2-1/2'">
+
+            </span>
+            <span *ngSwitchCase="'*'">
+              <ion-text color="danger">
+                <h6> {{ currentGame?.cancelReason }}</h6>
+              </ion-text>
+            </span>
+          </span>
+
+
+        </ion-card-content>
+      </ion-card>
+
+    </div>
+
+
+  </div>
+
+
+
+</ng-container>
