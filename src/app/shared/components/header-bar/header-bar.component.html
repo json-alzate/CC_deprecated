@@ -46,14 +46,18 @@
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
+            <ng-container *ngIf="profile?.email ; else elseTemplateLoginButton">
 
-            <ion-chip slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
-                <ion-avatar>
-                    <img [src]="profile.urlAvatar" onerror="this.src='/assets/images/profile/error.jpg'" >
-                </ion-avatar>
-                <ion-label>{{ profile.name }}</ion-label>
-                <ion-icon name="menu"></ion-icon>
-            </ion-chip>
+                <ion-chip slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
+                    <ion-avatar>
+                        <img [src]="profile.urlAvatar" onerror="this.src='/assets/images/profile/error.jpg'">
+                    </ion-avatar>
+                    <ion-label>{{ profile.name }}</ion-label>
+                    <ion-icon name="menu"></ion-icon>
+                </ion-chip>
+
+            </ng-container>
+
 
         </ng-container>
         <ng-template #elseTemplateLoginButton>

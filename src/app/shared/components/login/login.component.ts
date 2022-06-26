@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
   listenAuthState() {
     // se inicia a escuchar el estado del auth para cerrar el componente
     this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
-      if (dataAuth) {
+      if (dataAuth && dataAuth?.email) {
         this.close();
       }
     });

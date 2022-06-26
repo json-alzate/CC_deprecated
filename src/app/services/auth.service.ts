@@ -15,6 +15,7 @@ import {
   OAuthProvider,
   getAuth,
   signInWithPopup,
+  signInAnonymously,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   createUserWithEmailAndPassword,
@@ -72,6 +73,16 @@ export class AuthService {
     }
     return auth;
   }
+
+  /**
+   * Ingresa anónimo
+   */
+
+  async initSignInAnonymously() {
+    const auth = this.setAuth();
+    signInAnonymously(auth);
+  }
+
 
   /**
    * Ingresa con Google

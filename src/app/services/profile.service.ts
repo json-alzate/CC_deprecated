@@ -44,7 +44,7 @@ export class ProfileService {
   async checkProfile(dataAuth: FirebaseUser) {
 
     const profile = await this.firestoreService.getProfile(dataAuth?.uid);
-    if (profile) {      
+    if (profile) {
       this.setProfile(profile);
     } else {
       this.setInitialProfile(dataAuth);

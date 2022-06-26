@@ -93,10 +93,12 @@ export class AppComponent {
     await this.firestoreService.init();
     // se obtiene el estado del usuario -login-
     this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
-
       // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
       if (dataAuth) {
         this.profileService.checkProfile(dataAuth);
+      } else {
+        // iniciar con anónimo
+        this.authService.initSignInAnonymously();
       }
     });
   }
