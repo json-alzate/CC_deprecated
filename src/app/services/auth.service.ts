@@ -90,7 +90,7 @@ export class AuthService {
   async loginGoogle() {
     const answer = await GoogleAuth.signIn();
     const credential = GoogleAuthProvider.credential(answer.authentication.idToken, answer.authentication.accessToken);
-    await signInWithCredential(this.auth, credential);
+    signInWithCredential(this.auth, credential);
   }
 
 
@@ -131,11 +131,7 @@ export class AuthService {
    */
   async signInWithEmailAndPassword(email, password) {
     const auth = this.setAuth();
-    signInWithEmailAndPassword(auth, email, password).catch(error => {
-      const message = this.translocoService.translate('LoginError');
-      const action = setErrorLogin({ error: message });
-      this.store.dispatch(action);
-    });
+    return signInWithEmailAndPassword(auth, email, password);
   }
 
 

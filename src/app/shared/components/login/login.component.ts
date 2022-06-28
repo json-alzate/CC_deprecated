@@ -5,6 +5,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
+import { TranslocoService } from '@ngneat/transloco';
+
 // rxjs
 
 // states
@@ -13,6 +15,7 @@ import { AuthState } from '@redux/states/auth.state';
 
 // actions
 import { requestLoginGoogle, requestSingUpEmail, requestLoginEmail } from '@redux/actions/auth.actions';
+import { setErrorRegister } from '@redux/actions/auth.actions';
 
 // selectors
 import { getErrorLogin, getErrorRegister } from '@redux/selectors/auth.selectors';
@@ -55,6 +58,7 @@ export class LoginComponent implements OnInit {
     private popoverController: PopoverController,
     private modalController: ModalController,
     private authService: AuthService,
+    private translocoService: TranslocoService,
     private store: Store<AuthState>
   ) {
     this.buildFormSingUp();
@@ -171,14 +175,24 @@ export class LoginComponent implements OnInit {
 
     $event.preventDefault();
     if (this.formSingUp.valid) {
-      const credentials = {
-        email: this.emailFieldSingUp.value,
-        password: this.passwordFielSingUp.value,
-        rePassword: this.rePasswordFielSingUp.value
-      };
-      const action = requestSingUpEmail(credentials);
-      this.store.dispatch(action);
-      this.formSingUp.reset();
+
+      if (this.passwordFielSingUp.value !== this.rePasswordFielSingUp.value) {
+        const message = this.translocoService.translate('PasswordsNoMatch');
+        const action = setErrorRegister({ error: message });
+        this.store.dispatch(action);
+        return;
+      } else {
+
+        const credentials = {
+          email: this.emailFieldSingUp.value,
+          password: this.passwordFielSingUp.value,
+          rePassword: this.rePasswordFielSingUp.value
+        };
+        const action = requestSingUpEmail(credentials);
+        this.store.dispatch(action);
+        this.formSingUp.reset();
+      }
+
     } else {
       this.emailFieldSingUp.markAsDirty();
       this.passwordFielSingUp.markAsDirty();
