@@ -25,6 +25,7 @@ import { Game, Move } from '@models/game.model';
 import { SocketsService } from '@services/sockets.service';
 
 // components
+import { OnboardingComponent } from '@shared/components/onboarding/onboarding.component';
 
 
 import {
@@ -880,6 +881,9 @@ export class HomePage implements OnInit {
 
     this.store.pipe(select(getProfile)).subscribe((profile: Profile) => {
       this.profile = profile;
+      if (profile?.email && (!profile?.country || !profile.name)) {
+        this.presentModalOnboarding();
+      }
     });
 
     this.socketsService.listenMatchGame();
@@ -986,6 +990,16 @@ export class HomePage implements OnInit {
     } else {
       this.board.setOrientation(this.board.getOrientation() === 'w' ? 'b' : 'w');
     }
+
+  }
+
+  async presentModalOnboarding() {
+    const modal = await this.modalController.create({
+      component: OnboardingComponent,
+      backdropDismiss: false
+    });
+
+    await modal.present();
 
   }
 
