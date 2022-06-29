@@ -1,34 +1,326 @@
 [
     {
-        "Country": "afghanistan",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fafghanistan_round_icon_64.png?alt=media&token=37eff9f8-61d5-4d55-b46e-f4e025e6b131"
+        "Country": "Afghanistan",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fafghanistan_64.png?alt=media&token=e69a2223-b57a-4d92-93b4-6acb225a5008"
     },
     {
-        "Country": "aland islands",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Faland_islands_round_icon_64.png?alt=media&token=eabac9ac-ef10-44ae-87e2-7a28d9cd9adb"
+        "Country": "Aland islands",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Faland_islands_64.png?alt=media&token=c103b5e9-6878-4c8b-8bff-79eb641d4a1b"
     },
     {
-        "Country": "albania",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Falbania_round_icon_64.png?alt=media&token=c035cdca-a1d9-4b71-a203-372d033982f7"
+        "Country": "Albania",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Falbania_64.png?alt=media&token=379b690f-fea7-43f3-8de7-66ba6abab655"
     },
     {
-        "Country": "algeria",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Falgeria_round_icon_64.png?alt=media&token=dfba6b90-2cb5-4df8-96eb-71748a0ebb69"
+        "Country": "Algeria",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Falgeria_64.png?alt=media&token=9602cc64-c5ba-4a46-8655-75afcc2aa39a"
     },
     {
-        "Country": "american samoa",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Famerican_samoa_round_icon_64.png?alt=media&token=735ea0ca-a230-4f40-89c5-7bfd93fbc6d4"
+        "Country": "American samoa",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Famerican_samoa_64.png?alt=media&token=c44ffee6-4374-4ece-951b-0ba333459e77"
     },
     {
-        "Country": "andorra",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fandorra_round_icon_64.png?alt=media&token=fbca09ad-9d09-4143-8079-bd27b9659059"
+        "Country": "Andorra",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fandorra_64.png?alt=media&token=f61fc0c4-c3c2-4e61-bef6-351583217d3b"
     },
     {
-        "Country": "angola",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fangola_round_icon_64.png?alt=media&token=e332dc34-e237-497a-8a9a-61e89a72ca07"
+        "Country": "Angola",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fangola_64.png?alt=media&token=82a0db96-9d3e-4913-9603-31330fd1ba50"
     },
     {
-        "Country": "anguilla",
-        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fanguilla_round_icon_64.png?alt=media&token=336dacbd-84d7-489a-ad2c-ba8f3cfb59df"
+        "Country": "Anguilla",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fanguilla_64.png?alt=media&token=ee4a2957-3000-4867-ada6-8aa5cdb11d00"
+    },
+    {
+        "Country": "Antarctica",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fantarctica_64.png?alt=media&token=3122dae9-330e-4004-afc3-3d591790181d"
+    },
+    {
+        "Country": "Antigua and barbuda",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fantigua_and_barbuda_64.png?alt=media&token=2554c7a0-d7d0-4b6b-8abb-d23a99173692"
+    },
+    {
+        "Country": "Argentina",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fargentina_64.png?alt=media&token=f1625b2f-ee18-4810-85ce-57f14822ac03"
+    },
+    {
+        "Country": "Armenia",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Farmenia_64.png?alt=media&token=3d353f69-5f23-4dd9-8d2f-2daa76362926"
+    },
+    {
+        "Country": "Aruba",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Faruba_64.png?alt=media&token=db7e8a11-24c2-42ae-b857-a00ad3cf718e"
+    },
+    {
+        "Country": "Australia",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Faustralia_64.png?alt=media&token=5b87cbec-f65f-4630-b7e6-1c5333920adc"
+    },
+    {
+        "Country": "Austria",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Faustria_64.png?alt=media&token=52c80c38-298b-4902-bd48-77e19349b77c"
+    },
+    {
+        "Country": "Azerbaijan",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fazerbaijan_64.png?alt=media&token=a4fb1aef-2592-4fce-8c87-e025a998d65b"
+    },
+    {
+        "Country": "Bahamas",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbahamas_64.png?alt=media&token=0f388da9-b5b2-45b3-aed5-ce5b9aa7359e"
+    },
+    {
+        "Country": "Bahrain",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbahrain_64.png?alt=media&token=67661bb8-c6f0-4f31-a04f-ff9de522a329"
+    },
+    {
+        "Country": "Bangladesh",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbangladesh_64.png?alt=media&token=75b25495-ac14-4e79-898e-ac26d6d158bf"
+    },
+    {
+        "Country": "Barbados",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbarbados_64.png?alt=media&token=77edd9c9-a3a6-4729-9102-959dd7eda88e"
+    },
+    {
+        "Country": "Belarus",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbelarus_64.png?alt=media&token=9749228c-de63-47a8-a828-c818999cb926"
+    },
+    {
+        "Country": "Belgium",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbelgium_64.png?alt=media&token=6de35e64-b766-41d9-b708-b9da6c7f887c"
+    },
+    {
+        "Country": "Belize",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbelize_64.png?alt=media&token=f7b2e4f9-aac2-463c-a739-431179600350"
+    },
+    {
+        "Country": "Benin",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbenin_64.png?alt=media&token=924c1b56-1504-415f-9fee-22c2bbb854fb"
+    },
+    {
+        "Country": "Bermuda",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbermuda_64.png?alt=media&token=506677d3-7e26-4196-b8db-64eb5cb43ed7"
+    },
+    {
+        "Country": "Bhutan",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbhutan_64.png?alt=media&token=7d098311-48bf-40b7-870f-155bc9ed3564"
+    },
+    {
+        "Country": "Bolivia",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbolivia_64.png?alt=media&token=d6b57a3f-bd23-44c7-a9dd-92c6bfab39f8"
+    },
+    {
+        "Country": "Bonaire",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbonaire_64.png?alt=media&token=667eaaba-5d86-4c08-8afb-552215479016"
+    },
+    {
+        "Country": "Bosnia and Herzegovina",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbosnia_and_herzegovina_64.png?alt=media&token=2e03b1c6-5219-4be3-aecb-9f036db10315"
+    },
+    {
+        "Country": "Botswana",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbotswana_64.png?alt=media&token=1fffabb5-4959-47dd-b7d5-1da96a173398"
+    },
+    {
+        "Country": "Bouvet Island",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbouvet_island_64.png?alt=media&token=370cbabe-1c3c-456b-bbc0-43d54f8fea60"
+    },
+    {
+        "Country": "Brazil",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbrazil_64.png?alt=media&token=4cb589b0-64e9-4218-be02-1a2c9840bde9"
+    },
+    {
+        "Country": "British Indian Ocean Territory",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbritish_indian_ocean_territory_64.png?alt=media&token=a581a612-60fb-4de2-8d22-9b2ee0e13e22"
+    },
+    {
+        "Country": "Brunei",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbrunei_64.png?alt=media&token=12cc657d-d8a9-40b7-a6e2-0056a4de9d89"
+    },
+    {
+        "Country": "Bulgaria",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fbulgaria_64.png?alt=media&token=0e5c6b8a-4c6c-4d5f-a7ce-e8a49cfb45e5"
+    },
+    {
+        "Country": "Burkina Faso",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fburkina_faso_64.png?alt=media&token=04caf6fc-643e-4aed-95b5-8c7b6ec59746"
+    },
+    {
+        "Country": "Burundi",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fburundi_64.png?alt=media&token=2e7faee2-be31-4445-be36-402f42f756fe"
+    },
+    {
+        "Country": "Cambodia",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcambodia_64.png?alt=media&token=d178c410-51cf-4dc0-9b5e-a98634de56f4"
+    },
+    {
+        "Country": "Cameroon",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcameroon_64.png?alt=media&token=31288037-e188-400b-bfff-e02fbdc23120"
+    },
+    {
+        "Country": "Canada",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcanada_64.png?alt=media&token=766cee58-5fce-436b-8b86-ce252e9a8746"
+    },
+    {
+        "Country": "Cape Verde",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcape_verde_64.png?alt=media&token=5f07436f-6aaa-459f-ae36-60a09565de17"
+    },
+    {
+        "Country": "Cayman Islands",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcayman_islands_64.png?alt=media&token=deca90d6-b065-4010-9164-0437208cb6fe"
+    },
+    {
+        "Country": "Central African Republic",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcentral_african_republic_64.png?alt=media&token=5d24f2a9-901c-434e-acb3-0e0baa887201"
+    },
+    {
+        "Country": "Chad",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fchad_64.png?alt=media&token=f1738bfd-496a-4212-970f-544e433c5576"
+    },
+    {
+        "Country": "Chile",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fchile_64.png?alt=media&token=33f251a6-1aa3-4bd0-b30f-2c1afa345a03"
+    },
+    {
+        "Country": "China",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fchina_64.png?alt=media&token=f053e70a-0391-4a86-bd78-37ba6d86a736"
+    },
+    {
+        "Country": "Christmas Island",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fchristmas_island_64.png?alt=media&token=302b19a1-1574-4a1b-9d11-cd156577b2ee"
+    },
+    {
+        "Country": "Cocos Islands",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcocos_islands_64.png?alt=media&token=75eb620b-69a1-42f5-9d00-2dfd4372a067"
+    },
+    {
+        "Country": "Colombia",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_64.png?alt=media&token=177ea4e7-f6a3-49e5-a706-1232eb4cc608"
+    },
+    {
+        "Country": "Comoros",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcomoros_64.png?alt=media&token=1ae57f95-8664-4254-ac09-841aaf33d082"
+    },
+    {
+        "Country": "Cook Islands",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcook_islands_64.png?alt=media&token=1b4474a0-439a-430a-a09b-e5339bb7d3a7"
+    },
+    {
+        "Country": "Costa Rica",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcosta_rica_64.png?alt=media&token=c240863f-1f33-4447-a9e9-20bb4f519575"
+    },
+    {
+        "Country": "Cote d'Ivoire",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcote_d_Ivoire_64.png?alt=media&token=2d0f0f69-5c32-40f5-851a-479d182b63a4"
+    },
+    {
+        "Country": "Croatia",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcroatia_64.png?alt=media&token=f431e209-b0a2-4081-bcba-e2972210e821"
+    },
+    {
+        "Country": "Cuba",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcuba_64.png?alt=media&token=cf63c0d2-d22e-4126-af98-ac25729bf727"
+    },
+    {
+        "Country": "Curacao",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcuracao_64.png?alt=media&token=6476110a-45c7-4348-b201-7f6363f69bba"
+    },
+    {
+        "Country": "Cyprus",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcyprus_64.png?alt=media&token=4bb182d5-16be-4be9-bc38-a43adf265a50"
+    },
+    {
+        "Country": "Czech Republic",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fczech_republic_64.png?alt=media&token=72a5d3ad-1693-48a9-948a-cf8455d1c22a"
+    },
+    {
+        "Country": "Democratic Republic of the Congo",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fdemocratic_republic_of_the_congo_64.png?alt=media&token=055cd26a-14b3-4217-ae37-d02852ae0ac6"
+    },
+    {
+        "Country": "Denmark",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fdemocratic_republic_of_the_congo_64.png?alt=media&token=055cd26a-14b3-4217-ae37-d02852ae0ac6"
+    },
+    {
+        "Country": "Djibouti",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fdjibouti_64.png?alt=media&token=146af3e5-0c4e-47b2-93e2-6a89c569a72e"
+    },
+    {
+        "Country": "Dominica",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fdominica_64.png?alt=media&token=8700f04d-42a8-4795-a29f-97c4e7762ddf"
+    },
+    {
+        "Country": "Dominican Republic",
+        "FlagUrl": "https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fdominican_republic_64.png?alt=media&token=c978a0ad-f3af-4d5b-ae3e-e7e5021ce6dd"
+    },
+    {
+        "Country": "East Timor",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "Ecuador",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "Egypt",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "El Salvador",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "England",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "Ecuatorial Guinea",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "Eritrea",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
+    },
+    {
+        "Country": "",
+        "FlagUrl": ""
     }
 ]
