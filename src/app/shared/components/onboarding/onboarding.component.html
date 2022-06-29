@@ -2,7 +2,6 @@
   <ion-card-content>
 
     <ion-item>
-      <ion-icon slot="start" name="at-outline"></ion-icon>
       <ion-label position="floating">Tu nombre de usuario</ion-label>
       <ion-input></ion-input>
     </ion-item>
@@ -10,104 +9,30 @@
     <br>
 
 
+
+
     <ion-list>
 
       <ion-item>
-        <ion-searchbar placeholder="Buscar" inputmode="text"></ion-searchbar>
+        <ion-searchbar placeholder="Busca tu bandera" inputmode="text"></ion-searchbar>
       </ion-item>
 
       <ion-radio-group>
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
 
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
+        <div class="div-items-container">
 
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
-
-        <ion-item>
-          <ion-avatar slot="start">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/chesscolate.appspot.com/o/Flags%2F64%2Fcolombia_round_icon_64.png?alt=media&token=fcde9897-83fb-4d50-8387-4961afc04e44" />
-          </ion-avatar>
-          <ion-label>Item Avatar</ion-label>
-          <ion-radio value="cord"></ion-radio>
-        </ion-item>
+          <ion-item *ngFor="let flag of flags">
+            <ion-avatar slot="start">
+              <img [src]="flag.FlagUrl" />
+            </ion-avatar>
+            <ion-label class="ion-text-capitalize">
+              {{ flag.Country }}
+            </ion-label>
+            <ion-radio [value]="flag.Country"></ion-radio>
+          </ion-item>
 
 
+        </div>
 
 
       </ion-radio-group>
@@ -116,11 +41,10 @@
 
 
   </ion-card-content>
-</ion-content>
 
-<ion-footer>
+
   <ion-row>
-    <ion-col size="5" offset="7">
+    <ion-col size="6" offset="3">
 
       <ion-button expand="block" (click)="save()">
         Guardar
@@ -128,4 +52,5 @@
 
     </ion-col>
   </ion-row>
-</ion-footer>
+
+</ion-content>
