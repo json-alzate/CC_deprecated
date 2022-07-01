@@ -23,14 +23,13 @@
 
           <ion-item *ngFor="let flag of flags">
             <ion-avatar slot="start">
-              <img [src]="flag.FlagUrl" />
+              <img [src]="  flag.Country | flagUrl " />
             </ion-avatar>
             <ion-label class="ion-text-capitalize">
               {{ flag.Country }}
             </ion-label>
             <ion-radio [value]="flag.Country"></ion-radio>
           </ion-item>
-
 
         </div>
 

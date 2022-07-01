@@ -16,7 +16,7 @@ import { GameClockPipe } from './pipes/game-clock.pipe';
   declarations: [
     ...fromComponents.COMPONENTS,
     ...fromPipes.PIPES,
-    GameClockPipe,
+    GameClockPipe
   ],
   imports: [
     IonicModule,
