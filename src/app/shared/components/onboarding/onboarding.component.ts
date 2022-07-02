@@ -1,8 +1,23 @@
+//core and third party libraries
 import { Component, OnInit } from '@angular/core';
 
+// rxjs
+
+// states
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+
+// actions
+
+// selectors
+
+// models
 import { Flag } from '@models/tools.models';
 
+// services
 import { ToolsService } from '@services/tools.service';
+
+// components
 
 @Component({
   selector: 'app-onboarding',
@@ -11,18 +26,44 @@ import { ToolsService } from '@services/tools.service';
 })
 export class OnboardingComponent implements OnInit {
 
+  formOnboarding: FormGroup;
+
   flags: Flag[] = [];
+  flagsBackUp: Flag[] = [];
 
   constructor(
-    private toolsService: ToolsService
+    private toolsService: ToolsService,
+    private formBuilder: FormBuilder
   ) {
     this.flags = this.toolsService.flags;
+    this.flagsBackUp = [...this.flags];
+    this.buildFormOnboarding();
   }
 
   ngOnInit() { }
 
-  save() {
+  buildFormOnboarding() {
+    this.formOnboarding = this.formBuilder.group({
+      nikName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      country: ['', [Validators.required]]
+    });
+  }
 
+  onSearchFlagChange(event: any) {
+    const query = event?.detail?.value;
+    if (query) {
+      this.flags = this.flagsBackUp.filter(flag => flag.Country.toLowerCase().includes(query.toLowerCase()));
+    } else {
+      this.flags = [...this.flagsBackUp];
+    }
+  }
+
+  onCancelFlagSearch(event: any) {
+    this.flags = [...this.flagsBackUp];
+  }
+
+  save() {
+    console.log(this.formOnboarding.value);
   }
 
 }
