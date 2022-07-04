@@ -2,7 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
+
 // rxjs
 
 // states
@@ -10,12 +11,14 @@ import { AuthState } from '@redux/states/auth.state';
 
 
 // actions
-import { requestUpdateProfile } from '@redux/actions/auth.actions';
+import { requestUpdateProfile, addNewNickName } from '@redux/actions/auth.actions';
 
 // selectors
+import { getProfile } from '@redux/selectors/auth.selectors';
 
 // models
 import { Flag } from '@models/tools.models';
+import { Profile } from '@models/profile.model';
 
 // services
 import { ToolsService } from '@services/tools.service';
@@ -37,6 +40,8 @@ export class OnboardingComponent implements OnInit {
 
   allowNickName = false;
 
+  profile: Profile;
+
   constructor(
     private toolsService: ToolsService,
     private formBuilder: FormBuilder,
@@ -47,6 +52,9 @@ export class OnboardingComponent implements OnInit {
     this.flags = this.toolsService.flags;
     this.flagsBackUp = [...this.flags];
     this.buildFormOnboarding();
+
+    // TODO: Cancelar subscribe
+    this.store.select(getProfile).subscribe(profile => this.profile = profile);
   }
 
   ngOnInit() { }
@@ -91,6 +99,14 @@ export class OnboardingComponent implements OnInit {
       }
     });
     this.store.dispatch(action);
+
+    const actionAddNick = addNewNickName({
+      nickname: this.nikNameField.value,
+      uidUser: this.profile?.uid
+    });
+    this.store.dispatch(actionAddNick);
+
+
     this.modalController.dismiss();
   }
 
@@ -106,6 +122,7 @@ export class OnboardingComponent implements OnInit {
         this.allowNickName = true;
       } else {
         this.allowNickName = false;
+        this.nikNameField.markAsDirty();
       }
       console.log('result nickName ', result);
     }).catch(() => this.allowNickName = false);

@@ -96,4 +96,9 @@ export class ProfileService {
   }
 
 
+  addNewNickName(nickname: string, uidUser: string) {
+    return this.firestoreService.addNewNickName(nickname, uidUser);
+  }
+
+
 }

@@ -137,5 +137,14 @@ export class FirestoreService {
   }
 
 
+  async addNewNickName(nickname: string, uidUser: string): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'nickNames'), {
+      nickname,
+      uidUser
+    });
+    return docRef.id;
+  }
+
+
 
 }

@@ -9,7 +9,8 @@ import {
     requestSingUpEmail,
     requestLoginEmail,
     setErrorLogin,
-    requestUpdateProfile
+    requestUpdateProfile,
+    addNewNickName
 } from '@redux/actions/auth.actions';
 
 
@@ -83,6 +84,20 @@ export class AuthEffects {
                     mergeMap(() => []),
                     catchError(() => merge([
                         // TODO: mostrar un error
+                    ]))
+                )
+            )
+        )
+    );
+
+
+    addNewNickName$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(addNewNickName),
+            mergeMap((data) =>
+                from(this.profileService.addNewNickName(data.nickname, data.uidUser)).pipe(
+                    mergeMap(() => []),
+                    catchError(() => merge([
                     ]))
                 )
             )
