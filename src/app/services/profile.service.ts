@@ -77,5 +77,23 @@ export class ProfileService {
     this.store.dispatch(action);
   }
 
+  /**
+   * Update profile
+   *
+   * @param changes
+   */
+  updateProfile(changes: Partial<Profile>): Promise<void> {
+    return this.firestoreService.updateProfile(changes);
+  }
+
+
+  /**
+   * Verifica si un nickname esta disponible o no
+   * @param nickname string
+   */
+  checkNickNameExist(nickname: string): Promise<string[]> {
+    return this.firestoreService.checkNickname(nickname);
+  }
+
 
 }

@@ -16,6 +16,7 @@ import { Flag } from '@models/tools.models';
 
 // services
 import { ToolsService } from '@services/tools.service';
+import { ProfileService } from '@services/profile.service';
 
 // components
 
@@ -33,7 +34,8 @@ export class OnboardingComponent implements OnInit {
 
   constructor(
     private toolsService: ToolsService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private profileService: ProfileService
   ) {
     this.flags = this.toolsService.flags;
     this.flagsBackUp = [...this.flags];
@@ -64,6 +66,17 @@ export class OnboardingComponent implements OnInit {
 
   save() {
     console.log(this.formOnboarding.value);
+  }
+
+  checkNickname(event: any) {
+    const nickName = event?.detail?.value;
+    if (!nickName) {
+      return;
+    }
+
+    this.profileService.checkNickNameExist(nickName).then((result) => {
+      console.log('result nickName ', result);
+    });
   }
 
 }
