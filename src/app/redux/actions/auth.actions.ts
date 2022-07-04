@@ -32,7 +32,7 @@ export const setProfile = createAction(
 
 export const requestUpdateProfile = createAction(
     '[Auth] requestUpdateProfile',
-    props<{ profile: Profile }>()
+    props<{ profile: Partial<Profile> }>()
 );
 
 export const logOut = createAction(

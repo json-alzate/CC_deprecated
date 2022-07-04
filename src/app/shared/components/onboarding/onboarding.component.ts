@@ -1,13 +1,16 @@
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
-
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
+import { Store } from '@ngrx/store'
 // rxjs
 
 // states
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthState } from '@redux/states/auth.state';
 
 
 // actions
+import { requestUpdateProfile } from '@redux/actions/auth.actions';
 
 // selectors
 
@@ -32,10 +35,14 @@ export class OnboardingComponent implements OnInit {
   flags: Flag[] = [];
   flagsBackUp: Flag[] = [];
 
+  allowNickName = false;
+
   constructor(
     private toolsService: ToolsService,
     private formBuilder: FormBuilder,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private modalController: ModalController,
+    private store: Store<AuthState>
   ) {
     this.flags = this.toolsService.flags;
     this.flagsBackUp = [...this.flags];
@@ -49,6 +56,14 @@ export class OnboardingComponent implements OnInit {
       nikName: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
       country: ['', [Validators.required]]
     });
+  }
+
+  get nikNameField() {
+    return this.formOnboarding.get('nikName');
+  }
+
+  get countryField() {
+    return this.formOnboarding.get('country');
   }
 
   onSearchFlagChange(event: any) {
@@ -65,7 +80,18 @@ export class OnboardingComponent implements OnInit {
   }
 
   save() {
-    console.log(this.formOnboarding.value);
+    if (!this.allowNickName) {
+      return;
+    }
+
+    const action = requestUpdateProfile({
+      profile: {
+        name: this.nikNameField.value,
+        country: this.countryField.value
+      }
+    });
+    this.store.dispatch(action);
+    this.modalController.dismiss();
   }
 
   checkNickname(event: any) {
@@ -75,8 +101,14 @@ export class OnboardingComponent implements OnInit {
     }
 
     this.profileService.checkNickNameExist(nickName).then((result) => {
+
+      if (result?.length === 0) {
+        this.allowNickName = true;
+      } else {
+        this.allowNickName = false;
+      }
       console.log('result nickName ', result);
-    });
+    }).catch(() => this.allowNickName = false);
   }
 
 }

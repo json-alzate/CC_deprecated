@@ -8,6 +8,13 @@
         <ion-label position="floating">Escribe tu nuevo nombre de usuario</ion-label>
         <ion-input formControlName="nikName" [debounce]="500" (ionChange)="checkNickname($event)"></ion-input>
       </ion-item>
+      <div class="message-error"
+        [class.active]="(!allowNickName || nikNameField.invalid) && (nikNameField.dirty || nikNameField.touched)">
+        <ion-label color="danger">
+          <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
+          No es válido
+        </ion-label>
+      </div>
 
       <br>
 

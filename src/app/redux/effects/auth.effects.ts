@@ -8,11 +8,13 @@ import {
     logOut,
     requestSingUpEmail,
     requestLoginEmail,
-    setErrorLogin
+    setErrorLogin,
+    requestUpdateProfile
 } from '@redux/actions/auth.actions';
 
 
 import { AuthService } from '@services/auth.service';
+import { ProfileService } from '@services/profile.service'
 
 @Injectable()
 export class AuthEffects {
@@ -72,9 +74,25 @@ export class AuthEffects {
 
     );
 
+
+    requestUpdateProfile$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(requestUpdateProfile),
+            mergeMap((data) =>
+                from(this.profileService.updateProfile(data.profile)).pipe(
+                    mergeMap(() => []),
+                    catchError(() => merge([
+                        // TODO: mostrar un error
+                    ]))
+                )
+            )
+        )
+    );
+
     constructor(
         private actions$: Actions,
-        private authService: AuthService
+        private authService: AuthService,
+        private profileService: ProfileService
     ) { }
 
 }
