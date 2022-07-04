@@ -25,8 +25,8 @@
           </ion-button>
         </ion-col>
         <ion-col size="3">
-          <ion-button size="large" expand="block" [color]=" time === 10.0 ? 'primary' : 'medium'" (click)="time = 10.0"
-            [disabled]="time !== 10.0 && searchingGame">
+          <ion-button size="large" expand="block" [color]=" time === 600000 ? 'primary' : 'medium'"
+            (click)="time = 10.0" [disabled]="time !== 10.0 && searchingGame">
             10<small>+</small>0
           </ion-button>
         </ion-col>
@@ -80,7 +80,7 @@
       <ion-col offset="2" size="8">
         <ng-container *ngIf="!searchingGame; else elseTemplate">
 
-          <ion-button size="large" color="success" expand="block" (click)="onPlay()">
+          <ion-button size="large" color="success" expand="block" [disabled]="disableButtonPlay" (click)="onPlay()">
             Jugar
           </ion-button>
 
@@ -89,7 +89,7 @@
 
           <ion-spinner color="primary" name="crescent"></ion-spinner>
 
-          <ion-button color="danger" expand="block" fill="clear" (click)="onCancel()" >
+          <ion-button color="danger" expand="block" fill="clear" (click)="onCancel()">
             Cancelar
           </ion-button>
 

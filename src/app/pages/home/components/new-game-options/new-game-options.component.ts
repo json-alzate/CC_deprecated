@@ -40,6 +40,8 @@ export class NewGameOptionsComponent implements OnInit {
   requestGame: UserRequestToPlay;
   profile: Profile;
 
+  disableButtonPlay = true;
+
   constructor(
     private store: Store<CurrentGameState>,
     private socketsService: SocketsService,
@@ -48,6 +50,9 @@ export class NewGameOptionsComponent implements OnInit {
 
     this.store.pipe(select(getProfile)).subscribe(profile => {
       this.profile = profile;
+      if (profile?.uid) {
+        this.disableButtonPlay = false;
+      }
     });
 
     this.store.pipe(select(getCurrentGameStatus)).subscribe(status => {

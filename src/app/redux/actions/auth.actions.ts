@@ -32,7 +32,13 @@ export const setProfile = createAction(
 
 export const requestUpdateProfile = createAction(
     '[Auth] requestUpdateProfile',
-    props<{ profile: Profile }>()
+    props<{ profile: Partial<Profile> }>()
+);
+
+
+export const addNewNickName = createAction(
+    '[Auth] addNewNickName',
+    props<{ nickname: string, uidUser: string }>()
 );
 
 export const logOut = createAction(

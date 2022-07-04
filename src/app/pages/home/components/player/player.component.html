@@ -1,11 +1,11 @@
 <ion-item lines="none">
   <!-- <ion-label>{{ player?.name }}</ion-label> -->
   <ion-label class="ion-no-padding">
-      {{ player?.name }}
+    {{ player?.name ? player?.name : player?.uidUser.slice(-4) }}
   </ion-label>
 
   <ion-note slot="end">
-    {{ player?.elo }}
+    {{ player?.elo ? player?.elo : '1500?' }}
   </ion-note>
 
   <ion-avatar slot="end">

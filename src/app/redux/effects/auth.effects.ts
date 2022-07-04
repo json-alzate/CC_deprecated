@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { merge } from 'rxjs';
-import { switchMap, catchError, mergeMap, tap, take } from 'rxjs/operators';
+import { from, merge } from 'rxjs';
+import { switchMap, catchError, mergeMap } from 'rxjs/operators';
 
-import { requestLoginGoogle, logOut, requestSingUpEmail, requestLoginEmail } from '@redux/actions/auth.actions';
-import { addMessageToast, clearMessageToast } from '@redux/actions/ui.actions';
+import {
+    requestLoginGoogle,
+    logOut,
+    requestSingUpEmail,
+    requestLoginEmail,
+    setErrorLogin,
+    requestUpdateProfile,
+    addNewNickName
+} from '@redux/actions/auth.actions';
 
 
 import { AuthService } from '@services/auth.service';
+import { ProfileService } from '@services/profile.service'
 
 @Injectable()
 export class AuthEffects {
@@ -16,10 +24,14 @@ export class AuthEffects {
     requestLoginGoogle$ = createEffect(() =>
         this.actions$.pipe(
             ofType(requestLoginGoogle),
-            tap(() => {
-                this.authService.loginGoogle();
-            }),
-            take(1)
+            mergeMap(() =>
+                from(this.authService.loginGoogle()).pipe(
+                    mergeMap(() => []),
+                    catchError(() => merge([
+                        setErrorLogin({ error: 'LoginError' })
+                    ]))
+                )
+            )
         )
     );
 
@@ -27,10 +39,11 @@ export class AuthEffects {
     requestSingUpEmail$ = createEffect(() =>
         this.actions$.pipe(
             ofType(requestSingUpEmail),
-            tap(({ email, password }) => {
-                this.authService.createUserWithEmailAndPassword(email, password);
-            }),
-            take(1)
+            mergeMap((data) =>
+                from(this.authService.createUserWithEmailAndPassword(data.email, data.password)).pipe(
+                    mergeMap(() => [])
+                )
+            )
         )
     );
 
@@ -38,10 +51,14 @@ export class AuthEffects {
     requestLoginEmail$ = createEffect(() =>
         this.actions$.pipe(
             ofType(requestLoginEmail),
-            tap(({ email, password }) => {
-                this.authService.signInWithEmailAndPassword(email, password);
-            }),
-            take(1)
+            mergeMap((data) =>
+                from(this.authService.signInWithEmailAndPassword(data.email, data.password)).pipe(
+                    mergeMap(() => []),
+                    catchError(() => merge([
+                        setErrorLogin({ error: 'LoginError' })
+                    ]))
+                )
+            )
         )
     );
 
@@ -58,9 +75,39 @@ export class AuthEffects {
 
     );
 
+
+    requestUpdateProfile$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(requestUpdateProfile),
+            mergeMap((data) =>
+                from(this.profileService.updateProfile(data.profile)).pipe(
+                    mergeMap(() => []),
+                    catchError(() => merge([
+                        // TODO: mostrar un error
+                    ]))
+                )
+            )
+        )
+    );
+
+
+    addNewNickName$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(addNewNickName),
+            mergeMap((data) =>
+                from(this.profileService.addNewNickName(data.nickname, data.uidUser)).pipe(
+                    mergeMap(() => []),
+                    catchError(() => merge([
+                    ]))
+                )
+            )
+        )
+    );
+
     constructor(
         private actions$: Actions,
-        private authService: AuthService
+        private authService: AuthService,
+        private profileService: ProfileService
     ) { }
 
 }

@@ -34,6 +34,7 @@ import { AuthService } from '@services/auth.service';
 import { ProfileService } from '@services/profile.service';
 import { SocketsService } from '@services/sockets.service';
 import { FcmService } from '@services/fcm.service';
+import { ToolsService } from '@services/tools.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -59,7 +60,8 @@ export class AppComponent {
     private socketsService: SocketsService,
     private socket: Socket,
     private store: Store<AuthState>,
-    private fcmService: FcmService
+    private fcmService: FcmService,
+    private toolsService: ToolsService
   ) {
 
     this.initApp();
@@ -84,6 +86,7 @@ export class AppComponent {
     // se prepara para utilizar los sockets
     this.socketsService.startConnection();
 
+    this.toolsService.loadFlags();
     this.fcmService.initPush();
   }
 
@@ -93,10 +96,12 @@ export class AppComponent {
     await this.firestoreService.init();
     // se obtiene el estado del usuario -login-
     this.authService.getAuthState().subscribe((dataAuth: FirebaseUser) => {
-
       // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
       if (dataAuth) {
         this.profileService.checkProfile(dataAuth);
+      } else {
+        // iniciar con anónimo
+        this.authService.initSignInAnonymously();
       }
     });
   }

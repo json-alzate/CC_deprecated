@@ -11,6 +11,7 @@
     "LoginError": "Login Error",
     "RegisterError": "Register Error",
     "ResetPassword": "Reset Password",
+    "PasswordsNoMatch": "Passwords do not match",
     "EmailReadyInUse": "Email is already in use",
     "Cancel": "Cancel",
     "Send": "Send",

@@ -44,7 +44,7 @@ export class ProfileService {
   async checkProfile(dataAuth: FirebaseUser) {
 
     const profile = await this.firestoreService.getProfile(dataAuth?.uid);
-    if (profile) {      
+    if (profile) {
       this.setProfile(profile);
     } else {
       this.setInitialProfile(dataAuth);
@@ -75,6 +75,29 @@ export class ProfileService {
   setProfile(profile: Profile) {
     const action = setProfile({ profile });
     this.store.dispatch(action);
+  }
+
+  /**
+   * Update profile
+   *
+   * @param changes
+   */
+  updateProfile(changes: Partial<Profile>): Promise<void> {
+    return this.firestoreService.updateProfile(changes);
+  }
+
+
+  /**
+   * Verifica si un nickname esta disponible o no
+   * @param nickname string
+   */
+  checkNickNameExist(nickname: string): Promise<string[]> {
+    return this.firestoreService.checkNickname(nickname);
+  }
+
+
+  addNewNickName(nickname: string, uidUser: string) {
+    return this.firestoreService.addNewNickName(nickname, uidUser);
   }
 
 

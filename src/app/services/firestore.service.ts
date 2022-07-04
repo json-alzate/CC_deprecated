@@ -35,6 +35,8 @@ import { Profile } from '@models/profile.model';
 export class FirestoreService {
 
   private db: Firestore;
+  private profileDocRef: DocumentReference<DocumentData>;
+
 
 
   constructor() { }
@@ -87,8 +89,8 @@ export class FirestoreService {
    */
   async getProfile(uid: string): Promise<Profile> {
 
-    const profileDocRef = doc(this.db, 'Users', uid);
-    const docSnap = await getDoc(profileDocRef);
+    this.profileDocRef = doc(this.db, 'Users', uid);
+    const docSnap = await getDoc(this.profileDocRef);
     if (docSnap.exists()) {
       return docSnap.data() as Profile;
     } else {
@@ -106,6 +108,41 @@ export class FirestoreService {
    */
   createProfile(profile: Profile) {
     return setDoc(doc(this.db, 'Users', profile.uid), profile);
+  }
+
+  /**
+ * Update a User in firestore
+ *
+ * @param changes Partial<User>
+ */
+  async updateProfile(changes: Partial<Profile>): Promise<void> {
+    return updateDoc(this.profileDocRef, changes);
+  }
+
+
+  async checkNickname(nickName: string): Promise<string[]> {
+    const nicksToReturn = [];
+    const q = query(
+      collection(this.db, 'nickNames'),
+      where('nickname', '==', nickName)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const nickToAdd = document.data();
+      nicksToReturn.push(nickToAdd);
+    });
+    return nicksToReturn;
+
+  }
+
+
+  async addNewNickName(nickname: string, uidUser: string): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'nickNames'), {
+      nickname,
+      uidUser
+    });
+    return docRef.id;
   }
 
 

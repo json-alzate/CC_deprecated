@@ -149,7 +149,7 @@
 
             <ng-container *ngIf="showPasswordRestoreMessage; else elseTemplateShowPasswordRestoreMessage">
 
-              <div class="message" [class.active]="showPasswordRestoreMessage">
+              <div class="message-error" [class.active]="showPasswordRestoreMessage">
                 <ion-label>
                   <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
                   <small>
@@ -161,7 +161,7 @@
             </ng-container>
             <ng-template #elseTemplateShowPasswordRestoreMessage>
 
-              <div class="message" [class.active]="errorLogin">
+              <div class="message-error" [class.active]="errorLogin">
                 <ion-label color="danger">
                   <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
                   {{errorLogin}}
@@ -209,7 +209,7 @@
 
             </form>
 
-            <div class="message" [class.active]="errorSingUp">
+            <div class="message-error" [class.active]="errorSingUp">
               <ion-label color="danger">
                 <ion-icon slot="start" name="alert-circle-outline" color="danger"></ion-icon>
                 {{errorSingUp}}

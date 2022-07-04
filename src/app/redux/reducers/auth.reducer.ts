@@ -5,6 +5,7 @@ import {
     setErrorLogin,
     setErrorRegister,
     setProfile,
+    requestUpdateProfile,
     logOut
 } from '@redux/actions/auth.actions';
 
@@ -20,6 +21,13 @@ export const iauthReducer = createReducer(
         return {
             ...state,
             profile
+        };
+    }),
+
+    on(requestUpdateProfile, (state, { profile }) => {
+        return {
+            ...state,
+            profile: { ...state.profile, ...profile }
         };
     }),
 
