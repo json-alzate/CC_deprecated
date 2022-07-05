@@ -1,6 +1,6 @@
 // core and third party libraries
 import { Component, OnInit, Input } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, NavController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 
 // rxjs
@@ -36,7 +36,8 @@ export class HeaderBarComponent implements OnInit {
 
   constructor(
     private store: Store<AuthState>,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private navController: NavController
   ) {
     this.profile$ = this.store.pipe(
       select(getProfile)
@@ -47,6 +48,10 @@ export class HeaderBarComponent implements OnInit {
 
   openMenuProfile() {
     this.menuController.open('menu-profile');
+  }
+
+  goTo(path: string) {
+    this.navController.navigateForward(path);
   }
 
 }

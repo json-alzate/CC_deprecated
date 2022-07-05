@@ -1,0 +1,16 @@
+.board {
+    max-width: 38vw;
+    margin: 0 auto;
+    display: block;
+}
+
+h1 {
+    position: absolute;
+    z-index: 9;
+    color: var(--ion-color-primary);
+    left: 36.5%;
+    top: 32.5%;
+    font-size: 13em;
+    pointer-events: none;
+    text-shadow: 2px 2px var(--ion-color-primary-shade);
+}
