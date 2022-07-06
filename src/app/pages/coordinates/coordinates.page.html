@@ -16,6 +16,39 @@
           </ion-segment-button>
         </ion-segment>
 
+
+        <ion-list>
+
+          <ion-item>
+            <ion-label>Piezas</ion-label>
+            <ion-toggle slot="end"></ion-toggle>
+          </ion-item>
+          <ion-buttons>
+            <ion-button expand="block" fill="clear" color="primary">
+              Inicial
+            </ion-button>
+            <ion-button expand="block" fill="clear" color="medium">
+              Random
+            </ion-button>
+          </ion-buttons>
+
+
+          <!-- <ion-row>
+            <ion-col size="6">
+              <ion-button expand="block" fill="clear">
+                Inicial
+              </ion-button>
+            </ion-col>
+            <ion-col size="6">
+              <ion-button expand="block" fill="clear" color="medium">
+                Random
+              </ion-button>
+            </ion-col>
+          </ion-row> -->
+
+        </ion-list>
+
+
       </ion-col>
 
       <ion-col size-sm="12" size-md="12" size-lg="6" size-xl="6" class="col-game">
@@ -26,9 +59,10 @@
             <div class="board" id="board1">
             </div>
 
-            <h1>e2</h1>
-
+            <h1>{{ currentPuzzle }}</h1>
+            <h2>60</h2>
           </ion-card-content>
+          <ion-progress-bar color="success" value="0.9"></ion-progress-bar>
         </ion-card>
 
       </ion-col>
