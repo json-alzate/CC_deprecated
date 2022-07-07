@@ -17,23 +17,6 @@
         </ion-segment>
 
 
-        <ion-list class="ion-margin-top">
-
-          <ion-item>
-            <ion-label>Piezas</ion-label>
-            <ion-toggle slot="end"></ion-toggle>
-          </ion-item>
-          <ion-buttons>
-            <ion-button expand="block" fill="clear" color="primary">
-              Inicial
-            </ion-button>
-            <ion-button expand="block" fill="clear" color="medium">
-              Random
-            </ion-button>
-          </ion-buttons>
-
-        </ion-list>
-
 
         <ion-list class="ion-margin-top">
           <ion-row>
@@ -85,12 +68,12 @@
 
             <h2>{{ time }}</h2>
           </ion-card-content>
-          <ion-progress-bar [color]="timeColor" value="0.9"></ion-progress-bar>
+          <ion-progress-bar [color]="timeColor" [value]="progressValue"></ion-progress-bar>
         </ion-card>
 
       </ion-col>
       <ion-col size="3" class="ion-hide-lg-down">
-
+        <h1>{{ score }}</h1>
       </ion-col>
     </ion-row>
   </ion-grid>

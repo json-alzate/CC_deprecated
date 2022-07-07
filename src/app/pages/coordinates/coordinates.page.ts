@@ -49,6 +49,7 @@ export class CoordinatesPage implements OnInit {
 
   score = 0;
   time = 60;
+  progressValue = 1;
   timeColor: 'success' | 'warning' | 'danger' = 'success';
 
   // Options
@@ -99,6 +100,11 @@ export class CoordinatesPage implements OnInit {
 
   }
 
+  changeOrientation(orientation?: 'w' | 'b') {
+    this.board.setOrientation(orientation);
+  }
+
+
   generatePuzzles(count = 1): string[] {
     const puzzles = [];
 
@@ -114,30 +120,41 @@ export class CoordinatesPage implements OnInit {
   play() {
     this.puzzles = this.generatePuzzles(200);
     this.currentPuzzle = this.puzzles[0];
+    this.time = 60;
+    this.score = 0;
+    let orientation: 'w' | 'b' = this.color === 'white' ? 'w' : 'b';
+
+    if (this.color === 'random') {
+      orientation = Math.random() < 0.5 ? 'w' : 'b';
+    }
+
+    this.changeOrientation(orientation);
+
     this.isPlaying = true;
     this.initInterval();
+    this.board.setPosition('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
   }
 
 
   initInterval() {
 
-    if (!this.subsSeconds) {
-      const seconds = interval(1000);
-      this.subsSeconds = seconds.pipe(
-        takeUntil(this.unsubscribeIntervalSeconds$)
-      );
 
-      this.subsSeconds.subscribe(() => {
-        this.time = this.time - 1;
-        if (this.time < 1) {
-          this.stopGame();
-        } else if (this.time > 15) {
-          this.timeColor = 'success';
-        } else {
-          this.timeColor = 'warning';
-        }
-      });
-    }
+    const seconds = interval(1000);
+    this.subsSeconds = seconds.pipe(
+      takeUntil(this.unsubscribeIntervalSeconds$)
+    );
+
+    this.subsSeconds.subscribe(() => {
+      this.time = this.time - 1;
+      this.progressValue = this.time / 60;
+      if (this.time < 1) {
+        this.stopGame();
+      } else if (this.time > 15) {
+        this.timeColor = 'success';
+      } else {
+        this.timeColor = 'warning';
+      }
+    });
 
   }
 
@@ -147,9 +164,15 @@ export class CoordinatesPage implements OnInit {
     this.currentPuzzle = this.puzzles[this.score];
   }
 
+
   stopGame() {
     this.unsubscribeIntervalSeconds$.next();
     this.isPlaying = false;
+    this.board.setPosition('empty');
+    this.currentPuzzle = '';
+    this.progressValue = 1;
+    this.timeColor = 'success';
+    this.time = 60;
   }
 
 }
