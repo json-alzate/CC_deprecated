@@ -6,10 +6,14 @@ import {
   INPUT_EVENT_TYPE,
   MOVE_INPUT_MODE,
   SQUARE_SELECT_TYPE,
-  Chessboard
+  Chessboard,
+  BORDER_TYPE
 } from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
 
 // rxjs
+import { Subject, interval } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 
 // states
 
@@ -34,17 +38,22 @@ export class CoordinatesPage implements OnInit {
 
   letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   numbers = ['1', '2', '3', '4', '5', '6', '7', '8'];
+  board;
+
+  subsSeconds;
+  private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   isPlaying = false;
   currentPuzzle = '';
   puzzles: string[] = [];
 
-  board;
+  score = 0;
+  time = 60;
+  timeColor: 'success' | 'warning' | 'danger' = 'success';
 
   // Options
   color: 'random' | 'white' | 'black' = 'random';
 
-  score = 0;
 
   constructor() { }
 
@@ -60,7 +69,8 @@ export class CoordinatesPage implements OnInit {
     this.board = await new Chessboard(document.getElementById('boardCordinates'), {
       position: 'empty',
       style: {
-        showCoordinates: false
+        showCoordinates: false,
+        borderType: BORDER_TYPE.thin
       },
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
@@ -74,7 +84,7 @@ export class CoordinatesPage implements OnInit {
             if (event.square === this.currentPuzzle) {
               this.nextPuzzle();
             } else {
-
+              this.timeColor = 'danger';
             }
 
           }
@@ -105,11 +115,41 @@ export class CoordinatesPage implements OnInit {
     this.puzzles = this.generatePuzzles(200);
     this.currentPuzzle = this.puzzles[0];
     this.isPlaying = true;
+    this.initInterval();
   }
+
+
+  initInterval() {
+
+    if (!this.subsSeconds) {
+      const seconds = interval(1000);
+      this.subsSeconds = seconds.pipe(
+        takeUntil(this.unsubscribeIntervalSeconds$)
+      );
+
+      this.subsSeconds.subscribe(() => {
+        this.time = this.time - 1;
+        if (this.time < 1) {
+          this.stopGame();
+        } else if (this.time > 15) {
+          this.timeColor = 'success';
+        } else {
+          this.timeColor = 'warning';
+        }
+      });
+    }
+
+  }
+
 
   nextPuzzle() {
     this.score++;
     this.currentPuzzle = this.puzzles[this.score];
+  }
+
+  stopGame() {
+    this.unsubscribeIntervalSeconds$.next();
+    this.isPlaying = false;
   }
 
 }

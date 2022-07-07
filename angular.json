@@ -32,8 +32,9 @@
               }
             ],
             "styles": [
-              "src/theme/variables.scss",
+              "node_modules/animate.css/animate.min.css",
               "node_modules/cm-chessboard/assets/styles/cm-chessboard.css",
+              "src/theme/variables.scss",
               "src/global.scss"
             ],
             "scripts": [],

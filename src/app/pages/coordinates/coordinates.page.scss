@@ -4,13 +4,13 @@
     display: block;
 }
 
-h1 {
+.current-puzzle {
     position: absolute;
     z-index: 9;
-    color: var(--ion-color-primary);
     left: 36.5%;
     top: 30%;
     font-size: 13em;
     pointer-events: none;
-    text-shadow: 2px 2px var(--ion-color-primary-shade);
+    color: var(--ion-color-dark);
+    text-shadow: 2px 2px var(--ion-color-dark-shade);
 }
