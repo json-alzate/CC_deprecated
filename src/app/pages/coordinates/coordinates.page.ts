@@ -1,6 +1,7 @@
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
-import Chess from 'chess.js';
+import { Store, select } from '@ngrx/store';
+
 import {
   COLOR,
   INPUT_EVENT_TYPE,
@@ -16,12 +17,18 @@ import { takeUntil } from 'rxjs/operators';
 
 
 // states
+import { UIState } from '@redux/states/ui.state';
 
 // actions
+import { addCoordinatesGame } from '@redux/actions/coordinates.actions';
 
 // selectors
+import { getProfile } from '@redux/selectors/auth.selectors';
+
 
 // models
+import { CoordinatesGame } from '@models/coordinates.model';
+import { Profile } from '@models/profile.model';
 
 // services
 
@@ -47,6 +54,8 @@ export class CoordinatesPage implements OnInit {
   currentPuzzle = '';
   puzzles: string[] = [];
 
+  squaresGood: string[] = [];
+  squaresBad: string[] = [];
   score = 0;
   time = 60;
   progressValue = 1;
@@ -55,8 +64,17 @@ export class CoordinatesPage implements OnInit {
   // Options
   color: 'random' | 'white' | 'black' = 'random';
 
+  profile: Profile;
 
-  constructor() { }
+
+  constructor(
+    private store: Store<UIState>,
+
+  ) {
+    this.store.pipe(select(getProfile)).subscribe((profile: Profile) => {
+      this.profile = profile;
+    });
+  }
 
   ngOnInit() {
   }
@@ -83,9 +101,11 @@ export class CoordinatesPage implements OnInit {
           if (this.isPlaying) {
 
             if (event.square === this.currentPuzzle) {
+              this.squaresGood.push(this.currentPuzzle);
               this.nextPuzzle();
             } else {
               this.timeColor = 'danger';
+              this.squaresBad.push(this.currentPuzzle);
             }
 
           }
@@ -122,6 +142,9 @@ export class CoordinatesPage implements OnInit {
     this.currentPuzzle = this.puzzles[0];
     this.time = 60;
     this.score = 0;
+    this.squaresBad = [];
+    this.squaresGood = [];
+
     let orientation: 'w' | 'b' = this.color === 'white' ? 'w' : 'b';
 
     if (this.color === 'random') {
@@ -167,12 +190,29 @@ export class CoordinatesPage implements OnInit {
 
   stopGame() {
     this.unsubscribeIntervalSeconds$.next();
+    this.saveGame();
     this.isPlaying = false;
     this.board.setPosition('empty');
     this.currentPuzzle = '';
     this.progressValue = 1;
     this.timeColor = 'success';
     this.time = 60;
+  }
+
+
+  saveGame() {
+    const gameCoordinates: CoordinatesGame = {
+      uidUser: this.profile?.uid,
+      score: this.score,
+      squaresGood: this.squaresGood,
+      squaresBad: this.squaresBad,
+      date: new Date().getTime(),
+      round: this.puzzles,
+      color: this.board.getOrientation()
+    };
+
+    const action = addCoordinatesGame({ gameCoordinates });
+    this.store.dispatch(action);
   }
 
 }

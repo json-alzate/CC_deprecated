@@ -5,51 +5,7 @@
   <ion-grid>
     <ion-row>
 
-      <ion-col size="3">
-
-        <ion-segment value="pizza">
-          <ion-segment-button value="pizza">
-            <ion-label>Encontrar escaque</ion-label>
-          </ion-segment-button>
-          <ion-segment-button value="pasta">
-            <ion-label>Nombrar escaque</ion-label>
-          </ion-segment-button>
-        </ion-segment>
-
-
-
-        <ion-list class="ion-margin-top">
-          <ion-row>
-            <ion-col size="4">
-              <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
-                (click)="color = 'white'">
-                <ion-icon slot="icon-only" src="assets/images/pieces/wK.svg"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col size="4">
-              <ion-button size="large" expand="block" [color]=" color === 'random' ? 'primary' : 'medium' "
-                (click)="color = 'random'">
-                <ion-icon slot="icon-only" name="shuffle"></ion-icon>
-              </ion-button>
-            </ion-col>
-            <ion-col size="4">
-              <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
-                (click)="color = 'black'">
-                <ion-icon slot="icon-only" src="assets/images/pieces/bK.svg"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-list>
-
-
-
-        <ion-row class="ion-margin-top">
-          <ion-col size="12">
-            <ion-button (click)="play()" expand="block">
-              Jugar
-            </ion-button>
-          </ion-col>
-        </ion-row>
+      <ion-col size="2">
 
 
       </ion-col>
@@ -72,9 +28,74 @@
         </ion-card>
 
       </ion-col>
-      <ion-col size="3" class="ion-hide-lg-down">
-        <h1>{{ score }}</h1>
+
+      <ion-col size="4" class="ion-padding">
+        <div class="ion-padding">
+
+          <ng-container *ngIf="!isPlaying; else elseTemplateIsPlaying">
+
+
+            <ion-segment value="pizza">
+              <ion-segment-button value="pizza">
+                <ion-label>Encontrar escaque</ion-label>
+              </ion-segment-button>
+              <ion-segment-button value="pasta">
+                <ion-label>Nombrar escaque</ion-label>
+              </ion-segment-button>
+            </ion-segment>
+
+
+            <ion-list class="ion-margin-top">
+
+              <ion-row>
+                <ion-col size="4">
+                  <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
+                    (click)="color = 'white'">
+                    <ion-icon slot="icon-only" src="assets/images/pieces/wK.svg"></ion-icon>
+                  </ion-button>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-button size="large" expand="block" [color]=" color === 'random' ? 'primary' : 'medium' "
+                    (click)="color = 'random'" class="ion-no-padding">
+                    <ion-icon slot="icon-only" name="shuffle"></ion-icon>
+                  </ion-button>
+                </ion-col>
+                <ion-col size="4">
+                  <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
+                    (click)="color = 'black'">
+                    <ion-icon slot="icon-only" src="assets/images/pieces/bK.svg"></ion-icon>
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-list>
+
+
+            <ion-row class="ion-margin-top">
+              <ion-col size="12">
+                <ion-button size="large" (click)="play()" expand="block">
+                  Jugar
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
+
+          </ng-container>
+          <ng-template #elseTemplateIsPlaying>
+
+            <div class="div-score-container">
+
+              <ion-text color="medium">
+                <h1>{{ score }}</h1>
+              </ion-text>
+            </div>
+
+
+          </ng-template>
+
+        </div>
       </ion-col>
+
     </ion-row>
   </ion-grid>
+
 </ion-content>

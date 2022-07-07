@@ -28,6 +28,7 @@ import {
 
 // Models
 import { Profile } from '@models/profile.model';
+import { CoordinatesGame } from '@models/coordinates.model';
 
 @Injectable({
   providedIn: 'root'
@@ -144,6 +145,19 @@ export class FirestoreService {
     });
     return docRef.id;
   }
+
+
+  /**
+   // ----------------------------------------------------------------------------
+   Coordinates
+   */
+
+  async addCoordinatesGame(coordinatesGame: CoordinatesGame): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'coordinatesGames'), coordinatesGame);
+    return docRef.id;
+  }
+
+
 
 
 

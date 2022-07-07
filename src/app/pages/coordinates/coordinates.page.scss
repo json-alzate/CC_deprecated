@@ -14,3 +14,13 @@
     color: var(--ion-color-dark);
     text-shadow: 2px 2px var(--ion-color-dark-shade);
 }
+
+.div-score-container {
+    position: relative;
+    h1 {
+        position: absolute;
+        font-size: 5em;
+        top: 10vw;
+        left: 50%;
+    }
+}
