@@ -33,11 +33,18 @@ import {
 export class CoordinatesPage implements OnInit {
 
   letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  number = ['1', '2', '3', '4', '5', '6', '7', '8'];
+  numbers = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
+  isPlaying = false;
   currentPuzzle = '';
+  puzzles: string[] = [];
 
   board;
+
+  // Options
+  color: 'random' | 'white' | 'black' = 'random';
+
+  score = 0;
 
   constructor() { }
 
@@ -50,7 +57,7 @@ export class CoordinatesPage implements OnInit {
 
 
   async loadBoard() {
-    this.board = await new Chessboard(document.getElementById('board1'), {
+    this.board = await new Chessboard(document.getElementById('boardCordinates'), {
       position: 'empty',
       style: {
         showCoordinates: false
@@ -61,7 +68,16 @@ export class CoordinatesPage implements OnInit {
     this.board.enableSquareSelect((event) => {
       switch (event.type) {
         case SQUARE_SELECT_TYPE.primary:
-          console.log(event.square);
+
+          if (this.isPlaying) {
+
+            if (event.square === this.currentPuzzle) {
+              this.nextPuzzle();
+            } else {
+
+            }
+
+          }
 
         // left click
         case SQUARE_SELECT_TYPE.secondary:
@@ -71,6 +87,29 @@ export class CoordinatesPage implements OnInit {
 
 
 
+  }
+
+  generatePuzzles(count = 1): string[] {
+    const puzzles = [];
+
+    for (let i = 0; i < count; i++) {
+      const puzzle = `${this.letters[Math.floor(Math.random() * this.letters.length)]}${this.numbers[Math.floor(Math.random() * this.numbers.length)]}`;
+      puzzles.push(puzzle);
+    }
+
+    return puzzles;
+  }
+
+
+  play() {
+    this.puzzles = this.generatePuzzles(200);
+    this.currentPuzzle = this.puzzles[0];
+    this.isPlaying = true;
+  }
+
+  nextPuzzle() {
+    this.score++;
+    this.currentPuzzle = this.puzzles[this.score];
   }
 
 }
