@@ -1,27 +1,31 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
+
 import { from, merge } from 'rxjs';
 import { catchError, mergeMap } from 'rxjs/operators';
 
-import { addCoordinatesGame } from '@redux/actions/coordinates.actions';
+import { addCoordinatesPuzzles, requestGetCoordinatesPuzzles } from '@redux/actions/coordinates-puzzles.actions';
 
 import { CoordinatesPuzzlesService } from '@services/coordinates-puzzles.service';
 
 @Injectable()
 export class CoordinatesEffects {
 
-    addNewNickName$ = createEffect(() =>
+    requestGetCoordinatesPuzzles$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(addCoordinatesGame),
+            ofType(requestGetCoordinatesPuzzles),
             mergeMap((data) =>
-                from(this.coordinatesPuzzlesService.addGameCoordinates(data.gameCoordinates)).pipe(
-                    mergeMap(() => []),
-                    catchError(() => merge([
-                    ]))
+                from(this.coordinatesPuzzlesService.getCoordinatesPuzzles(data.uidUser)).pipe(
+                    mergeMap((coordinatesPuzzles) => [
+                        addCoordinatesPuzzles({ coordinatesPuzzles })
+                    ]),
+                    catchError(() => merge([]))
                 )
             )
         )
     );
+
+
 
     constructor(
         private actions$: Actions,

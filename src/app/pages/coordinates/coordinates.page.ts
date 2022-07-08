@@ -20,14 +20,14 @@ import { takeUntil } from 'rxjs/operators';
 import { UIState } from '@redux/states/ui.state';
 
 // actions
-import { addCoordinatesGame } from '@redux/actions/coordinates.actions';
+import { addCoordinatesPuzzles } from '@redux/actions/coordinates-puzzles.actions';
 
 // selectors
 import { getProfile } from '@redux/selectors/auth.selectors';
 
 
 // models
-import { CoordinatesGame } from '@models/coordinates.model';
+import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Profile } from '@models/profile.model';
 
 // services
@@ -201,7 +201,7 @@ export class CoordinatesPage implements OnInit {
 
 
   saveGame() {
-    const gameCoordinates: CoordinatesGame = {
+    const gameCoordinates: CoordinatesPuzzle = {
       uidUser: this.profile?.uid,
       score: this.score,
       squaresGood: this.squaresGood,
@@ -211,8 +211,8 @@ export class CoordinatesPage implements OnInit {
       color: this.board.getOrientation()
     };
 
-    const action = addCoordinatesGame({ gameCoordinates });
-    this.store.dispatch(action);
+    // const action = addCoordinatesGame({ gameCoordinates });
+    // this.store.dispatch(action);
   }
 
 }

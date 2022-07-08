@@ -29,18 +29,18 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['', '', '', '', '', '', '', '', ''],
         datasets: [
           {
             label: 'Blancas',
-            data: [42, 19, 3, 5, 2, 3],
+            data: [42, 19, 3, 5, 2, 3, 2, 10, 51, 1],
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
             borderColor: 'rgba(153, 102, 255, 1)',
             borderWidth: 1
           },
           {
             label: 'Negras',
-            data: [12, 9, 13, 25, 22, 13],
+            data: [12, 9, 13, 25, 22, 13, 14, 18, 21],
             backgroundColor: 'rgba(255, 99, 132, 0.2)',
             borderColor: 'rgba(255, 99, 132, 1)',
             borderWidth: 1,

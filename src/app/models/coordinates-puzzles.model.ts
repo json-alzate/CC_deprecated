@@ -1,4 +1,4 @@
-export interface CoordinatesGame {
+export interface CoordinatesPuzzle {
     uid?: string;
     uidUser: string;
     score: number;

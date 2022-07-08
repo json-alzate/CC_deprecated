@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
+import { CoordinatesPuzzlesGuard } from '@guards/coordinates-puzzles.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -10,9 +12,11 @@ const routes: Routes = [
   {
     path: 'home',
     loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
-  },  {
+  },
+  {
     path: 'coordinates',
-    loadChildren: () => import('./pages/coordinates/coordinates.module').then( m => m.CoordinatesPageModule)
+    canActivate: [CoordinatesPuzzlesGuard],
+    loadChildren: () => import('./pages/coordinates/coordinates.module').then(m => m.CoordinatesPageModule)
   }
 
 ];

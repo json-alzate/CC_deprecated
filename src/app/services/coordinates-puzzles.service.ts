@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { CoordinatesGame } from '@models/coordinates.model';
+import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 
 import { FirestoreService } from '@services/firestore.service';
 
@@ -13,7 +13,11 @@ export class CoordinatesPuzzlesService {
     private firestoreService: FirestoreService
   ) { }
 
-  addGameCoordinates(coordinatesGame: CoordinatesGame) {
-    return this.firestoreService.addCoordinatesGame(coordinatesGame);
+  getCoordinatesPuzzles(uidUser: string) {
+    return this.firestoreService.getCoordinatesPuzzles(uidUser);
+  }
+
+  addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle) {
+    return this.firestoreService.addCoordinatesPuzzle(coordinatesPuzzle);
   }
 }
