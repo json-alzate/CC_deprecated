@@ -211,6 +211,7 @@ export class CoordinatesPage implements OnInit {
       color: this.board.getOrientation()
     };
 
+    // FIXME: se esta guardando dos veces en firestore
     const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
     this.store.dispatch(action);
   }
