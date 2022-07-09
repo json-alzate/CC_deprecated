@@ -20,7 +20,7 @@ import { takeUntil } from 'rxjs/operators';
 import { UIState } from '@redux/states/ui.state';
 
 // actions
-import { addCoordinatesPuzzles } from '@redux/actions/coordinates-puzzles.actions';
+import { requestAddOneCoordinatesPuzzle } from '@redux/actions/coordinates-puzzles.actions';
 
 // selectors
 import { getProfile } from '@redux/selectors/auth.selectors';
@@ -201,7 +201,7 @@ export class CoordinatesPage implements OnInit {
 
 
   saveGame() {
-    const gameCoordinates: CoordinatesPuzzle = {
+    const coordinatesPuzzle: CoordinatesPuzzle = {
       uidUser: this.profile?.uid,
       score: this.score,
       squaresGood: this.squaresGood,
@@ -211,8 +211,8 @@ export class CoordinatesPage implements OnInit {
       color: this.board.getOrientation()
     };
 
-    // const action = addCoordinatesGame({ gameCoordinates });
-    // this.store.dispatch(action);
+    const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
+    this.store.dispatch(action);
   }
 
 }
