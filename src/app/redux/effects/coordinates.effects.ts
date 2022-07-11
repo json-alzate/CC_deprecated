@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
 import { from, merge } from 'rxjs';
-import { catchError, mergeMap, map } from 'rxjs/operators';
+import { catchError, mergeMap, map, switchMap } from 'rxjs/operators';
 
 import {
     addCoordinatesPuzzles,
@@ -19,14 +19,13 @@ export class CoordinatesEffects {
     requestGetCoordinatesPuzzles$ = createEffect(() =>
         this.actions$.pipe(
             ofType(requestGetCoordinatesPuzzles),
-            mergeMap((data) =>
-                from(this.coordinatesPuzzlesService.getCoordinatesPuzzles(data.uidUser)).pipe(
+            switchMap(({ uidUser }) =>
+                this.coordinatesPuzzlesService.getCoordinatesPuzzles(uidUser).pipe(
                     mergeMap((coordinatesPuzzles) => [
                         addCoordinatesPuzzles({ coordinatesPuzzles })
-                    ]),
-                    catchError(() => merge([]))
-                )
-            )
+
+                    ])
+                ))
         )
     );
 

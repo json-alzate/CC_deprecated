@@ -58,8 +58,6 @@ export class CoordinatesPuzzlesGuard implements CanActivate {
 
 
   private requestLoadCoordinatesPuzzles(uidUser: string) {
-    console.log('llamar');
-    // FIXME: se esta llamando dos a firestore por los juegos
     const action = requestGetCoordinatesPuzzles({ uidUser });
     this.store.dispatch(action);
   }
