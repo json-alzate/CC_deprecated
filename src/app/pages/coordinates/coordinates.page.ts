@@ -2,6 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
+import { AlertController } from '@ionic/angular';
+
 import {
   COLOR,
   INPUT_EVENT_TYPE,
@@ -69,6 +71,7 @@ export class CoordinatesPage implements OnInit {
 
   constructor(
     private store: Store<UIState>,
+    private alertController: AlertController
 
   ) {
     this.store.pipe(select(getProfile)).subscribe((profile: Profile) => {
@@ -190,6 +193,7 @@ export class CoordinatesPage implements OnInit {
 
   stopGame() {
     this.unsubscribeIntervalSeconds$.next();
+    this.presentAlertScore();
     this.saveGame();
     this.isPlaying = false;
     this.board.setPosition('empty');
@@ -211,9 +215,22 @@ export class CoordinatesPage implements OnInit {
       color: this.board.getOrientation()
     };
 
-    // FIXME: se esta guardando dos veces en firestore
     const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
     this.store.dispatch(action);
   }
+
+
+  async presentAlertScore() {
+    const alert = await this.alertController.create({
+      header: 'Tu puntuación',
+      subHeader: `${this.score}`,
+      cssClass: 'alert-score',
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+
 
 }

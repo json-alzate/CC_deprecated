@@ -20,8 +20,7 @@ export class CoordinatesPuzzlesService {
 
   }
 
-  addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle) {
-    // TODO: modificar por un observable
-    return this.firestoreService.addCoordinatesPuzzle(coordinatesPuzzle);
+  addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Observable<string> {
+    return from<Promise<string>>(this.firestoreService.addCoordinatesPuzzle(coordinatesPuzzle));
   }
 }

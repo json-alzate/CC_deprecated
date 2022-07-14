@@ -153,8 +153,6 @@ export class FirestoreService {
    */
 
   async getCoordinatesPuzzles(uidUser: string): Promise<CoordinatesPuzzle[]> {
-    console.log('call service');
-
     const coordinatesPuzzlesToReturn: CoordinatesPuzzle[] = [];
     const q = query(
       collection(this.db, 'coordinatesPuzzles'),

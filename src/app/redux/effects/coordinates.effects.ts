@@ -32,11 +32,14 @@ export class CoordinatesEffects {
     requestAddOneCoordinatesPuzzle$ = createEffect(() =>
         this.actions$.pipe(
             ofType(requestAddOneCoordinatesPuzzle),
-            mergeMap((data) =>
-                from(this.coordinatesPuzzlesService.addCoordinatesPuzzle(data.coordinatesPuzzle)).pipe(
 
-                    map(docId => addOneCoordinatesPuzzle({ coordinatesPuzzle: { ...data.coordinatesPuzzle, uid: docId } }))
+            switchMap((data) =>
 
+                this.coordinatesPuzzlesService.addCoordinatesPuzzle(data.coordinatesPuzzle).pipe(
+                    mergeMap((docId) => [
+                        addOneCoordinatesPuzzle({ coordinatesPuzzle: { ...data.coordinatesPuzzle, uid: docId } })
+
+                    ])
                 )
             )
         )

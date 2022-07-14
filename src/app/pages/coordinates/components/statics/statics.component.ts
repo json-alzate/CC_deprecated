@@ -44,8 +44,6 @@ export class StaticsComponent implements OnInit, AfterViewInit {
   ngOnInit() { }
 
   ngAfterViewInit() {
-    console.log('entra');
-
     this.lineChartMethod();
   }
 
@@ -75,7 +73,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
       },
       options: {
         responsive: true
-      },
+      }
     });
 
     this.store.pipe(
@@ -98,17 +96,6 @@ export class StaticsComponent implements OnInit, AfterViewInit {
         dataForB.push(coordinatesPuzzle.score);
       }
     }
-
-    const indexW = dataForW.length;
-    for (let i = indexW; i < 20; i++) {
-      dataForW.push(0);
-    }
-    const indexB = dataForW.length;
-    for (let i = indexB; i < 20; i++) {
-      dataForB.push(0);
-    }
-
-    console.log('dataForW ', dataForW);
 
     // arreglos con posiciones y en orden inverso (el ultimo juego este en primer lugar en el arreglo)
     for (const dataset of this.lineChart.data.datasets) {

@@ -68,3 +68,17 @@ ion-segment-button {
     width: 3px;
     height: 3px;
 }
+
+// alerts
+
+.alert-score {
+    .alert-title {
+        text-align: center;
+        font-size: 1em;
+    }
+
+    .alert-sub-title {
+        text-align: center;
+        font-size: 3em;
+    }
+}
