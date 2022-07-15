@@ -65,6 +65,11 @@ export class CoordinatesPage implements OnInit {
 
   // Options
   color: 'random' | 'white' | 'black' = 'random';
+  showCoordinates = false;
+  showPieces = false;
+  randomPosition = false;
+  currentFenInBoard = 'empty';
+  currentColorInBoard: 'white' | 'black' = 'white';
 
   profile: Profile;
 
@@ -87,11 +92,11 @@ export class CoordinatesPage implements OnInit {
   }
 
 
-  async loadBoard() {
+  async loadBoard(showCoordinates = false, position = 'empty') {
     this.board = await new Chessboard(document.getElementById('boardCordinates'), {
-      position: 'empty',
+      position,
       style: {
-        showCoordinates: false,
+        showCoordinates,
         borderType: BORDER_TYPE.thin
       },
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
@@ -119,15 +124,37 @@ export class CoordinatesPage implements OnInit {
       }
     })
 
-
-
   }
 
   changeOrientation(orientation?: 'w' | 'b') {
     this.board.setOrientation(orientation);
   }
 
+  toggleBoardCoordinates() {
+    this.showCoordinates = !this.showCoordinates;
+    this.board.destroy();
+    this.loadBoard(this.showCoordinates, this.currentFenInBoard);
+  }
 
+  toggleShowPieces() {
+    this.showPieces = !this.showPieces;
+    let fenToSet = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'; // Inicial
+
+    if (this.showPieces) {
+      this.currentFenInBoard = fenToSet;
+    } else {
+      this.currentFenInBoard = 'empty';
+    }
+
+    this.board.setPosition(this.currentFenInBoard);
+
+  }
+
+
+  /**
+   * Generar escaques puzzles
+   * @count = 1
+   */
   generatePuzzles(count = 1): string[] {
     const puzzles = [];
 
@@ -154,11 +181,11 @@ export class CoordinatesPage implements OnInit {
       orientation = Math.random() < 0.5 ? 'w' : 'b';
     }
 
+    this.currentColorInBoard = orientation === 'w' ? 'white' : 'black';
     this.changeOrientation(orientation);
 
     this.isPlaying = true;
     this.initInterval();
-    this.board.setPosition('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
   }
 
 
