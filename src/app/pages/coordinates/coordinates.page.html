@@ -64,10 +64,10 @@
                       Piezas
                       <ion-icon slot="end" [name]=" showPieces ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
                     </ion-button>
-                    <ion-button (click)="randomPosition = !randomPosition" [disabled]="isPlaying"
+                    <ion-button (click)="toggleRandomPosition()" [disabled]="isPlaying || !showPieces"
                       [color]=" randomPosition ? 'dark' : 'medium'">
                       Posición random
-                      <ion-icon slot="end" [name]=" randomPosition ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
+                      <ion-icon slot="end" [name]=" randomPosition ? 'checkbox-outline' : 'square-outline'"></ion-icon>
                     </ion-button>
                   </ion-buttons>
 

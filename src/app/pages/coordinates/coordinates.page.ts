@@ -13,6 +13,9 @@ import {
   BORDER_TYPE
 } from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
 
+// utils
+import { randomFEN } from '@utils/random-fen';
+
 // rxjs
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -85,6 +88,7 @@ export class CoordinatesPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log('random fen ', randomFEN());
   }
 
   ionViewDidEnter() {
@@ -141,13 +145,26 @@ export class CoordinatesPage implements OnInit {
     let fenToSet = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'; // Inicial
 
     if (this.showPieces) {
-      this.currentFenInBoard = fenToSet;
+      if (this.randomPosition) {
+        this.currentFenInBoard = randomFEN();
+      } else {
+        this.currentFenInBoard = fenToSet;
+      }
     } else {
       this.currentFenInBoard = 'empty';
     }
 
     this.board.setPosition(this.currentFenInBoard);
 
+  }
+
+  toggleRandomPosition() {
+    this.randomPosition = !this.randomPosition
+    if (this.randomPosition) {
+      this.board.setPosition(randomFEN());
+    } else {
+      this.board.setPosition('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1');
+    }
   }
 
 
@@ -191,7 +208,6 @@ export class CoordinatesPage implements OnInit {
 
   initInterval() {
 
-
     const seconds = interval(1000);
     this.subsSeconds = seconds.pipe(
       takeUntil(this.unsubscribeIntervalSeconds$)
@@ -215,6 +231,11 @@ export class CoordinatesPage implements OnInit {
   nextPuzzle() {
     this.score++;
     this.currentPuzzle = this.puzzles[this.score];
+
+    if (this.randomPosition) {
+      this.board.setPosition(randomFEN());
+    }
+
   }
 
 
@@ -223,7 +244,6 @@ export class CoordinatesPage implements OnInit {
     this.presentAlertScore();
     this.saveGame();
     this.isPlaying = false;
-    this.board.setPosition('empty');
     this.currentPuzzle = '';
     this.progressValue = 1;
     this.timeColor = 'success';

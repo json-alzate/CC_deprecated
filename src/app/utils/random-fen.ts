@@ -1,11 +1,22 @@
-Array.prototype.shuffle = function () {
-    for (let i = this.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1));
-        [this[i], this[j]] = [this[j], this[i]];
+function shuffle(array) {
+    let currentIndex = array.length, randomIndex;
+
+    // While there remain elements to shuffle.
+    while (currentIndex != 0) {
+
+        // Pick a remaining element.
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+
+        // And swap it with the current element.
+        [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex], array[currentIndex]];
     }
+
+    return array;
 }
 
-function randomFEN() {
+export function randomFEN() {
 
     let board = [];
     for (let x = 0; x < 8; x++) board.push('. . . . . . . .'.split(' '));
@@ -36,13 +47,13 @@ function randomFEN() {
     let peaces = [];
     let names = 'PRNBQ';
     function pick() {
-        for (x = 1; x < Math.floor(Math.random() * 32); x++)
+        for (let x = 1; x < Math.floor(Math.random() * 32); x++)
             peaces.push(names[Math.floor(Math.random() * names.length)]);
     }
     pick();
     names = names.toLowerCase();
     pick();
-    peaces.shuffle();
+    peaces = shuffle(peaces);
 
     // place peaces
     while (peaces.length > 0) {
@@ -58,7 +69,7 @@ function randomFEN() {
 
     // write FEN
     let fen = [];
-    for (x = 0; x < board.length; x++) {
+    for (let x = 0; x < board.length; x++) {
         let str = '', buf = 0;
         for (let y = 0; y < board[x].length; y++)
             if (board[x][y] == '.') buf++;
@@ -69,10 +80,26 @@ function randomFEN() {
         if (buf > 0) str += buf;
         fen.push(str);
     }
-    fen = fen.join('/') + ' w - - 0 1';
-    console.table(board); // for demonstrating purpose
-    return fen;
+    // console.table(board); // for demonstrating purpose
+    return fen.join('/') + ' w - - 0 1';
 }
 
 // example
-console.log(randomFEN());
+// console.log(randomFEN());
+
+// output
+/*
+X  0  1  2  3  4  5  6  7
+0  .  .  .  .  Q  .  .  .
+1  .  .  .  .  Q  .  .  .
+2  .  .  .  p  .  .  .  .
+3  .  .  .  .  .  .  .  R
+4  .  r  r  R  .  .  .  .
+5  .  .  P  .  .  .  .  .
+6  .  .  .  .  .  k  .  .
+7  .  .  R  .  .  .  .  K
+4Q3/4Q3/3p4/7R/1rrR4/2P5/5k2/2R4K w - - 0 1
+*/
+
+// Resource:
+// https://rosettacode.org/wiki/Generate_random_chess_position#JavaScript
