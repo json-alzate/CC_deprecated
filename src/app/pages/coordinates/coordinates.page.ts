@@ -55,6 +55,8 @@ export class CoordinatesPage implements OnInit {
   subsSeconds;
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
+  segment: 'toName' | 'find' = 'find';
+
   isPlaying = false;
   currentPuzzle = '';
   puzzles: string[] = [];
