@@ -17,7 +17,11 @@ const routes: Routes = [
     path: 'coordinates',
     canActivate: [CoordinatesPuzzlesGuard],
     loadChildren: () => import('./pages/coordinates/coordinates.module').then(m => m.CoordinatesPageModule)
+  },  {
+    path: 'puzzles',
+    loadChildren: () => import('./pages/puzzles/puzzles.module').then( m => m.PuzzlesPageModule)
   }
+
 
 ];
 
