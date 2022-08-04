@@ -33,6 +33,15 @@
 
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
+    .img-current-king {
+        max-width: 10vw;
+    }
+    .div-score-container {
+        padding-top: 0vh;
+        h1 {
+            font-size: 3em;
+        }
+    }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) {

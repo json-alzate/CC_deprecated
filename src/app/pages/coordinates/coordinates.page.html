@@ -8,7 +8,7 @@
       <ion-col size-sm="12" size-md="12" size-lg="6" size-xl="6" offset-lg="2" offset-xl="2">
 
         <!-- mobile -->
-        <ion-segment *ngIf="!isPlaying" [value]="segment" class="ion-margin-bottom ion-hide-lg-up">
+        <ion-segment [disabled]="isPlaying" [value]="segment" class="ion-margin-bottom ion-hide-lg-up">
           <ion-segment-button value="find">
             <ion-label>Encontrar escaque</ion-label>
           </ion-segment-button>
@@ -131,8 +131,6 @@
         </ng-template>
 
       </ion-col>
-
-
 
     </ion-row>
   </ion-grid>

@@ -90,7 +90,6 @@ export class CoordinatesPage implements OnInit {
   }
 
   ngOnInit() {
-    console.log('random fen ', randomFEN());
   }
 
   ionViewDidEnter() {
