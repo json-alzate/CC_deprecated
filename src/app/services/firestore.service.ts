@@ -28,6 +28,7 @@ import {
 
 // Models
 import { Profile } from '@models/profile.model';
+import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 
 @Injectable({
   providedIn: 'root'
@@ -144,6 +145,37 @@ export class FirestoreService {
     });
     return docRef.id;
   }
+
+
+  /**
+   // ----------------------------------------------------------------------------
+   Coordinates Puzzles
+   */
+
+  async getCoordinatesPuzzles(uidUser: string): Promise<CoordinatesPuzzle[]> {
+    const coordinatesPuzzlesToReturn: CoordinatesPuzzle[] = [];
+    const q = query(
+      collection(this.db, 'coordinatesPuzzles'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const themeToAdd = document.data() as CoordinatesPuzzle;
+      themeToAdd.uid = document.id;
+      coordinatesPuzzlesToReturn.push(themeToAdd);
+    });
+
+    return coordinatesPuzzlesToReturn;
+
+  }
+
+  async addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'coordinatesPuzzles'), coordinatesPuzzle);
+    return docRef.id;
+  }
+
+
 
 
 

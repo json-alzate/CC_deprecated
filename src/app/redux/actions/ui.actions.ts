@@ -10,7 +10,7 @@ export const stopLoading = createAction(
 
 export const addMessageToast = createAction(
     '[UI] addMessageToast',
-    props<{ message: string, status: string }>()
+    props<{ message: string; status: string }>()
 );
 
 export const clearMessageToast = createAction(

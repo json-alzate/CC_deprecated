@@ -26,4 +26,4 @@ export const clearCurrentGame = createAction(
 export const cancelCurrentGame = createAction(
     '[Current-Game] cancelCurrentGame',
     props<{ cancelReason: string }>()
-)
+);

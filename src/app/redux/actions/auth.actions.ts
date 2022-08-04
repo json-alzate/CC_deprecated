@@ -7,12 +7,12 @@ export const requestLoginGoogle = createAction(
 
 export const requestLoginEmail = createAction(
     '[Auth] requestLoginEmail',
-    props<{ email: string, password: string }>()
+    props<{ email: string; password: string }>()
 );
 
 export const requestSingUpEmail = createAction(
     '[Auth] requestSingUpEmail',
-    props<{ email: string, password: string, rePassword: string }>()
+    props<{ email: string; password: string; rePassword: string }>()
 );
 
 export const setErrorLogin = createAction(
@@ -38,7 +38,7 @@ export const requestUpdateProfile = createAction(
 
 export const addNewNickName = createAction(
     '[Auth] addNewNickName',
-    props<{ nickname: string, uidUser: string }>()
+    props<{ nickname: string; uidUser: string }>()
 );
 
 export const logOut = createAction(
