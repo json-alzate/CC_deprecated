@@ -30,8 +30,8 @@ export function randomFEN() {
     }
 
     function isAdjacent(pos1, pos2) {
-        if (pos1[0] == pos2[0] || pos1[0] == pos2[0] - 1 || pos1[0] == pos2[0] + 1)
-            if (pos1[1] == pos2[1] || pos1[1] == pos2[1] - 1 || pos1[1] == pos2[1] + 1)
+        if (pos1[0] === pos2[0] || pos1[0] === pos2[0] - 1 || pos1[0] === pos2[0] + 1)
+            if (pos1[1] === pos2[1] || pos1[1] === pos2[1] - 1 || pos1[1] === pos2[1] + 1)
                 return true;
         return false;
     }

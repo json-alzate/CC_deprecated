@@ -15,7 +15,7 @@ import {
 
 
 import { AuthService } from '@services/auth.service';
-import { ProfileService } from '@services/profile.service'
+import { ProfileService } from '@services/profile.service';
 
 @Injectable()
 export class AuthEffects {
