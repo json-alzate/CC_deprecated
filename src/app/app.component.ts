@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
-import { ModalController, Platform, isPlatform } from '@ionic/angular';
+import { ModalController, Platform, isPlatform, NavController } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Socket } from 'ngx-socket-io';
@@ -61,7 +61,8 @@ export class AppComponent {
     private socket: Socket,
     private store: Store<AuthState>,
     private fcmService: FcmService,
-    private toolsService: ToolsService
+    private toolsService: ToolsService,
+    private navController: NavController
   ) {
 
     this.initApp();
@@ -124,6 +125,11 @@ export class AppComponent {
       componentProps: { showAs: 'modal' },
     });
     await modal.present();
+  }
+
+
+  goTo(path) {
+    this.navController.navigateForward(path);
   }
 
 }
