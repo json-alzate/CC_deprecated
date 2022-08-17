@@ -59,11 +59,10 @@ export class TrainingComponent implements OnInit {
   }
 
 
-  async loadBoard(showCoordinates = false, position = 'empty') {
+  async loadBoard() {
     this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
       position: this.puzzleToResolve.fen,
       style: {
-        showCoordinates,
         borderType: BORDER_TYPE.thin
       },
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
