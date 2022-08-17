@@ -1,12 +1,73 @@
 <app-header-bar></app-header-bar>
 
 <ion-content>
-  <ion-card class="ion-no-margin ion-no-padding">
 
-    <ion-card-content class="ion-no-margin ion-no-padding">
-      <div class="board" id="boardPuzzle">
-      </div>
-    </ion-card-content>
-  </ion-card>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6" offset-lg="2" offset-xl="2">
+
+        <ion-card class="ion-no-margin ion-no-padding">
+
+          <ion-card-content class="ion-no-margin ion-no-padding">
+            <div class="board" id="boardPuzzle">
+            </div>
+            <h1>{{ time }}</h1>
+          </ion-card-content>
+          <ion-progress-bar [color]="timeColor" buffer></ion-progress-bar>
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
+        <ion-item>
+          <ion-icon slot="start" src="assets/images/pieces/wK.svg"></ion-icon>
+          <ion-label color="medium">Juegan las blancas...</ion-label>
+
+          <div slot="end">
+            2586
+          </div>
+        </ion-item>
+
+        <ion-item-divider>
+          <ion-label style="width: 100%;">
+            <ion-text color="success">
+              <h1 class="ion-text-center">
+                2456
+                <ion-icon slot="end" name="arrow-up-outline"></ion-icon>
+              </h1>
+            </ion-text>
+          </ion-label>
+        </ion-item-divider>
+
+        <ion-row>
+          <ion-col size="12">
+
+            <ion-button *ngIf="!allowNextPuzzle" size="small" expand="block" fill="clear">
+              ver la solución
+            </ion-button>
+
+            <ion-button *ngIf="allowNextPuzzle" size="large" expand="block">
+              Continuar
+            </ion-button>
+
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+          <ion-col size="12">
+            <app-statics></app-statics>
+          </ion-col>
+        </ion-row>
+
+
+
+      </ion-col>
+    </ion-row>
+
+
+
+  </ion-grid>
+
 
 </ion-content>

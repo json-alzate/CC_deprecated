@@ -33,7 +33,13 @@ import { Puzzle } from '@models/puzzle.model';
 })
 export class TrainingComponent implements OnInit {
 
+  // timer
+  time = 60;
+  timeColor = 'success';
+
   board;
+
+  allowNextPuzzle = false;
 
   // TODO: only for test
   puzzleToResolve: Puzzle = {
