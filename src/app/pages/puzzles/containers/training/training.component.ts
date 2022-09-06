@@ -9,6 +9,8 @@ import {
   Chessboard,
   BORDER_TYPE
 } from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
+import Chess from 'chess.js';
+import { createUid } from '@utils/create-uid';
 
 // rxjs
 
@@ -38,6 +40,7 @@ export class TrainingComponent implements OnInit {
   timeColor = 'success';
 
   board;
+  chessInstance = new Chess();
 
   allowNextPuzzle = false;
 
@@ -66,6 +69,7 @@ export class TrainingComponent implements OnInit {
 
 
   async loadBoard() {
+    this.chessInstance.load(this.puzzleToResolve.fen);
     this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
       position: this.puzzleToResolve.fen,
       style: {
@@ -74,19 +78,51 @@ export class TrainingComponent implements OnInit {
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
 
-    this.board.enableSquareSelect((event) => {
+
+    this.board.enableMoveInput((event) => {
+      // handle user input here
       switch (event.type) {
-        case SQUARE_SELECT_TYPE.primary:
+        case INPUT_EVENT_TYPE.moveStart:
+          // console.log(`moveStart: ${event.square}`);
+          // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+          return true;
+        case INPUT_EVENT_TYPE.moveDone:
 
-          break;
 
-        // left click
-        case SQUARE_SELECT_TYPE.secondary:
-          // right click
 
-          break;
+          const objectMove = { from: event.squareFrom, to: event.squareTo };
+          const theMove = this.chessInstance.move(objectMove);
+
+          console.log(theMove);
+
+          if (theMove) {
+
+            console.log('san', theMove.san);
+
+
+            // const newMoveToSend: Move = {
+            //   uid: createUid(),
+            //   uidGame: this.currentGameState.game.uid,
+            //   uidUser: this.profile.uid,
+            //   from: event.squareFrom,
+            //   to: event.squareTo,
+            //   fen: this.chessInstance.fen(),
+            //   color: theMove.color,
+            //   piece: theMove.piece,
+            //   sean: theMove.san,
+            //   createAt: new Date().getTime()
+
+            // };
+            // console.log('newMoveToSend ', newMoveToSend);
+
+          }
+          // return true, if input is accepted/valid, `false` takes the move back
+          return theMove;
+        case INPUT_EVENT_TYPE.moveCanceled:
+          console.log('moveCanceled ', this.chessInstance.pgn());
       }
     });
+
 
   }
 

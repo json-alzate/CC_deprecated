@@ -46,7 +46,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: new Array(50).fill(''), // genera '' * 50
+        labels: new Array(20).fill(''), // genera '' * 50
         datasets: [
           {
             label: '',
