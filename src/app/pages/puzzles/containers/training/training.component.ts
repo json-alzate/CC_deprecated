@@ -44,6 +44,9 @@ export class TrainingComponent implements OnInit {
 
   allowNextPuzzle = false;
 
+  solution: string[] = ['e8d7', 'a2e6', 'd7d8', 'f7f8'];
+  moveNumber = 0;
+
   // TODO: only for test
   puzzleToResolve: Puzzle = {
     uid: '00sHx',
@@ -88,32 +91,21 @@ export class TrainingComponent implements OnInit {
           return true;
         case INPUT_EVENT_TYPE.moveDone:
 
-
-
           const objectMove = { from: event.squareFrom, to: event.squareTo };
           const theMove = this.chessInstance.move(objectMove);
 
-          console.log(theMove);
-
           if (theMove) {
 
-            console.log('san', theMove.san);
+            const moveToEvaluate = `${theMove.from}${theMove.to}`;
+            console.log('moveToEvaluate ', theMove, moveToEvaluate, this.solution[this.moveNumber]);
+            if (moveToEvaluate === this.solution[this.moveNumber]) {
+              console.log('correct!!!');
+              this.moveNumber++;
+              this.puzzleMoveResponse(this.moveNumber);
+            } else {
+              console.log('Wrong');
 
-
-            // const newMoveToSend: Move = {
-            //   uid: createUid(),
-            //   uidGame: this.currentGameState.game.uid,
-            //   uidUser: this.profile.uid,
-            //   from: event.squareFrom,
-            //   to: event.squareTo,
-            //   fen: this.chessInstance.fen(),
-            //   color: theMove.color,
-            //   piece: theMove.piece,
-            //   sean: theMove.san,
-            //   createAt: new Date().getTime()
-
-            // };
-            // console.log('newMoveToSend ', newMoveToSend);
+            }
 
           }
           // return true, if input is accepted/valid, `false` takes the move back
@@ -124,6 +116,21 @@ export class TrainingComponent implements OnInit {
     });
 
 
+  }
+
+  /**
+   * Reacciona con el siguiente movimiento en el puzzle, cuando el usuario realiza una jugada correcta
+   * React with the following movement in the puzzle, when the user makes a correct move
+   *
+   * @param moveNumber: number
+   */
+  async puzzleMoveResponse(moveNumber: number) {
+    const move = this.chessInstance.move(this.solution[moveNumber], { sloppy: true });
+    console.log('mode next ', move, this.solution[moveNumber]);
+
+    const fen = this.chessInstance.fen();
+    await this.board.setPosition(fen, true);
+    this.moveNumber++;
   }
 
 
