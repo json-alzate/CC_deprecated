@@ -47,6 +47,11 @@ export class TrainingComponent implements OnInit {
   solution: string[] = ['e8d7', 'a2e6', 'd7d8', 'f7f8'];
   moveNumber = 0;
 
+  // puzzle status and info for user
+  puzzleColor: 'b' | 'w' = 'w';
+  puzzleStatus: 'start' | 'wrong' | 'good' = 'start';
+  isPuzzleCompleted = false;
+
   // TODO: only for test
   puzzleToResolve: Puzzle = {
     uid: '00sHx',
@@ -73,6 +78,8 @@ export class TrainingComponent implements OnInit {
 
   async loadBoard() {
     this.chessInstance.load(this.puzzleToResolve.fen);
+    this.puzzleColor = this.chessInstance.turn();
+
     this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
       position: this.puzzleToResolve.fen,
       style: {
@@ -80,6 +87,8 @@ export class TrainingComponent implements OnInit {
       },
       sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
+
+
 
 
     this.board.enableMoveInput((event) => {
@@ -100,11 +109,13 @@ export class TrainingComponent implements OnInit {
             console.log('moveToEvaluate ', theMove, moveToEvaluate, this.solution[this.moveNumber]);
             if (moveToEvaluate === this.solution[this.moveNumber]) {
               console.log('correct!!!');
+              this.puzzleStatus = 'good';
               this.moveNumber++;
               this.puzzleMoveResponse(this.moveNumber);
             } else {
               console.log('Wrong');
-
+              this.puzzleStatus = 'wrong';
+              this.isPuzzleCompleted = true;
             }
 
           }
@@ -131,6 +142,9 @@ export class TrainingComponent implements OnInit {
     const fen = this.chessInstance.fen();
     await this.board.setPosition(fen, true);
     this.moveNumber++;
+    if (this.moveNumber === this.solution.length) {
+      this.isPuzzleCompleted = true;
+    }
   }
 
 

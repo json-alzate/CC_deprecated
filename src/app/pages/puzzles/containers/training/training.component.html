@@ -20,9 +20,28 @@
 
       <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
         <ion-item>
-          <ion-icon slot="start" src="assets/images/pieces/wK.svg"></ion-icon>
-          <ion-icon color="success" name="checkmark-outline"></ion-icon>
-          <ion-label>Continua...</ion-label>
+
+          <ion-icon slot="start" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
+
+          <ion-label>
+            <span [ngSwitch]="puzzleStatus">
+              <span *ngSwitchCase="'start'">
+                <p>
+                  Juegan las {{ puzzleColor === 'b' ? 'negras' : 'blancas' }}
+                </p>
+              </span>
+              <span *ngSwitchCase="'good'">
+                Continua...
+              </span>
+              <span *ngSwitchCase="'wrong'">
+                ups!, no es
+              </span>
+            </span>
+          </ion-label>
+
+          <ion-icon *ngIf="puzzleStatus === 'good'" slot="end" color="success" name="checkmark-circle-outline">
+          </ion-icon>
+          <ion-icon *ngIf="puzzleStatus === 'wrong'" slot="end" color="danger" name="close-circle-outline"></ion-icon>
 
           <div slot="end">
             2586
@@ -34,7 +53,8 @@
             <ion-text color="success">
               <h1 class="ion-text-center">
                 2456
-                <ion-icon slot="end" name="arrow-up-outline"></ion-icon>
+                <ion-icon *ngIf="isPuzzleCompleted && puzzleStatus === 'good'" slot="end" name="arrow-up-outline">
+                </ion-icon>
               </h1>
             </ion-text>
           </ion-label>
