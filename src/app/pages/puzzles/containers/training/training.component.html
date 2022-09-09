@@ -1,17 +1,41 @@
+<!-- 
+  TODO: Adicionar input en header para poner el score de puzzle al final (end) con color verde o rojo
+  <ion-icon *ngIf="isPuzzleCompleted && puzzleStatus === 'good'" slot="end" name="arrow-up-outline">
+  </ion-icon>
+
+  no se puede hacer por el diseño del componente web
+
+-->
+
+
+
 <app-header-bar></app-header-bar>
 
 <ion-content>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6" offset-lg="2" offset-xl="2">
+  <ion-grid class="ion-no-padding ion-no-marging">
+    <ion-row class="ion-no-padding ion-no-marging">
+      <ion-col class="ion-no-padding ion-no-marging" size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6"
+        offset-lg="2" offset-xl="2">
 
         <ion-card class="ion-no-margin ion-no-padding">
 
           <ion-card-content class="ion-no-margin ion-no-padding">
             <div class="board" id="boardPuzzle">
             </div>
-            <h1>{{ time }}</h1>
+
+            <ion-item>
+              <ion-label>{{ time }}</ion-label>
+              <ion-buttons slot="end">
+                <ion-button fill="clear" [disabled]="!allowNextPuzzle">
+                  <ion-icon slot="icon-only" name="return-up-back-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" [disabled]="!allowNextPuzzle">
+                  <ion-icon slot="icon-only" name="return-up-forward-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+
           </ion-card-content>
           <ion-progress-bar [color]="timeColor" buffer></ion-progress-bar>
         </ion-card>
@@ -19,16 +43,12 @@
       </ion-col>
 
       <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
-        <ion-item>
-
-          <ion-icon slot="start" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
-
+        <ion-item class="item-puzzle-info">
+          <ion-icon style="font-size: 3em;" slot="start" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
           <ion-label>
             <span [ngSwitch]="puzzleStatus">
               <span *ngSwitchCase="'start'">
-                <p>
-                  Juegan las {{ puzzleColor === 'b' ? 'negras' : 'blancas' }}
-                </p>
+                Juegan las {{ puzzleColor === 'b' ? 'negras' : 'blancas' }}
               </span>
               <span *ngSwitchCase="'good'">
                 Continua...
@@ -38,48 +58,51 @@
               </span>
             </span>
           </ion-label>
-
           <ion-icon *ngIf="puzzleStatus === 'good'" slot="end" color="success" name="checkmark-circle-outline">
           </ion-icon>
+
+          <ion-button slot="end" clear *ngIf="puzzleStatus === 'wrong'">
+            Reintentar
+          </ion-button>
           <ion-icon *ngIf="puzzleStatus === 'wrong'" slot="end" color="danger" name="close-circle-outline"></ion-icon>
 
-          <div slot="end">
-            2586
-          </div>
         </ion-item>
 
-        <ion-item-divider>
-          <ion-label style="width: 100%;">
-            <ion-text color="success">
-              <h1 class="ion-text-center">
-                2456
-                <ion-icon *ngIf="isPuzzleCompleted && puzzleStatus === 'good'" slot="end" name="arrow-up-outline">
-                </ion-icon>
-              </h1>
-            </ion-text>
-          </ion-label>
-        </ion-item-divider>
 
         <ion-row>
+
+          <ion-col *ngIf="allowNextPuzzle" size="12" class="ion-margin-vertical">
+            <ion-text>
+              <h1 style="margin:0;" class="ion-text-center">
+                2456 <ion-icon color="success" name="trending-up-outline"></ion-icon>
+              </h1>
+            </ion-text>
+            <ion-text color="success">
+              <h6 style="margin:0;" class="ion-text-center">
+                +15
+              </h6>
+            </ion-text>
+
+          </ion-col>
+
           <ion-col size="12">
 
-            <ion-button *ngIf="!allowNextPuzzle" size="small" expand="block" fill="clear">
-              ver la solución
+            <ion-button *ngIf="!allowNextPuzzle" size="large" expand="block" fill="clear">
+              Ver la solución
             </ion-button>
-
             <ion-button *ngIf="allowNextPuzzle" size="large" expand="block">
-              Continuar
+              Continuar entrenamiento
             </ion-button>
 
           </ion-col>
 
         </ion-row>
 
-        <ion-row>
+        <!-- <ion-row class="ion=margin-top">
           <ion-col size="12">
             <app-statics></app-statics>
           </ion-col>
-        </ion-row>
+        </ion-row> -->
 
 
 

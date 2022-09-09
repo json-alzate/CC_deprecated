@@ -42,7 +42,7 @@ export class TrainingComponent implements OnInit {
   board;
   chessInstance = new Chess();
 
-  allowNextPuzzle = false;
+  allowNextPuzzle = true;
 
   solution: string[] = ['e8d7', 'a2e6', 'd7d8', 'f7f8'];
   moveNumber = 0;
