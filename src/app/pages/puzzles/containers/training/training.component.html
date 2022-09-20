@@ -27,11 +27,21 @@
             <ion-item>
               <ion-label>{{ time }}</ion-label>
               <ion-buttons slot="end">
-                <ion-button fill="clear" [disabled]="!allowNextPuzzle">
-                  <ion-icon slot="icon-only" name="return-up-back-outline"></ion-icon>
+                <ion-button fill="clear" (click)="turnRoundBoard()">
+                  <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="clear" [disabled]="!allowNextPuzzle">
-                  <ion-icon slot="icon-only" name="return-up-forward-outline"></ion-icon>
+                <ion-button fill="clear" [disabled]="!allowNextPuzzle || !uiSet.allowBackMove" (click)="starPosition()">
+                  <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" [disabled]="!allowNextPuzzle  || !uiSet.allowBackMove" (click)="backMove()">
+                  <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
+                </ion-button>
+
+                <ion-button fill="clear" [disabled]="!allowNextPuzzle || !uiSet.allowNextMove" (click)="nextMove()">
+                  <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" [disabled]="!allowNextPuzzle || !uiSet.allowNextMove" (click)="moveToEnd()">
+                  <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
                 </ion-button>
               </ion-buttons>
             </ion-item>
@@ -56,6 +66,9 @@
               <span *ngSwitchCase="'wrong'">
                 ups!, no es
               </span>
+              <span *ngSwitchCase="'finished'">
+                Bien!
+              </span>
             </span>
           </ion-label>
           <ion-icon *ngIf="puzzleStatus === 'good'" slot="end" color="success" name="checkmark-circle-outline">
@@ -74,23 +87,29 @@
           <ion-col *ngIf="allowNextPuzzle" size="12" class="ion-margin-vertical">
             <ion-text>
               <h1 style="margin:0;" class="ion-text-center">
-                2456 <ion-icon color="success" name="trending-up-outline"></ion-icon>
+                2456
+                <ion-icon *ngIf="puzzleStatus === 'finished'" color="success" name="trending-up-outline">
+                </ion-icon>
+                <ion-icon *ngIf="puzzleStatus === 'showSolution'  || puzzleStatus === 'wrong'" color="danger"
+                  name="trending-down-outline">
+                </ion-icon>
               </h1>
             </ion-text>
-            <ion-text color="success">
-              <h6 style="margin:0;" class="ion-text-center">
-                +15
-              </h6>
+            <ion-text *ngIf="puzzleStatus === 'finished'" color="success">
+              <h6 style="margin:0;" class="ion-text-center">+15</h6>
+            </ion-text>
+            <ion-text *ngIf="puzzleStatus === 'showSolution'  || puzzleStatus === 'wrong'" color="danger">
+              <h6 style="margin:0;" class="ion-text-center">-15</h6>
             </ion-text>
 
           </ion-col>
 
           <ion-col size="12">
 
-            <ion-button *ngIf="!allowNextPuzzle" size="large" expand="block" fill="clear">
+            <ion-button *ngIf="!allowNextPuzzle" size="small" expand="block" fill="clear" (click)="showSolution()">
               Ver la solución
             </ion-button>
-            <ion-button *ngIf="allowNextPuzzle" size="large" expand="block">
+            <ion-button *ngIf="allowNextPuzzle" size="large" expand="block" (click)="nextPuzzle()">
               Continuar entrenamiento
             </ion-button>
 
