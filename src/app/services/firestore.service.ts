@@ -29,6 +29,7 @@ import {
 // Models
 import { Profile } from '@models/profile.model';
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
+import { Puzzle } from '@models/puzzle.model';
 
 @Injectable({
   providedIn: 'root'
@@ -104,7 +105,8 @@ export class FirestoreService {
 
   /**
    * Crea un nuevo perfil
-   * @param profile 
+   *
+   * @param profile
    * @returns Promise<void>
    */
   createProfile(profile: Profile) {
@@ -112,10 +114,10 @@ export class FirestoreService {
   }
 
   /**
- * Update a User in firestore
- *
- * @param changes Partial<User>
- */
+   * Update a User in firestore
+   *
+   * @param changes Partial<User>
+   */
   async updateProfile(changes: Partial<Profile>): Promise<void> {
     return updateDoc(this.profileDocRef, changes);
   }
@@ -176,6 +178,12 @@ export class FirestoreService {
   }
 
 
+  //------- Admin only
+
+  async adminAddNewPuzzle(puzzleToAdd: Puzzle): Promise<string> {
+    await setDoc(doc(this.db, 'puzzles', puzzleToAdd.uid), puzzleToAdd);
+    return puzzleToAdd.uid;
+  }
 
 
 

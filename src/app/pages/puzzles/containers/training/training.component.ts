@@ -292,6 +292,7 @@ export class TrainingComponent implements OnInit {
     if (this.uiSet.currentMoveNumber < this.fenSolution.length - 1) {
       this.uiSet.allowNextMove = true;
     }
+    this.nextMove();
     this.stopTimer();
   }
 
