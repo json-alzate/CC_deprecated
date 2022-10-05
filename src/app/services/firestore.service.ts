@@ -22,7 +22,8 @@ import {
   disableNetwork,
   enableNetwork,
   collection, query, where, getDocs,
-  increment
+  increment,
+  limit
 } from 'firebase/firestore';
 
 
@@ -175,6 +176,33 @@ export class FirestoreService {
   async addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Promise<string> {
     const docRef = await addDoc(collection(this.db, 'coordinatesPuzzles'), coordinatesPuzzle);
     return docRef.id;
+  }
+
+
+
+  /**
+   // ----------------------------------------------------------------------------
+    Puzzles
+   */
+
+  async getRandomPuzzlesByElo(eloStart: number, eloEnd: number, lim: number) {
+
+    const puzzlesToReturn: Puzzle[] = [];
+    const q = query(
+      collection(this.db, 'puzzles'),
+      where('rating', '>=', eloStart),
+      where('rating', '<=', eloEnd),
+      limit(lim)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const puzzleToAdd = document.data() as Puzzle;
+      puzzleToAdd.uid = document.id;
+      puzzlesToReturn.push(puzzleToAdd);
+    });
+
+    return puzzlesToReturn;
   }
 
 

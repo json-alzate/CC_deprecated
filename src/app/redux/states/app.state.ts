@@ -10,6 +10,7 @@ import { AuthState } from './auth.state';
 import { CurrentGameState } from './current-game.state';
 import { MovesState } from './moves.state';
 import { CoordinatesPuzzlesState } from './coordinates-puzzles.state';
+import { PuzzlesState } from './puzzles.state';
 
 
 
@@ -18,6 +19,7 @@ export interface AppState {
   auth: AuthState;
   router: RouterReducerState<RouterStateUrl>;
   currentGame: CurrentGameState;
-  moves: MovesState
-  coordinatesPuzzles: CoordinatesPuzzlesState
+  moves: MovesState;
+  coordinatesPuzzles: CoordinatesPuzzlesState;
+  puzzles: PuzzlesState;
 }

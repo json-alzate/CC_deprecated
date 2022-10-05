@@ -16,6 +16,11 @@ export class PuzzlesService {
   ) { }
 
 
+  getPuzzles(eloStart: number, eloEnd: number, limit: number) {
+
+  }
+
+
   getPuzzlesToUpload() {
     this.http.get('/assets/data/puzzlesToUpload.csv', { responseType: 'text' }).subscribe(puzzles => {
       // console.log(puzzles);

@@ -34,6 +34,7 @@ interface UISettings {
 }
 
 // services
+import { FirestoreService } from '@services/firestore.service';
 
 // components
 
@@ -75,12 +76,27 @@ export class TrainingComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
-  constructor() { this.loadPuzzle(); }
+  constructor(
+    private firestoreService: FirestoreService
+  ) {
+    this.getPuzzleFromFirestore();
+    this.loadPuzzle();
+  }
 
   ngOnInit() { }
 
   ionViewDidEnter() {
     this.loadBoard();
+  }
+
+  getPuzzleFromFirestore() {
+    this.firestoreService.getRandomPuzzlesByElo(1500, 1800, 2).then((result) => {
+      console.log('result ', result);
+
+    }).catch((err) => {
+      console.log('errr ', err);
+
+    });
   }
 
   loadPuzzle() {
