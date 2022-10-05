@@ -185,14 +185,14 @@ export class FirestoreService {
     Puzzles
    */
 
-  async getRandomPuzzlesByElo(eloStart: number, eloEnd: number, lim: number) {
+  async getPuzzlesByElo(eloStart: number, eloEnd: number) {
 
     const puzzlesToReturn: Puzzle[] = [];
     const q = query(
       collection(this.db, 'puzzles'),
       where('rating', '>=', eloStart),
       where('rating', '<=', eloEnd),
-      limit(lim)
+      limit(200)
     );
     const querySnapshot = await getDocs(q);
 

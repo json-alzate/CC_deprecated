@@ -16,8 +16,8 @@ export class PuzzlesService {
   ) { }
 
 
-  getPuzzles(eloStart: number, eloEnd: number, limit: number) {
-
+  getPuzzles(eloStart: number, eloEnd: number) {
+    return this.firestoreService.getPuzzlesByElo(eloStart, eloEnd);
   }
 
 

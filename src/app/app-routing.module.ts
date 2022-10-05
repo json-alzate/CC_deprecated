@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 import { CoordinatesPuzzlesGuard } from '@guards/coordinates-puzzles.guard';
+import { PuzzlesGuard } from '@guards/puzzles.guard';
 
 const routes: Routes = [
   {
@@ -17,9 +18,11 @@ const routes: Routes = [
     path: 'coordinates',
     canActivate: [CoordinatesPuzzlesGuard],
     loadChildren: () => import('./pages/coordinates/coordinates.module').then(m => m.CoordinatesPageModule)
-  },  {
+  },
+  {
     path: 'puzzles',
-    loadChildren: () => import('./pages/puzzles/puzzles.module').then( m => m.PuzzlesPageModule)
+    canActivate: [PuzzlesGuard],
+    loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   }
 
 

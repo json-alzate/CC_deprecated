@@ -90,7 +90,7 @@ export class TrainingComponent implements OnInit {
   }
 
   getPuzzleFromFirestore() {
-    this.firestoreService.getRandomPuzzlesByElo(1500, 1800, 2).then((result) => {
+    this.firestoreService.getPuzzlesByElo(1500, 1800).then((result) => {
       console.log('result ', result);
 
     }).catch((err) => {
