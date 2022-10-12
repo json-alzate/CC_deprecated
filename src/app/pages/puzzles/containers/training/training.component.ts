@@ -23,6 +23,7 @@ import { takeUntil } from 'rxjs/operators';
 // actions
 
 // selectors
+import { getPuzzlesToResolve } from '@redux/selectors/puzzles.selectors';
 
 // models
 import { Puzzle } from '@models/puzzle.model';
@@ -35,7 +36,6 @@ interface UISettings {
 }
 
 // services
-import { FirestoreService } from '@services/firestore.service';
 
 // components
 
@@ -78,9 +78,7 @@ export class TrainingComponent implements OnInit {
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   constructor(
-    private firestoreService: FirestoreService
   ) {
-    this.getPuzzleFromFirestore();
     this.loadPuzzle();
   }
 
@@ -90,15 +88,6 @@ export class TrainingComponent implements OnInit {
     this.loadBoard();
   }
 
-  getPuzzleFromFirestore() {
-    this.firestoreService.getPuzzlesByElo(1500, 1800).then((result) => {
-      console.log('result ', result);
-
-    }).catch((err) => {
-      console.log('errr ', err);
-
-    });
-  }
 
   loadPuzzle() {
     this.puzzleToResolve = {

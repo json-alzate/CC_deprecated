@@ -9,3 +9,12 @@ export const {
 } = puzzlesAdapter.getSelectors(getPuzzlesState);
 
 
+export const getPuzzlesToResolve = () => createSelector(
+    getAllPuzzles,
+    (puzzles) => {
+        const puzzlesFiltered = puzzles;
+        return puzzles;
+    }
+);
+
+

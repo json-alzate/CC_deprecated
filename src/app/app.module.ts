@@ -40,6 +40,17 @@ const PROVIDERS = [
   ...fromGuards.guards
 ];
 
+let devImports = [
+  StoreDevtoolsModule.instrument({
+    maxAge: 25,
+    logOnly: environment.production
+  })
+];
+
+if (environment.production) {
+  devImports = [];
+}
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -52,10 +63,7 @@ const PROVIDERS = [
       serializer: CustomRouterStateSerializer
     }),
     StoreModule.forRoot(appReducers),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production
-    }),
+    ...devImports,
     EffectsModule.forRoot(fromEffects.EFFECTS),
     SocketIoModule.forRoot(config),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
