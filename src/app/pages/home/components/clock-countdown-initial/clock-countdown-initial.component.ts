@@ -36,29 +36,30 @@ export class ClockCountdownInitialComponent implements OnInit {
   ngOnInit() { }
 
   listenSocketCountDown() {
-    this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
-      if (clockUpdate?.uid === this.game?.uid && (clockUpdate?.type === 'whiteCountDown' || clockUpdate?.type === 'blackCountDown')) {
-        this.timer = clockUpdate.time;
+    // TODO: habilitar socket
+    // this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
+    //   if (clockUpdate?.uid === this.game?.uid && (clockUpdate?.type === 'whiteCountDown' || clockUpdate?.type === 'blackCountDown')) {
+    //     this.timer = clockUpdate.time;
 
-        if (clockUpdate.type === 'whiteCountDown') {
+    //     if (clockUpdate.type === 'whiteCountDown') {
 
-          if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
-            this.bottom();
-          } else {
-            this.top();
-          }
+    //       if (this.game?.playerWhite?.uidUser === this.game?.uidCurrentUser) {
+    //         this.bottom();
+    //       } else {
+    //         this.top();
+    //       }
 
-        } else {
-          if (this.game?.playerBlack?.uidUser === this.game?.uidCurrentUser) {
-            this.bottom();
-          } else {
-            this.top();
-          }
-        }
+    //     } else {
+    //       if (this.game?.playerBlack?.uidUser === this.game?.uidCurrentUser) {
+    //         this.bottom();
+    //       } else {
+    //         this.top();
+    //       }
+    //     }
 
-      }
-      this.changeDetectorRef.markForCheck();
-    });
+    //   }
+    //   this.changeDetectorRef.markForCheck();
+    // });
   }
 
   bottom() {

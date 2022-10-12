@@ -11,6 +11,7 @@ import {
 } from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
 import Chess from 'chess.js';
 import { createUid } from '@utils/create-uid';
+import { randomNumber } from '@utils/random-number';
 
 // rxjs
 import { interval, Subject } from 'rxjs';
@@ -108,6 +109,7 @@ export class TrainingComponent implements OnInit {
       ratingDeviation: 80,
       popularity: 83,
       nbPlays: 72,
+      randomNumberQuery: randomNumber(),
       themes: ['mate', 'mateIn2', 'middlegame', 'short'],
       gameUrl: 'https://lichess.org/yyznGmXs/black#34',
       openingFamily: 'Italian_Game',

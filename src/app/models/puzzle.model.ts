@@ -5,6 +5,7 @@ export interface Puzzle {
     rating: number;
     ratingDeviation: number;
     popularity: number;
+    randomNumberQuery: number;
     nbPlays: number;
     themes: string[];
     gameUrl: string;

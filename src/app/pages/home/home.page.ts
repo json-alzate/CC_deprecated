@@ -885,9 +885,9 @@ export class HomePage implements OnInit {
         this.presentModalOnboarding();
       }
     });
-
-    this.socketsService.listenMatchGame();
-    this.listenMove();
+    // TODO: habilitar socket
+    // this.socketsService.listenMatchGame();
+    // this.listenMove();
 
   }
 

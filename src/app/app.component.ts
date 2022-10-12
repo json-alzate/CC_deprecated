@@ -85,7 +85,8 @@ export class AppComponent {
     //   GoogleAuth.initialize()
     // })
     // se prepara para utilizar los sockets
-    this.socketsService.startConnection();
+    // TODO: habilitar socket
+    // this.socketsService.startConnection();
 
     this.toolsService.loadFlags();
     this.fcmService.initPush();

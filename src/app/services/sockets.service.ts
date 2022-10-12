@@ -48,7 +48,8 @@ export class SocketsService {
     private store: Store<CurrentGameState>
   ) {
 
-    this.listenCurrentGame();
+    // TODO: habilitar socket
+    // this.listenCurrentGame();
 
   }
 

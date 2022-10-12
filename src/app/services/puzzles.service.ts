@@ -5,6 +5,8 @@ import { Puzzle } from '@models/puzzle.model';
 
 import { FirestoreService } from '@services/firestore.service';
 
+import { randomNumber } from '@utils/random-number';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -43,6 +45,7 @@ export class PuzzlesService {
           ratingDeviation: Number(puzzleData[4]),
           popularity: Number(puzzleData[5]),
           nbPlays: Number(puzzleData[6]),
+          randomNumberQuery: randomNumber(),
           themes: puzzleData[7].split(' '),
           gameUrl: puzzleData[8],
           openingFamily: puzzleData[9] || '',
@@ -51,7 +54,7 @@ export class PuzzlesService {
 
         // 03vMK
 
-        console.log(index);
+        console.log(index, '--', puzzleToAdd.randomNumberQuery);
 
         // this.firestoreService.adminAddNewPuzzle(puzzleToAdd);
         index++;

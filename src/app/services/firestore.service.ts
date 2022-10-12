@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 /** Capacitor Modules **/
 import { ConnectionStatus, Network } from '@capacitor/network';
 
+import { randomNumber } from '@utils/random-number';
+
 /** Firebase Modules **/
 import { getApp } from 'firebase/app';
 import { User as FirebaseUser } from 'firebase/auth';
@@ -187,11 +189,11 @@ export class FirestoreService {
 
   async getPuzzlesByElo(eloStart: number, eloEnd: number) {
 
+    const minRandom = randomNumber();
     const puzzlesToReturn: Puzzle[] = [];
     const q = query(
       collection(this.db, 'puzzles'),
-      where('rating', '>=', eloStart),
-      where('rating', '<=', eloEnd),
+      where('randomNumberQuery', '>=', minRandom),
       limit(200)
     );
     const querySnapshot = await getDocs(q);
@@ -199,7 +201,9 @@ export class FirestoreService {
     querySnapshot.forEach((document) => {
       const puzzleToAdd = document.data() as Puzzle;
       puzzleToAdd.uid = document.id;
-      puzzlesToReturn.push(puzzleToAdd);
+      if (puzzleToAdd.rating >= eloStart && puzzleToAdd.rating <= eloEnd) {
+        puzzlesToReturn.push(puzzleToAdd);
+      }
     });
 
     return puzzlesToReturn;
