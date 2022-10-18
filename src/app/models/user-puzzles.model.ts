@@ -4,5 +4,6 @@ export interface UserPuzzle {
     uidPuzzle: string;
     date: number;
     resolved: boolean;
+    resolvedTime: number;
     currentEloUser: number;
 }

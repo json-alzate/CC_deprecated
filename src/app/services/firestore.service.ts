@@ -33,6 +33,7 @@ import {
 import { Profile } from '@models/profile.model';
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Puzzle } from '@models/puzzle.model';
+import { UserPuzzle } from '@models/user-puzzles.model';
 
 @Injectable({
   providedIn: 'root'
@@ -166,9 +167,9 @@ export class FirestoreService {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((document) => {
-      const themeToAdd = document.data() as CoordinatesPuzzle;
-      themeToAdd.uid = document.id;
-      coordinatesPuzzlesToReturn.push(themeToAdd);
+      const coordinaPuzzleToAdd = document.data() as CoordinatesPuzzle;
+      coordinaPuzzleToAdd.uid = document.id;
+      coordinatesPuzzlesToReturn.push(coordinaPuzzleToAdd);
     });
 
     return coordinatesPuzzlesToReturn;
@@ -211,6 +212,57 @@ export class FirestoreService {
 
     return puzzlesToReturn;
   }
+
+
+
+
+  /**
+   // ----------------------------------------------------------------------------
+    User Puzzles
+   */
+
+
+  /**
+   * Gets the puzzles that the user has made
+   * Obtiene los problemas que el usuario a realizado
+   *
+   * @param uidUser
+   * @returns
+   */
+  async getUserPuzzlesByUidUser(uidUser: string): Promise<UserPuzzle[]> {
+    const userPuzzlesToReturn: UserPuzzle[] = [];
+    const q = query(
+      collection(this.db, 'userPuzzles'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const userPuzzleToAdd = document.data() as UserPuzzle;
+      userPuzzleToAdd.uid = document.id;
+      userPuzzlesToReturn.push(userPuzzleToAdd);
+    });
+
+    return userPuzzlesToReturn;
+
+  }
+
+
+  /**
+   * Add one Puzzle done
+   * Adiciona un puzzle realizado
+   *
+   * @param userPuzzle
+   * @returns
+   */
+  async addOneUserPuzzle(userPuzzle: UserPuzzle): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'userPuzzles'), userPuzzle);
+    return docRef.id;
+  }
+
+
+
+
 
 
   //------- Admin only

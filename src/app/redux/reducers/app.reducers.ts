@@ -10,6 +10,7 @@ import { currentGameReducer } from '@redux/reducers/current-game.reducer';
 import { movesReducer } from '@redux/reducers/moves.reducer';
 import { coordinatesPuzzleReducer } from '@redux/reducers/coordinates-puzzles.reducer';
 import { puzzlesReducer } from '@redux/reducers/puzzles.reducer';
+import { userPuzzlesReducer } from '@redux/reducers/user-puzzles.reducer';
 
 
 // states
@@ -27,7 +28,8 @@ export const appReducers: ActionReducerMap<AppState> = {
     currentGame: currentGameReducer,
     moves: movesReducer,
     coordinatesPuzzles: coordinatesPuzzleReducer,
-    puzzles: puzzlesReducer
+    puzzles: puzzlesReducer,
+    userPuzzles: userPuzzlesReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
