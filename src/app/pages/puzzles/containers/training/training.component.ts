@@ -1,5 +1,7 @@
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
 
 import {
   COLOR,
@@ -14,19 +16,24 @@ import { createUid } from '@utils/create-uid';
 import { randomNumber } from '@utils/random-number';
 
 // rxjs
-import { interval, Subject } from 'rxjs';
+import { interval, pipe, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
 // states
+import { PuzzlesState } from '@redux/states/puzzles.state';
 
 // actions
+import { requestLoadPuzzles } from '@redux/actions/puzzles.actions';
 
 // selectors
 import { getPuzzlesToResolve } from '@redux/selectors/puzzles.selectors';
+import { getProfile } from '@redux/selectors/auth.selectors';
+
 
 // models
 import { Puzzle } from '@models/puzzle.model';
+import { Profile } from '@models/profile.model';
 
 interface UISettings {
   allowBackMove: boolean;
@@ -55,6 +62,11 @@ export class TrainingComponent implements OnInit {
     currentMoveNumber: 0
   };
 
+  profile: Profile;
+  puzzlesAvailable: Puzzle[];
+
+  loadedFirstPuzzle = false;
+
   // timer
   time = 0;
   timeColor = 'success';
@@ -78,32 +90,43 @@ export class TrainingComponent implements OnInit {
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   constructor(
+    private store: Store<PuzzlesState>
   ) {
-    this.loadPuzzle();
   }
 
   ngOnInit() { }
 
   ionViewDidEnter() {
-    this.loadBoard();
+    // TODO: establecer un orden para cargar
+    this.initSubscribers();
+    // this.loadBoard();
+  }
+
+  initSubscribers() {
+
+    const puzzles$ = this.store.select(pipe(getPuzzlesToResolve()));
+    const profile$ = this.store.pipe(select(getProfile));
+    combineLatest([puzzles$, profile$]).subscribe((data) => {
+      // TODO: implementar un control de seguridad para evitar que se produzca un loop infinito
+      // podría ser un numero máximo de peticiones en un tiempo determinado
+      this.profile = data[1];
+      this.puzzlesAvailable = data[0];
+      if (data[0].length === 0) {
+        const action = requestLoadPuzzles({ eloStar: this.profile.elo - 600, eloEnd: this.profile.elo + 600 });
+        this.store.dispatch(action);
+      } else if (!this.loadedFirstPuzzle) {
+        this.loadPuzzle();
+      }
+    });
+
   }
 
 
   loadPuzzle() {
-    this.puzzleToResolve = {
-      uid: '00sHx',
-      fen: 'q3k1nr/1pp1nQpp/3p4/1P2p3/4P3/B1PP1b2/B5PP/5K2 b k - 0 17',
-      moves: 'e8d7 a2e6 d7d8 f7f8',
-      rating: 1760,
-      ratingDeviation: 80,
-      popularity: 83,
-      nbPlays: 72,
-      randomNumberQuery: randomNumber(),
-      themes: ['mate', 'mateIn2', 'middlegame', 'short'],
-      gameUrl: 'https://lichess.org/yyznGmXs/black#34',
-      openingFamily: 'Italian_Game',
-      openingVariation: 'Italian_Game_Classical_Variation'
-    };
+    this.loadedFirstPuzzle = true;
+
+    this.puzzleToResolve = this.puzzlesAvailable[Math.floor(Math.random() * this.puzzlesAvailable.length)];
+    console.log('this.puzzleToResolve ', this.puzzleToResolve);
 
     this.fenSolution = [];
     const chessInstance = new Chess(this.puzzleToResolve.fen);
@@ -115,7 +138,7 @@ export class TrainingComponent implements OnInit {
       const fen = chessInstance.fen();
       this.fenSolution.push(fen);
     }
-
+    this.loadBoard();
   }
 
 
