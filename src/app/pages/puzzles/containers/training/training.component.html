@@ -30,17 +30,21 @@
                 <ion-button fill="clear" (click)="turnRoundBoard()">
                   <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="clear" [disabled]="!allowNextPuzzle || !uiSet.allowBackMove" (click)="starPosition()">
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle || !uiSet.allowBackMove"
+                  (click)="starPosition()">
                   <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="clear" [disabled]="!allowNextPuzzle  || !uiSet.allowBackMove" (click)="backMove()">
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle  || !uiSet.allowBackMove"
+                  (click)="backMove()">
                   <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
                 </ion-button>
 
-                <ion-button fill="clear" [disabled]="!allowNextPuzzle || !uiSet.allowNextMove" (click)="nextMove()">
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle || !uiSet.allowNextMove"
+                  (click)="nextMove()">
                   <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
                 </ion-button>
-                <ion-button fill="clear" [disabled]="!allowNextPuzzle || !uiSet.allowNextMove" (click)="moveToEnd()">
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle || !uiSet.allowNextMove"
+                  (click)="moveToEnd()">
                   <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
                 </ion-button>
               </ion-buttons>
@@ -84,7 +88,7 @@
 
         <ion-row>
 
-          <ion-col *ngIf="allowNextPuzzle" size="12" class="ion-margin-vertical">
+          <ion-col *ngIf="uiSet.allowNextPuzzle" size="12" class="ion-margin-vertical">
             <ion-text>
               <h1 style="margin:0;" class="ion-text-center">
                 2456
@@ -106,10 +110,11 @@
 
           <ion-col size="12">
 
-            <ion-button *ngIf="!allowNextPuzzle" size="small" expand="block" fill="clear" (click)="showSolution()">
+            <ion-button *ngIf="!uiSet.allowNextPuzzle" size="small" expand="block" fill="clear"
+              (click)="showSolution()">
               Ver la solución
             </ion-button>
-            <ion-button *ngIf="allowNextPuzzle" size="large" expand="block" (click)="nextPuzzle()">
+            <ion-button *ngIf="uiSet.allowNextPuzzle" size="large" expand="block" (click)="nextPuzzle()">
               Continuar entrenamiento
             </ion-button>
 

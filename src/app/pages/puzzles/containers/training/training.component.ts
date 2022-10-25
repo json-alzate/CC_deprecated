@@ -16,7 +16,7 @@ import { createUid } from '@utils/create-uid';
 import { randomNumber } from '@utils/random-number';
 
 // rxjs
-import { interval, pipe, Subject, combineLatest } from 'rxjs';
+import { interval, pipe, Subject, combineLatest, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -65,17 +65,14 @@ export class TrainingComponent implements OnInit {
   profile: Profile;
   puzzlesAvailable: Puzzle[];
 
-  loadedFirstPuzzle = false;
 
   // timer
   time = 0;
   timeColor = 'success';
-  subsSeconds;
+  subsSeconds: Observable<number>;
 
   board;
   chessInstance = new Chess();
-
-  allowNextPuzzle = false;
 
   puzzleToResolve: Puzzle;
   fenSolution: string[] = [];
@@ -86,6 +83,7 @@ export class TrainingComponent implements OnInit {
   isPuzzleCompleted = false;
 
 
+  // MOdificar esto a como esta en la libreria de lullalib
   private unsubscribe$ = new Subject<void>();
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
@@ -97,9 +95,20 @@ export class TrainingComponent implements OnInit {
   ngOnInit() { }
 
   ionViewDidEnter() {
-    // TODO: establecer un orden para cargar
     this.initSubscribers();
-    // this.loadBoard();
+  }
+
+
+  configsStart() {
+    this.time = 0;
+    this.timeColor = 'success';
+    this.uiSet = {
+      allowBackMove: false,
+      allowNextMove: false,
+      allowNextPuzzle: false,
+      currentMoveNumber: 0
+    };
+    this.puzzleStatus = 'start';
   }
 
   initSubscribers() {
@@ -111,19 +120,21 @@ export class TrainingComponent implements OnInit {
       // podría ser un numero máximo de peticiones en un tiempo determinado
       this.profile = data[1];
       this.puzzlesAvailable = data[0];
-      if (data[0].length === 0) {
+
+      if (data[0].length === 0 && this.profile) {
         const action = requestLoadPuzzles({ eloStar: this.profile.elo - 600, eloEnd: this.profile.elo + 600 });
         this.store.dispatch(action);
-      } else if (!this.loadedFirstPuzzle) {
+
+      } else if (!this.puzzleToResolve && data[0].length > 0) {
         this.loadPuzzle();
       }
+
     });
 
   }
 
 
   loadPuzzle() {
-    this.loadedFirstPuzzle = true;
 
     this.puzzleToResolve = this.puzzlesAvailable[Math.floor(Math.random() * this.puzzlesAvailable.length)];
     console.log('this.puzzleToResolve ', this.puzzleToResolve);
@@ -132,68 +143,79 @@ export class TrainingComponent implements OnInit {
     const chessInstance = new Chess(this.puzzleToResolve.fen);
     const movesArray = this.puzzleToResolve.moves.split(' ');
 
+    // se construye un arreglo con los fen de la solución
     this.fenSolution.push(chessInstance.fen());
     for (const move of movesArray) {
       chessInstance.move(move, { sloppy: true });
       const fen = chessInstance.fen();
       this.fenSolution.push(fen);
     }
+
     this.loadBoard();
   }
 
 
   async loadBoard() {
-    if (!this.puzzleToResolve) {
-      this.loadPuzzle();
-    }
-    this.chessInstance.load(this.puzzleToResolve.fen);
-    this.puzzleColor = this.chessInstance.turn();
 
-    this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
-      position: this.puzzleToResolve.fen,
-      style: {
-        borderType: BORDER_TYPE.thin
-      },
-      sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
-    });
+    // Se carga el primer fen, para luego hacer el movimiento automático y que quede el efecto de tal movimiento
+    this.chessInstance.load(this.puzzleToResolve.fen);
+
+    // Se cambia el color por que luego se realizara automáticamente la jugada inicial de la maquina
+    this.puzzleColor = this.chessInstance.turn() === 'b' ? 'w' : 'b';
+
+    // Se valida si es la primera vez que se carga el tablero
+    if (!this.board) {
+      this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
+        position: this.puzzleToResolve.fen,
+        style: {
+          borderType: BORDER_TYPE.thin
+        },
+        sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
+      });
+
+      this.board.enableMoveInput((event) => {
+        // handle user input here
+        switch (event.type) {
+          case INPUT_EVENT_TYPE.moveStart:
+            // console.log(`moveStart: ${event.square}`);
+            // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+            return true;
+          case INPUT_EVENT_TYPE.moveDone:
+
+            const objectMove = { from: event.squareFrom, to: event.squareTo };
+            const theMove = this.chessInstance.move(objectMove);
+
+            if (theMove) {
+              this.uiSet.currentMoveNumber++;
+
+              if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber]) {
+                console.log('correct!!!');
+                this.uiSet.allowBackMove = true;
+                this.puzzleStatus = 'good';
+                this.puzzleMoveResponse();
+              } else {
+                console.log('Wrong');
+                this.puzzleStatus = 'wrong';
+                this.isPuzzleCompleted = true;
+              }
+
+            }
+            // return true, if input is accepted/valid, `false` takes the move back
+            return theMove;
+          case INPUT_EVENT_TYPE.moveCanceled:
+            console.log('moveCanceled ', this.chessInstance.pgn());
+        }
+      });
+
+    } else {
+      // Ya el tablero fue cargado la primera vez
+      this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
+    }
+
+
 
     this.turnRoundBoard(this.puzzleColor);
-
-
-    this.board.enableMoveInput((event) => {
-      // handle user input here
-      switch (event.type) {
-        case INPUT_EVENT_TYPE.moveStart:
-          // console.log(`moveStart: ${event.square}`);
-          // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
-          return true;
-        case INPUT_EVENT_TYPE.moveDone:
-
-          const objectMove = { from: event.squareFrom, to: event.squareTo };
-          const theMove = this.chessInstance.move(objectMove);
-
-          if (theMove) {
-            this.uiSet.currentMoveNumber++;
-
-            if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber]) {
-              console.log('correct!!!');
-              this.uiSet.allowBackMove = true;
-              this.puzzleStatus = 'good';
-              this.puzzleMoveResponse();
-            } else {
-              console.log('Wrong');
-              this.puzzleStatus = 'wrong';
-              this.isPuzzleCompleted = true;
-            }
-
-          }
-          // return true, if input is accepted/valid, `false` takes the move back
-          return theMove;
-        case INPUT_EVENT_TYPE.moveCanceled:
-          console.log('moveCanceled ', this.chessInstance.pgn());
-      }
-    });
-
+    this.puzzleMoveResponse();
     this.initTimer();
   }
 
@@ -296,28 +318,32 @@ export class TrainingComponent implements OnInit {
   async puzzleMoveResponse() {
     this.uiSet.currentMoveNumber++;
 
-    this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
-    const fen = this.chessInstance.fen();
-    await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve(true);
-      }, 200);
-    });
-    await this.board.setPosition(fen, true);
-
-    console.log(this.uiSet.currentMoveNumber, this.fenSolution.length - 1);
-    if (this.uiSet.currentMoveNumber === this.fenSolution.length - 1) {
+    if (this.fenSolution.length === this.uiSet.currentMoveNumber) {
       console.log('completed');
 
       this.puzzleStatus = 'finished';
       this.isPuzzleCompleted = true;
-      this.allowNextPuzzle = true;
+      this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
+      this.stopTimer();
+    } else {
+
+      this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
+      const fen = this.chessInstance.fen();
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve(true);
+        }, 200);
+      });
+      await this.board.setPosition(fen, true);
     }
+
+
   }
 
 
   showSolution() {
-    this.allowNextPuzzle = true;
+    // FIXME: No parece mostrar el efecto en el orden correcto
+    this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
     this.puzzleStatus = 'showSolution';
     if (this.uiSet.currentMoveNumber < this.fenSolution.length - 1) {
       this.uiSet.allowNextMove = true;
@@ -327,7 +353,8 @@ export class TrainingComponent implements OnInit {
   }
 
   nextPuzzle() {
-
+    this.configsStart();
+    this.loadPuzzle();
   }
 
 
