@@ -14,6 +14,7 @@ import {
 import Chess from 'chess.js';
 import { createUid } from '@utils/create-uid';
 import { randomNumber } from '@utils/random-number';
+import { calculateElo } from '@utils/calculate-elo';
 
 // rxjs
 import { interval, pipe, Subject, combineLatest, Observable } from 'rxjs';
@@ -25,6 +26,7 @@ import { PuzzlesState } from '@redux/states/puzzles.state';
 
 // actions
 import { requestLoadPuzzles } from '@redux/actions/puzzles.actions';
+import { requestAddOneUserPuzzle } from '@redux/actions/user-puzzles.actions';
 
 // selectors
 import { getPuzzlesToResolve } from '@redux/selectors/puzzles.selectors';
@@ -34,6 +36,7 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 // models
 import { Puzzle } from '@models/puzzle.model';
 import { Profile } from '@models/profile.model';
+import { UserPuzzle } from '@models/user-puzzles.model';
 
 interface UISettings {
   allowBackMove: boolean;
@@ -82,6 +85,9 @@ export class TrainingComponent implements OnInit {
   puzzleStatus: 'start' | 'wrong' | 'good' | 'finished' | 'showSolution' = 'start';
   isPuzzleCompleted = false;
 
+  eloToShow: number;
+  eloLessSum: number;
+
 
   // MOdificar esto a como esta en la libreria de lullalib
   private unsubscribe$ = new Subject<void>();
@@ -90,6 +96,9 @@ export class TrainingComponent implements OnInit {
   constructor(
     private store: Store<PuzzlesState>
   ) {
+
+    console.log(calculateElo(1500, 2200, false));
+
   }
 
   ngOnInit() { }
@@ -197,6 +206,8 @@ export class TrainingComponent implements OnInit {
                 console.log('Wrong');
                 this.puzzleStatus = 'wrong';
                 this.isPuzzleCompleted = true;
+                this.saveUserPuzzle();
+                this.stopTimer();
               }
 
             }
@@ -324,6 +335,7 @@ export class TrainingComponent implements OnInit {
       this.puzzleStatus = 'finished';
       this.isPuzzleCompleted = true;
       this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
+      this.saveUserPuzzle();
       this.stopTimer();
     } else {
 
@@ -342,8 +354,10 @@ export class TrainingComponent implements OnInit {
 
 
   showSolution() {
-    // FIXME: No parece mostrar el efecto en el orden correcto
     this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
+    if (this.puzzleStatus !== 'wrong') {
+      this.saveUserPuzzle();
+    }
     this.puzzleStatus = 'showSolution';
     if (this.uiSet.currentMoveNumber < this.fenSolution.length - 1) {
       this.uiSet.allowNextMove = true;
@@ -355,6 +369,25 @@ export class TrainingComponent implements OnInit {
   nextPuzzle() {
     this.configsStart();
     this.loadPuzzle();
+  }
+
+  saveUserPuzzle() {
+    const userPuzzle: UserPuzzle = {
+      uid: createUid(),
+      date: new Date().getTime(),
+      resolvedTime: this.time,
+      uidUser: this.profile.uid,
+      currentEloUser: this.profile.eloPuzzles || 1500,
+      uidPuzzle: this.puzzleToResolve.uid,
+      resolved: (this.puzzleStatus === 'good' || this.puzzleStatus === 'finished') ? true : false,
+      eloPuzzle: this.puzzleToResolve.rating
+    };
+
+    this.eloToShow = calculateElo(userPuzzle.currentEloUser, userPuzzle.eloPuzzle, userPuzzle.resolved).ra;
+    this.eloLessSum = Math.abs(this.eloToShow - userPuzzle.currentEloUser);
+
+    const action = requestAddOneUserPuzzle({ userPuzzle });
+    this.store.dispatch(action);
   }
 
 

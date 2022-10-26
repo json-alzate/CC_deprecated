@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { Store, select } from '@ngrx/store'
+import { Store, select } from '@ngrx/store';
 
 // rxjs
 
@@ -42,6 +42,8 @@ export class OnboardingComponent implements OnInit {
 
   profile: Profile;
 
+
+
   constructor(
     private toolsService: ToolsService,
     private formBuilder: FormBuilder,
@@ -57,6 +59,14 @@ export class OnboardingComponent implements OnInit {
     this.store.select(getProfile).subscribe(profile => this.profile = profile);
   }
 
+  get nikNameField() {
+    return this.formOnboarding.get('nikName');
+  }
+
+  get countryField() {
+    return this.formOnboarding.get('country');
+  }
+
   ngOnInit() { }
 
   buildFormOnboarding() {
@@ -66,13 +76,7 @@ export class OnboardingComponent implements OnInit {
     });
   }
 
-  get nikNameField() {
-    return this.formOnboarding.get('nikName');
-  }
 
-  get countryField() {
-    return this.formOnboarding.get('country');
-  }
 
   onSearchFlagChange(event: any) {
     const query = event?.detail?.value;

@@ -6,4 +6,5 @@ export interface UserPuzzle {
     resolved: boolean;
     resolvedTime: number;
     currentEloUser: number;
+    eloPuzzle: number;
 }

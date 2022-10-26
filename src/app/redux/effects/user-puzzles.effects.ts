@@ -11,8 +11,12 @@ import {
     addOneUserPuzzle
 } from '@redux/actions/user-puzzles.actions';
 
+import { requestUpdateProfile } from '@redux/actions/auth.actions';
+
 
 import { UserPuzzlesService } from '@services/user-puzzles.service';
+
+import { calculateElo } from '@utils/calculate-elo';
 
 @Injectable()
 export class UserPuzzlesEffects {
@@ -36,7 +40,10 @@ export class UserPuzzlesEffects {
             switchMap(({ userPuzzle }) =>
                 from(this.userPuzzlesService.addOneUserPuzzle(userPuzzle)).pipe(
                     mergeMap((docId) => [
-                        addOneUserPuzzle({ userPuzzle: { ...userPuzzle, uid: docId } })
+                        addOneUserPuzzle({ userPuzzle: { ...userPuzzle, uid: docId } }),
+                        requestUpdateProfile({
+                            profile: { eloPuzzles: calculateElo(userPuzzle.currentEloUser, userPuzzle.eloPuzzle, userPuzzle.resolved).ra }
+                        })
                     ])
                 ))
         )
