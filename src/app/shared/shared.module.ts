@@ -9,6 +9,7 @@ import { TranslocoModule } from '@ngneat/transloco';
 import * as fromComponents from './components/';
 import * as fromPipes from './pipes';
 import { GameClockPipe } from './pipes/game-clock.pipe';
+import { SecondsToMinutesSecondsPipe } from './pipes/seconds-to-minutes-seconds.pipe';
 
 
 
@@ -16,7 +17,8 @@ import { GameClockPipe } from './pipes/game-clock.pipe';
   declarations: [
     ...fromComponents.COMPONENTS,
     ...fromPipes.PIPES,
-    GameClockPipe
+    GameClockPipe,
+    SecondsToMinutesSecondsPipe
   ],
   imports: [
     IonicModule,

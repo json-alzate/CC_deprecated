@@ -25,7 +25,7 @@
             </div>
 
             <ion-item>
-              <ion-label>{{ time }}</ion-label>
+              <ion-label [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
               <ion-buttons slot="end">
                 <ion-button fill="clear" (click)="turnRoundBoard()">
                   <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
@@ -60,6 +60,11 @@
         <ion-item class="item-puzzle-info">
           <ion-icon style="font-size: 3em;" slot="start" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
           <ion-label>
+
+            <ion-text color="medium">
+              <h6>1651</h6>
+            </ion-text>
+
             <span [ngSwitch]="puzzleStatus">
               <span *ngSwitchCase="'start'">
                 Juegan las {{ puzzleColor === 'b' ? 'negras' : 'blancas' }}
