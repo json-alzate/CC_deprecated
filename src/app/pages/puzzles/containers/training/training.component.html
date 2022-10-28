@@ -62,7 +62,7 @@
           <ion-label>
 
             <ion-text color="medium">
-              <h6>1651</h6>
+              <h6>{{ puzzleToResolve?.rating }}</h6>
             </ion-text>
 
             <span [ngSwitch]="puzzleStatus">
@@ -83,7 +83,7 @@
           <ion-icon *ngIf="puzzleStatus === 'good'" slot="end" color="success" name="checkmark-circle-outline">
           </ion-icon>
 
-          <ion-button slot="end" clear *ngIf="puzzleStatus === 'wrong'">
+          <ion-button slot="end" clear *ngIf="puzzleStatus === 'wrong'" (click)="backMove(true)">
             Reintentar
           </ion-button>
           <ion-icon *ngIf="puzzleStatus === 'wrong'" slot="end" color="danger" name="close-circle-outline"></ion-icon>
@@ -94,21 +94,25 @@
         <ion-row>
 
           <ion-col *ngIf="uiSet.allowNextPuzzle" size="12" class="ion-margin-vertical">
+
+            <ion-text *ngIf="puzzleStatus === 'finished' && !uiSet.isRetrying" color="success">
+              <h6 style="margin:0;" class="ion-text-center">
+                {{eloLessSum}}
+                <ion-icon name="trending-up-outline"></ion-icon>
+              </h6>
+
+            </ion-text>
+            <ion-text *ngIf="puzzleStatus === 'showSolution'  || puzzleStatus === 'wrong'" color="danger">
+              <h6 style="margin:0;" class="ion-text-center">
+                {{eloLessSum}}
+                <ion-icon name="trending-down-outline"></ion-icon>
+              </h6>
+            </ion-text>
+
             <ion-text>
               <h1 style="margin:0;" class="ion-text-center">
                 {{ eloToShow }}
-                <ion-icon *ngIf="puzzleStatus === 'finished'" color="success" name="trending-up-outline">
-                </ion-icon>
-                <ion-icon *ngIf="puzzleStatus === 'showSolution'  || puzzleStatus === 'wrong'" color="danger"
-                  name="trending-down-outline">
-                </ion-icon>
               </h1>
-            </ion-text>
-            <ion-text *ngIf="puzzleStatus === 'finished'" color="success">
-              <h6 style="margin:0;" class="ion-text-center">+{{eloLessSum}}</h6>
-            </ion-text>
-            <ion-text *ngIf="puzzleStatus === 'showSolution'  || puzzleStatus === 'wrong'" color="danger">
-              <h6 style="margin:0;" class="ion-text-center">-{{eloLessSum}}</h6>
             </ion-text>
 
           </ion-col>

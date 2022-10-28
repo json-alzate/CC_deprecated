@@ -43,11 +43,33 @@ interface UISettings {
   allowNextMove: boolean;
   allowNextPuzzle: boolean;
   currentMoveNumber: number;
+  isRetrying: boolean;
 }
 
 // services
 
 // components
+
+
+// FIXME: Con el siguiente ejercicio el puzzle es imposible de resolver porque incluye una coronación
+// TODO: Validar coronación
+/*
+fen: "7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50"
+gameUrl: "https://lichess.org/P16cwZZd#99"
+moves: "h4h5 b3b2 g7b7 h8h7 b7h7 b2b1q"
+nbPlays: 2892
+openingFamily: "\r"
+openingVariation: ""
+popularity: 93
+randomNumberQuery: 7508
+rating: 1449
+ratingDeviation: 75
+themes:  ['advancedPawn', 'crushing', 'deflection', 'endgame', 'long', 'promotion', 'rookEndgame']
+uid: "02fzY"
+
+*/
+
+// FIXME: el rating de puzzles mostrado no es correcto, por ejemplo a un usuario con 2200 se le muestran ejercicios de 1100
 
 
 @Component({
@@ -62,7 +84,8 @@ export class TrainingComponent implements OnInit {
     allowBackMove: false,
     allowNextMove: false,
     allowNextPuzzle: false,
-    currentMoveNumber: 0
+    currentMoveNumber: 0,
+    isRetrying: false
   };
 
   profile: Profile;
@@ -82,7 +105,7 @@ export class TrainingComponent implements OnInit {
 
   // puzzle status and info for user
   puzzleColor: 'b' | 'w' = 'w';
-  puzzleStatus: 'start' | 'wrong' | 'good' | 'finished' | 'showSolution' = 'start';
+  puzzleStatus: 'start' | 'wrong' | 'good' | 'finished' | 'showSolution' | 'isRetrying' = 'start';
   isPuzzleCompleted = false;
 
   eloToShow: number;
@@ -95,11 +118,7 @@ export class TrainingComponent implements OnInit {
 
   constructor(
     private store: Store<PuzzlesState>
-  ) {
-
-    console.log(calculateElo(1500, 2200, false));
-
-  }
+  ) { }
 
   ngOnInit() { }
 
@@ -115,7 +134,8 @@ export class TrainingComponent implements OnInit {
       allowBackMove: false,
       allowNextMove: false,
       allowNextPuzzle: false,
-      currentMoveNumber: 0
+      currentMoveNumber: 0,
+      isRetrying: false
     };
     this.puzzleStatus = 'start';
   }
@@ -231,6 +251,9 @@ export class TrainingComponent implements OnInit {
   }
 
 
+
+  // Timer -----------------------------------
+
   initTimer() {
     if (!this.subsSeconds) {
       this.time = 0;
@@ -289,9 +312,22 @@ export class TrainingComponent implements OnInit {
     this.uiSet.allowNextMove = true;
   }
 
-  backMove() {
+  /**
+   * Navega a la anterior jugada en el tablero
+   * Navigate to the previous play on the board
+   *
+   * @param isForRetry: boolean
+   * determina si se habilita el botón para mover a la siguiente jugada
+   * isForRetry = true // no permite habilitar el botón, porque indica que se devolvió la jugada por intentar de nuevo
+   */
+  backMove(isForRetry = false) {
     this.uiSet.currentMoveNumber--;
-    this.uiSet.allowNextMove = true;
+    if (isForRetry) {
+      this.uiSet.isRetrying = true;
+      this.puzzleStatus = 'isRetrying';
+    } else {
+      this.uiSet.allowNextMove = true;
+    }
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === 0) {
@@ -300,9 +336,21 @@ export class TrainingComponent implements OnInit {
 
   }
 
-  nextMove() {
+  /**
+   * Navega a la siguiente jugada en el tablero
+   * Navigate to the next play on the board
+   *
+   * @param isForViewSolution boolean:
+   * Es utilizado para incrementar o no el currentMoveNumber (por defecto se incrementa)
+   * isForViewSolution = true // detiene el incremento de currentMoveNumber
+   * It is used to increase or not the currentmavenumber (default is increased)
+   * isForViewSolution  = True // stops the increase of currentmavenumber
+   */
+  nextMove(isForViewSolution = false) {
     this.uiSet.allowBackMove = true;
-    this.uiSet.currentMoveNumber++;
+    if (!isForViewSolution) {
+      this.uiSet.currentMoveNumber++;
+    }
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === this.fenSolution.length - 1) {
@@ -355,14 +403,27 @@ export class TrainingComponent implements OnInit {
 
   showSolution() {
     this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
-    if (this.puzzleStatus !== 'wrong') {
+    if (this.puzzleStatus !== 'wrong' && this.puzzleStatus !== 'isRetrying') {
       this.saveUserPuzzle();
     }
-    this.puzzleStatus = 'showSolution';
     if (this.uiSet.currentMoveNumber < this.fenSolution.length - 1) {
       this.uiSet.allowNextMove = true;
     }
-    this.nextMove();
+    // True is sent to identify that it is because it was requested to show the solution, and not add the currentMoveNumber
+    // Se envía true para identificar que es porque se pidió mostrar la solución, y no sumar el currentMoveNumber
+
+    // If you are resenting and requested the solution, if you must increase the number of play,
+    // Because when reintenting a play automatically is delayed
+
+    // si se esta reintentando y se pide mostrar la solución, si debe aumentar el número de jugada,
+    // porque al reintentar se retrasa una jugada automáticamente
+
+    const disableSumCurrentMoveNumber = this.puzzleStatus === 'isRetrying' ? false : true;
+
+    this.nextMove(disableSumCurrentMoveNumber);
+
+    // importante no cambiar antes de llamar a nextMove
+    this.puzzleStatus = 'showSolution';
     this.stopTimer();
   }
 
@@ -372,6 +433,9 @@ export class TrainingComponent implements OnInit {
   }
 
   saveUserPuzzle() {
+    if (this.uiSet.isRetrying) {
+      return;
+    }
     const userPuzzle: UserPuzzle = {
       uid: createUid(),
       date: new Date().getTime(),
