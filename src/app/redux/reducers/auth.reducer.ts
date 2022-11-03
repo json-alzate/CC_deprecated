@@ -5,7 +5,7 @@ import {
     setErrorLogin,
     setErrorRegister,
     setProfile,
-    requestUpdateProfile,
+    updateProfile,
     logOut
 } from '@redux/actions/auth.actions';
 
@@ -17,39 +17,23 @@ export const initialState: AuthState = {
 
 export const iauthReducer = createReducer(
     initialState,
-    on(setProfile, (state, { profile }) => {
-        return {
-            ...state,
-            profile
-        };
-    }),
+    on(setProfile, (state, { profile }) => ({ ...state, profile })),
 
-    on(requestUpdateProfile, (state, { profile }) => {
-        return {
-            ...state,
-            profile: { ...state.profile, ...profile }
-        };
-    }),
 
-    on(setErrorLogin, (state, { error }) => {
-        return {
-            ...state,
-            errorLogin: error
-        };
-    }),
+    on(updateProfile, (state, { profile }) => (
+        { ...state, profile: { ...state.profile, ...profile } }
+    )),
 
-    on(setErrorRegister, (state, { error }) => {
-        return {
-            ...state,
-            errorRegister: error
-        };
-    }),
+    on(setErrorLogin, (state, { error }) => (
+        { ...state, errorLogin: error }
+    )),
 
-    on(logOut, () => {
-        return initialState
-    })
+    on(setErrorRegister, (state, { error }) => (
+        { ...state, errorRegister: error }
+    )),
+
+    on(logOut, () => initialState)
 );
 
-export function authReducer(state: AuthState | undefined, action: Action) {
-    return iauthReducer(state, action);
-}
+export const authReducer = (state: AuthState | undefined, action: Action) => iauthReducer(state, action);
+

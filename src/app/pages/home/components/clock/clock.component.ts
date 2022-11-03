@@ -36,18 +36,19 @@ export class ClockComponent implements OnInit {
   @Input()
   set initListenSocket(data) {
     this.time = data.time;
-    this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
-      if (clockUpdate.uid === data.uidGame && data.color === clockUpdate.type) {
-        this.time = clockUpdate.time;
-      }
+    // TODO: habilitar socket
+    // this.socket.fromEvent('5_out_clock_update').subscribe((clockUpdate: OutClockUpdate) => {
+    //   if (clockUpdate.uid === data.uidGame && data.color === clockUpdate.type) {
+    //     this.time = clockUpdate.time;
+    //   }
 
-      if (data.color === clockUpdate.type) {
-        this.isActive = true;
-      } else {
-        this.isActive = false;
-      }
-      this.changeDetectorRef.markForCheck();
-    });
+    //   if (data.color === clockUpdate.type) {
+    //     this.isActive = true;
+    //   } else {
+    //     this.isActive = false;
+    //   }
+    //   this.changeDetectorRef.markForCheck();
+    // });
   }
 
   constructor(

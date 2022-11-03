@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 /** Capacitor Modules **/
 import { ConnectionStatus, Network } from '@capacitor/network';
 
+import { randomNumber } from '@utils/random-number';
+
 /** Firebase Modules **/
 import { getApp } from 'firebase/app';
 import { User as FirebaseUser } from 'firebase/auth';
@@ -22,13 +24,16 @@ import {
   disableNetwork,
   enableNetwork,
   collection, query, where, getDocs,
-  increment
+  increment,
+  limit
 } from 'firebase/firestore';
 
 
 // Models
 import { Profile } from '@models/profile.model';
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
+import { Puzzle } from '@models/puzzle.model';
+import { UserPuzzle } from '@models/user-puzzles.model';
 
 @Injectable({
   providedIn: 'root'
@@ -104,7 +109,8 @@ export class FirestoreService {
 
   /**
    * Crea un nuevo perfil
-   * @param profile 
+   *
+   * @param profile
    * @returns Promise<void>
    */
   createProfile(profile: Profile) {
@@ -112,10 +118,10 @@ export class FirestoreService {
   }
 
   /**
- * Update a User in firestore
- *
- * @param changes Partial<User>
- */
+   * Update a User in firestore
+   *
+   * @param changes Partial<User>
+   */
   async updateProfile(changes: Partial<Profile>): Promise<void> {
     return updateDoc(this.profileDocRef, changes);
   }
@@ -161,9 +167,9 @@ export class FirestoreService {
     const querySnapshot = await getDocs(q);
 
     querySnapshot.forEach((document) => {
-      const themeToAdd = document.data() as CoordinatesPuzzle;
-      themeToAdd.uid = document.id;
-      coordinatesPuzzlesToReturn.push(themeToAdd);
+      const coordinaPuzzleToAdd = document.data() as CoordinatesPuzzle;
+      coordinaPuzzleToAdd.uid = document.id;
+      coordinatesPuzzlesToReturn.push(coordinaPuzzleToAdd);
     });
 
     return coordinatesPuzzlesToReturn;
@@ -176,6 +182,95 @@ export class FirestoreService {
   }
 
 
+
+  /**
+   // ----------------------------------------------------------------------------
+    Puzzles
+   */
+
+  async getPuzzlesByElo(eloStart: number, eloEnd: number) {
+
+    const minRandom = randomNumber();
+    const puzzlesToReturn: Puzzle[] = [];
+    const q = query(
+      collection(this.db, 'puzzles'),
+      where('randomNumberQuery', '>=', minRandom),
+      limit(200)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const puzzleToAdd = document.data() as Puzzle;
+      puzzleToAdd.uid = document.id;
+      if (puzzleToAdd.rating >= eloStart && puzzleToAdd.rating <= eloEnd) {
+        puzzlesToReturn.push(puzzleToAdd);
+      }
+    });
+
+    console.log(puzzlesToReturn);
+
+
+    return puzzlesToReturn;
+  }
+
+
+
+
+  /**
+   // ----------------------------------------------------------------------------
+    User Puzzles
+   */
+
+
+  /**
+   * Gets the puzzles that the user has made
+   * Obtiene los problemas que el usuario a realizado
+   *
+   * @param uidUser
+   * @returns
+   */
+  async getUserPuzzlesByUidUser(uidUser: string): Promise<UserPuzzle[]> {
+    const userPuzzlesToReturn: UserPuzzle[] = [];
+    const q = query(
+      collection(this.db, 'userPuzzles'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const userPuzzleToAdd = document.data() as UserPuzzle;
+      userPuzzleToAdd.uid = document.id;
+      userPuzzlesToReturn.push(userPuzzleToAdd);
+    });
+
+    return userPuzzlesToReturn;
+
+  }
+
+
+  /**
+   * Add one Puzzle done
+   * Adiciona un puzzle realizado
+   *
+   * @param userPuzzle
+   * @returns
+   */
+  async addOneUserPuzzle(userPuzzle: UserPuzzle): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'userPuzzles'), userPuzzle);
+    return docRef.id;
+  }
+
+
+
+
+
+
+  //------- Admin only
+
+  async adminAddNewPuzzle(puzzleToAdd: Puzzle): Promise<string> {
+    await setDoc(doc(this.db, 'puzzles', puzzleToAdd.uid), puzzleToAdd);
+    return puzzleToAdd.uid;
+  }
 
 
 

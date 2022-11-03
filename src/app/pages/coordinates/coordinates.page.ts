@@ -53,7 +53,6 @@ export class CoordinatesPage implements OnInit {
   board;
 
   subsSeconds;
-  private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   segment: 'toName' | 'find' = 'find';
 
@@ -78,6 +77,7 @@ export class CoordinatesPage implements OnInit {
 
   profile: Profile;
 
+  private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   constructor(
     private store: Store<UIState>,
@@ -123,11 +123,14 @@ export class CoordinatesPage implements OnInit {
 
           }
 
+          break;
+
         // left click
         case SQUARE_SELECT_TYPE.secondary:
-        // right click
+          // right click
+          break;
       }
-    })
+    });
 
   }
 
@@ -143,7 +146,7 @@ export class CoordinatesPage implements OnInit {
 
   toggleShowPieces() {
     this.showPieces = !this.showPieces;
-    let fenToSet = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'; // Inicial
+    const fenToSet = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1'; // Inicial
 
     if (this.showPieces) {
       if (this.randomPosition) {
@@ -160,7 +163,7 @@ export class CoordinatesPage implements OnInit {
   }
 
   toggleRandomPosition() {
-    this.randomPosition = !this.randomPosition
+    this.randomPosition = !this.randomPosition;
     if (this.randomPosition) {
       this.board.setPosition(randomFEN());
     } else {
@@ -171,12 +174,14 @@ export class CoordinatesPage implements OnInit {
 
   /**
    * Generar escaques puzzles
+   *
    * @count = 1
    */
   generatePuzzles(count = 1): string[] {
     const puzzles = [];
 
     for (let i = 0; i < count; i++) {
+      // eslint-disable-next-line max-len
       const puzzle = `${this.letters[Math.floor(Math.random() * this.letters.length)]}${this.numbers[Math.floor(Math.random() * this.numbers.length)]}`;
       puzzles.push(puzzle);
     }

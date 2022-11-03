@@ -1,0 +1,150 @@
+<!-- 
+  TODO: Adicionar input en header para poner el score de puzzle al final (end) con color verde o rojo
+  <ion-icon *ngIf="isPuzzleCompleted && puzzleStatus === 'good'" slot="end" name="arrow-up-outline">
+  </ion-icon>
+
+  no se puede hacer por el diseño del componente web
+
+-->
+
+
+
+<app-header-bar></app-header-bar>
+
+<ion-content>
+
+  <ion-grid class="ion-no-padding ion-no-marging">
+    <ion-row class="ion-no-padding ion-no-marging">
+      <ion-col class="ion-no-padding ion-no-marging" size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6"
+        offset-lg="2" offset-xl="2">
+
+        <ion-card class="ion-no-margin ion-no-padding">
+
+          <ion-card-content class="ion-no-margin ion-no-padding">
+            <div class="board" id="boardPuzzle">
+            </div>
+
+            <ion-item>
+              <ion-label [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
+              <ion-buttons slot="end">
+                <ion-button fill="clear" (click)="turnRoundBoard()">
+                  <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle || !uiSet.allowBackMove"
+                  (click)="starPosition()">
+                  <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle  || !uiSet.allowBackMove"
+                  (click)="backMove()">
+                  <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
+                </ion-button>
+
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle || !uiSet.allowNextMove"
+                  (click)="nextMove()">
+                  <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" [disabled]="!uiSet.allowNextPuzzle || !uiSet.allowNextMove"
+                  (click)="moveToEnd()">
+                  <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
+                </ion-button>
+              </ion-buttons>
+            </ion-item>
+
+          </ion-card-content>
+          <ion-progress-bar [color]="timeColor" buffer></ion-progress-bar>
+        </ion-card>
+
+      </ion-col>
+
+      <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
+        <ion-item class="item-puzzle-info">
+          <ion-icon style="font-size: 3em;" slot="start" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
+          <ion-label>
+
+            <ion-text color="medium">
+              <h6>{{ puzzleToResolve?.rating }}</h6>
+            </ion-text>
+
+            <span [ngSwitch]="puzzleStatus">
+              <span *ngSwitchCase="'start'">
+                Juegan las {{ puzzleColor === 'b' ? 'negras' : 'blancas' }}
+              </span>
+              <span *ngSwitchCase="'good'">
+                Continua...
+              </span>
+              <span *ngSwitchCase="'wrong'">
+                ups!, no es
+              </span>
+              <span *ngSwitchCase="'finished'">
+                Bien!
+              </span>
+            </span>
+          </ion-label>
+          <ion-icon *ngIf="puzzleStatus === 'good'" slot="end" color="success" name="checkmark-circle-outline">
+          </ion-icon>
+
+          <ion-button slot="end" clear *ngIf="puzzleStatus === 'wrong'" (click)="backMove(true)">
+            Reintentar
+          </ion-button>
+          <ion-icon *ngIf="puzzleStatus === 'wrong'" slot="end" color="danger" name="close-circle-outline"></ion-icon>
+
+        </ion-item>
+
+
+        <ion-row>
+
+          <ion-col *ngIf="uiSet.allowNextPuzzle" size="12" class="ion-margin-vertical">
+
+            <ion-text *ngIf="puzzleStatus === 'finished' && !uiSet.isRetrying" color="success">
+              <h6 style="margin:0;" class="ion-text-center">
+                {{eloLessSum}}
+                <ion-icon name="trending-up-outline"></ion-icon>
+              </h6>
+
+            </ion-text>
+            <ion-text *ngIf="puzzleStatus === 'showSolution'  || puzzleStatus === 'wrong'" color="danger">
+              <h6 style="margin:0;" class="ion-text-center">
+                {{eloLessSum}}
+                <ion-icon name="trending-down-outline"></ion-icon>
+              </h6>
+            </ion-text>
+
+            <ion-text>
+              <h1 style="margin:0;" class="ion-text-center">
+                {{ eloToShow }}
+              </h1>
+            </ion-text>
+
+          </ion-col>
+
+          <ion-col size="12">
+
+            <ion-button *ngIf="!uiSet.allowNextPuzzle" size="small" expand="block" fill="clear"
+              (click)="showSolution()">
+              Ver la solución
+            </ion-button>
+            <ion-button *ngIf="uiSet.allowNextPuzzle" size="large" expand="block" (click)="nextPuzzle()">
+              Continuar entrenamiento
+            </ion-button>
+
+          </ion-col>
+
+        </ion-row>
+
+        <!-- <ion-row class="ion=margin-top">
+          <ion-col size="12">
+            <app-statics></app-statics>
+          </ion-col>
+        </ion-row> -->
+
+
+
+      </ion-col>
+    </ion-row>
+
+
+
+  </ion-grid>
+
+
+</ion-content>
