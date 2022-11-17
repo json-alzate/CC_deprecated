@@ -8,13 +8,13 @@ import { UserPuzzlesGuard } from '@guards/user-puzzles.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'puzzles',
     pathMatch: 'full'
   },
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
-  },
+  // {
+  //   path: 'home',
+  //   loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
+  // },
   {
     path: 'coordinates',
     canActivate: [CoordinatesPuzzlesGuard],

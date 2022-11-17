@@ -36,16 +36,19 @@
 
       <ng-container *ngIf="showProfile; else elseTemplateShowProfile">
 
-        <app-profile></app-profile>
+        <!-- TODO: habilitar pagina perfil -->
+        <!-- <app-profile></app-profile> -->
 
       </ng-container>
       <ng-template #elseTemplateShowProfile>
 
 
-        <ion-item>
-          <ion-icon name="home-outline" slot="start"></ion-icon>
-          <ion-label>Inicio</ion-label>
-        </ion-item>
+        <ion-menu-toggle>
+          <ion-item button (click)="goTo('/')" detail="false">
+            <ion-icon name="home-outline" slot="start"></ion-icon>
+            <ion-label>Inicio</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
 
         <ion-menu-toggle>
           <ion-item button (click)="goTo('/puzzles/training')" detail="false">
@@ -55,7 +58,7 @@
         </ion-menu-toggle>
 
 
-        <ion-item>
+        <!-- <ion-item>
           <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
           <ion-label>Elo</ion-label>
         </ion-item>
@@ -68,7 +71,15 @@
         <ion-item>
           <ion-icon name="hammer-outline" slot="start"></ion-icon>
           <ion-label>Herramientas</ion-label>
-        </ion-item>
+        </ion-item> -->
+
+        <ion-menu-toggle>
+
+          <ion-item button (click)="goTo('/coordinates')" detail="false">
+            <ion-icon name="locate-outline" slot="start"></ion-icon>
+            Coordenadas
+          </ion-item>
+        </ion-menu-toggle>
 
 
 
