@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Socket } from 'ngx-socket-io';
+// import { Socket } from 'ngx-socket-io';
 // core and third party libraries
 
 // rxjs
@@ -33,16 +33,15 @@ import { MovesService } from '@services/moves.service';
 export class SocketsService {
 
 
-  private readyListenMatchGame: boolean = false;
-
-  private uidUser: string;
-
   uidsGamesToListenMoves: string[] = [];
 
   currentGame: Game;
 
+  private readyListenMatchGame = false;
+  private uidUser: string;
+
   constructor(
-    private socket: Socket,
+    // private socket: Socket,
     private gameService: GameService,
     private movesService: MovesService,
     private store: Store<CurrentGameState>
@@ -63,26 +62,26 @@ export class SocketsService {
 
 
   startConnection() {
-    this.socket.connect();
+    // this.socket.connect();
     this.listenCancelGame();
     this.listenMoves();
   }
 
   // Match Engine
   sendRequestNewGame(requestNewGame: UserRequestToPlay) {
-    this.socket.emit('1_in_matchEngine_requestGame', requestNewGame);
+    // this.socket.emit('1_in_matchEngine_requestGame', requestNewGame);
     this.uidUser = requestNewGame.uidUser;
   }
 
   listenMatchGame() {
     if (!this.readyListenMatchGame) {
 
-      this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((match: GameSocket) => {
-        console.log('tenemos match!', match);
-        this.readyListenMatchGame = true;
-        this.uidsGamesToListenMoves.push(match.uid);
-        this.gameService.startGameFromSocket(match, this.uidUser);
-      });
+      // this.socket.fromEvent('2_out_matchEngine_readyMatch').subscribe((match: GameSocket) => {
+      //   console.log('tenemos match!', match);
+      //   this.readyListenMatchGame = true;
+      //   this.uidsGamesToListenMoves.push(match.uid);
+      //   this.gameService.startGameFromSocket(match, this.uidUser);
+      // });
 
     }
   }
@@ -91,22 +90,22 @@ export class SocketsService {
   // Game
   listenCancelGame() {
 
-    this.socket.fromEvent('6_out_game_end').subscribe((endGame: EndGame) => {
+    // this.socket.fromEvent('6_out_game_end').subscribe((endGame: EndGame) => {
 
-      if (endGame?.uid === this.currentGame?.uid) {
-        console.log('endGame', endGame);
+    //   if (endGame?.uid === this.currentGame?.uid) {
+    //     console.log('endGame', endGame);
 
-        const action = cancelCurrentGame({ cancelReason: endGame.motive });
-        this.store.dispatch(action);
-      }
+    //     const action = cancelCurrentGame({ cancelReason: endGame.motive });
+    //     this.store.dispatch(action);
+    //   }
 
-    });
+    // });
 
   }
 
   // Moves
   sendMove(move: Move) {
-    this.socket.emit('3_in_game_move', move);
+    // this.socket.emit('3_in_game_move', move);
   }
 
   /**
@@ -114,13 +113,13 @@ export class SocketsService {
    */
   listenMoves() {
 
-    this.socket.fromEvent('4_out_game_move').subscribe((move: any) => {
-      console.log('move', move);
-      const find = this.uidsGamesToListenMoves.find(uid => uid === move.uidGame);
-      if (find) {
-        this.movesService.addMoveFromSocket(move);
-      }
-    });
+    // this.socket.fromEvent('4_out_game_move').subscribe((move: any) => {
+    //   console.log('move', move);
+    //   const find = this.uidsGamesToListenMoves.find(uid => uid === move.uidGame);
+    //   if (find) {
+    //     this.movesService.addMoveFromSocket(move);
+    //   }
+    // });
 
   }
 

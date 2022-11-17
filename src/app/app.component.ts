@@ -5,7 +5,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { ModalController, Platform, isPlatform, NavController } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { Socket } from 'ngx-socket-io';
+// import { Socket } from 'ngx-socket-io';
 import { initializeApp } from 'firebase/app';
 import { environment } from '@environments/environment';
 
@@ -58,7 +58,7 @@ export class AppComponent {
     private platform: Platform,
     private firestoreService: FirestoreService,
     private socketsService: SocketsService,
-    private socket: Socket,
+    // private socket: Socket,
     private store: Store<AuthState>,
     private fcmService: FcmService,
     private toolsService: ToolsService,

@@ -1,6 +1,6 @@
 // core and third party libraries
 import { Component, OnInit } from '@angular/core';
-import { Socket } from 'ngx-socket-io';
+// import { Socket } from 'ngx-socket-io';
 import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 import Chess from 'chess.js';
@@ -859,7 +859,7 @@ export class HomePage implements OnInit {
     private modalController: ModalController,
     private socketsService: SocketsService,
     private store: Store<CurrentGameState>,
-    private socket: Socket
+    // private socket: Socket
   ) {
     // TODO: Activar lsitener socket
     // this.socket.fromEvent('ping').subscribe((game: any) => {
@@ -973,13 +973,13 @@ export class HomePage implements OnInit {
    * Listen moves from socket
    */
   listenMove() {
-    this.socket.fromEvent('4_out_game_move').subscribe((move: Move) => {
-      console.log('move', move);
-      if (move.uidGame === this.currentGameState.game.uid) {
-        this.chessInstance.move(move);
-        this.board.setPosition(this.chessInstance.fen());
-      }
-    });
+    // this.socket.fromEvent('4_out_game_move').subscribe((move: Move) => {
+    //   console.log('move', move);
+    //   if (move.uidGame === this.currentGameState.game.uid) {
+    //     this.chessInstance.move(move);
+    //     this.board.setPosition(this.chessInstance.fen());
+    //   }
+    // });
   }
 
 

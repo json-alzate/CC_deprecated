@@ -65,7 +65,7 @@ if (environment.production) {
     StoreModule.forRoot(appReducers),
     ...devImports,
     EffectsModule.forRoot(fromEffects.EFFECTS),
-    SocketIoModule.forRoot(config),
+    // SocketIoModule.forRoot(config),
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
