@@ -12,7 +12,7 @@ export class PuzzlesPage implements OnInit {
   constructor(
     private puzzlesService: PuzzlesService
   ) {
-    this.puzzlesService.getPuzzlesToUpload();
+    // this.puzzlesService.getPuzzlesToUpload();
 
   }
 
