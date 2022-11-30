@@ -52,33 +52,32 @@ if (environment.production) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
-  imports: [
-    BrowserModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    /* NGRX */
-    StoreRouterConnectingModule.forRoot({
-      serializer: CustomRouterStateSerializer
-    }),
-    StoreModule.forRoot(appReducers),
-    ...devImports,
-    EffectsModule.forRoot(fromEffects.EFFECTS),
-    // SocketIoModule.forRoot(config),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
-    HttpClientModule,
-    TranslocoRootModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SharedModule
-  ],
-  providers: [
-    PROVIDERS,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-  ],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent],
+    imports: [
+        BrowserModule,
+        IonicModule.forRoot(),
+        AppRoutingModule,
+        /* NGRX */
+        StoreRouterConnectingModule.forRoot({
+            serializer: CustomRouterStateSerializer
+        }),
+        StoreModule.forRoot(appReducers),
+        ...devImports,
+        EffectsModule.forRoot(fromEffects.EFFECTS),
+        // SocketIoModule.forRoot(config),
+        provideFirebaseApp(() => initializeApp(environment.firebase)),
+        provideAuth(() => getAuth()),
+        provideFirestore(() => getFirestore()),
+        HttpClientModule,
+        TranslocoRootModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SharedModule
+    ],
+    providers: [
+        PROVIDERS,
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -12,19 +12,16 @@ import * as fromComponents from './components/';
 import { CoordinatesPage } from './coordinates.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    CoordinatesPageRoutingModule,
-    SharedModule
-  ],
-  declarations: [
-    CoordinatesPage,
-    ...fromComponents.COMPONENTS
-  ],
-  entryComponents: [
-    ...fromComponents.ENTRY_COMPONENTS
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        CoordinatesPageRoutingModule,
+        SharedModule
+    ],
+    declarations: [
+        CoordinatesPage,
+        ...fromComponents.COMPONENTS
+    ]
 })
 export class CoordinatesPageModule { }

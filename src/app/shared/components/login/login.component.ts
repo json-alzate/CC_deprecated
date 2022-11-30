@@ -1,7 +1,7 @@
 // core and third party libraries
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, PopoverController } from '@ionic/angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 
@@ -39,9 +39,9 @@ export class LoginComponent implements OnInit {
 
   @Input() showAs: 'modal' | 'popover';
 
-  formSingUp: FormGroup;
-  formLogin: FormGroup;
-  formResetPassword: FormGroup;
+  formSingUp: UntypedFormGroup;
+  formLogin: UntypedFormGroup;
+  formResetPassword: UntypedFormGroup;
 
   showResetPassword = false;
   showEmailPassword = false;
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
   emailRegexValidator = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$/;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private popoverController: PopoverController,
     private modalController: ModalController,
     private authService: AuthService,
