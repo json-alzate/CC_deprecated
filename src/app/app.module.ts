@@ -25,11 +25,6 @@ import { CustomRouterStateSerializer } from '@redux/states/router.state';
 import * as fromEffects from '@redux/effects';
 import * as fromGuards from '@guards/index';
 
-// firebase
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-
 
 import { TranslocoRootModule } from './transloco-root.module';
 
@@ -52,32 +47,29 @@ if (environment.production) {
 }
 
 @NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        IonicModule.forRoot(),
-        AppRoutingModule,
-        /* NGRX */
-        StoreRouterConnectingModule.forRoot({
-            serializer: CustomRouterStateSerializer
-        }),
-        StoreModule.forRoot(appReducers),
-        ...devImports,
-        EffectsModule.forRoot(fromEffects.EFFECTS),
-        // SocketIoModule.forRoot(config),
-        provideFirebaseApp(() => initializeApp(environment.firebase)),
-        provideAuth(() => getAuth()),
-        provideFirestore(() => getFirestore()),
-        HttpClientModule,
-        TranslocoRootModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SharedModule
-    ],
-    providers: [
-        PROVIDERS,
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [AppComponent],
+  imports: [
+    BrowserModule,
+    IonicModule.forRoot(),
+    AppRoutingModule,
+    /* NGRX */
+    StoreRouterConnectingModule.forRoot({
+      serializer: CustomRouterStateSerializer
+    }),
+    StoreModule.forRoot(appReducers),
+    ...devImports,
+    EffectsModule.forRoot(fromEffects.EFFECTS),
+    // SocketIoModule.forRoot(config),
+    HttpClientModule,
+    TranslocoRootModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule
+  ],
+  providers: [
+    PROVIDERS,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
