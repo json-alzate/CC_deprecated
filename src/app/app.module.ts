@@ -25,11 +25,6 @@ import { CustomRouterStateSerializer } from '@redux/states/router.state';
 import * as fromEffects from '@redux/effects';
 import * as fromGuards from '@guards/index';
 
-// firebase
-import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { provideAuth, getAuth } from '@angular/fire/auth';
-import { provideFirestore, getFirestore } from '@angular/fire/firestore';
-
 
 import { TranslocoRootModule } from './transloco-root.module';
 
@@ -53,7 +48,6 @@ if (environment.production) {
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -66,9 +60,6 @@ if (environment.production) {
     ...devImports,
     EffectsModule.forRoot(fromEffects.EFFECTS),
     // SocketIoModule.forRoot(config),
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore()),
     HttpClientModule,
     TranslocoRootModule,
     FormsModule,
@@ -79,6 +70,6 @@ if (environment.production) {
     PROVIDERS,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

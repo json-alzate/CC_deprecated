@@ -12,21 +12,17 @@ import * as fromComponents from './components/';
 import { PuzzlesPage } from './puzzles.page';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    PuzzlesPageRoutingModule,
-    SharedModule
-  ],
-  declarations: [
-    PuzzlesPage,
-    ...fromComponents.COMPONENTS,
-    ...fromContainers.CONTAINERS
-  ],
-  entryComponents: [
-    ...fromComponents.ENTRY_COMPONENTS,
-    ...fromContainers.ENTRY_CONTAINERS
-  ]
+    imports: [
+        CommonModule,
+        FormsModule,
+        IonicModule,
+        PuzzlesPageRoutingModule,
+        SharedModule
+    ],
+    declarations: [
+        PuzzlesPage,
+        ...fromComponents.COMPONENTS,
+        ...fromContainers.CONTAINERS
+    ]
 })
 export class PuzzlesPageModule { }

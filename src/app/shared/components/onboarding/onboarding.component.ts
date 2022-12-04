@@ -1,6 +1,6 @@
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Store, select } from '@ngrx/store';
 
@@ -33,7 +33,7 @@ import { ProfileService } from '@services/profile.service';
 })
 export class OnboardingComponent implements OnInit {
 
-  formOnboarding: FormGroup;
+  formOnboarding: UntypedFormGroup;
 
   flags: Flag[] = [];
   flagsBackUp: Flag[] = [];
@@ -46,7 +46,7 @@ export class OnboardingComponent implements OnInit {
 
   constructor(
     private toolsService: ToolsService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private profileService: ProfileService,
     private modalController: ModalController,
     private store: Store<AuthState>
