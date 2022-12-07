@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PuzzlesPage } from './puzzles.page';
 import { TrainingComponent } from './containers/training/training.component';
+import { InfiniteComponent } from './containers/infinite/infinite.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,10 @@ const routes: Routes = [
   {
     path: 'training',
     component: TrainingComponent
+  },
+  {
+    path: 'infinite',
+    component: InfiniteComponent
   }
 ];
 
