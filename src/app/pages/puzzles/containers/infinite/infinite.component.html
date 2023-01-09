@@ -1,3 +1,85 @@
-<p>
-  infinite works!
-</p>
+<app-header-bar></app-header-bar>
+
+<ion-content>
+
+  <ion-grid class="ion-no-padding ion-no-marging">
+    <ion-row class="ion-no-padding ion-no-marging">
+      <ion-col class="ion-no-padding ion-no-marging" size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6"
+        offset-lg="2" offset-xl="2">
+
+        <ion-card class="ion-no-margin ion-no-padding">
+
+          <ion-card-content class="ion-no-margin ion-no-padding">
+            <div class="board" id="boardPuzzleInfinite">
+            </div>
+
+          </ion-card-content>
+          <ion-progress-bar [color]="timeColor" buffer></ion-progress-bar>
+        </ion-card>
+
+      </ion-col>
+      <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
+
+        <ion-item lines="none" detail="false">
+          <ion-label>Rango de ELO</ion-label>
+        </ion-item>
+        <ion-item lines="none" detail="false">
+          <div slot="start">800</div>
+          <ion-range [dualKnobs]="true" step="50" [value]="{ lower: 800, upper: 2500 }"></ion-range>
+          <div slot="end">2500</div>
+        </ion-item>
+
+        <br>
+
+        <!-- <ion-item>
+          <ion-label>Elegir fases</ion-label>
+          <ion-select interface="popover" value="all" multiple="true">
+            <ion-select-option value="peperoni">Apertura</ion-select-option>
+            <ion-select-option value="hawaii">Medio juego</ion-select-option>
+            <ion-select-option value="hawaiii">Final</ion-select-option>
+            <ion-select-option value="hawaiiii">Mate</ion-select-option>
+          </ion-select>
+        </ion-item> -->
+
+        <ion-accordion-group>
+
+          <ion-accordion value="first">
+            <ion-item slot="header" color="light">
+              <ion-label>Fases</ion-label>
+              <div slot="end">Todas</div>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+
+              <ion-item>
+                <ion-label>Apertura</ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Medio juego</ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Final</ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Mate</ion-label>
+                <ion-checkbox slot="end"></ion-checkbox>
+              </ion-item>
+
+
+
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+
+
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+</ion-content>

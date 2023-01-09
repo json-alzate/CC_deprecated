@@ -3,19 +3,41 @@
 <ion-content>
 
     <ion-card>
-        <ion-card-header>
-            <ion-card-title>En construcción</ion-card-title>
-        </ion-card-header>
         <ion-card-content>
-
             <p>
                 Estamos construyendo un conjunto de Herramientas para que disfrutes del ajedrez.
-            </p>
-            <p>
                 Si quieres ayudarme, puedes hacerlo en <a href="https://github.com/json-alzate/ChessColate">Github</a>
             </p>
-
         </ion-card-content>
     </ion-card>
+
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col size="6">
+                <ion-card button (click)="goTo('/puzzles/training')">
+                    <ion-card-content>
+                        <ion-icon style="font-size: 10em;" name="extension-puzzle-outline"></ion-icon>
+                    </ion-card-content>
+                    <ion-card-header>
+                        <ion-card-title>Ejercicios</ion-card-title>
+                        <ion-card-subtitle>Resuelve ejercicios según tu puntuación</ion-card-subtitle>
+                    </ion-card-header>
+
+                </ion-card>
+            </ion-col>
+            <ion-col size="6">
+                <ion-card button (click)="goTo('/puzzles/infinite')">
+                    <ion-card-content>
+                        <ion-icon style="font-size: 10em;" name="infinite-outline"></ion-icon>
+                    </ion-card-content>
+                    <ion-card-header>
+                        <ion-card-title>Infinite</ion-card-title>
+                        <ion-card-subtitle>Configuralos, y no pares de resolver</ion-card-subtitle>
+                    </ion-card-header>
+
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
 </ion-content>

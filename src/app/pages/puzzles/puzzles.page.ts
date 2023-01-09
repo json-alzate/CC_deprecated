@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 import { PuzzlesService } from '@services/puzzles.service';
 
@@ -10,13 +11,18 @@ import { PuzzlesService } from '@services/puzzles.service';
 export class PuzzlesPage implements OnInit {
 
   constructor(
-    private puzzlesService: PuzzlesService
+    private puzzlesService: PuzzlesService,
+    private navController: NavController
   ) {
     // this.puzzlesService.getPuzzlesToUpload();
 
   }
 
   ngOnInit() {
+  }
+
+  goTo(path: string) {
+    this.navController.navigateForward(path);
   }
 
 }
