@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 
 import {
   COLOR,
@@ -23,7 +23,18 @@ export class InfiniteComponent implements OnInit {
   board;
   chessInstance = new Chess();
 
-  constructor() { }
+  formGame: UntypedFormGroup;
+  phasesSelectedToShow = 'Todas';
+
+  constructor(
+    private formBuilder: UntypedFormBuilder
+  ) {
+    this.buildFormGame();
+  }
+
+  get phasesField() {
+    return this.formGame.get('phases');
+  }
 
   ngOnInit() { }
 
@@ -31,6 +42,29 @@ export class InfiniteComponent implements OnInit {
     this.loadBoard();
   }
 
+
+  buildFormGame() {
+    this.formGame = this.formBuilder.group({
+      eloRange: [0, [Validators.required, Validators.min(0)]],
+      phases: [[]],
+      time: [3],
+    });
+  }
+
+  checkboxChange(event, phase) {
+    // adiciona o quita la fase del arreglo de fases del formulario
+    if (event.detail.checked) {
+      this.phasesField.value.push(phase);
+    }
+    else {
+      const index = this.phasesField.value.indexOf(phase);
+      this.phasesField.value.splice(index, 1);
+    }
+
+    // se unen las fases en un string para mostrarlas en el label
+    this.phasesSelectedToShow = this.phasesField.value.join(', ');
+
+  }
 
 
   async loadBoard() {

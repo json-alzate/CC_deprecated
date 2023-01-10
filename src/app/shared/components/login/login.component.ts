@@ -67,6 +67,30 @@ export class LoginComponent implements OnInit {
     this.listenAuthState();
   }
 
+  get emailFieldLogin() {
+    return this.formLogin.get('email');
+  }
+
+  get passwordFielLogin() {
+    return this.formLogin.get('password');
+  }
+
+  get emailFieldSingUp() {
+    return this.formSingUp.get('email');
+  }
+
+  get passwordFielSingUp() {
+    return this.formSingUp.get('password');
+  }
+
+  get rePasswordFielSingUp() {
+    return this.formSingUp.get('rePassword');
+  }
+
+  get emailFieldResetPassword() {
+    return this.formResetPassword.get('email');
+  }
+
   ngOnInit() {
 
     this.store.select(getErrorLogin).subscribe((error: string) => {
@@ -122,13 +146,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get emailFieldLogin() {
-    return this.formLogin.get('email');
-  }
-
-  get passwordFielLogin() {
-    return this.formLogin.get('password');
-  }
 
   onSubmitLogin($event: Event) {
     $event.preventDefault();
@@ -158,17 +175,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get emailFieldSingUp() {
-    return this.formSingUp.get('email');
-  }
-
-  get passwordFielSingUp() {
-    return this.formSingUp.get('password');
-  }
-
-  get rePasswordFielSingUp() {
-    return this.formSingUp.get('rePassword');
-  }
 
 
   onSubmitSingUp($event: Event) {
@@ -208,9 +214,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get emailFieldResetPassword() {
-    return this.formResetPassword.get('email');
-  }
+
 
   // Recuperar password
   resetPassword($event: Event) {

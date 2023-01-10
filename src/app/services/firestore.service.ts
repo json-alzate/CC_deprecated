@@ -207,10 +207,39 @@ export class FirestoreService {
       }
     });
 
-    console.log(puzzlesToReturn);
+    return puzzlesToReturn;
+  }
 
+
+  /**
+   * obtiene los puzzles desde firestore buscando que el tema este en el array de temas. y también implementando
+   * un random para que no se repitan los puzzles
+   *
+   * @param themes
+   * @returns
+   */
+  async getPuzzlesByThemes(themes: string[]) {
+
+    const minRandom = randomNumber();
+    const puzzlesToReturn: Puzzle[] = [];
+    const q = query(
+      collection(this.db, 'puzzles'),
+      where('randomNumberQuery', '>=', minRandom),
+      limit(200)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const puzzleToAdd = document.data() as Puzzle;
+      puzzleToAdd.uid = document.id;
+      if (puzzleToAdd.themes.some((theme) => themes.includes(theme))) {
+        puzzlesToReturn.push(puzzleToAdd);
+      }
+    }
+    );
 
     return puzzlesToReturn;
+
   }
 
 
