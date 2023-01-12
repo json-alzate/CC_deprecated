@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
 
+/** Angular Modules **/
+import { Component, OnInit } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 
+
+/** Ionic Modules **/
+
+
+/** Third party modules **/
 import {
   COLOR,
   INPUT_EVENT_TYPE,
@@ -11,6 +17,28 @@ import {
   BORDER_TYPE
 } from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
 import Chess from 'chess.js';
+
+
+/** Redux **/
+import { Store, select } from '@ngrx/store';
+
+// --- States ---
+import { PuzzlesState } from '@redux/states/puzzles.state';
+
+// --- Actions ---
+import { requestLoadPuzzlesInfinite } from '@redux/actions/puzzles.actions';
+
+// --- Selectors ---
+import { getPuzzlesInfiniteToResolve } from '@redux/selectors/puzzles.selectors';
+
+
+/** Models **/
+
+
+/** Services **/
+
+
+
 
 @Component({
   selector: 'app-infinite',
@@ -27,6 +55,7 @@ export class InfiniteComponent implements OnInit {
   phasesSelectedToShow = 'Todas';
 
   constructor(
+    private store: Store<PuzzlesState>,
     private formBuilder: UntypedFormBuilder
   ) {
     this.buildFormGame();
@@ -34,6 +63,14 @@ export class InfiniteComponent implements OnInit {
 
   get phasesField() {
     return this.formGame.get('phases');
+  }
+
+  get timeField() {
+    return this.formGame.get('time');
+  }
+
+  get eloRangeField() {
+    return this.formGame.get('eloRange');
   }
 
   ngOnInit() { }
@@ -45,7 +82,7 @@ export class InfiniteComponent implements OnInit {
 
   buildFormGame() {
     this.formGame = this.formBuilder.group({
-      eloRange: [0, [Validators.required, Validators.min(0)]],
+      eloRange: [{ lower: 0, upper: 50 }],
       phases: [[]],
       time: [3],
     });
@@ -64,6 +101,33 @@ export class InfiniteComponent implements OnInit {
     // se unen las fases en un string para mostrarlas en el label
     this.phasesSelectedToShow = this.phasesField.value.join(', ');
 
+  }
+
+
+  requestStartGame($event) {
+
+    // prevent default
+    $event.preventDefault();
+    if (this.formGame.valid) {
+
+      const eloRange = this.eloRangeField.value;
+      const phases = this.phasesField.value;
+      const time = this.timeField.value;
+
+      console.log('eloRange', eloRange);
+
+      const action = requestLoadPuzzlesInfinite({ eloStar: eloRange.lower, eloEnd: eloRange.upper, phases });
+      this.store.dispatch(action);
+
+    }
+
+  }
+
+
+  subscribeForPuzzlesInfinite(eloStar: number, eloEnd: number, phases: string[]) {
+    this.store.pipe(select(getPuzzlesInfiniteToResolve(eloStar, eloEnd, phases))).subscribe(puzzles => {
+      console.log('puzzles', puzzles);
+    });
   }
 
 

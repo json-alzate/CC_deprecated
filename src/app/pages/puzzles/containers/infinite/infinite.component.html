@@ -21,14 +21,14 @@
       </ion-col>
       <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
 
-        <form [formGroup]="formGame">
+        <form [formGroup]="formGame" (ngSubmit)="requestStartGame($event)">
 
           <ion-item lines="none" detail="false">
             <ion-label>Rango de ELO</ion-label>
           </ion-item>
           <ion-item lines="none" detail="false">
             <div slot="start">800</div>
-            <ion-range formControlName="eloRange" [dualKnobs]="true" step="50"></ion-range>
+            <ion-range formControlName="eloRange" max="2500" min="600" [dualKnobs]="true" step="50"></ion-range>
             <div slot="end">2500</div>
           </ion-item>
 
@@ -89,7 +89,7 @@
           <br>
 
 
-          <ion-button size="large" expand="block" color="primary">Iniciar</ion-button>
+          <ion-button type="submit" size="large" expand="block" color="primary">Iniciar</ion-button>
 
 
         </form>

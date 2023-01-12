@@ -11,4 +11,5 @@ export interface Puzzle {
     gameUrl: string;
     openingFamily: string;
     openingVariation: string;
+    infiniteSolveStatus?: 'solved' | 'wrong' | 'wrongTime';
 }

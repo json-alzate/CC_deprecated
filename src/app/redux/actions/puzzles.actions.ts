@@ -8,6 +8,11 @@ export const requestLoadPuzzles = createAction(
     props<{ eloStar: number; eloEnd: number }>()
 );
 
+export const requestLoadPuzzlesInfinite = createAction(
+    '[Puzzles] requestLoadPuzzlesInfinite',
+    props<{ eloStar: number; eloEnd: number; phases: string[] }>()
+);
+
 export const addPuzzles = createAction(
     '[Puzzles] addPuzzles',
     props<{ puzzles: Puzzle[] }>()
