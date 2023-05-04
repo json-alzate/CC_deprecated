@@ -18,10 +18,10 @@
 
         <ion-buttons slot="start" class="ion-hide-md-down">
 
-            <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
+            <!-- <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
                 Ejercicios
-            </ion-button>
+            </ion-button> -->
             <!-- <ion-button class="ion-text-capitalize" fill="clear">
                 <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
                 Elo
@@ -49,7 +49,7 @@
             </ion-button>
         </ion-buttons> -->
 
-        <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
+        <!-- <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
             <ng-container *ngIf="profile?.email ; else elseTemplateLoginButton">
 
@@ -79,7 +79,7 @@
                 </ng-template>
             </ion-popover>
 
-        </ng-template>
+        </ng-template> -->
 
 
 
