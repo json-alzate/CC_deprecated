@@ -8,5 +8,4 @@ export interface User {
     scoreCoordinatesB?: number;
     country?: string;
     createAt: number;
-    urlAvatar?: string;
 }

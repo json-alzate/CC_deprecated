@@ -30,10 +30,12 @@
                 <ion-icon name="color-palette-outline" slot="start"></ion-icon>
                 Pinturas
             </ion-button>
+           
             <ion-button class="ion-text-capitalize" fill="clear">
                 <ion-icon name="hammer-outline" slot="start"></ion-icon>
                 Herramientas
-            </ion-button> -->
+            </ion-button> 
+             -->
             <ion-button (click)="goTo('/coordinates')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="locate-outline" slot="start"></ion-icon>
                 Coordenadas
@@ -49,14 +51,11 @@
             </ion-button>
         </ion-buttons> -->
 
-        <!-- <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
+         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
             <ng-container *ngIf="profile?.email ; else elseTemplateLoginButton">
 
                 <ion-chip slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
-                    <ion-avatar>
-                        <img [src]="profile.urlAvatar" onerror="this.src='/assets/images/profile/error.jpg'">
-                    </ion-avatar>
                     <ion-label>{{ profile.name }}</ion-label>
                     <ion-icon name="menu"></ion-icon>
                 </ion-chip>
@@ -79,7 +78,7 @@
                 </ng-template>
             </ion-popover>
 
-        </ng-template> -->
+        </ng-template> 
 
 
 

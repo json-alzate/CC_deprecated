@@ -8,9 +8,6 @@
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-          <ion-avatar slot="start">
-            <img [src]="profile.urlAvatar" onerror="this.src='/assets/images/profile/error.jpg'">
-          </ion-avatar>
           <ion-title> {{profile.name }} </ion-title>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
@@ -57,21 +54,6 @@
           </ion-item>
         </ion-menu-toggle>
 
-
-        <!-- <ion-item>
-          <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
-          <ion-label>Elo</ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-icon name="color-palette-outline" slot="start"></ion-icon>
-          <ion-label>Pinturas</ion-label>
-        </ion-item>
-
-        <ion-item>
-          <ion-icon name="hammer-outline" slot="start"></ion-icon>
-          <ion-label>Herramientas</ion-label>
-        </ion-item> -->
 
         <ion-menu-toggle>
 

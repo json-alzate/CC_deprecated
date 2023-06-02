@@ -1,13 +1,13 @@
 export interface UserRequestToPlay {
-    uidUser: string,
-    name: string,
-    time: number, // tiempo para el juego ejm: 10 minutes
-    timeIncrement: number,
-    lang: string,
-    elo: number,
-    color: 'white' | 'black' | 'random',
-    country: string, // 3 characters
-    createAt: number
+    uidUser: string;
+    name: string;
+    time: number; // tiempo para el juego ejm: 10 minutes
+    timeIncrement: number;
+    lang: string;
+    elo: number;
+    color: 'white' | 'black' | 'random';
+    country: string; // 3 characters
+    createAt: number;
 }
 
 
