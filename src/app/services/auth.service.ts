@@ -15,7 +15,6 @@ import {
   OAuthProvider,
   getAuth,
   signInWithPopup,
-  signInAnonymously,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   createUserWithEmailAndPassword,
@@ -34,7 +33,7 @@ import { from, Subject } from 'rxjs';
 import { AuthState } from '@redux/states/auth.state';
 
 // actions
-import { setErrorLogin, setErrorRegister } from '@redux/actions/auth.actions';
+import { logOut, setErrorLogin, setErrorRegister } from '@redux/actions/auth.actions';
 
 // selectors
 
@@ -61,6 +60,12 @@ export class AuthService {
     this.auth = this.setAuth();
   }
 
+  // actions
+  triggerLogout() {
+    const action = logOut();
+    this.store.dispatch(action);
+  }
+
 
   setAuth() {
     let auth;
@@ -72,15 +77,6 @@ export class AuthService {
       auth = getAuth();
     }
     return auth;
-  }
-
-  /**
-   * Ingresa anónimo
-   */
-
-  async initSignInAnonymously() {
-    const auth = this.setAuth();
-    signInAnonymously(auth);
   }
 
 
@@ -96,6 +92,7 @@ export class AuthService {
 
   /**
    * Para escuchar el estado del usuario logueado
+   *
    * @returns Subject<FirebaseUser>
    */
   getAuthState(): Subject<FirebaseUser> {
@@ -109,8 +106,9 @@ export class AuthService {
 
   /**
    * Registra un usuario con email y contraseña
-   * @param email 
-   * @param password 
+   *
+   * @param email
+   * @param password
    */
   async createUserWithEmailAndPassword(email: string, password: string) {
     const auth = this.setAuth();
@@ -125,9 +123,10 @@ export class AuthService {
   }
 
   /**
-   * Ingresa con email y contraseña 
-   * @param email 
-   * @param password 
+   * Ingresa con email y contraseña
+   *
+   * @param email
+   * @param password
    */
   async signInWithEmailAndPassword(email, password) {
     const auth = this.setAuth();
@@ -136,11 +135,11 @@ export class AuthService {
 
 
   /**
- * Send a password reset email
- *
- * @param email
- * @returns Promise<void>
- */
+   * Send a password reset email
+   *
+   * @param email
+   * @returns Promise<void>
+   */
   sendPasswordResetEmail(email: string) {
     const auth = this.setAuth();
     return sendPasswordResetEmail(auth, email);
@@ -150,7 +149,8 @@ export class AuthService {
 
   /**
    * Cierra sesión
-   * @returns 
+   *
+   * @returns
    */
   logout() {
     return from(this.auth.signOut());

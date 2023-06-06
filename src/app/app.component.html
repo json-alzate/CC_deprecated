@@ -8,7 +8,8 @@
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-          <ion-title> {{profile.name }} </ion-title>
+          <ion-title> {{ profile.name }} </ion-title>
+          <p>hola</p>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
             <ion-button>
@@ -33,8 +34,7 @@
 
       <ng-container *ngIf="showProfile; else elseTemplateShowProfile">
 
-        <!-- TODO: habilitar pagina perfil -->
-        <!-- <app-profile></app-profile> -->
+        <app-profile (closeProfile)="onLogout()" ></app-profile>
 
       </ng-container>
       <ng-template #elseTemplateShowProfile>
@@ -51,6 +51,20 @@
           <ion-item button (click)="goTo('/puzzles/training')" detail="false">
             <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
             <ion-label>Ejercicios</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        
+        <ion-menu-toggle>
+          <ion-item button (click)="goTo('/puzzles/training')" detail="false">
+            <ion-icon name="barbell-outline" slot="start"></ion-icon>
+            <ion-label>Titán</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+
+        <ion-menu-toggle>
+          <ion-item button (click)="goTo('/puzzles/training')" detail="false">
+            <ion-icon name="heart-half-outline" slot="start"></ion-icon>
+            <ion-label>Casillas</ion-label>
           </ion-item>
         </ion-menu-toggle>
 
@@ -90,11 +104,26 @@
   <ion-menu [swipeGesture]="false" contentId="main" menuId="menu-profile" side="end" type="overlay">
     <ion-header color="dark">
       <ion-toolbar>
-        <ion-title>Awesome avocado menu</ion-title>
+
+        <ng-container *ngIf="(profile$ | async) as profile">
+
+          <ion-item>
+            <ion-label>
+              <ion-text color="primary">
+                <h2 class="ion-text-center">{{ profile.name }}</h2>
+              </ion-text>
+            </ion-label>
+            <ion-button slot="end" fill="clear" (click)="closeMenu()">
+              <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+            </ion-button>
+          </ion-item>
+          
+        </ng-container>
+
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <app-profile></app-profile>
+      <app-profile (closeProfile)="onLogout()" ></app-profile>
     </ion-content>
     <ion-footer class="ion-no-border">
       <ion-toolbar>

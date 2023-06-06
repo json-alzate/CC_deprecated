@@ -2,7 +2,6 @@
     <ion-toolbar>
 
         <!--Web only-->
-        <!--TODO adicionar enlace a pagina principal-->
         <ion-thumbnail slot="start" class="ion-margin-horizontal ion-hide-md-down" (click)="goTo('/')">
             <img src="assets/home_icon.png" />
         </ion-thumbnail>
@@ -18,24 +17,19 @@
 
         <ion-buttons slot="start" class="ion-hide-md-down">
 
-            <!-- <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
+            <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
                 Ejercicios
-            </ion-button> -->
-            <!-- <ion-button class="ion-text-capitalize" fill="clear">
-                <ion-icon name="chatbubbles-outline" slot="start"></ion-icon>
-                Elo
             </ion-button>
-            <ion-button class="ion-text-capitalize" fill="clear">
-                <ion-icon name="color-palette-outline" slot="start"></ion-icon>
-                Pinturas
+            <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
+                <ion-icon name="barbell-outline" slot="start"></ion-icon>
+                Titán
             </ion-button>
-           
-            <ion-button class="ion-text-capitalize" fill="clear">
-                <ion-icon name="hammer-outline" slot="start"></ion-icon>
-                Herramientas
-            </ion-button> 
-             -->
+            <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
+                <ion-icon name="heart-half-outline" slot="start"></ion-icon>
+                Casillas
+            </ion-button>
+
             <ion-button (click)="goTo('/coordinates')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="locate-outline" slot="start"></ion-icon>
                 Coordenadas
@@ -44,12 +38,12 @@
 
         </ion-buttons>
 
-        <!-- <ion-buttons slot="end" class="ion-hide-md-down">
+        <ion-buttons slot="end" class="ion-hide-md-down">
             <ion-button>
                 <ion-icon slot="start" name="notifications-outline"></ion-icon>
                 <ion-badge slot="end" color="danger">42</ion-badge>
             </ion-button>
-        </ion-buttons> -->
+        </ion-buttons>
 
          <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 

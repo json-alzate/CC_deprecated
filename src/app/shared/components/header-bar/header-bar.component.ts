@@ -47,8 +47,7 @@ export class HeaderBarComponent implements OnInit {
   ngOnInit() { }
 
   openMenuProfile() {
-    // TODO: open menu profile
-    // this.menuController.open('menu-profile');
+    this.menuController.open('menu-profile');
   }
 
   goTo(path: string) {

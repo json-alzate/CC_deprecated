@@ -4,15 +4,15 @@ import { getAuthState } from '@redux/states/auth.state';
 
 export const getProfile = createSelector(
     getAuthState,
-    getAuthState => getAuthState.profile
+    authState => authState.profile
 );
 
 export const getErrorLogin = createSelector(
     getAuthState,
-    getAuthState => getAuthState.errorLogin
+    authState => authState.errorLogin
 );
 
 export const getErrorRegister = createSelector(
     getAuthState,
-    getAuthState => getAuthState.errorRegister
+    authState => authState.errorRegister
 );

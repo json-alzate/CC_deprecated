@@ -2,7 +2,7 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
-import { ModalController, Platform, isPlatform, NavController } from '@ionic/angular';
+import { ModalController, Platform, isPlatform, NavController, MenuController } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // import { Socket } from 'ngx-socket-io';
@@ -62,7 +62,8 @@ export class AppComponent {
     private store: Store<AuthState>,
     private fcmService: FcmService,
     private toolsService: ToolsService,
-    private navController: NavController
+    private navController: NavController,
+    private menuController: MenuController
   ) {
 
     this.initApp();
@@ -71,6 +72,10 @@ export class AppComponent {
     this.profile$ = this.store.pipe(
       select(getProfile)
     );
+
+    this.profile$.subscribe((profile: Profile) => {
+     console.log('profile', profile);
+    });
 
   }
 
@@ -101,9 +106,6 @@ export class AppComponent {
       // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
       if (dataAuth) {
         this.profileService.checkProfile(dataAuth);
-      } else {
-        // iniciar con anónimo
-        this.authService.initSignInAnonymously();
       }
     });
   }
@@ -131,6 +133,16 @@ export class AppComponent {
 
   goTo(path) {
     this.navController.navigateForward(path);
+  }
+
+  closeMenu(){
+    this.menuController.close('menu-profile');
+  }
+
+  onLogout() {
+    this.authService.triggerLogout();
+    this.showProfile = false;
+    this.menuController.close('menu-profile');
   }
 
 }
