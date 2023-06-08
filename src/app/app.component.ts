@@ -38,6 +38,7 @@ import { ToolsService } from '@services/tools.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
+import { OnboardingComponent } from '@shared/components/onboarding/onboarding.component';
 
 @Component({
   selector: 'app-root',
@@ -74,7 +75,9 @@ export class AppComponent {
     );
 
     this.profile$.subscribe((profile: Profile) => {
-     console.log('profile', profile);
+      if (profile?.email && !profile.name) {
+        this.presentModalOnboarding();
+      }
     });
 
   }
@@ -130,12 +133,23 @@ export class AppComponent {
     await modal.present();
   }
 
+  async presentModalOnboarding() {
+    const modal = await this.modalController.create({
+      component: OnboardingComponent,
+      backdropDismiss: false,
+      cssClass: 'modal-onboarding'
+    });
+
+    await modal.present();
+
+  }
+
 
   goTo(path) {
     this.navController.navigateForward(path);
   }
 
-  closeMenu(){
+  closeMenu() {
     this.menuController.close('menu-profile');
   }
 

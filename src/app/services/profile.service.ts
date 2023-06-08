@@ -89,7 +89,6 @@ export class ProfileService {
     const profileForSet: Profile = {
       uid: dataAuth.uid,
       email: dataAuth.email,
-      name: dataAuth.displayName,
       elo: 1500,
       lang: this.translocoService.getActiveLang(),
       createAt: new Date().getTime()

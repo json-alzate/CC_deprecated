@@ -3,13 +3,11 @@
   <!--Mobile-->
   <ion-menu [swipeGesture]="false" side="start" menuId="first" contentId="main">
     <ion-header>
-
       <ion-toolbar>
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
           <ion-title> {{ profile.name }} </ion-title>
-          <p>hola</p>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
             <ion-button>
@@ -26,9 +24,7 @@
 
         </ng-template>
 
-
       </ion-toolbar>
-
     </ion-header>
     <ion-content>
 
@@ -77,11 +73,7 @@
           </ion-item>
         </ion-menu-toggle>
 
-
-
       </ng-template>
-
-
 
     </ion-content>
 
@@ -127,7 +119,6 @@
     </ion-content>
     <ion-footer class="ion-no-border">
       <ion-toolbar>
-
 
         <ion-button color="medium" fill="clear" expand="block">
           {{ version }}

@@ -207,9 +207,6 @@ export class FirestoreService {
       }
     });
 
-    console.log(puzzlesToReturn);
-
-
     return puzzlesToReturn;
   }
 

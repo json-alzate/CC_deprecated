@@ -1,6 +1,6 @@
 export interface User {
     uid: string;
-    name: string;
+    name?: string;
     elo: number;
     eloPuzzles?: number;
     numberPuzzlesPlayed?: number;
