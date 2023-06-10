@@ -1,6 +1,5 @@
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 
 import { AlertController } from '@ionic/angular';
 
@@ -21,14 +20,6 @@ import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
-// states
-import { UIState } from '@redux/states/ui.state';
-
-// actions
-import { requestAddOneCoordinatesPuzzle } from '@redux/actions/coordinates-puzzles.actions';
-
-// selectors
-import { getProfile } from '@redux/selectors/auth.selectors';
 
 
 // models
@@ -36,6 +27,8 @@ import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Profile } from '@models/profile.model';
 
 // services
+import { CoordinatesPuzzlesService } from '@services/coordinates-puzzles.service';
+import { ProfileService } from '@services/profile.service';
 
 // components
 
@@ -54,7 +47,6 @@ export class CoordinatesPage implements OnInit {
 
   subsSeconds;
 
-  segment: 'toName' | 'find' = 'find';
 
   isPlaying = false;
   currentPuzzle = '';
@@ -80,11 +72,11 @@ export class CoordinatesPage implements OnInit {
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   constructor(
-    private store: Store<UIState>,
-    private alertController: AlertController
-
+    private alertController: AlertController,
+    private coordinatesPuzzlesService: CoordinatesPuzzlesService
+    , private profileService: ProfileService
   ) {
-    this.store.pipe(select(getProfile)).subscribe((profile: Profile) => {
+    this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;
     });
   }
@@ -268,8 +260,7 @@ export class CoordinatesPage implements OnInit {
       color: this.board.getOrientation()
     };
 
-    const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
-    this.store.dispatch(action);
+    this.coordinatesPuzzlesService.requestAddOneCoordinatesPuzzle( coordinatesPuzzle );
   }
 
 

@@ -12,6 +12,8 @@ import { AuthState } from '@redux/states/auth.state';
 import { setProfile } from '@redux/actions/auth.actions';
 
 // selectors
+import { getProfile } from '@redux/selectors/auth.selectors';
+
 
 // models
 import { User as FirebaseUser } from 'firebase/auth';
@@ -34,6 +36,11 @@ export class ProfileService {
     private translocoService: TranslocoService,
     private firestoreService: FirestoreService
   ) { }
+
+  // subscribe to profile
+  subscribeToProfile() {
+   return this.store.pipe(select(getProfile));
+  }
 
   /**
    * Valida si el perfil existe en la BD y lo lleva al estado redux.

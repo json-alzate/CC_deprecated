@@ -7,26 +7,16 @@
 
       <ion-col size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6" offset-lg="2" offset-xl="2">
 
-        <!-- mobile -->
-        <ion-segment [disabled]="isPlaying" [value]="segment" class="ion-margin-bottom ion-hide-lg-up">
-          <ion-segment-button value="find">
-            <ion-label>Encontrar casillas</ion-label>
-          </ion-segment-button>
-          <!-- <ion-segment-button value="toName">
-            <ion-label>Nombrar casillas</ion-label>
-          </ion-segment-button> -->
-        </ion-segment>
-        <!-- end mobile -->
 
         <ion-card class="ion-no-margin ion-no-padding">
 
           <ion-card-content class="ion-no-margin ion-no-padding">
             <div class="board" id="boardCordinates">
             </div>
-
             <h1 class="current-puzzle">
               {{ currentPuzzle }}
             </h1>
+
 
             <h2>{{ time }}</h2>
           </ion-card-content>
@@ -38,18 +28,6 @@
       <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
 
         <ng-container *ngIf="!isPlaying; else elseTemplateIsPlaying">
-
-          <ion-segment [value]="segment" class="ion-margin-bottom ion-hide-md-down">
-            <ion-segment-button value="find">
-              <ion-icon name="contract-outline"></ion-icon>
-              <ion-label>Encontrar casillas</ion-label>
-            </ion-segment-button>
-            <ion-segment-button value="toName">
-              <ion-icon name="mic-outline"></ion-icon>
-              <ion-label>Nombrar casillas</ion-label>
-            </ion-segment-button>
-          </ion-segment>
-
 
           <div class="ion-hide-md-down">
             <app-statics></app-statics>

@@ -1,4 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+// states
+import { CoordinatesPuzzlesState } from '@redux/states/coordinates-puzzles.state';
+
+import { requestAddOneCoordinatesPuzzle } from '@redux/actions/coordinates-puzzles.actions';
+
+
 
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 
@@ -11,13 +19,17 @@ import { Observable, from } from 'rxjs';
 export class CoordinatesPuzzlesService {
 
   constructor(
+    private store: Store<CoordinatesPuzzlesState>,
     private firestoreService: FirestoreService
   ) { }
 
+  requestAddOneCoordinatesPuzzle( coordinatesPuzzle: CoordinatesPuzzle){
+    const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
+    this.store.dispatch(action);
+  }
+
   getCoordinatesPuzzles(uidUser: string): Observable<CoordinatesPuzzle[]> {
-
     return from<Promise<CoordinatesPuzzle[]>>(this.firestoreService.getCoordinatesPuzzles(uidUser));
-
   }
 
   addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Observable<string> {

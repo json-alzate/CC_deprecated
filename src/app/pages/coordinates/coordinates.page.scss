@@ -10,14 +10,14 @@
     z-index: 9;
     left: 36.5%;
     top: 30%;
-    font-size: 13em;
+    font-size: 28vh;
     pointer-events: none;
     color: var(--ion-color-dark);
     text-shadow: 2px 2px var(--ion-color-dark-shade);
 }
 
 .img-current-king {
-    max-width: 3vw;
+    max-width: 10vw;
     display: block;
     margin: 0 auto;
 }
@@ -34,13 +34,18 @@
 /* Extra small devices (phones, 600px and down) */
 @media only screen and (max-width: 600px) {
     .img-current-king {
-        max-width: 10vw;
+        max-width: 20vw;
     }
     .div-score-container {
         padding-top: 0vh;
         h1 {
             font-size: 3em;
         }
+    }
+    .current-puzzle{
+        left: 22.5%;
+        top: 20%;
+        font-size: 20vh;
     }
 }
 /* Small devices (portrait tablets and large phones, 600px and up) */
