@@ -177,6 +177,8 @@ export class FirestoreService {
   }
 
   async addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Promise<string> {
+    console.log('coordinatesPuzzle', coordinatesPuzzle);
+    
     const docRef = await addDoc(collection(this.db, 'coordinatesPuzzles'), coordinatesPuzzle);
     return docRef.id;
   }

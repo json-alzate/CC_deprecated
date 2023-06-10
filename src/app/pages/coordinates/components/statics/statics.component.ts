@@ -58,16 +58,18 @@ export class StaticsComponent implements OnInit, AfterViewInit {
           {
             label: 'Blancas',
             data: this.datasetW,
-            backgroundColor: 'rgba(153, 102, 255, 0.2)',
-            borderColor: 'rgba(153, 102, 255, 1)',
-            borderWidth: 1
+            backgroundColor: 'rgba(250, 250, 250, 0.8)',
+            borderColor: 'rgba(250, 250, 250, 1)',
+            borderWidth: 1,
+            fill: true
           },
           {
             label: 'Negras',
             data: this.datasetB,
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(139, 140, 147, 0.5)',
+            borderColor: 'rgba(82, 82, 82, 1)',
             borderWidth: 1,
+            fill: true
           }
         ]
       },
@@ -100,7 +102,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     // arreglos con posiciones y en orden inverso (el ultimo juego este en primer lugar en el arreglo)
     for (const dataset of this.lineChart.data.datasets) {
       // se identifica con el color de fondo y no con el nombre, puesto que el label puede ser traducido
-      if (dataset.backgroundColor === 'rgba(153, 102, 255, 0.2)') { // Blancas
+      if (dataset.backgroundColor === 'rgba(250, 250, 250, 0.8)') { // Blancas
         dataset.data = dataForW.reverse();
       } else { // Negras
         dataset.data = dataForB.reverse();

@@ -260,7 +260,10 @@ export class CoordinatesPage implements OnInit {
       color: this.board.getOrientation()
     };
 
-    this.coordinatesPuzzlesService.requestAddOneCoordinatesPuzzle( coordinatesPuzzle );
+    console.log('s1 saveGame', coordinatesPuzzle);
+    
+
+    this.coordinatesPuzzlesService.triggerRequestAddOneCoordinatesPuzzle( coordinatesPuzzle );
   }
 
 

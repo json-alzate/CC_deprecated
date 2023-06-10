@@ -23,7 +23,7 @@ export class CoordinatesPuzzlesService {
     private firestoreService: FirestoreService
   ) { }
 
-  requestAddOneCoordinatesPuzzle( coordinatesPuzzle: CoordinatesPuzzle){
+  triggerRequestAddOneCoordinatesPuzzle( coordinatesPuzzle: CoordinatesPuzzle){
     const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
     this.store.dispatch(action);
   }
@@ -33,6 +33,8 @@ export class CoordinatesPuzzlesService {
   }
 
   addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Observable<string> {
+    console.log('s1 addCoordinatesPuzzle', coordinatesPuzzle);
+    
     return from<Promise<string>>(this.firestoreService.addCoordinatesPuzzle(coordinatesPuzzle));
   }
 }
