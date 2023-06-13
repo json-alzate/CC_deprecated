@@ -10,7 +10,7 @@ import {
   SQUARE_SELECT_TYPE,
   Chessboard,
   BORDER_TYPE
-} from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
+} from 'cm-chessboard';
 
 // utils
 import { randomFEN } from '@utils/random-fen';
@@ -103,6 +103,9 @@ export class CoordinatesPage implements OnInit {
         case SQUARE_SELECT_TYPE.primary:
 
           if (this.isPlaying) {
+
+            console.log(event, this.currentPuzzle);
+
 
             if (event.square === this.currentPuzzle) {
               this.squaresGood.push(this.currentPuzzle);
