@@ -14,8 +14,8 @@ export const addCoordinatesPuzzles = createAction(
 );
 
 
-export const requestAddOneCoordinatesPuzzle = createAction(
-    '[Coordinates-puzzles] requestAddOneCoordinatesPuzzle',
+export const requestAddOneCoordinatesPuzzleT = createAction(
+    '[Coordinates-puzzles] requestAddOneCoordinatesPuzzleT',
     props<{ coordinatesPuzzle: CoordinatesPuzzle }>()
 );
 

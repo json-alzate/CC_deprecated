@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
-import { from, merge } from 'rxjs';
-import { catchError, mergeMap, map, switchMap } from 'rxjs/operators';
+import { mergeMap, switchMap, exhaustMap } from 'rxjs/operators';
 
 import {
     addCoordinatesPuzzles,
     requestGetCoordinatesPuzzles,
-    requestAddOneCoordinatesPuzzle,
+    requestAddOneCoordinatesPuzzleT,
     addOneCoordinatesPuzzle
 } from '@redux/actions/coordinates-puzzles.actions';
 
@@ -31,14 +30,11 @@ export class CoordinatesEffects {
 
     requestAddOneCoordinatesPuzzle$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(requestAddOneCoordinatesPuzzle),
-
-            switchMap((data) =>
-
+            ofType(requestAddOneCoordinatesPuzzleT),
+            exhaustMap((data) => // TODO: Se utiliza por que la acción parece ejecutarse dos veces a pesar de que se llama 1, no se por que
                 this.coordinatesPuzzlesService.addCoordinatesPuzzle(data.coordinatesPuzzle).pipe(
                     mergeMap((docId) => [
                         addOneCoordinatesPuzzle({ coordinatesPuzzle: { ...data.coordinatesPuzzle, uid: docId } })
-
                     ])
                 )
             )

@@ -73,16 +73,15 @@ export class CoordinatesPage implements OnInit {
 
   constructor(
     private alertController: AlertController,
-    private coordinatesPuzzlesService: CoordinatesPuzzlesService
-    , private profileService: ProfileService
+    private coordinatesPuzzlesService: CoordinatesPuzzlesService,
+    private profileService: ProfileService
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;
     });
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   ionViewDidEnter() {
     this.loadBoard();
@@ -259,11 +258,7 @@ export class CoordinatesPage implements OnInit {
       round: this.puzzles,
       color: this.board.getOrientation()
     };
-
-    console.log('s1 saveGame', coordinatesPuzzle);
-    
-
-    this.coordinatesPuzzlesService.triggerRequestAddOneCoordinatesPuzzle( coordinatesPuzzle );
+    this.coordinatesPuzzlesService.triggerRequestAddOneCoordinatesPuzzle(coordinatesPuzzle);
   }
 
 

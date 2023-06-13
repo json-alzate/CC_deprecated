@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 // states
 import { CoordinatesPuzzlesState } from '@redux/states/coordinates-puzzles.state';
 
-import { requestAddOneCoordinatesPuzzle } from '@redux/actions/coordinates-puzzles.actions';
+import { requestAddOneCoordinatesPuzzleT } from '@redux/actions/coordinates-puzzles.actions';
 
 
 
@@ -23,8 +23,8 @@ export class CoordinatesPuzzlesService {
     private firestoreService: FirestoreService
   ) { }
 
-  triggerRequestAddOneCoordinatesPuzzle( coordinatesPuzzle: CoordinatesPuzzle){
-    const action = requestAddOneCoordinatesPuzzle({ coordinatesPuzzle });
+  triggerRequestAddOneCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle) {
+    const action = requestAddOneCoordinatesPuzzleT({ coordinatesPuzzle });
     this.store.dispatch(action);
   }
 
@@ -33,8 +33,6 @@ export class CoordinatesPuzzlesService {
   }
 
   addCoordinatesPuzzle(coordinatesPuzzle: CoordinatesPuzzle): Observable<string> {
-    console.log('s1 addCoordinatesPuzzle', coordinatesPuzzle);
-    
     return from<Promise<string>>(this.firestoreService.addCoordinatesPuzzle(coordinatesPuzzle));
   }
 }

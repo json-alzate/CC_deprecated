@@ -4,7 +4,7 @@ import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 /** Models **/
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 
-export interface CoordinatesPuzzlesState extends EntityState<CoordinatesPuzzle> { };
+export type CoordinatesPuzzlesState = EntityState<CoordinatesPuzzle>;
 
 export const coordinatesPuzzlesStateAdapter: EntityAdapter<CoordinatesPuzzle> = createEntityAdapter<CoordinatesPuzzle>({
     selectId: (coordinatesPuzzle) => coordinatesPuzzle.uid
