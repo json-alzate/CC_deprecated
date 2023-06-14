@@ -1,3 +1,6 @@
+// FIXME: Revisar los controles de las piezas/ mostrar coordenadas, no funcionan bien
+
+
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
 
@@ -64,7 +67,7 @@ export class CoordinatesPage implements OnInit {
   showCoordinates = false;
   showPieces = false;
   randomPosition = false;
-  currentFenInBoard = 'empty';
+  currentFenInBoard = '8/8/8/8/8/8/8/8 w - - 0 1';
   currentColorInBoard: 'white' | 'black' = 'white';
 
   profile: Profile;
@@ -88,14 +91,17 @@ export class CoordinatesPage implements OnInit {
   }
 
 
-  async loadBoard(showCoordinates = false, position = 'empty') {
-    this.board = await new Chessboard(document.getElementById('boardCordinates'), {
+  async loadBoard(showCoordinates = false, position = '8/8/8/8/8/8/8/8 w - - 0 1') {
+    this.board = await new Chessboard(document.getElementById('boardCoordinates'), {
       position,
+      responsive: true,
       style: {
         showCoordinates,
-        borderType: BORDER_TYPE.thin
+        borderType: BORDER_TYPE.thin,
+        pieces: {
+          file: '/assets/images/chessboard-sprite-staunty.svg'
+        }
       },
-      sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
     });
 
     this.board.enableSquareSelect((event) => {
@@ -104,15 +110,14 @@ export class CoordinatesPage implements OnInit {
 
           if (this.isPlaying) {
 
-            console.log(event, this.currentPuzzle);
-
-
-            if (event.square === this.currentPuzzle) {
-              this.squaresGood.push(this.currentPuzzle);
-              this.nextPuzzle();
-            } else {
-              this.timeColor = 'danger';
-              this.squaresBad.push(this.currentPuzzle);
+            if (event.mouseEvent.type === 'mouseup') {
+              if (event.square === this.currentPuzzle) {
+                this.squaresGood.push(this.currentPuzzle);
+                this.nextPuzzle();
+              } else {
+                this.timeColor = 'danger';
+                this.squaresBad.push(this.currentPuzzle);
+              }
             }
 
           }
@@ -135,7 +140,13 @@ export class CoordinatesPage implements OnInit {
   toggleBoardCoordinates() {
     this.showCoordinates = !this.showCoordinates;
     this.board.destroy();
+    // Eliminar el div vacío
+    const boardContainer = document.getElementById('boardCoordinates');
+    const emptyDiv = Array.from(boardContainer.children).find((child) => child.childElementCount === 0);
+    emptyDiv.remove();
+
     this.loadBoard(this.showCoordinates, this.currentFenInBoard);
+
   }
 
   toggleShowPieces() {
