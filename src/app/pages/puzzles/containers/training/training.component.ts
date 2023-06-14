@@ -10,7 +10,7 @@ import {
   SQUARE_SELECT_TYPE,
   Chessboard,
   BORDER_TYPE
-} from 'cm-chessboard/src/cm-chessboard/Chessboard.js';
+} from 'cm-chessboard';
 import Chess from 'chess.js';
 import { createUid } from '@utils/create-uid';
 import { randomNumber } from '@utils/random-number';
