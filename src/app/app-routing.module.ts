@@ -24,7 +24,11 @@ const routes: Routes = [
     path: 'puzzles',
     canActivate: [PuzzlesGuard, UserPuzzlesGuard],
     loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
+  },  {
+    path: 'squares',
+    loadChildren: () => import('./pages/squares/squares.module').then( m => m.SquaresPageModule)
   }
+
 
 
 ];
