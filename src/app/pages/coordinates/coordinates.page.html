@@ -6,8 +6,6 @@
     <ion-row>
 
       <ion-col size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6" offset-lg="2" offset-xl="2">
-
-
         <ion-card class="ion-no-margin ion-no-padding">
 
           <ion-card-content class="ion-no-margin ion-no-padding">
@@ -25,16 +23,11 @@
 
       </ion-col>
 
-      <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
+      <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding-horizontal">
 
         <ng-container *ngIf="!isPlaying; else elseTemplateIsPlaying">
 
-          <div class="ion-hide-md-down">
-            <app-statics></app-statics>
-          </div>
-
-
-          <ion-list class="ion-margin-top">
+          <ion-list class="ion-no-margin ion-padding-vertical">
 
             <ion-row>
 
@@ -93,7 +86,7 @@
             </ion-col>
           </ion-row>
 
-          <div class="ion-hide-md-up ion-margin-top">
+          <div class="container-statics">
             <app-statics></app-statics>
           </div>
 

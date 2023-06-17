@@ -28,5 +28,4 @@ export const getLastCoordinatesPuzzles = (count: number) => createSelector(
         return coordinatesPuzzlesShort.slice(-count);
 
     }
-)
-
+);

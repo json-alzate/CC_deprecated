@@ -27,11 +27,10 @@ import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 })
 export class StaticsComponent implements OnInit, AfterViewInit {
 
-  @ViewChild('lineCanvas') lineCanvas;
-  lineChart: Chart;
-
-  datasetW = new Array(20).fill(0);
-  datasetB = new Array(20).fill(0);
+  @ViewChild('lineCanvasWhite') lineCanvasWhite;
+  @ViewChild('lineCanvasBlack') lineCanvasBlack;
+  lineChartWhite: Chart;
+  lineChartBlack: Chart;
 
 
   constructor(
@@ -50,22 +49,41 @@ export class StaticsComponent implements OnInit, AfterViewInit {
 
   lineChartMethod() {
 
-    this.lineChart = new Chart(this.lineCanvas.nativeElement, {
+    const options = {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: false,
+        },
+      }
+    };
+
+    this.lineChartWhite = new Chart(this.lineCanvasWhite.nativeElement, {
       type: 'line',
       data: {
-        labels: new Array(20).fill(''), // genera '' * 20
+        labels: [],
         datasets: [
           {
-            label: 'Blancas',
-            data: this.datasetW,
+            label: '',
+            data: [],
             backgroundColor: 'rgba(250, 250, 250, 0.6)',
             borderColor: 'rgba(250, 250, 250, 1)',
             borderWidth: 1,
             fill: true
-          },
+          }
+        ]
+      },
+      options
+    });
+
+    this.lineChartBlack = new Chart(this.lineCanvasBlack.nativeElement, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [
           {
-            label: 'Negras',
-            data: this.datasetB,
+            label: '',
+            data: [],
             backgroundColor: 'rgba(139, 140, 147, 0.5)',
             borderColor: 'rgba(82, 82, 82, 1)',
             borderWidth: 1,
@@ -73,9 +91,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
           }
         ]
       },
-      options: {
-        responsive: true
-      }
+      options
     });
 
     this.store.pipe(
@@ -90,6 +106,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
 
     const dataForW: number[] = [];
     const dataForB: number[] = [];
+    const labels: string[] = [];
 
     for (const coordinatesPuzzle of coordinatesPuzzles) {
       if (coordinatesPuzzle.color === 'w') {
@@ -97,19 +114,18 @@ export class StaticsComponent implements OnInit, AfterViewInit {
       } else {
         dataForB.push(coordinatesPuzzle.score);
       }
+      // Agrega un label por cada elemento. Puedes ajustar esto a tus necesidades.
+      labels.push('');
     }
 
-    // arreglos con posiciones y en orden inverso (el ultimo juego este en primer lugar en el arreglo)
-    for (const dataset of this.lineChart.data.datasets) {
-      // se identifica con el color de fondo y no con el nombre, puesto que el label puede ser traducido
-      if (dataset.backgroundColor === 'rgba(250, 250, 250, 0.6)') { // Blancas
-        dataset.data = dataForW.reverse();
-      } else { // Negras
-        dataset.data = dataForB.reverse();
-      }
-    }
+    this.lineChartWhite.data.labels = labels;
+    this.lineChartBlack.data.labels = labels;
 
-    this.lineChart.update();
+    this.lineChartWhite.data.datasets[0].data = dataForW;
+    this.lineChartBlack.data.datasets[0].data = dataForB;
+
+    this.lineChartWhite.update();
+    this.lineChartBlack.update();
   }
 
 }
