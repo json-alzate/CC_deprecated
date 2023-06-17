@@ -1,6 +1,3 @@
-// FIXME: Revisar los controles de las piezas/ mostrar coordenadas, no funcionan bien
-
-
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
 
@@ -160,7 +157,7 @@ export class CoordinatesPage implements OnInit {
         this.currentFenInBoard = fenToSet;
       }
     } else {
-      this.currentFenInBoard = 'empty';
+      this.currentFenInBoard = '8/8/8/8/8/8/8/8 w - - 0 1'; // Vacío
     }
 
     this.board.setPosition(this.currentFenInBoard);
