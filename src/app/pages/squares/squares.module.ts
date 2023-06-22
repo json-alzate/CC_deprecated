@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
+import { SharedModule } from '@shared/shared.module';
+
 
 import { SquaresPageRoutingModule } from './squares-routing.module';
 
@@ -13,8 +15,9 @@ import { SquaresPage } from './squares.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    SquaresPageRoutingModule
+    SquaresPageRoutingModule,
+    SharedModule
   ],
   declarations: [SquaresPage]
 })
-export class SquaresPageModule {}
+export class SquaresPageModule { }

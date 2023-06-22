@@ -1,76 +1,60 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Animation, AnimationController, createAnimation, Gesture, GestureController } from '@ionic/angular';
-
+import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { IonCard, Platform, Gesture, GestureController } from '@ionic/angular';
 
 @Component({
   selector: 'app-squares',
   templateUrl: './squares.page.html',
   styleUrls: ['./squares.page.scss'],
 })
-export class SquaresPage implements OnInit {
+export class SquaresPage implements OnInit, AfterViewInit {
 
-  @ViewChild('card', { read: ElementRef }) card: ElementRef;
-  @ViewChild('container', { read: ElementRef }) container: ElementRef;
+  // Tus casillas
+  public squares = ['a1', 'b2', 'c3', 'd4', 'e5', 'f6', 'g7', 'h8'];
 
-  private cardAnimation: Animation;
-  private swipeGesture: Gesture;
+  @ViewChildren(IonCard, { read: ElementRef }) cards: QueryList<ElementRef>;
 
   constructor(
-    private animationCtrl: AnimationController,
-    private gestureCtrl: GestureController) { }
-
+    private platform: Platform,
+    private gestureCtrl: GestureController
+  ) { }
 
   ngOnInit() {
+    // tu código de inicialización aquí
   }
 
-  ionViewDidEnter() {
-    this.createSwipeGesture();
-
+  ngAfterViewInit() {
+    const cardArray = this.cards.toArray();
+    this.useSwiperGesture(cardArray);
   }
 
-  createSwipeGesture() {
+  useSwiperGesture(cardArray: ElementRef[]) {
+    // eslint-disable-next-line @typescript-eslint/prefer-for-of
+    for (let i = 0; i < cardArray.length; i++) {
+      const card = cardArray[i];
 
-    this.cardAnimation = createAnimation()
-      .addElement(this.card.nativeElement)
-      .duration(500)
-      .onFinish((currentStep) => {
-        // Aquí es donde validaríamos y mostraríamos un mensaje.
-        // Por ahora, simplemente lo registramos en la consola.
-        console.log('Animation finished at step', currentStep);
-        // Reiniciamos la tarjeta a su posición original
-        this.cardAnimation.direction('reverse').play();
-        this.cardAnimation.onFinish(() => {
-          this.cardAnimation.direction('normal');
-        }, { oneTimeCallback: true });
+      const gesture: Gesture = this.gestureCtrl.create({
+        el: card.nativeElement,
+        threshold: 15,
+        gestureName: 'swipe',
+        onMove: ev => {
+          card.nativeElement.style.transform = `translateX(${ev.deltaX}px) rotate(${ev.deltaX / 10}deg)`;
+        },
+        onEnd: ev => {
+          card.nativeElement.style.transition = '.5s ease-out';
+
+          if (ev.deltaX > 150) {
+            card.nativeElement.style.transform = `translateX(${this.platform.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
+            // Aquí puedes agregar la lógica para cuando el usuario adivina que la casilla es blanca
+          } else if (ev.deltaX < -150) {
+            card.nativeElement.style.transform = `translateX(-${this.platform.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
+            // Aquí puedes agregar la lógica para cuando el usuario adivina que la casilla es negra
+          } else {
+            card.nativeElement.style.transform = '';
+          }
+        }
       });
 
-    this.swipeGesture = this.gestureCtrl.create({
-      el: this.card.nativeElement,
-      gestureName: 'swipe-card',
-      onStart: () => this.cardAnimation.stop(),
-      onMove: (detail) => {
-        const amount = detail.deltaX;
-        this.cardAnimation
-          .to('transform', `translateX(${amount}px) rotate(${amount / 10}deg)`)
-          .play();
-      },
-      onEnd: (detail) => {
-        const amount = detail.deltaX;
-        const containerWidth = this.container.nativeElement.offsetWidth;
-        if (Math.abs(amount) < containerWidth / 2) {
-          // Si la tarjeta no se deslizó más de la mitad del contenedor, vuelve a su posición original.
-          this.cardAnimation.play();
-        } else {
-          // Si la tarjeta se deslizó más de la mitad del contenedor, termina la animación.
-          this.cardAnimation
-            .afterStyles({ visibility: 'hidden' })
-            .play();
-        }
-      }
-    });
-    this.swipeGesture.enable();
-
-
+      gesture.enable(true);
+    }
   }
-
 }

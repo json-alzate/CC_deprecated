@@ -1,17 +1,16 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>squares</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-header-bar></app-header-bar>
 
 <ion-content>
 
-  <div #container class="container">
-    <div #card class="card">
-      <h1>hola</h1>
-      <!-- Aquí va el contenido de la tarjeta -->
-    </div>
-  </div>
-  
+  <div class="container">
 
+    <ion-card *ngFor="let square of squares">
+      <ion-card-content>
+        <ion-button disabled expand="block" fill="clear" shape="round">
+          {{ square }}
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+  </div>
 </ion-content>
