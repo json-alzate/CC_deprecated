@@ -82,7 +82,7 @@ export class InfiniteComponent implements OnInit {
 
   buildFormGame() {
     this.formGame = this.formBuilder.group({
-      eloRange: [{ lower: 0, upper: 50 }],
+      eloRange: [{ lower: 800, upper: 1800 }],
       phases: [[]],
       time: [3],
     });
