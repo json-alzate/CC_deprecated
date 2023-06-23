@@ -45,6 +45,7 @@
     "chess.js": "^0.12.1",
     "cm-chessboard": "^7.7.1",
     "firebase": "^9.14.0",
+    "howler": "^2.2.3",
     "lodash": "^4.17.21",
     "ngx-socket-io": "^4.2.0",
     "rxjs": "~7.5.5",

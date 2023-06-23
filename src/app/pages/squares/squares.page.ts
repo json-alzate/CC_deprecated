@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { IonCard, Platform, Gesture, GestureController } from '@ionic/angular';
-import { timeout } from 'rxjs';
+
+
+import { SoundsService } from '@services/sounds.service';
 
 interface SquareColorMap {
   name: string;
@@ -23,7 +25,8 @@ export class SquaresPage implements OnInit, AfterViewInit {
 
   constructor(
     private platform: Platform,
-    private gestureCtrl: GestureController
+    private gestureCtrl: GestureController,
+    private soundsService: SoundsService
   ) {
     this.generateSquares();
   }
@@ -83,10 +86,13 @@ export class SquaresPage implements OnInit, AfterViewInit {
 
             if (this.squares[i].color === 'white' && movement === 'right') {
               this.gameStatus = 'win';
+              this.soundsService.playSelect();
             } else if (this.squares[i].color === 'black' && movement === 'left') {
               this.gameStatus = 'win';
+              this.soundsService.playSelect();
             } else {
               this.gameStatus = 'lose';
+              this.soundsService.playError();
             }
 
             console.log(this.gameStatus);
