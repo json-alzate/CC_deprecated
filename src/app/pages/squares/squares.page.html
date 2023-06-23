@@ -2,12 +2,39 @@
 
 <ion-content>
 
+  <div class="info-container">
+
+    <div [ngSwitch]="gameStatus">
+      <span *ngSwitchCase="'waiting'">
+        <ion-text color="primary">
+          <h1 class="ion-text-center">Desliza</h1>
+        </ion-text>
+      </span>
+      <span *ngSwitchCase="'win'">
+        <ion-text color="success">
+          <h1 class="ion-text-center">Match!</h1>
+        </ion-text>
+      </span>
+      <span *ngSwitchCase="'lose'">
+        <ion-text color="danger">
+          <h1 class="ion-text-center">Nop...</h1>
+        </ion-text>
+      </span>
+      <span *ngSwitchCase="'playing'">
+        <ion-text color="medium">
+          <h1 class="ion-text-center">----</h1>
+        </ion-text>
+      </span>
+    </div>
+
+  </div>
+
   <div class="container">
 
     <ion-card *ngFor="let square of squares">
       <ion-card-content>
-        <ion-button disabled expand="block" fill="clear" shape="round">
-          {{ square }}
+        <ion-button class="btn-square-name" disabled expand="block" fill="clear" shape="round">
+          {{ square.name }}
         </ion-button>
       </ion-card-content>
     </ion-card>
