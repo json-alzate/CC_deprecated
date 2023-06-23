@@ -59,6 +59,8 @@ export class SquaresPage implements OnInit, AfterViewInit {
         gestureName: 'swipe',
         onMove: ev => {
           card.nativeElement.style.transform = `translateX(${ev.deltaX}px) rotate(${ev.deltaX / 10}deg)`;
+          this.setCardColor(ev.deltaX, card.nativeElement);
+
         },
         onEnd: ev => {
           let movement: 'right' | 'left';
@@ -98,6 +100,7 @@ export class SquaresPage implements OnInit, AfterViewInit {
 
 
           // this.checkGuess(movement, this.squares[i].name);
+          card.nativeElement.style.background = '';
         }
 
       });
@@ -126,6 +129,28 @@ export class SquaresPage implements OnInit, AfterViewInit {
     return squaresColorsMap;
 
   }
+
+  setCardColor(deltaX: number, element: HTMLElement) {
+    let color = '';
+    const opacity = Math.min(Math.abs(deltaX) / 1000, 1);
+
+    if (deltaX > 0) {
+      color = `rgba(255, 255, 255, ${opacity})`; // white
+    } else {
+      color = `rgba(160, 109, 42, ${opacity})`; // brown
+    }
+    element.style.background = color;
+  }
+
+  decimalToHex(d: number, padding: number) {
+    let hex = Number(d).toString(16);
+    padding = typeof padding === 'undefined' || padding === null ? (padding = 2) : padding;
+    while (hex.length < padding) {
+      hex = '0' + hex;
+    }
+    return hex;
+  }
+
 
 
 }
