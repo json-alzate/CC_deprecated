@@ -10,6 +10,8 @@ import { SquaresPageRoutingModule } from './squares-routing.module';
 
 import { SquaresPage } from './squares.page';
 
+import * as fromComponents from './components/';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -18,6 +20,9 @@ import { SquaresPage } from './squares.page';
     SquaresPageRoutingModule,
     SharedModule
   ],
-  declarations: [SquaresPage]
+  declarations: [
+    SquaresPage,
+    ...fromComponents.COMPONENTS
+  ]
 })
 export class SquaresPageModule { }

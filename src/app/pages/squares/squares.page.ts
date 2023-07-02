@@ -1,8 +1,12 @@
-import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
-import { IonCard, Platform, Gesture, GestureController } from '@ionic/angular';
+import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { IonCard, Platform, Gesture, GestureController, AlertController } from '@ionic/angular';
+
+
+import { interval, Subscription } from 'rxjs';
 
 
 import { SoundsService } from '@services/sounds.service';
+import { SquaresService } from '@services/squares.service';
 
 interface SquareColorMap {
   name: string;
@@ -14,19 +18,28 @@ interface SquareColorMap {
   templateUrl: './squares.page.html',
   styleUrls: ['./squares.page.scss'],
 })
-export class SquaresPage implements OnInit, AfterViewInit {
+export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
 
   // Tus casillas
   public squares: SquareColorMap[] = [];
   squaresColorsMap: SquareColorMap[] = this.getSquaresColorsMap();
   gameStatus: 'waiting' | 'playing' | 'win' | 'lose' = 'waiting';
 
+  timeLeft = 60;
+  timerSubscription: Subscription;
+
+  isTimerStarted = false;
+  score = 0;
+
+
   @ViewChildren(IonCard, { read: ElementRef }) cards: QueryList<ElementRef>;
 
   constructor(
     private platform: Platform,
     private gestureCtrl: GestureController,
-    private soundsService: SoundsService
+    private soundsService: SoundsService,
+    private squaresService: SquaresService,
+    private alertController: AlertController
   ) {
     this.generateSquares();
   }
@@ -40,15 +53,11 @@ export class SquaresPage implements OnInit, AfterViewInit {
   }
 
   generateSquares() {
-    console.log(this.squaresColorsMap);
-
     // genera 1000 casillar aleatorias con su correspondiente color
     for (let i = 0; i < 1000; i++) {
       const randomIndex = Math.floor(Math.random() * this.squaresColorsMap.length);
       this.squares.push(this.squaresColorsMap[randomIndex]);
     }
-    console.log(this.squares);
-
   }
 
   useSwiperGesture(cardArray: ElementRef[]) {
@@ -63,6 +72,10 @@ export class SquaresPage implements OnInit, AfterViewInit {
         onMove: ev => {
           card.nativeElement.style.transform = `translateX(${ev.deltaX}px) rotate(${ev.deltaX / 10}deg)`;
           this.setCardColor(ev.deltaX, card.nativeElement);
+          if (!this.isTimerStarted) {
+            this.isTimerStarted = true;
+            this.startTimer();
+          }
 
         },
         onEnd: ev => {
@@ -86,21 +99,16 @@ export class SquaresPage implements OnInit, AfterViewInit {
 
             if (this.squares[i].color === 'white' && movement === 'right') {
               this.gameStatus = 'win';
+              this.score++;
               this.soundsService.playSelect();
             } else if (this.squares[i].color === 'black' && movement === 'left') {
               this.gameStatus = 'win';
+              this.score++;
               this.soundsService.playSelect();
             } else {
               this.gameStatus = 'lose';
               this.soundsService.playError();
             }
-
-            console.log(this.gameStatus);
-
-
-            // setTimeout(() => {
-            //   this.gameStatus = 'playing';
-            // }, 500);
 
           }
 
@@ -156,6 +164,38 @@ export class SquaresPage implements OnInit, AfterViewInit {
     }
     return hex;
   }
+
+
+  startTimer() {
+    const timer$ = interval(1000);
+    this.timerSubscription = timer$.subscribe((elapsed) => {
+      this.timeLeft = 60 - elapsed;
+      if (this.timeLeft <= 0) {
+        this.showAlertEndGame();
+        this.squaresService.saveScore(this.score);
+        this.score = 0;
+        this.timeLeft = 60;
+        this.isTimerStarted = false;
+        this.timerSubscription.unsubscribe();
+      }
+    });
+  }
+
+  async showAlertEndGame() {
+    const alert = await this.alertController.create({
+      header: `${this.score}`,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+
+  ngOnDestroy() {
+    this.timerSubscription.unsubscribe();
+  }
+
+
 
 
 

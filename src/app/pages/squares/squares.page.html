@@ -4,6 +4,11 @@
 
   <div class="info-container">
 
+
+    <ion-text color="medium">
+      <h1 class="ion-text-center">{{timeLeft}}</h1>
+    </ion-text>
+
     <div [ngSwitch]="gameStatus">
       <span *ngSwitchCase="'waiting'">
         <ion-text color="primary">
@@ -40,4 +45,7 @@
     </ion-card>
 
   </div>
+
+  <app-statics></app-statics>
+
 </ion-content>

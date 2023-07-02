@@ -1,21 +1,6 @@
 //core and third party libraries
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Chart, registerables } from 'chart.js';
-import { State, select } from '@ngrx/store';
-
-// rxjs
-
-// states
-
-// actions
-
-// selectors
-
-// models
-
-// services
-
-// components
 
 
 @Component({
@@ -46,7 +31,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
       type: 'line',
       data: {
-        labels: new Array(20).fill(''), // genera '' * 50
+        labels: new Array(20).fill(''), // genera '' * 20
         datasets: [
           {
             label: '',
