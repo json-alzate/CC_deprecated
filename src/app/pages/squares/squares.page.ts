@@ -192,7 +192,9 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngOnDestroy() {
-    this.timerSubscription.unsubscribe();
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
   }
 
 

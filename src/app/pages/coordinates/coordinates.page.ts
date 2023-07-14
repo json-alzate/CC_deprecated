@@ -1,5 +1,5 @@
 //core and third party libraries
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AlertController } from '@ionic/angular';
 
@@ -84,7 +84,11 @@ export class CoordinatesPage implements OnInit {
   ngOnInit() { }
 
   ionViewDidEnter() {
-    this.loadBoard();
+
+    if (!this.board) {
+      this.loadBoard();
+    }
+
   }
 
 
@@ -283,7 +287,6 @@ export class CoordinatesPage implements OnInit {
 
     await alert.present();
   }
-
 
 
 }
