@@ -150,8 +150,10 @@ export class TrainingComponent implements OnInit {
       this.profile = data[1];
       this.puzzlesAvailable = data[0];
 
-      if (data[0].length === 0 && this.profile) {
-        const action = requestLoadPuzzles({ eloStar: this.profile.elo - 600, eloEnd: this.profile.elo + 600 });
+      const eloProfile = this.profile?.elo || 1500;
+
+      if (data[0].length === 0) {
+        const action = requestLoadPuzzles({ eloStar: eloProfile - 600, eloEnd: eloProfile + 600 });
         this.store.dispatch(action);
 
       } else if (!this.puzzleToResolve && data[0].length > 0) {
@@ -186,6 +188,9 @@ export class TrainingComponent implements OnInit {
 
   async loadBoard() {
 
+    console.log('loadBoard');
+
+
     // Se carga el primer fen, para luego hacer el movimiento automático y que quede el efecto de tal movimiento
     this.chessInstance.load(this.puzzleToResolve.fen);
 
@@ -195,21 +200,27 @@ export class TrainingComponent implements OnInit {
     // Se valida si es la primera vez que se carga el tablero
     if (!this.board) {
       this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
+        responsive: true,
         position: this.puzzleToResolve.fen,
         style: {
-          borderType: BORDER_TYPE.thin
-        },
-        sprite: { url: '/assets/images/chessboard-sprite-staunty.svg' }
+          borderType: BORDER_TYPE.thin,
+          pieces: {
+            file: '/assets/images/chessboard-sprite-staunty.svg'
+          }
+        }
       });
 
       this.board.enableMoveInput((event) => {
+        console.log('event ', event);
+
         // handle user input here
         switch (event.type) {
-          case INPUT_EVENT_TYPE.moveStart:
-            // console.log(`moveStart: ${event.square}`);
-            // return `true`, if input is accepted/valid, `false` aborts the interaction, the piece will not move
+          case 'moveInputStarted':
+            // mostrar indicadores para donde se puede mover la pieza
+            console.log('this.uiSet.allowBackMove ');
             return true;
-          case INPUT_EVENT_TYPE.moveDone:
+
+          case 'validateMoveInput':
 
             const objectMove = { from: event.squareFrom, to: event.squareTo };
             const theMove = this.chessInstance.move(objectMove);
@@ -226,15 +237,21 @@ export class TrainingComponent implements OnInit {
                 console.log('Wrong');
                 this.puzzleStatus = 'wrong';
                 this.isPuzzleCompleted = true;
-                this.saveUserPuzzle();
+                if (this.profile) {
+                  this.saveUserPuzzle();
+                }
                 this.stopTimer();
               }
 
             }
             // return true, if input is accepted/valid, `false` takes the move back
             return theMove;
-          case INPUT_EVENT_TYPE.moveCanceled:
+          case 'moveInputCanceled':
+            // hide the indicators
             console.log('moveCanceled ', this.chessInstance.pgn());
+            return true;
+          default:
+            return true;
         }
       });
 
@@ -383,7 +400,9 @@ export class TrainingComponent implements OnInit {
       this.puzzleStatus = 'finished';
       this.isPuzzleCompleted = true;
       this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
-      this.saveUserPuzzle();
+      if (this.profile) {
+        this.saveUserPuzzle();
+      }
       this.stopTimer();
     } else {
 

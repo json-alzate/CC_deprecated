@@ -3,7 +3,7 @@ declare module 'cm-chessboard' {
     // Estoy utilizando 'any' como un tipo comodín, pero puedes especificar los tipos con mayor detalle si los conoces.
 
     export const COLOR: any;
-    export const INPUT_EVENT_TYPE: any;
+    export const INPUT_EVENT_TYPE: 'moveInputStarted' | 'validateMoveInput' | 'moveInputCanceled' | 'moveInputIllegal' | 'moveInputDone';
     export const MOVE_INPUT_MODE: any;
     export const SQUARE_SELECT_TYPE: any;
     export const BORDER_TYPE: any;
