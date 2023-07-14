@@ -11,6 +11,8 @@ import {
   Chessboard,
   BORDER_TYPE
 } from 'cm-chessboard';
+import { MARKER_TYPE, Markers } from 'cm-chessboard/src/extensions/markers/markers';
+import { ARROW_TYPE, Arrows } from 'cm-chessboard/src/extensions/arrows/arrows';
 import Chess from 'chess.js';
 import { createUid } from '@utils/create-uid';
 import { randomNumber } from '@utils/random-number';
@@ -199,16 +201,28 @@ export class TrainingComponent implements OnInit {
 
     // Se valida si es la primera vez que se carga el tablero
     if (!this.board) {
-      this.board = await new Chessboard(document.getElementById('boardPuzzle'), {
+      this.board = new Chessboard(document.getElementById('boardPuzzle'), {
         responsive: true,
         position: this.puzzleToResolve.fen,
+        assetsUrl: '/assets/cm-chessboard/',
         style: {
           borderType: BORDER_TYPE.thin,
           pieces: {
             file: '/assets/images/chessboard-sprite-staunty.svg'
           }
-        }
+        },
+        extensions: [
+          { class: Markers },
+          { class: Arrows }
+        ]
       });
+
+      this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
+      this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
+      this.board.addArrow(ARROW_TYPE.default, 'b8', 'c6');
+      this.board.addArrow(ARROW_TYPE.pointy, 'd2', 'd3');
+      this.board.addArrow(ARROW_TYPE.danger, 'g5', 'e6');
+      console.log(this.board.getArrows());
 
       this.board.enableMoveInput((event) => {
         console.log('event ', event);

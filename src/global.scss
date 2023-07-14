@@ -28,14 +28,21 @@
 // Theme
 @import "./theme/fonts.scss";
 
+// cm-chessboard
+@import './assets/cm-chessboard/extensions/arrows/arrows.scss';
+@import './assets/cm-chessboard/extensions/markers/markers.scss';
+@import './assets/cm-chessboard/extensions/promotion-dialog/promotion-dialog.scss';
+
 div.message-error {
     min-height: 12px;
     text-align: center;
     margin: 0 auto;
     opacity: 0;
+
     @media only screen and (max-width: 360px) {
         width: 90%;
     }
+
     span {
         color: var(--ion-color-danger);
         font-size: 0.8em !important;
@@ -43,6 +50,7 @@ div.message-error {
         text-align: right !important;
         width: 100%;
     }
+
     &.active {
         opacity: 1;
     }
