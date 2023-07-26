@@ -1,6 +1,5 @@
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
 
 
 import {
@@ -23,16 +22,8 @@ import { interval, pipe, Subject, combineLatest, Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
-// states
-import { PuzzlesState } from '@redux/states/puzzles.state';
 
-// actions
-import { requestLoadPuzzles } from '@redux/actions/puzzles.actions';
-import { requestAddOneUserPuzzle } from '@redux/actions/user-puzzles.actions';
 
-// selectors
-import { getPuzzlesToResolve } from '@redux/selectors/puzzles.selectors';
-import { getProfile } from '@redux/selectors/auth.selectors';
 
 
 // models
@@ -49,6 +40,7 @@ interface UISettings {
 }
 
 // services
+import { PuzzlesService } from '@services/puzzles.service';
 
 // components
 
@@ -91,7 +83,6 @@ export class TrainingComponent implements OnInit {
   };
 
   profile: Profile;
-  puzzlesAvailable: Puzzle[];
 
 
   // timer
@@ -119,13 +110,13 @@ export class TrainingComponent implements OnInit {
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   constructor(
-    private store: Store<PuzzlesState>
+    private puzzlesService: PuzzlesService
   ) { }
 
   ngOnInit() { }
 
   ionViewDidEnter() {
-    this.initSubscribers();
+    this.loadPuzzle();
   }
 
 
@@ -142,34 +133,11 @@ export class TrainingComponent implements OnInit {
     this.puzzleStatus = 'start';
   }
 
-  initSubscribers() {
-
-    const puzzles$ = this.store.select(pipe(getPuzzlesToResolve()));
-    const profile$ = this.store.pipe(select(getProfile));
-    combineLatest([puzzles$, profile$]).subscribe((data) => {
-      // TODO: implementar un control de seguridad para evitar que se produzca un loop infinito
-      // podría ser un numero máximo de peticiones en un tiempo determinado
-      this.profile = data[1];
-      this.puzzlesAvailable = data[0];
-
-      const eloProfile = this.profile?.elo || 1500;
-
-      if (data[0].length === 0) {
-        const action = requestLoadPuzzles({ eloStar: eloProfile - 600, eloEnd: eloProfile + 600 });
-        this.store.dispatch(action);
-
-      } else if (!this.puzzleToResolve && data[0].length > 0) {
-        this.loadPuzzle();
-      }
-
-    });
-
-  }
 
 
-  loadPuzzle() {
+  async loadPuzzle() {
 
-    this.puzzleToResolve = this.puzzlesAvailable[Math.floor(Math.random() * this.puzzlesAvailable.length)];
+    this.puzzleToResolve = await this.puzzlesService.getPuzzle(1500, { openingFamily: 'Ruy_Lopez' });
     console.log('this.puzzleToResolve ', this.puzzleToResolve);
 
     this.fenSolution = [];
@@ -217,12 +185,12 @@ export class TrainingComponent implements OnInit {
         ]
       });
 
-      this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
-      this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
-      this.board.addArrow(ARROW_TYPE.default, 'b8', 'c6');
-      this.board.addArrow(ARROW_TYPE.pointy, 'd2', 'd3');
-      this.board.addArrow(ARROW_TYPE.danger, 'g5', 'e6');
-      console.log(this.board.getArrows());
+      // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
+      // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
+      // this.board.addArrow(ARROW_TYPE.default, 'b8', 'c6');
+      // this.board.addArrow(ARROW_TYPE.pointy, 'd2', 'd3');
+      // this.board.addArrow(ARROW_TYPE.danger, 'g5', 'e6');
+      // console.log(this.board.getArrows());
 
       this.board.enableMoveInput((event) => {
         console.log('event ', event);
@@ -483,8 +451,9 @@ export class TrainingComponent implements OnInit {
     this.eloToShow = calculateElo(userPuzzle.currentEloUser, userPuzzle.eloPuzzle, userPuzzle.resolved).ra;
     this.eloLessSum = Math.abs(this.eloToShow - userPuzzle.currentEloUser);
 
-    const action = requestAddOneUserPuzzle({ userPuzzle });
-    this.store.dispatch(action);
+    // TODO:
+    // const action = requestAddOneUserPuzzle({ userPuzzle });
+    // this.store.dispatch(action);
   }
 
 

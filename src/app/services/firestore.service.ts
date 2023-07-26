@@ -25,7 +25,8 @@ import {
   enableNetwork,
   collection, query, where, getDocs,
   increment,
-  limit
+  limit,
+  Query
 } from 'firebase/firestore';
 
 
@@ -208,6 +209,69 @@ export class FirestoreService {
     });
 
     return puzzlesToReturn;
+  }
+
+  /**
+   * Get puzzles from firestore
+   * */
+  async getPuzzles(elo: number, options?: {
+    rangeStart?: number;
+    rangeEnd?: number;
+    themes?: string[];
+    openingFamily?: string;
+    openingVariation?: string;
+  }) {
+
+
+    const DEFAULT_RANGE = 600;
+    const eloStart = elo - (options?.rangeStart ?? DEFAULT_RANGE);
+    const eloEnd = elo + (options?.rangeEnd ?? DEFAULT_RANGE);
+
+    const MAX_ATTEMPTS = 5;
+    let attempts = 0;
+
+    while (attempts < MAX_ATTEMPTS) {
+      const minRandom = randomNumber();
+
+      let baseQuery: Query = collection(this.db, 'puzzles');
+      baseQuery = query(baseQuery, where('randomNumberQuery', '>=', minRandom), limit(300));
+
+      if (options?.themes && options?.themes.length) {
+        const themeConditions = options.themes.map(theme => where('themes', 'array-contains', theme));
+        themeConditions.forEach(condition => {
+          baseQuery = query(baseQuery, condition);
+        });
+      }
+
+      if (options?.openingFamily) {
+        baseQuery = query(baseQuery, where('openingFamily', '==', options.openingFamily));
+      }
+
+      if (options?.openingVariation) {
+        baseQuery = query(baseQuery, where('openingVariation', '==', options.openingVariation));
+      }
+
+      const querySnapshot = await getDocs(baseQuery);
+      const puzzlesToReturn: Puzzle[] = [];
+
+      querySnapshot.forEach((document) => {
+        const puzzleToAdd = document.data() as Puzzle;
+        if (puzzleToAdd.rating >= eloStart && puzzleToAdd.rating <= eloEnd) {
+          puzzleToAdd.uid = document.id;
+          puzzlesToReturn.push(puzzleToAdd);
+        }
+      });
+
+      if (puzzlesToReturn.length) {
+        return puzzlesToReturn;
+      }
+
+      attempts++;
+    }
+
+    // Si después de MAX_ATTEMPTS aún no hay resultados, simplemente devolvemos un array vacío
+    return [];
+
   }
 
 
