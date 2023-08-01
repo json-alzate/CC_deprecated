@@ -188,7 +188,7 @@ export class TrainingComponent implements OnInit {
         style: {
           borderType: BORDER_TYPE.thin,
           pieces: {
-            file: '/assets/images/chessboard-sprite-staunty.svg'
+            file: '/assets/images/pieces/fantasy/fantasy.svg'
           }
         },
         extensions: [

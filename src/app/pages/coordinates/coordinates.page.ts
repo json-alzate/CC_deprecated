@@ -100,7 +100,7 @@ export class CoordinatesPage implements OnInit {
         showCoordinates,
         borderType: BORDER_TYPE.thin,
         pieces: {
-          file: '/assets/images/chessboard-sprite-staunty.svg'
+          file: '/assets/images/pieces/fantasy/fantasy.svg'
         }
       },
     });
