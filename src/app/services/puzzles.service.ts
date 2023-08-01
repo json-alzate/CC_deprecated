@@ -32,7 +32,6 @@ import { randomNumber } from '@utils/random-number';
 export class PuzzlesService {
 
   private puzzles: Puzzle[] = [];
-  private userPuzzles: Puzzle[] = [];
 
   constructor(
     private http: HttpClient,
@@ -48,6 +47,9 @@ export class PuzzlesService {
     openingFamily?: string;
     openingVariation?: string;
   }, attempts: number = 0): Promise<Puzzle> {
+
+    console.log('getPuzzle', elo, options, attempts);
+
 
     const MAX_ATTEMPTS = 5;  // establece un número máximo de intentos
 
@@ -74,8 +76,12 @@ export class PuzzlesService {
 
     // si se encuentra un puzzle en el array local, se valida que no este en la lista de puzzles del usuario
     if (puzzle) {
+
+      const userPuzzles = this.userPuzzlesService.getUserPuzzles;
+      console.log('se encontro un puzzle en el array local', puzzle, userPuzzles);
+
       // se busca que el puzzle no este en la lista de puzzles del usuario
-      const puzzleInUserPuzzles = this.userPuzzles.find((p) => p.uid === puzzle.uid);
+      const puzzleInUserPuzzles = userPuzzles.find((p) => p.uidPuzzle === puzzle.uid);
       // si el puzzle esta en la lista de puzzles del usuario, se busca otro puzzle
       if (puzzleInUserPuzzles) {
         console.log('el puzzle esta en la lista de puzzles del usuario');

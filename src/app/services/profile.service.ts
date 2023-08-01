@@ -30,6 +30,7 @@ import { FirestoreService } from '@services/firestore.service';
 })
 export class ProfileService {
 
+  private profile: Profile;
 
   constructor(
     private store: Store<AuthState>,
@@ -37,9 +38,18 @@ export class ProfileService {
     private firestoreService: FirestoreService
   ) { }
 
+  get getProfile(): Profile {
+    return this.profile;
+  }
+
+  /** Elos */
+  get eloPuzzles(): number {
+    return this.profile?.eloPuzzles || 1500;
+  }
+
   // subscribe to profile
   subscribeToProfile() {
-   return this.store.pipe(select(getProfile));
+    return this.store.pipe(select(getProfile));
   }
 
   /**
@@ -63,7 +73,15 @@ export class ProfileService {
 
   // set profile
   setProfile(profile: Profile) {
+    this.profile = profile;
     const action = setProfile({ profile });
+    this.store.dispatch(action);
+  }
+
+  // clear profile
+  clearProfile() {
+    this.profile = null;
+    const action = setProfile({ profile: null });
     this.store.dispatch(action);
   }
 
@@ -105,4 +123,6 @@ export class ProfileService {
     this.setProfile(profileForSet);
 
   }
+
+
 }

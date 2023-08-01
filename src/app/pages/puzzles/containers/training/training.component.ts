@@ -41,6 +41,9 @@ interface UISettings {
 
 // services
 import { PuzzlesService } from '@services/puzzles.service';
+import { ProfileService } from '@services/profile.service';
+import { UserPuzzlesService } from '@services/user-puzzles.service';
+
 
 // components
 
@@ -110,8 +113,12 @@ export class TrainingComponent implements OnInit {
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
   constructor(
-    private puzzlesService: PuzzlesService
-  ) { }
+    private puzzlesService: PuzzlesService,
+    private profileService: ProfileService,
+    private userPuzzlesService: UserPuzzlesService
+  ) {
+    this.profileService.subscribeToProfile().subscribe(profile => this.profile = profile);
+  }
 
   ngOnInit() { }
 
@@ -137,7 +144,7 @@ export class TrainingComponent implements OnInit {
 
   async loadPuzzle() {
 
-    this.puzzleToResolve = await this.puzzlesService.getPuzzle(1500, { openingFamily: 'Ruy_Lopez' });
+    this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500, { openingFamily: 'Ruy_Lopez' });
     console.log('this.puzzleToResolve ', this.puzzleToResolve);
 
     this.fenSolution = [];
@@ -219,9 +226,9 @@ export class TrainingComponent implements OnInit {
                 console.log('Wrong');
                 this.puzzleStatus = 'wrong';
                 this.isPuzzleCompleted = true;
-                if (this.profile) {
-                  this.saveUserPuzzle();
-                }
+
+                this.saveUserPuzzle();
+
                 this.stopTimer();
               }
 
@@ -382,9 +389,7 @@ export class TrainingComponent implements OnInit {
       this.puzzleStatus = 'finished';
       this.isPuzzleCompleted = true;
       this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
-      if (this.profile) {
-        this.saveUserPuzzle();
-      }
+      this.saveUserPuzzle();
       this.stopTimer();
     } else {
 
@@ -437,23 +442,31 @@ export class TrainingComponent implements OnInit {
     if (this.uiSet.isRetrying) {
       return;
     }
+
+
     const userPuzzle: UserPuzzle = {
       uid: createUid(),
       date: new Date().getTime(),
       resolvedTime: this.time,
-      uidUser: this.profile.uid,
-      currentEloUser: this.profile.eloPuzzles || 1500,
+      uidUser: this.profile?.uid,
+      currentEloUser: this.profile?.eloPuzzles || 1500,
       uidPuzzle: this.puzzleToResolve.uid,
       resolved: (this.puzzleStatus === 'good' || this.puzzleStatus === 'finished') ? true : false,
-      eloPuzzle: this.puzzleToResolve.rating
+      eloPuzzle: this.puzzleToResolve.rating,
+      themes: this.puzzleToResolve.themes,
+      openingFamily: this.puzzleToResolve.openingFamily,
+      openingVariation: this.puzzleToResolve.openingVariation
     };
 
-    this.eloToShow = calculateElo(userPuzzle.currentEloUser, userPuzzle.eloPuzzle, userPuzzle.resolved).ra;
+    if (!this.eloToShow) {
+      this.eloToShow = this.profile?.eloPuzzles || 1500;
+    }
+
+    this.eloToShow = calculateElo(this.eloToShow, userPuzzle.eloPuzzle, userPuzzle.resolved).ra;
     this.eloLessSum = Math.abs(this.eloToShow - userPuzzle.currentEloUser);
 
-    // TODO:
-    // const action = requestAddOneUserPuzzle({ userPuzzle });
-    // this.store.dispatch(action);
+    // Guarda el puzzle en la base de datos
+    this.userPuzzlesService.saveUserPuzzle(userPuzzle);
   }
 
 

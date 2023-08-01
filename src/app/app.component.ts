@@ -109,6 +109,8 @@ export class AppComponent {
       // se obtienen los datos del usuario, sino existe se crea el nuevo usuario
       if (dataAuth) {
         this.profileService.checkProfile(dataAuth);
+      } else {
+        this.profileService.clearProfile();
       }
     });
   }

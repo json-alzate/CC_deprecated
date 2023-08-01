@@ -25,7 +25,7 @@ export class UserPuzzlesEffects {
         this.actions$.pipe(
             ofType(requestLoadUserPuzzles),
             switchMap(({ uidUser }) =>
-                from(this.userPuzzlesService.getUserPuzzles(uidUser)).pipe(
+                from(this.userPuzzlesService.loadUserPuzzles(uidUser)).pipe(
                     mergeMap((userPuzzles) => [
                         addUserPuzzles({ userPuzzles })
                     ])

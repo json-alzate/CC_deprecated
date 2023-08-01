@@ -7,4 +7,7 @@ export interface UserPuzzle {
     resolvedTime: number;
     currentEloUser: number;
     eloPuzzle: number;
+    themes: string[];
+    openingFamily?: string;
+    openingVariation?: string;
 }
