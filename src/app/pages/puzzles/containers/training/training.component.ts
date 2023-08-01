@@ -117,7 +117,12 @@ export class TrainingComponent implements OnInit {
     private profileService: ProfileService,
     private userPuzzlesService: UserPuzzlesService
   ) {
-    this.profileService.subscribeToProfile().subscribe(profile => this.profile = profile);
+    this.profileService.subscribeToProfile().subscribe(profile => {
+      this.profile = profile;
+      if (profile?.eloPuzzles) {
+        this.eloToShow = profile.eloPuzzles;
+      }
+    });
   }
 
   ngOnInit() { }
@@ -144,7 +149,7 @@ export class TrainingComponent implements OnInit {
 
   async loadPuzzle() {
 
-    this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500, { openingFamily: 'Ruy_Lopez' });
+    this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
     console.log('this.puzzleToResolve ', this.puzzleToResolve);
 
     this.fenSolution = [];
@@ -216,7 +221,7 @@ export class TrainingComponent implements OnInit {
 
             if (theMove) {
               this.uiSet.currentMoveNumber++;
-
+              // TODO: validar si es jaque mate para dar como correcto el ejercicio, sin importar el movimiento
               if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber]) {
                 console.log('correct!!!');
                 this.uiSet.allowBackMove = true;

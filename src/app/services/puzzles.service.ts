@@ -50,11 +50,27 @@ export class PuzzlesService {
     openingVariation?: string;
   }, attempts: number = 0): Promise<Puzzle> {
 
-    const MAX_ATTEMPTS = 5;  // establece un número máximo de intentos
+
+    /*
+     lógica para el numero de intentos:
+      - se establece un numero máximo de intentos (MAX_ATTEMPTS)
+      - Si se alcanza el numero máximo de intentos, se eliminan las options, hasta solo quedar con elo
+      - Si es mayor, es por que se sobre paso el numero máximo de intentos, y se retorna null registrando el error
+     */
+
+    const MAX_ATTEMPTS = 6;  // establece un número máximo de intentos
+
+    // cuando se valla alcanzando el limite se abre el rango para que no se quede sin puzzles
+    if (attempts === 4) {
+      this.appLogsService.logWaring('Se esta llegando al máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
+      // se borra options, para que se busque un puzzle solo con el elo que se pidió
+      return this.getPuzzle(elo, undefined, attempts + 1);
+    }
 
 
-    if (attempts >= MAX_ATTEMPTS) {
-      this.appLogsService.logError('Se alcanzó el número máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
+    if (attempts > MAX_ATTEMPTS) {
+      this.appLogsService.logError('Se sobrepaso el número máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
+      // TODO: Es un blank state, corregir
       return null;  // o podrías lanzar un error, dependiendo de lo que prefieras
     }
 
@@ -62,7 +78,7 @@ export class PuzzlesService {
     const eloRangeEnd = elo + (options?.rangeEnd ?? 600);
 
     // search in the local array of puzzles
-    const puzzle = this.puzzles.find((p) =>
+    const puzzlesFilter = this.puzzles.filter((p) =>
       // que este en el rango de elo
       (p.rating >= eloRangeStart && p.rating <= eloRangeEnd) &&
       // si options.themes existe, que el puzzle tenga alguno de los temas que se buscan
@@ -73,17 +89,19 @@ export class PuzzlesService {
       (!options?.openingVariation || p.openingVariation === options.openingVariation)
     );
 
+    // se selecciona un puzzle aleatorio del array de puzzles filtrados
+    const puzzle = puzzlesFilter[Math.floor(Math.random() * puzzlesFilter.length)];
     // si se encuentra un puzzle en el array local, se valida que no este en la lista de puzzles del usuario
     if (puzzle) {
 
       const userPuzzles = this.userPuzzlesService.getUserPuzzles;
-      console.log('se encontro un puzzle en el array local', puzzle, userPuzzles);
 
       // se busca que el puzzle no este en la lista de puzzles del usuario
       const puzzleInUserPuzzles = userPuzzles.find((p) => p.uidPuzzle === puzzle.uid);
       // si el puzzle esta en la lista de puzzles del usuario, se busca otro puzzle
       if (puzzleInUserPuzzles) {
-        console.log('el puzzle esta en la lista de puzzles del usuario');
+        // se elimina el puzzle del array local para reducir la posibilidad de que se vuelva a encontrar
+        this.puzzles = this.puzzles.filter((p) => p.uid !== puzzle.uid);
 
         await this.loadMorePuzzles(elo, options);
         // se busca otro puzzle
@@ -94,8 +112,6 @@ export class PuzzlesService {
       }
 
     } else {
-      console.log('no se encontro un puzzle en el array local ', this.puzzles.length);
-
       // si no se encuentra un puzzle en el array local, se busca en la base de datos
       await this.loadMorePuzzles(elo, options);
       // se busca otro puzzle
@@ -112,8 +128,6 @@ export class PuzzlesService {
   }) {
     // se cargan los puzzles desde la base de datos, para que se actualice la lista de puzzles disponibles
     const newPuzzlesFromDB = await this.firestoreService.getPuzzles(elo, options);
-    console.log('newPuzzlesFromDB', newPuzzlesFromDB);
-
     // adicionar puzzles al estado de redux
     this.store.dispatch(addPuzzles({ puzzles: newPuzzlesFromDB }));
     // se adiciona al array local de puzzles
@@ -123,7 +137,7 @@ export class PuzzlesService {
 
 
   /**
-   * Con este metodo se suben los puzzles a la base de datos
+   * Con este método se suben los puzzles a la base de datos
    */
   getPuzzlesToUpload() {
     this.http.get('/assets/data/puzzlesToUpload.csv', { responseType: 'text' }).subscribe(puzzles => {

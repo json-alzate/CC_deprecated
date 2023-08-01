@@ -58,7 +58,16 @@
 
       <ion-col size="12" size-sm="12" size-md="12" size-lg="4" size-xl="4" class="ion-padding">
         <ion-item class="item-puzzle-info">
-          <ion-icon style="font-size: 3em;" slot="start" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
+          <div slot="start">
+
+            <ion-icon style="font-size: 3em;" [src]="'assets/images/pieces/'+puzzleColor+'K.svg'"></ion-icon>
+            <small>
+
+              <p style="margin: 0; padding: 0; text-align: center;">
+                {{ eloToShow }}
+              </p>
+            </small>
+          </div>
           <ion-label>
 
             <ion-text color="medium">
