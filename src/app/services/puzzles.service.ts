@@ -22,6 +22,7 @@ import { Puzzle } from '@models/puzzle.model';
 // services
 import { FirestoreService } from '@services/firestore.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
+import { AppLogsService } from '@services/app-logs.service';
 
 // utils
 import { randomNumber } from '@utils/random-number';
@@ -37,7 +38,8 @@ export class PuzzlesService {
     private http: HttpClient,
     private firestoreService: FirestoreService,
     private userPuzzlesService: UserPuzzlesService,
-    private store: Store<PuzzlesState>
+    private store: Store<PuzzlesState>,
+    private appLogsService: AppLogsService
   ) { }
 
   public async getPuzzle(elo: number, options?: {
@@ -48,14 +50,11 @@ export class PuzzlesService {
     openingVariation?: string;
   }, attempts: number = 0): Promise<Puzzle> {
 
-    console.log('getPuzzle', elo, options, attempts);
-
-
     const MAX_ATTEMPTS = 5;  // establece un número máximo de intentos
 
 
     if (attempts >= MAX_ATTEMPTS) {
-      console.error('Se alcanzó el número máximo de intentos sin encontrar un puzzle adecuado.');
+      this.appLogsService.logError('Se alcanzó el número máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
       return null;  // o podrías lanzar un error, dependiendo de lo que prefieras
     }
 
