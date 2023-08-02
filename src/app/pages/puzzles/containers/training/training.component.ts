@@ -188,6 +188,7 @@ export class TrainingComponent implements OnInit {
         position: this.puzzleToResolve.fen,
         assetsUrl: '/assets/cm-chessboard/',
         style: {
+          cssClass: 'chessboard-js',
           borderType: BORDER_TYPE.thin,
           pieces: {
             file: this.appService.pieces

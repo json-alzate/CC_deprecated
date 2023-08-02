@@ -99,6 +99,7 @@ export class CoordinatesPage implements OnInit {
       position,
       responsive: true,
       style: {
+        cssClass: 'chessboard-js',
         showCoordinates,
         borderType: BORDER_TYPE.thin,
         pieces: {
