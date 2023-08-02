@@ -7,10 +7,8 @@ import { Injectable } from '@angular/core';
 export class AppService {
 
 
-  piecesStyles: string[] = ['default', 'fantasy', 'staunty'];
-  piecesStyleSelected: string;
-
-
+  private piecesStyles: string[] = ['cburnett', 'fantasy', 'staunty'];
+  private piecesStyleSelected: string;
   private baseUrl = '/assets/images/pieces/';
 
   constructor() {

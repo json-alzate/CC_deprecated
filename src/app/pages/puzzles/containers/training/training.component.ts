@@ -117,7 +117,7 @@ export class TrainingComponent implements OnInit {
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
     private userPuzzlesService: UserPuzzlesService,
-    private appService: AppService
+    public appService: AppService
   ) {
     this.profileService.subscribeToProfile().subscribe(profile => {
       this.profile = profile;
