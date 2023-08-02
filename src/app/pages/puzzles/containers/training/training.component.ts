@@ -152,6 +152,7 @@ export class TrainingComponent implements OnInit {
   async loadPuzzle() {
 
     this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
+
     console.log('this.puzzleToResolve ', this.puzzleToResolve);
 
     this.fenSolution = [];
@@ -172,13 +173,10 @@ export class TrainingComponent implements OnInit {
 
   async loadBoard() {
 
-    console.log('loadBoard');
-
-
     // Se carga el primer fen, para luego hacer el movimiento automático y que quede el efecto de tal movimiento
     this.chessInstance.load(this.puzzleToResolve.fen);
 
-    // Se cambia el color por que luego se realizara automáticamente la jugada inicial de la maquina
+    // Se cambia el color porque luego se realizara automáticamente la jugada inicial de la maquina
     this.puzzleColor = this.chessInstance.turn() === 'b' ? 'w' : 'b';
 
     // Se valida si es la primera vez que se carga el tablero
@@ -208,13 +206,11 @@ export class TrainingComponent implements OnInit {
       // console.log(this.board.getArrows());
 
       this.board.enableMoveInput((event) => {
-        console.log('event ', event);
 
         // handle user input here
         switch (event.type) {
           case 'moveInputStarted':
             // mostrar indicadores para donde se puede mover la pieza
-            console.log('this.uiSet.allowBackMove ');
             return true;
 
           case 'validateMoveInput':
@@ -225,7 +221,6 @@ export class TrainingComponent implements OnInit {
             if (theMove) {
               this.uiSet.currentMoveNumber++;
               // TODO: validar si es jaque mate para dar como correcto el ejercicio, sin importar el movimiento
-              // FIXME: Se esta reiniciando el elo a 1500 cuando se resuelve un puzzle
               if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber]) {
                 console.log('correct!!!');
                 this.uiSet.allowBackMove = true;
@@ -255,7 +250,7 @@ export class TrainingComponent implements OnInit {
 
     } else {
       // Ya el tablero fue cargado la primera vez
-      this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
+      // this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     }
 
 
@@ -364,8 +359,9 @@ export class TrainingComponent implements OnInit {
   nextMove(isForViewSolution = false) {
     this.uiSet.allowBackMove = true;
     if (!isForViewSolution) {
-      this.uiSet.currentMoveNumber++;
     }
+    this.uiSet.currentMoveNumber++;
+    // aquí setear el tablero con la siguiente jugada
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === this.fenSolution.length - 1) {
@@ -393,8 +389,6 @@ export class TrainingComponent implements OnInit {
     this.uiSet.currentMoveNumber++;
 
     if (this.fenSolution.length === this.uiSet.currentMoveNumber) {
-      console.log('completed');
-
       this.puzzleStatus = 'finished';
       this.isPuzzleCompleted = true;
       this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
@@ -458,7 +452,7 @@ export class TrainingComponent implements OnInit {
       date: new Date().getTime(),
       resolvedTime: this.time,
       uidUser: this.profile?.uid,
-      currentEloUser: this.profile?.eloPuzzles || 1500,
+      currentEloUser: this.eloToShow || this.profile?.eloPuzzles || 1500,
       uidPuzzle: this.puzzleToResolve.uid,
       resolved: (this.puzzleStatus === 'good' || this.puzzleStatus === 'finished') ? true : false,
       eloPuzzle: this.puzzleToResolve.rating,
@@ -471,8 +465,9 @@ export class TrainingComponent implements OnInit {
       this.eloToShow = this.profile?.eloPuzzles || 1500;
     }
 
-    this.eloToShow = calculateElo(this.eloToShow, userPuzzle.eloPuzzle, userPuzzle.resolved).ra;
-    this.eloLessSum = Math.abs(this.eloToShow - userPuzzle.currentEloUser);
+    const eloBeforeCalculate = this.eloToShow;
+    this.eloToShow = calculateElo(this.eloToShow, userPuzzle.eloPuzzle, userPuzzle.resolved ? 1 : 0);
+    this.eloLessSum = Math.abs(this.eloToShow - eloBeforeCalculate);
 
     // Guarda el puzzle en la base de datos
     this.userPuzzlesService.saveUserPuzzle(userPuzzle);

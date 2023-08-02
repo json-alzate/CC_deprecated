@@ -42,7 +42,9 @@ export class UserPuzzlesEffects {
                     mergeMap((docId) => [
                         addOneUserPuzzle({ userPuzzle: { ...userPuzzle, uid: docId } }),
                         requestUpdateProfile({
-                            profile: { eloPuzzles: calculateElo(userPuzzle.currentEloUser, userPuzzle.eloPuzzle, userPuzzle.resolved).ra }
+                            profile: {
+                                eloPuzzles: calculateElo(userPuzzle.currentEloUser, userPuzzle.eloPuzzle, userPuzzle.resolved ? 1 : 0)
+                            }
                         })
                     ])
                 ))

@@ -40,7 +40,6 @@ export class UserPuzzlesService {
 
   listenUserPuzzles() {
     this.store.pipe(select(getAllUserPuzzles)).subscribe((userPuzzles: UserPuzzle[]) => {
-      console.log('listenUserPuzzles', userPuzzles);
       this.userPuzzles = userPuzzles;
     });
   }
@@ -50,7 +49,6 @@ export class UserPuzzlesService {
   saveUserPuzzle(userPuzzle: UserPuzzle) {
     // check if profile
     const profile = this.profileService.getProfile;
-    console.log('saveUserPuzzle profile', profile);
 
     if (!profile) {
       const action = addOneUserPuzzle({ userPuzzle });
