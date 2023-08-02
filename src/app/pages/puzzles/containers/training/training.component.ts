@@ -43,6 +43,7 @@ interface UISettings {
 import { PuzzlesService } from '@services/puzzles.service';
 import { ProfileService } from '@services/profile.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
+import { AppService } from '@services/app.service';
 
 
 // components
@@ -115,7 +116,8 @@ export class TrainingComponent implements OnInit {
   constructor(
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
-    private userPuzzlesService: UserPuzzlesService
+    private userPuzzlesService: UserPuzzlesService,
+    private appService: AppService
   ) {
     this.profileService.subscribeToProfile().subscribe(profile => {
       this.profile = profile;
@@ -188,7 +190,7 @@ export class TrainingComponent implements OnInit {
         style: {
           borderType: BORDER_TYPE.thin,
           pieces: {
-            file: '/assets/images/pieces/fantasy/fantasy.svg'
+            file: this.appService.pieces
           }
         },
         extensions: [
@@ -222,6 +224,7 @@ export class TrainingComponent implements OnInit {
             if (theMove) {
               this.uiSet.currentMoveNumber++;
               // TODO: validar si es jaque mate para dar como correcto el ejercicio, sin importar el movimiento
+              // FIXME: Se esta reiniciando el elo a 1500 cuando se resuelve un puzzle
               if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber]) {
                 console.log('correct!!!');
                 this.uiSet.allowBackMove = true;

@@ -22,7 +22,7 @@ import { Puzzle } from '@models/puzzle.model';
 // services
 import { FirestoreService } from '@services/firestore.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
-import { AppLogsService } from '@services/app-logs.service';
+import { AppService } from '@services/app.service';
 
 // utils
 import { randomNumber } from '@utils/random-number';
@@ -39,7 +39,7 @@ export class PuzzlesService {
     private firestoreService: FirestoreService,
     private userPuzzlesService: UserPuzzlesService,
     private store: Store<PuzzlesState>,
-    private appLogsService: AppLogsService
+    private appService: AppService
   ) { }
 
   public async getPuzzle(elo: number, options?: {
@@ -62,14 +62,14 @@ export class PuzzlesService {
 
     // cuando se valla alcanzando el limite se abre el rango para que no se quede sin puzzles
     if (attempts === 4) {
-      this.appLogsService.logWaring('Se esta llegando al máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
+      this.appService.logWaring('Se esta llegando al máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
       // se borra options, para que se busque un puzzle solo con el elo que se pidió
       return this.getPuzzle(elo, undefined, attempts + 1);
     }
 
 
     if (attempts > MAX_ATTEMPTS) {
-      this.appLogsService.logError('Se sobrepaso el número máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
+      this.appService.logError('Se sobrepaso el número máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
       // TODO: Es un blank state, corregir
       return null;  // o podrías lanzar un error, dependiendo de lo que prefieras
     }
