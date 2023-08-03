@@ -67,8 +67,6 @@ uid: "02fzY"
 
 */
 
-// FIXME: el rating de puzzles mostrado no es correcto, por ejemplo a un usuario con 2200 se le muestran ejercicios de 1100
-
 
 @Component({
   selector: 'app-training',
@@ -153,8 +151,6 @@ export class TrainingComponent implements OnInit {
 
     this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
 
-    console.log('this.puzzleToResolve ', this.puzzleToResolve);
-
     this.fenSolution = [];
     const chessInstance = new Chess(this.puzzleToResolve.fen);
     const movesArray = this.puzzleToResolve.moves.split(' ');
@@ -181,6 +177,7 @@ export class TrainingComponent implements OnInit {
 
     // Se valida si es la primera vez que se carga el tablero
     if (!this.board) {
+
       this.board = new Chessboard(document.getElementById('boardPuzzle'), {
         responsive: true,
         position: this.puzzleToResolve.fen,
@@ -250,7 +247,7 @@ export class TrainingComponent implements OnInit {
 
     } else {
       // Ya el tablero fue cargado la primera vez
-      // this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
+      this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber]);
     }
 
 
@@ -352,14 +349,10 @@ export class TrainingComponent implements OnInit {
    *
    * @param isForViewSolution boolean:
    * Es utilizado para incrementar o no el currentMoveNumber (por defecto se incrementa)
-   * isForViewSolution = true // detiene el incremento de currentMoveNumber
    * It is used to increase or not the currentmavenumber (default is increased)
-   * isForViewSolution  = True // stops the increase of currentmavenumber
    */
-  nextMove(isForViewSolution = false) {
+  nextMove() {
     this.uiSet.allowBackMove = true;
-    if (!isForViewSolution) {
-    }
     this.uiSet.currentMoveNumber++;
     // aquí setear el tablero con la siguiente jugada
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
@@ -398,11 +391,6 @@ export class TrainingComponent implements OnInit {
 
       this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
       const fen = this.chessInstance.fen();
-      await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          resolve(true);
-        }, 200);
-      });
       await this.board.setPosition(fen, true);
     }
 
@@ -411,6 +399,8 @@ export class TrainingComponent implements OnInit {
 
 
   showSolution() {
+    console.log('showSolution ', this.puzzleStatus);
+
     this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
     if (this.puzzleStatus !== 'wrong' && this.puzzleStatus !== 'isRetrying') {
       this.saveUserPuzzle();
@@ -418,18 +408,12 @@ export class TrainingComponent implements OnInit {
     if (this.uiSet.currentMoveNumber < this.fenSolution.length - 1) {
       this.uiSet.allowNextMove = true;
     }
-    // True is sent to identify that it is because it was requested to show the solution, and not add the currentMoveNumber
-    // Se envía true para identificar que es porque se pidió mostrar la solución, y no sumar el currentMoveNumber
 
-    // If you are resenting and requested the solution, if you must increase the number of play,
-    // Because when reintenting a play automatically is delayed
+    if (this.puzzleStatus === 'wrong') {
+      this.uiSet.currentMoveNumber--;
+    }
 
-    // si se esta reintentando y se pide mostrar la solución, si debe aumentar el número de jugada,
-    // porque al reintentar se retrasa una jugada automáticamente
-
-    const disableSumCurrentMoveNumber = this.puzzleStatus === 'isRetrying' ? false : true;
-
-    this.nextMove(disableSumCurrentMoveNumber);
+    this.nextMove();
 
     // importante no cambiar antes de llamar a nextMove
     this.puzzleStatus = 'showSolution';
