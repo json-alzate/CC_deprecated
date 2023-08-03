@@ -1,4 +1,70 @@
 <ion-list>
+
+  <ion-item button detail="false" (click)="logout()">
+    <ion-icon name="reload-outline" slot="start"></ion-icon>
+    <ion-label>Historial</ion-label>
+  </ion-item>
+
+
+
+  <ion-accordion-group>
+    <ion-accordion value="first">
+      <ion-item slot="header">
+        <ion-icon slot="start" name="brush-outline"></ion-icon>
+        <ion-label>Piezas</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+
+        <ion-list>
+
+          <ion-item button (click)="changePiecesStyle(piecesStyle.name)" *ngFor="let piecesStyle of piecesStylesInfo">
+
+            <ion-avatar slot="start">
+              <img alt="wK" [src]="piecesStyle.piecesPath+'wK.svg'" />
+            </ion-avatar>
+            <ion-label>{{ piecesStyle.name }}</ion-label>
+
+            <ion-icon color="primary" *ngIf="currentPiecesStyleSelected === piecesStyle.name" slot="end"
+              name="checkmark-outline"></ion-icon>
+
+
+          </ion-item>
+        </ion-list>
+
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="second">
+      <ion-item slot="header">
+        <ion-icon slot="start" name="brush-outline"></ion-icon>
+
+        <ion-label>Tablero</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+
+        <ion-list>
+          <ion-item button *ngFor="let boardStyle of boardStylesInfo" (click)="changeBoardStyle(boardStyle.name)">
+            <ion-avatar slot="start"
+              [style]="'background-color: '+boardStyle.colorsSquares.light  +'; border-radius: 0;'">
+            </ion-avatar>
+            <ion-avatar slot="start"
+              [style]="'background-color: '+boardStyle.colorsSquares.dark  +'; border-radius: 0;'">
+            </ion-avatar>
+            <ion-icon color="primary" *ngIf="currentBoardStyleSelected.name === boardStyle.name" slot="end"
+              name="checkmark-outline"></ion-icon>
+          </ion-item>
+        </ion-list>
+
+      </div>
+    </ion-accordion>
+  </ion-accordion-group>
+
+
+
+
+
+
+
   <ion-item button detail="false" (click)="logout()">
     <ion-icon name="log-out-outline" slot="start"></ion-icon>
     <ion-label>Salir</ion-label>
