@@ -204,7 +204,9 @@ export class TrainingComponent implements OnInit {
       this.board.enableMoveInput((event) => {
 
         // handle user input here
+        console.log(event.type);
         switch (event.type) {
+
           case 'moveInputStarted':
             // mostrar indicadores para donde se puede mover la pieza
 
@@ -254,12 +256,43 @@ export class TrainingComponent implements OnInit {
             // hide the indicators
             console.log('moveCanceled ', this.chessInstance.pgn());
             return true;
+          case 'moveInputFinished':
+            this.board.removeMarkers();
+            break;
           default:
             return true;
         }
       });
 
+
+      let startSquare;
+      let endSquare;
       this.board.enableSquareSelect((event) => {
+
+        if (event.mouseEvent.type === 'mousedown' && event.mouseEvent.which === 3) { // click derecho
+          startSquare = event.square;
+        }
+
+        if (event.mouseEvent.type === 'mouseup' && event.mouseEvent.which === 3) { // liberar click derecho
+          endSquare = event.square;
+
+          // Ahora, dibujamos la flecha usando el inicio y el final de las coordenadas
+          let arrowType = ARROW_TYPE.default;
+
+          if (event.mouseEvent.shiftKey) {
+            arrowType = ARROW_TYPE.pointy;
+          } else if (event.mouseEvent.altKey) {
+            arrowType = ARROW_TYPE.danger;
+          } else if (event.mouseEvent.ctrlKey) {
+            arrowType = ARROW_TYPE.highlight;
+          }
+
+          console.log('arrowType ', arrowType);
+          console.log('startSquare ', startSquare);
+          console.log('endSquare ', endSquare);
+
+          this.board.addArrow(arrowType, startSquare, endSquare);
+        }
 
         const ctrKeyPressed = event.mouseEvent.ctrlKey;
         const shiftKeyPressed = event.mouseEvent.shiftKey;
@@ -369,6 +402,7 @@ export class TrainingComponent implements OnInit {
   // Arrows
 
   starPosition() {
+    this.board.removeMarkers();
     this.board.setPosition(this.puzzleToResolve.fen, true);
     this.chessInstance.load(this.puzzleToResolve.fen);
     this.uiSet.currentMoveNumber = 0;
@@ -392,6 +426,7 @@ export class TrainingComponent implements OnInit {
     } else {
       this.uiSet.allowNextMove = true;
     }
+    this.board.removeMarkers();
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === 0) {
@@ -412,6 +447,7 @@ export class TrainingComponent implements OnInit {
     this.uiSet.allowBackMove = true;
     this.uiSet.currentMoveNumber++;
     // aquí setear el tablero con la siguiente jugada
+    this.board.removeMarkers();
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === this.fenSolution.length - 1) {
@@ -424,6 +460,7 @@ export class TrainingComponent implements OnInit {
     this.uiSet.allowBackMove = true;
     this.uiSet.allowNextMove = false;
     this.uiSet.currentMoveNumber = this.fenSolution.length - 1;
+    this.board.removeMarkers();
     this.board.setPosition(this.fenSolution[this.fenSolution.length - 1], true);
     this.chessInstance.load(this.fenSolution[this.fenSolution.length - 1]);
   }
@@ -448,6 +485,7 @@ export class TrainingComponent implements OnInit {
 
       this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
       const fen = this.chessInstance.fen();
+      this.board.removeMarkers();
       await this.board.setPosition(fen, true);
     }
 
