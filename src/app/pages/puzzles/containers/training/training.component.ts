@@ -196,7 +196,7 @@ export class TrainingComponent implements OnInit {
       });
 
       // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
-      // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
+      // // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
       // this.board.addArrow(ARROW_TYPE.default, 'b8', 'c6');
       // this.board.addArrow(ARROW_TYPE.pointy, 'd2', 'd3');
       // this.board.addArrow(ARROW_TYPE.danger, 'g5', 'e6');
@@ -242,6 +242,47 @@ export class TrainingComponent implements OnInit {
             return true;
           default:
             return true;
+        }
+      });
+
+      this.board.enableSquareSelect((event) => {
+
+        const ctrKeyPressed = event.mouseEvent.ctrlKey;
+        const shiftKeyPressed = event.mouseEvent.shiftKey;
+        const altKeyPressed = event.mouseEvent.altKey;
+
+        if (event.type === SQUARE_SELECT_TYPE.primary && event.mouseEvent.type === 'mousedown') {
+          // elimina todos los marcadores
+          this.board.removeMarkers();
+        }
+
+        if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === 'mousedown') {
+
+          let classCircle = 'marker-circle-green';
+
+          if (ctrKeyPressed) {
+            classCircle = 'marker-circle-red';
+          } else if (shiftKeyPressed) {
+            classCircle = 'marker-circle-blue';
+          } else if (altKeyPressed) {
+            classCircle = 'marker-circle-yellow';
+          }
+
+          let myOwnMarker = { class: classCircle, slice: 'markerCircle' };
+
+          if (ctrKeyPressed && shiftKeyPressed && altKeyPressed) {
+            myOwnMarker = MARKER_TYPE.frame;
+          }
+
+
+          const markersOnSquare = this.board.getMarkers(undefined, event.square);
+          if (markersOnSquare.length > 0) {
+            this.board.removeMarkers(undefined, event.square);
+          } else {
+            this.board.addMarker(myOwnMarker, event.square);
+          }
+
+
         }
       });
 

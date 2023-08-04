@@ -33,6 +33,33 @@
 @import './assets/cm-chessboard/extensions/markers/markers.scss';
 @import './assets/cm-chessboard/extensions/promotion-dialog/promotion-dialog.scss';
 
+// markers
+.cm-chessboard .markers .marker.marker-circle-green {
+    stroke: green;
+    stroke-width: 3px;
+    opacity: 0.6;
+}
+
+.cm-chessboard .markers .marker.marker-circle-yellow {
+    stroke: yellow;
+    stroke-width: 3px;
+    opacity: 0.6;
+}
+
+.cm-chessboard .markers .marker.marker-circle-blue {
+    stroke: blue;
+    stroke-width: 3px;
+    opacity: 0.6;
+}
+
+.cm-chessboard .markers .marker.marker-circle-red {
+    stroke: red;
+    stroke-width: 3px;
+    opacity: 0.6;
+}
+
+// end cm-chessboard
+
 div.message-error {
     min-height: 12px;
     text-align: center;
