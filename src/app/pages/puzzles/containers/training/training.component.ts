@@ -50,7 +50,6 @@ import { AppService } from '@services/app.service';
 
 
 // FIXME: Con el siguiente ejercicio el puzzle es imposible de resolver porque incluye una coronación
-// TODO: Validar coronación
 /*
 fen: "7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50"
 gameUrl: "https://lichess.org/P16cwZZd#99"
@@ -208,6 +207,22 @@ export class TrainingComponent implements OnInit {
         switch (event.type) {
           case 'moveInputStarted':
             // mostrar indicadores para donde se puede mover la pieza
+
+            this.board.removeMarkers();
+
+            if (this.chessInstance.turn() === this.puzzleColor && this.chessInstance.moves({ square: event.square }).length > 0) {
+
+              // adiciona el marcador para la casilla seleccionada
+              const markerSquareSelected = { class: 'marker-square-green', slice: 'markerSquare' };
+              this.board.addMarker(markerSquareSelected, event.square);
+              const possibleMoves = this.chessInstance.moves({ square: event.square, verbose: true });
+              for (const move of possibleMoves) {
+                const markerDotMove = { class: 'marker-dot-green', slice: 'markerDot' };
+                this.board.addMarker(markerDotMove, move.to);
+              }
+            }
+
+
             return true;
 
           case 'validateMoveInput':
@@ -217,8 +232,7 @@ export class TrainingComponent implements OnInit {
 
             if (theMove) {
               this.uiSet.currentMoveNumber++;
-              // TODO: validar si es jaque mate para dar como correcto el ejercicio, sin importar el movimiento
-              if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber]) {
+              if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
                 console.log('correct!!!');
                 this.uiSet.allowBackMove = true;
                 this.puzzleStatus = 'good';
@@ -252,8 +266,11 @@ export class TrainingComponent implements OnInit {
         const altKeyPressed = event.mouseEvent.altKey;
 
         if (event.type === SQUARE_SELECT_TYPE.primary && event.mouseEvent.type === 'mousedown') {
-          // elimina todos los marcadores
-          this.board.removeMarkers();
+
+          if (!this.chessInstance.get(event.square)) {
+            this.board.removeMarkers();
+          }
+
         }
 
         if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === 'mousedown') {
@@ -278,9 +295,8 @@ export class TrainingComponent implements OnInit {
           const markersOnSquare = this.board.getMarkers(undefined, event.square);
           if (markersOnSquare.length > 0) {
             this.board.removeMarkers(undefined, event.square);
-          } else {
-            this.board.addMarker(myOwnMarker, event.square);
           }
+          this.board.addMarker(myOwnMarker, event.square);
 
 
         }

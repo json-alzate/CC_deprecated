@@ -58,6 +58,16 @@
     opacity: 0.6;
 }
 
+.cm-chessboard .markers .marker.marker-square-green {
+    fill: green;
+    opacity: 0.2;
+}
+
+.cm-chessboard .markers .marker.marker-dot-green {
+    fill: green;
+    opacity: 0.2;
+}
+
 // end cm-chessboard
 
 div.message-error {
