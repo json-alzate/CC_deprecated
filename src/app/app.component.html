@@ -30,7 +30,7 @@
 
       <ng-container *ngIf="showProfile; else elseTemplateShowProfile">
 
-        <app-profile (closeProfile)="onLogout()" ></app-profile>
+        <app-profile (closeProfile)="onLogout()"></app-profile>
 
       </ng-container>
       <ng-template #elseTemplateShowProfile>
@@ -49,9 +49,9 @@
             <ion-label>Ejercicios</ion-label>
           </ion-item>
         </ion-menu-toggle>
-        
+
         <ion-menu-toggle>
-          <ion-item button (click)="goTo('/puzzles/training')" detail="false">
+          <ion-item button (click)="goTo('/puzzles/titan')" detail="false">
             <ion-icon name="barbell-outline" slot="start"></ion-icon>
             <ion-label>Titán</ion-label>
           </ion-item>
@@ -109,13 +109,13 @@
               <ion-icon slot="icon-only" name="close-outline"></ion-icon>
             </ion-button>
           </ion-item>
-          
+
         </ng-container>
 
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <app-profile (closeProfile)="onLogout()" ></app-profile>
+      <app-profile (closeProfile)="onLogout()"></app-profile>
     </ion-content>
     <ion-footer class="ion-no-border">
       <ion-toolbar>

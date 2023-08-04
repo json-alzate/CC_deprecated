@@ -21,7 +21,7 @@
                 <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
                 Ejercicios
             </ion-button>
-            <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
+            <ion-button (click)="goTo('/puzzles/titan')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="barbell-outline" slot="start"></ion-icon>
                 Titán
             </ion-button>
@@ -45,7 +45,7 @@
             </ion-button>
         </ion-buttons>
 
-         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
+        <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
             <ng-container *ngIf="profile?.email ; else elseTemplateLoginButton">
 
@@ -72,7 +72,7 @@
                 </ng-template>
             </ion-popover>
 
-        </ng-template> 
+        </ng-template>
 
     </ion-toolbar>
 </ion-header>
