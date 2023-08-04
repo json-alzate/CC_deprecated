@@ -204,13 +204,13 @@ export class TrainingComponent implements OnInit {
       this.board.enableMoveInput((event) => {
 
         // handle user input here
-        console.log(event.type);
         switch (event.type) {
 
           case 'moveInputStarted':
             // mostrar indicadores para donde se puede mover la pieza
 
             this.board.removeMarkers();
+            this.board.removeArrows();
 
             if (this.chessInstance.turn() === this.puzzleColor && this.chessInstance.moves({ square: event.square }).length > 0) {
 
@@ -235,12 +235,10 @@ export class TrainingComponent implements OnInit {
             if (theMove) {
               this.uiSet.currentMoveNumber++;
               if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
-                console.log('correct!!!');
                 this.uiSet.allowBackMove = true;
                 this.puzzleStatus = 'good';
                 this.puzzleMoveResponse();
               } else {
-                console.log('Wrong');
                 this.puzzleStatus = 'wrong';
                 this.isPuzzleCompleted = true;
 
@@ -254,10 +252,10 @@ export class TrainingComponent implements OnInit {
             return theMove;
           case 'moveInputCanceled':
             // hide the indicators
-            console.log('moveCanceled ', this.chessInstance.pgn());
             return true;
           case 'moveInputFinished':
             this.board.removeMarkers();
+            this.board.removeArrows();
             break;
           default:
             return true;
@@ -269,38 +267,49 @@ export class TrainingComponent implements OnInit {
       let endSquare;
       this.board.enableSquareSelect((event) => {
 
-        if (event.mouseEvent.type === 'mousedown' && event.mouseEvent.which === 3) { // click derecho
-          startSquare = event.square;
-        }
-
-        if (event.mouseEvent.type === 'mouseup' && event.mouseEvent.which === 3) { // liberar click derecho
-          endSquare = event.square;
-
-          // Ahora, dibujamos la flecha usando el inicio y el final de las coordenadas
-          let arrowType = ARROW_TYPE.default;
-
-          if (event.mouseEvent.shiftKey) {
-            arrowType = ARROW_TYPE.pointy;
-          } else if (event.mouseEvent.altKey) {
-            arrowType = ARROW_TYPE.danger;
-          } else if (event.mouseEvent.ctrlKey) {
-            arrowType = ARROW_TYPE.highlight;
-          }
-
-          console.log('arrowType ', arrowType);
-          console.log('startSquare ', startSquare);
-          console.log('endSquare ', endSquare);
-
-          this.board.addArrow(arrowType, startSquare, endSquare);
-        }
 
         const ctrKeyPressed = event.mouseEvent.ctrlKey;
         const shiftKeyPressed = event.mouseEvent.shiftKey;
         const altKeyPressed = event.mouseEvent.altKey;
 
+        if (event.mouseEvent.type === 'mousedown' && event.mouseEvent.which === 3) { // click derecho
+          startSquare = event.square;
+        }
+
+
+        if (event.mouseEvent.type === 'mouseup' && event.mouseEvent.which === 3) { // liberar click derecho
+          endSquare = event.square;
+
+          if (startSquare === endSquare) {
+
+            // aqui se debe utilizar la logica para adicionar un marker
+            return;
+          }
+
+          // Ahora, dibujamos la flecha usando el inicio y el final de las coordenadas
+          let arrowType = {
+            class: 'arrow-green',
+            headSize: 7,
+            slice: 'arrowDefault'
+          };
+
+          if (shiftKeyPressed) {
+            arrowType = { ...arrowType, class: 'arrow-blue' };
+          } else if (altKeyPressed) {
+            arrowType = { ...arrowType, class: 'arrow-yellow' };
+          } else if (ctrKeyPressed) {
+            arrowType = { ...arrowType, class: 'arrow-red' };
+          }
+
+
+          this.board.addArrow(arrowType, startSquare, endSquare);
+        }
+
+
         if (event.type === SQUARE_SELECT_TYPE.primary && event.mouseEvent.type === 'mousedown') {
 
           if (!this.chessInstance.get(event.square)) {
+            this.board.removeArrows();
             this.board.removeMarkers();
           }
 
@@ -308,6 +317,7 @@ export class TrainingComponent implements OnInit {
 
         if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === 'mousedown') {
 
+          // TODO: llevar esto a un metodo para ser llamada desde adicionar arrow si solo se mueve a la misma casilla (como en lichess)
           let classCircle = 'marker-circle-green';
 
           if (ctrKeyPressed) {
@@ -402,6 +412,7 @@ export class TrainingComponent implements OnInit {
   // Arrows
 
   starPosition() {
+    this.board.removeArrows();
     this.board.removeMarkers();
     this.board.setPosition(this.puzzleToResolve.fen, true);
     this.chessInstance.load(this.puzzleToResolve.fen);
@@ -427,6 +438,7 @@ export class TrainingComponent implements OnInit {
       this.uiSet.allowNextMove = true;
     }
     this.board.removeMarkers();
+    this.board.removeArrows();
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === 0) {
@@ -448,6 +460,7 @@ export class TrainingComponent implements OnInit {
     this.uiSet.currentMoveNumber++;
     // aquí setear el tablero con la siguiente jugada
     this.board.removeMarkers();
+    this.board.removeArrows();
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     if (this.uiSet.currentMoveNumber === this.fenSolution.length - 1) {
@@ -461,6 +474,7 @@ export class TrainingComponent implements OnInit {
     this.uiSet.allowNextMove = false;
     this.uiSet.currentMoveNumber = this.fenSolution.length - 1;
     this.board.removeMarkers();
+    this.board.removeArrows();
     this.board.setPosition(this.fenSolution[this.fenSolution.length - 1], true);
     this.chessInstance.load(this.fenSolution[this.fenSolution.length - 1]);
   }
@@ -486,6 +500,7 @@ export class TrainingComponent implements OnInit {
       this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
       const fen = this.chessInstance.fen();
       this.board.removeMarkers();
+      this.board.removeArrows();
       await this.board.setPosition(fen, true);
     }
 

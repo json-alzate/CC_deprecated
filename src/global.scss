@@ -68,6 +68,57 @@
     opacity: 0.2;
 }
 
+// Arrows
+.cm-chessboard .arrow-green .arrow-head {
+    fill: green;
+    fill-rule: nonzero;
+    fill-opacity: 1;
+}
+
+.cm-chessboard .arrow-green .arrow-line {
+    stroke: green;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
+.cm-chessboard .arrow-yellow .arrow-head {
+    fill: yellow;
+    fill-rule: nonzero;
+    fill-opacity: 1;
+}
+
+.cm-chessboard .arrow-yellow .arrow-line {
+    stroke: yellow;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
+.cm-chessboard .arrow-blue .arrow-head {
+    fill: blue;
+    fill-rule: nonzero;
+    fill-opacity: 1;
+}
+
+.cm-chessboard .arrow-blue .arrow-line {
+    stroke: blue;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
+.cm-chessboard .arrow-red .arrow-head {
+    fill: red;
+    fill-rule: nonzero;
+    fill-opacity: 1;
+}
+
+.cm-chessboard .arrow-red .arrow-line {
+    stroke: red;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
+
+
 // end cm-chessboard
 
 div.message-error {
