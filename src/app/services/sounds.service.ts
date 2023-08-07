@@ -14,6 +14,7 @@ export class SoundsService {
   capture;
   check;
   checkMate;
+  castle;
 
   constructor() {
     this.loadSounds();
@@ -34,6 +35,9 @@ export class SoundsService {
     });
     this.capture = new Howl({
       src: [basePath + 'Capture.mp3']
+    });
+    this.castle = new Howl({
+      src: [basePath + 'Castles.mp3']
     });
     this.check = new Howl({
       src: [basePath + 'Check.mp3']
@@ -58,6 +62,10 @@ export class SoundsService {
 
   playCheckmateSound() {
     this.checkMate.play();
+  }
+
+  playCastleSound() {
+    this.castle.play();
   }
 
 

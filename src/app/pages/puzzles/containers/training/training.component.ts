@@ -45,27 +45,7 @@ import { ProfileService } from '@services/profile.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
 import { AppService } from '@services/app.service';
 import { SoundsService } from '@services/sounds.service';
-
-
-// components
-
-
-// FIXME: Con el siguiente ejercicio el puzzle es imposible de resolver porque incluye una coronación
-/*
-fen: "7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50"
-gameUrl: "https://lichess.org/P16cwZZd#99"
-moves: "h4h5 b3b2 g7b7 h8h7 b7h7 b2b1q"
-nbPlays: 2892
-openingFamily: "\r"
-openingVariation: ""
-popularity: 93
-randomNumberQuery: 7508
-rating: 1449
-ratingDeviation: 75
-themes:  ['advancedPawn', 'crushing', 'deflection', 'endgame', 'long', 'promotion', 'rookEndgame']
-uid: "02fzY"
-
-*/
+import { ToolsService } from '@services/tools.service';
 
 
 @Component({
@@ -98,6 +78,9 @@ export class TrainingComponent implements OnInit {
   puzzleToResolve: Puzzle;
   fenSolution: string[] = [];
 
+  // Se utiliza para determinar el tipo de movimiento y reproducir el sonido adecuado
+  fenToCompare: string;
+
   // puzzle status and info for user
   puzzleColor: 'b' | 'w' = 'w';
   puzzleStatus: 'start' | 'wrong' | 'good' | 'finished' | 'showSolution' | 'isRetrying' = 'start';
@@ -111,12 +94,31 @@ export class TrainingComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
+  // FIXME: Con el siguiente ejercicio el puzzle es imposible de resolver porque incluye una coronación
+  /*
+  fen: "7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50"
+  gameUrl: "https://lichess.org/P16cwZZd#99"
+  moves: "h4h5 b3b2 g7b7 h8h7 b7h7 b2b1q"
+  nbPlays: 2892
+  openingFamily: "\r"
+  openingVariation: ""
+  popularity: 93
+  randomNumberQuery: 7508
+  rating: 1449
+  ratingDeviation: 75
+  themes:  ['advancedPawn', 'crushing', 'deflection', 'endgame', 'long', 'promotion', 'rookEndgame']
+  uid: "02fzY"
+  */
+
+  // FIXME: no se realiza el enroque bien, solo se mueve el rey las dos casillas pero la torre no se mueve
+
   constructor(
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
     private userPuzzlesService: UserPuzzlesService,
     public appService: AppService,
-    private soundsService: SoundsService
+    private soundsService: SoundsService,
+    private toolsService: ToolsService
   ) {
     this.profileService.subscribeToProfile().subscribe(profile => {
       this.profile = profile;
@@ -152,8 +154,12 @@ export class TrainingComponent implements OnInit {
 
     this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
 
+    console.log(JSON.stringify(this.puzzleToResolve));
+
+
     this.fenSolution = [];
     const chessInstance = new Chess(this.puzzleToResolve.fen);
+    this.fenToCompare = this.puzzleToResolve.fen;
     const movesArray = this.puzzleToResolve.moves.split(' ');
 
     // se construye un arreglo con los fen de la solución
@@ -203,12 +209,10 @@ export class TrainingComponent implements OnInit {
 
           case 'moveInputStarted':
             // mostrar indicadores para donde se puede mover la pieza
-
             this.board.removeMarkers();
             this.board.removeArrows();
 
             if (this.chessInstance.turn() === this.puzzleColor && this.chessInstance.moves({ square: event.square }).length > 0) {
-
               // adiciona el marcador para la casilla seleccionada
               const markerSquareSelected = { class: 'marker-square-green', slice: 'markerSquare' };
               this.board.addMarker(markerSquareSelected, event.square);
@@ -218,19 +222,16 @@ export class TrainingComponent implements OnInit {
                 this.board.addMarker(markerDotMove, move.to);
               }
             }
-
-
             return true;
-
           case 'validateMoveInput':
-
             const objectMove = { from: event.squareFrom, to: event.squareTo };
             const theMove = this.chessInstance.move(objectMove);
-
             if (theMove) {
-              this.soundsService.playMoveSound();
+              const fenChessInstance = this.chessInstance.fen();
+              this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);
+
               this.uiSet.currentMoveNumber++;
-              if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
+              if (fenChessInstance === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
                 this.uiSet.allowBackMove = true;
                 this.puzzleStatus = 'good';
                 this.puzzleMoveResponse();
@@ -276,7 +277,7 @@ export class TrainingComponent implements OnInit {
 
           if (startSquare === endSquare) {
 
-            // aqui se debe utilizar la logica para adicionar un marker
+            // TODO: aquí se debe utilizar la lógica para adicionar un marker para que haga el efecto como en lichess
             return;
           }
 
@@ -343,6 +344,7 @@ export class TrainingComponent implements OnInit {
 
     } else {
       // Ya el tablero fue cargado la primera vez
+      // TODO: se debe validar que tipo de moviemiento fue para reproducir el sonido correspondiente
       this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber]);
     }
 
@@ -412,6 +414,7 @@ export class TrainingComponent implements OnInit {
     this.board.removeMarkers();
     this.board.setPosition(this.puzzleToResolve.fen, true);
     this.chessInstance.load(this.puzzleToResolve.fen);
+    this.fenToCompare = this.chessInstance.fen();
     this.uiSet.currentMoveNumber = 0;
     this.uiSet.allowBackMove = false;
     this.uiSet.allowNextMove = true;
@@ -435,8 +438,11 @@ export class TrainingComponent implements OnInit {
     }
     this.board.removeMarkers();
     this.board.removeArrows();
+    this.toolsService.determineChessMoveType(this.fenToCompare, this.chessInstance.fen());
+    this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
+
     if (this.uiSet.currentMoveNumber === 0) {
       this.uiSet.allowBackMove = false;
     }
@@ -447,9 +453,6 @@ export class TrainingComponent implements OnInit {
    * Navega a la siguiente jugada en el tablero
    * Navigate to the next play on the board
    *
-   * @param isForViewSolution boolean:
-   * Es utilizado para incrementar o no el currentMoveNumber (por defecto se incrementa)
-   * It is used to increase or not the currentmavenumber (default is increased)
    */
   nextMove() {
     this.uiSet.allowBackMove = true;
@@ -457,8 +460,10 @@ export class TrainingComponent implements OnInit {
     // aquí setear el tablero con la siguiente jugada
     this.board.removeMarkers();
     this.board.removeArrows();
+    this.toolsService.determineChessMoveType(this.fenToCompare, this.chessInstance.fen());
     this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber], true);
     this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
+    this.fenToCompare = this.chessInstance.fen();
     if (this.uiSet.currentMoveNumber === this.fenSolution.length - 1) {
       this.uiSet.allowNextMove = false;
     }
@@ -473,6 +478,7 @@ export class TrainingComponent implements OnInit {
     this.board.removeArrows();
     this.board.setPosition(this.fenSolution[this.fenSolution.length - 1], true);
     this.chessInstance.load(this.fenSolution[this.fenSolution.length - 1]);
+    this.fenToCompare = this.chessInstance.fen();
   }
 
 
@@ -493,10 +499,17 @@ export class TrainingComponent implements OnInit {
       this.stopTimer();
     } else {
 
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(() => resolve(), 1000);
+      });
+
       this.chessInstance.load(this.fenSolution[this.uiSet.currentMoveNumber]);
       const fen = this.chessInstance.fen();
+      this.toolsService.determineChessMoveType(this.fenToCompare, fen);
+      this.fenToCompare = fen;
       this.board.removeMarkers();
       this.board.removeArrows();
+
       await this.board.setPosition(fen, true);
     }
 
@@ -505,8 +518,6 @@ export class TrainingComponent implements OnInit {
 
 
   showSolution() {
-    console.log('showSolution ', this.puzzleStatus);
-
     this.uiSet = { ...this.uiSet, allowNextPuzzle: true };
     if (this.puzzleStatus !== 'wrong' && this.puzzleStatus !== 'isRetrying') {
       this.saveUserPuzzle();
