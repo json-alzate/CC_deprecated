@@ -44,6 +44,7 @@ import { PuzzlesService } from '@services/puzzles.service';
 import { ProfileService } from '@services/profile.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
 import { AppService } from '@services/app.service';
+import { SoundsService } from '@services/sounds.service';
 
 
 // components
@@ -114,7 +115,8 @@ export class TrainingComponent implements OnInit {
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
     private userPuzzlesService: UserPuzzlesService,
-    public appService: AppService
+    public appService: AppService,
+    private soundsService: SoundsService
   ) {
     this.profileService.subscribeToProfile().subscribe(profile => {
       this.profile = profile;
@@ -194,13 +196,6 @@ export class TrainingComponent implements OnInit {
         ]
       });
 
-      // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
-      // // this.board.addArrow(ARROW_TYPE.default, 'f3', 'd5');
-      // this.board.addArrow(ARROW_TYPE.default, 'b8', 'c6');
-      // this.board.addArrow(ARROW_TYPE.pointy, 'd2', 'd3');
-      // this.board.addArrow(ARROW_TYPE.danger, 'g5', 'e6');
-      // console.log(this.board.getArrows());
-
       this.board.enableMoveInput((event) => {
 
         // handle user input here
@@ -233,6 +228,7 @@ export class TrainingComponent implements OnInit {
             const theMove = this.chessInstance.move(objectMove);
 
             if (theMove) {
+              this.soundsService.playMoveSound();
               this.uiSet.currentMoveNumber++;
               if (this.chessInstance.fen() === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
                 this.uiSet.allowBackMove = true;
@@ -241,9 +237,7 @@ export class TrainingComponent implements OnInit {
               } else {
                 this.puzzleStatus = 'wrong';
                 this.isPuzzleCompleted = true;
-
                 this.saveUserPuzzle();
-
                 this.stopTimer();
               }
 
@@ -338,8 +332,10 @@ export class TrainingComponent implements OnInit {
           const markersOnSquare = this.board.getMarkers(undefined, event.square);
           if (markersOnSquare.length > 0) {
             this.board.removeMarkers(undefined, event.square);
+          } else {
+
+            this.board.addMarker(myOwnMarker, event.square);
           }
-          this.board.addMarker(myOwnMarker, event.square);
 
 
         }
