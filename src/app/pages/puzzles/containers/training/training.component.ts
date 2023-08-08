@@ -46,6 +46,7 @@ import { UserPuzzlesService } from '@services/user-puzzles.service';
 import { AppService } from '@services/app.service';
 import { SoundsService } from '@services/sounds.service';
 import { ToolsService } from '@services/tools.service';
+import { StockfishService } from '@services/stockfish.service';
 
 
 @Component({
@@ -118,7 +119,8 @@ export class TrainingComponent implements OnInit {
     private userPuzzlesService: UserPuzzlesService,
     public appService: AppService,
     private soundsService: SoundsService,
-    private toolsService: ToolsService
+    private toolsService: ToolsService,
+    private stockfishService: StockfishService
   ) {
     this.profileService.subscribeToProfile().subscribe(profile => {
       this.profile = profile;
@@ -128,7 +130,14 @@ export class TrainingComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.stockfishService.onMessage((event) => {
+      console.log('Stockfish said:', event.data);
+    });
+
+    this.stockfishService.send(`position startpos`);
+    this.stockfishService.send('go depth 15');
+  }
 
   ionViewDidEnter() {
     this.loadPuzzle();
@@ -190,7 +199,7 @@ export class TrainingComponent implements OnInit {
         position: this.puzzleToResolve.fen,
         assetsUrl: '/assets/cm-chessboard/',
         style: {
-          cssClass: 'chessboard-js',
+          cssClass: 'black-and-white',
           borderType: BORDER_TYPE.thin,
           pieces: {
             file: this.appService.pieces
@@ -344,7 +353,6 @@ export class TrainingComponent implements OnInit {
 
     } else {
       // Ya el tablero fue cargado la primera vez
-      // TODO: se debe validar que tipo de moviemiento fue para reproducir el sonido correspondiente
       this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber]);
     }
 

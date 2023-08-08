@@ -60,7 +60,7 @@ export class AppService {
     }
   ];
 
-  private boardStyleSelected = this.boardStyles[5];
+  private boardStyleSelected = this.boardStyles[6];
 
 
   private piecesStyles: string[] = ['cburnett', 'fantasy', 'staunty'];
