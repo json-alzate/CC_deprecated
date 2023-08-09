@@ -46,8 +46,7 @@ import { UserPuzzlesService } from '@services/user-puzzles.service';
 import { AppService } from '@services/app.service';
 import { SoundsService } from '@services/sounds.service';
 import { ToolsService } from '@services/tools.service';
-import { StockfishService } from '@services/stockfish.service';
-
+import { EngineService } from '@services/engine.service';
 
 @Component({
   selector: 'app-training',
@@ -120,7 +119,7 @@ export class TrainingComponent implements OnInit {
     public appService: AppService,
     private soundsService: SoundsService,
     private toolsService: ToolsService,
-    private stockfishService: StockfishService
+    private engineService: EngineService
   ) {
     this.profileService.subscribeToProfile().subscribe(profile => {
       this.profile = profile;
@@ -131,12 +130,13 @@ export class TrainingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stockfishService.onMessage((event) => {
-      console.log('Stockfish said:', event.data);
-    });
+    this.engineService.getBestMove('4R3/1p4k1/1q3bpp/3B4/4Np1P/p4P2/3RK1P1/8 b - - 0 1').then(bestMove => {
+      console.log('La mejor jugada es:', bestMove);
+    }).catch(error => {
+      console.log('Error al obtener la mejor jugada', error);
+    }
+    );
 
-    this.stockfishService.send(`position startpos`);
-    this.stockfishService.send('go depth 15');
   }
 
   ionViewDidEnter() {
@@ -199,7 +199,7 @@ export class TrainingComponent implements OnInit {
         position: this.puzzleToResolve.fen,
         assetsUrl: '/assets/cm-chessboard/',
         style: {
-          cssClass: 'black-and-white',
+          // cssClass: 'black-and-white',
           borderType: BORDER_TYPE.thin,
           pieces: {
             file: this.appService.pieces

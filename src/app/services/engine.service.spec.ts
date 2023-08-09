@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StockfishService } from './stockfish.service';
+import { EngineService } from './engine.service';
 
-describe('StockfishService', () => {
-  let service: StockfishService;
+describe('EngineService', () => {
+  let service: EngineService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(StockfishService);
+    service = TestBed.inject(EngineService);
   });
 
   it('should be created', () => {
