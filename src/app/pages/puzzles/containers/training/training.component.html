@@ -83,10 +83,21 @@
           <ion-icon *ngIf="puzzleStatus === 'good'" slot="end" color="success" name="checkmark-circle-outline">
           </ion-icon>
 
-          <ion-button slot="end" clear *ngIf="puzzleStatus === 'wrong'" (click)="backMove(true)">
-            Reintentar
-          </ion-button>
-          <ion-icon *ngIf="puzzleStatus === 'wrong'" slot="end" color="danger" name="close-circle-outline"></ion-icon>
+          <div *ngIf="puzzleStatus === 'wrong'">
+            <ion-button slot="end" clear (click)="backMove(true)">
+              Reintentar
+            </ion-button>
+            <ion-icon slot="end" color="danger" name="close-circle-outline"></ion-icon>
+          </div>
+
+          <div>
+
+            <ion-button size="large" fill="clear" [color]="engineWorking ? 'success' : 'medium'"
+              (click)="switchEngine()">
+              <ion-icon slot="icon-only" name="hardware-chip-outline"></ion-icon>
+            </ion-button>
+
+          </div>
 
         </ion-item>
 

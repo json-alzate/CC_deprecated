@@ -30,6 +30,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Puzzle } from '@models/puzzle.model';
 import { Profile } from '@models/profile.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
+import { Evaluation } from '@models/engine.model';
 
 interface UISettings {
   allowBackMove: boolean;
@@ -89,6 +90,8 @@ export class TrainingComponent implements OnInit {
   eloToShow: number;
   eloLessSum: number;
 
+  engineWorking = false;
+
 
   // MOdificar esto a como esta en la libreria de lullalib
   private unsubscribe$ = new Subject<void>();
@@ -130,17 +133,66 @@ export class TrainingComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.engineService.getBestMove('4R3/1p4k1/1q3bpp/3B4/4Np1P/p4P2/3RK1P1/8 b - - 0 1').then(bestMove => {
-      console.log('La mejor jugada es:', bestMove);
-    }).catch(error => {
-      console.log('Error al obtener la mejor jugada', error);
-    }
-    );
+
 
   }
 
   ionViewDidEnter() {
     this.loadPuzzle();
+  }
+
+  switchEngine(engineSetStatus: 'start' | 'stop' | 'toggle' = 'toggle') {
+
+    switch (engineSetStatus) {
+      case 'start':
+        this.engineWorking = true;
+        break;
+      case 'stop':
+        this.engineWorking = false;
+        break;
+      case 'toggle':
+        this.engineWorking = !this.engineWorking;
+        break;
+    }
+
+    // se adiciona un marker para mostrar la mejor jugada
+    const markerArrowEngine = { class: 'arrow-pointy', headSize: 7, slice: 'arrowPointy' };
+
+    if (this.engineWorking) {
+      console.log(this.chessInstance.fen());
+      this.engineService.getBestMove(this.chessInstance.fen()).subscribe((evaluationData: Evaluation) => {
+
+
+        // se convierte el string de la mejor jugada. por ejemplo: De4 a un objeto {from: 'd2', to: 'd4'}
+        const bestMove = this.toolsService.moveSANToUCI(evaluationData.bestMove, this.chessInstance.fen());
+
+        if (!bestMove) {
+          console.log('evaluationData: ', evaluationData);
+
+          // console.log('bestMove: ', bestMove);
+        }
+
+
+
+        if (bestMove) {
+
+          const arrowsOnSquare = this.board.getArrows(undefined, bestMove.from, bestMove.to);
+          if (arrowsOnSquare.length > 0) {
+            this.board.removeArrows(undefined, bestMove.from, bestMove.to);
+          }
+
+          this.board.removeArrows(undefined, undefined, undefined, 'arrowPointy');
+          this.board.addArrow(markerArrowEngine, bestMove.from, bestMove.to);
+        }
+
+      });
+    } else {
+      // busca los arrows pointy y los elimina
+      this.board.removeArrows(undefined, undefined, undefined, 'arrowPointy');
+      this.engineService.stopEvaluation();
+    }
+
+
   }
 
 
@@ -199,7 +251,7 @@ export class TrainingComponent implements OnInit {
         position: this.puzzleToResolve.fen,
         assetsUrl: '/assets/cm-chessboard/',
         style: {
-          // cssClass: 'black-and-white',
+          // cssClass: 'chessboard-js',
           borderType: BORDER_TYPE.thin,
           pieces: {
             file: this.appService.pieces
@@ -519,6 +571,9 @@ export class TrainingComponent implements OnInit {
       this.board.removeArrows();
 
       await this.board.setPosition(fen, true);
+      if (this.engineWorking) {
+        this.switchEngine('start');
+      }
     }
 
 

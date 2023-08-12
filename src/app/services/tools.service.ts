@@ -41,33 +41,28 @@ export class ToolsService {
 
       chess.move(move);
       if (chess.fen() === currentFen) {
-        console.log('move ', move);
         if (chess.in_checkmate()) {
           if (playSound) {
             this.soundsService.playCheckmateSound();
           }
-          console.log('checkmate');
           return 'checkmate';
         }
         if (chess.in_check()) {
           if (playSound) {
             this.soundsService.playCheckSound();
           }
-          console.log('check');
           return 'check';
         }
         if (move.flags.includes('k') || move.flags.includes('q')) {
           if (playSound) {
             this.soundsService.playCastleSound();
           }
-          console.log('castle');
           return 'castle';
         }
         if (move.flags.includes('c') || move.flags.includes('e')) {
           if (playSound) {
             this.soundsService.playCaptureSound();
           }
-          console.log('capture');
           return 'capture';
         }
 
@@ -77,12 +72,34 @@ export class ToolsService {
     }
 
     if (playSound) {
-      console.log('move');
-
       this.soundsService.playMoveSound();
     }
 
     return 'move';
+  }
+
+  /**
+   *
+   * Convierte un movimiento en formato SAN a UCI
+   *
+   * @param move Movimiento en formato UCI
+   * @param fen FEN del tablero
+   * @returns Movimiento en formato SAN
+   *
+   * */
+  moveSANToUCI(sanMove: string, fen: string): { from: string; to: string } | null {
+
+    const chess = new Chess(fen);
+
+    const move = chess.move(sanMove);
+    // Si la jugada es inválida, devuelve null o maneja el error como prefieras
+    if (move === null) {
+      return null;
+    }
+
+    // Devuelve el objeto con las propiedades "from" y "to"
+    return { from: move.from, to: move.to };
+
   }
 
 
