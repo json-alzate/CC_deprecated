@@ -12,13 +12,14 @@ import {
 } from 'cm-chessboard';
 import { MARKER_TYPE, Markers } from 'cm-chessboard/src/extensions/markers/markers';
 import { ARROW_TYPE, Arrows } from 'cm-chessboard/src/extensions/arrows/arrows';
+import { PromotionDialog } from 'cm-chessboard/src/extensions/promotion-dialog/PromotionDialog';
 import Chess from 'chess.js';
 import { createUid } from '@utils/create-uid';
 import { randomNumber } from '@utils/random-number';
 import { calculateElo } from '@utils/calculate-elo';
 
 // rxjs
-import { interval, pipe, Subject, combineLatest, Observable } from 'rxjs';
+import { interval, pipe, Subject, combineLatest, Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -91,6 +92,7 @@ export class TrainingComponent implements OnInit {
   eloLessSum: number;
 
   engineWorking = false;
+  subscribeEngine: Subscription;
 
 
   // MOdificar esto a como esta en la libreria de lullalib
@@ -159,28 +161,24 @@ export class TrainingComponent implements OnInit {
     const markerArrowEngine = { class: 'arrow-pointy', headSize: 7, slice: 'arrowPointy' };
 
     if (this.engineWorking) {
-      console.log(this.chessInstance.fen());
-      this.engineService.getBestMove(this.chessInstance.fen()).subscribe((evaluationData: Evaluation) => {
-
-
+      this.subscribeEngine?.unsubscribe();
+      // console.log(this.chessInstance.fen());
+      this.subscribeEngine = this.engineService.getBestMove(this.chessInstance.fen()).subscribe((evaluationData: Evaluation) => {
         // se convierte el string de la mejor jugada. por ejemplo: De4 a un objeto {from: 'd2', to: 'd4'}
+        // FIXME: se esta enviando el fen correcto pero la jugada, en ocasiones se envia la anterior
         const bestMove = this.toolsService.moveSANToUCI(evaluationData.bestMove, this.chessInstance.fen());
 
         if (!bestMove) {
           console.log('evaluationData: ', evaluationData);
-
           // console.log('bestMove: ', bestMove);
         }
 
 
-
         if (bestMove) {
-
           const arrowsOnSquare = this.board.getArrows(undefined, bestMove.from, bestMove.to);
           if (arrowsOnSquare.length > 0) {
             this.board.removeArrows(undefined, bestMove.from, bestMove.to);
           }
-
           this.board.removeArrows(undefined, undefined, undefined, 'arrowPointy');
           this.board.addArrow(markerArrowEngine, bestMove.from, bestMove.to);
         }
@@ -213,9 +211,24 @@ export class TrainingComponent implements OnInit {
 
   async loadPuzzle() {
 
-    this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
+    // this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
 
-    console.log(JSON.stringify(this.puzzleToResolve));
+    // console.log(JSON.stringify(this.puzzleToResolve));
+
+    this.puzzleToResolve = {
+      fen: '7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50',
+      gameUrl: 'https://lichess.org/P16cwZZd#99',
+      moves: 'h4h5 b3b2 g7b7 h8h7 b7h7 b2b1q',
+      nbPlays: 2892,
+      openingFamily: '\r',
+      openingVariation: '',
+      popularity: 93,
+      randomNumberQuery: 7508,
+      rating: 1449,
+      ratingDeviation: 75,
+      themes: ['advancedPawn', 'crushing', 'deflection', 'endgame', 'long', 'promotion', 'rookEndgame'],
+      uid: '02fzY'
+    };
 
 
     this.fenSolution = [];
@@ -259,7 +272,8 @@ export class TrainingComponent implements OnInit {
         },
         extensions: [
           { class: Markers },
-          { class: Arrows }
+          { class: Arrows },
+          { class: PromotionDialog }
         ]
       });
 
@@ -285,8 +299,32 @@ export class TrainingComponent implements OnInit {
             }
             return true;
           case 'validateMoveInput':
+
+            console.log('event: ', event);
+
+
+            if ((event.squareTo.charAt(1) === '8' || event.squareTo.charAt(1) === '1') && event.piece.charAt(1) === 'p') {
+
+              const colorToShow = event.piece.charAt(0) === 'w' ? COLOR.white : COLOR.black;
+
+              this.board.showPromotionDialog(event.squareTo, colorToShow, (result) => {
+                console.log('Promotion result', result);
+                if (result && result.piece) {
+                  this.board.setPiece(result.square, result.piece, true);
+                  // remover la piece de la casilla de origen
+                  this.board.setPiece(event.squareFrom, undefined, true);
+                } else {
+                  console.log('Promotion canceled');
+
+                  // this.board.setPosition(position);
+                }
+              });
+            }
+
             const objectMove = { from: event.squareFrom, to: event.squareTo };
             const theMove = this.chessInstance.move(objectMove);
+            console.log('theMove: ', theMove);
+
             if (theMove) {
               const fenChessInstance = this.chessInstance.fen();
               this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);

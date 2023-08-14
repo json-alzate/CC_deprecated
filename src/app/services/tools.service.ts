@@ -15,6 +15,7 @@ import { SoundsService } from '@services/sounds.service';
 export class ToolsService {
 
   flags: Flag[] = [];
+  chessInstanceMoveSANToUCI = new Chess();
 
   constructor(
     private httpClient: HttpClient,
@@ -89,11 +90,14 @@ export class ToolsService {
    * */
   moveSANToUCI(sanMove: string, fen: string): { from: string; to: string } | null {
 
-    const chess = new Chess(fen);
+    this.chessInstanceMoveSANToUCI.load(fen);
 
-    const move = chess.move(sanMove);
+    const move = this.chessInstanceMoveSANToUCI.move(sanMove);
     // Si la jugada es inválida, devuelve null o maneja el error como prefieras
     if (move === null) {
+      console.log('Invalid fen', this.chessInstanceMoveSANToUCI.fen());
+      console.log('Invalid fen', fen);
+      console.log('Invalid move ', sanMove);
       return null;
     }
 
