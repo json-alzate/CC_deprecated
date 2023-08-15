@@ -300,47 +300,32 @@ export class TrainingComponent implements OnInit {
             return true;
           case 'validateMoveInput':
 
-            console.log('event: ', event);
-
 
             if ((event.squareTo.charAt(1) === '8' || event.squareTo.charAt(1) === '1') && event.piece.charAt(1) === 'p') {
 
               const colorToShow = event.piece.charAt(0) === 'w' ? COLOR.white : COLOR.black;
 
               this.board.showPromotionDialog(event.squareTo, colorToShow, (result) => {
-                console.log('Promotion result', result);
                 if (result && result.piece) {
                   this.board.setPiece(result.square, result.piece, true);
                   // remover la piece de la casilla de origen
                   this.board.setPiece(event.squareFrom, undefined, true);
+                  const objectMovePromotion = { from: event.squareFrom, to: event.squareTo, promotion: result.piece.charAt(1) };
+                  const theMovePromotion = this.chessInstance.move(objectMovePromotion);
+                  if (theMovePromotion) {
+                    this.validateMove();
+                  }
                 } else {
                   console.log('Promotion canceled');
-
-                  // this.board.setPosition(position);
                 }
               });
             }
 
             const objectMove = { from: event.squareFrom, to: event.squareTo };
             const theMove = this.chessInstance.move(objectMove);
-            console.log('theMove: ', theMove);
 
             if (theMove) {
-              const fenChessInstance = this.chessInstance.fen();
-              this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);
-
-              this.uiSet.currentMoveNumber++;
-              if (fenChessInstance === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
-                this.uiSet.allowBackMove = true;
-                this.puzzleStatus = 'good';
-                this.puzzleMoveResponse();
-              } else {
-                this.puzzleStatus = 'wrong';
-                this.isPuzzleCompleted = true;
-                this.saveUserPuzzle();
-                this.stopTimer();
-              }
-
+              this.validateMove();
             }
             // return true, if input is accepted/valid, `false` takes the move back
             return theMove;
@@ -451,6 +436,24 @@ export class TrainingComponent implements OnInit {
     this.turnRoundBoard(this.puzzleColor);
     this.puzzleMoveResponse();
     this.initTimer();
+  }
+
+  validateMove() {
+    const fenChessInstance = this.chessInstance.fen();
+
+    this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);
+
+    this.uiSet.currentMoveNumber++;
+    if (fenChessInstance === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
+      this.uiSet.allowBackMove = true;
+      this.puzzleStatus = 'good';
+      this.puzzleMoveResponse();
+    } else {
+      this.puzzleStatus = 'wrong';
+      this.isPuzzleCompleted = true;
+      this.saveUserPuzzle();
+      this.stopTimer();
+    }
   }
 
 
