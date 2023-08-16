@@ -18,6 +18,10 @@ export class EngineService {
   }
 
   init() {
+    if (this.lozza) {
+      this.stopEvaluation();
+      this.terminateWorker();
+    }
     this.lozza = new Worker('assets/engine/lozza.js');
     this.engineReady = true;
   }
@@ -58,6 +62,14 @@ export class EngineService {
     this.lozza.postMessage('quit');
     this.lozza.onmessage = null;
     this.engineWorking = false;
+    this.terminateWorker();
+  }
+
+  terminateWorker(): void {
+    if (this.lozza) {
+      this.lozza.terminate();
+      this.lozza = null;
+    }
   }
 
 

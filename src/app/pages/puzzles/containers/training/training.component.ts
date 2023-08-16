@@ -1,3 +1,6 @@
+// TODO: asegurarse de que chess js tenga el mismo fen siempre que se muestre en el tablero , para que el engine trabaje bien
+
+
 //core and third party libraries
 import { Component, OnInit } from '@angular/core';
 
@@ -19,7 +22,7 @@ import { randomNumber } from '@utils/random-number';
 import { calculateElo } from '@utils/calculate-elo';
 
 // rxjs
-import { interval, pipe, Subject, combineLatest, Observable, Subscription } from 'rxjs';
+import { interval, Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -99,22 +102,6 @@ export class TrainingComponent implements OnInit {
   private unsubscribe$ = new Subject<void>();
   private unsubscribeIntervalSeconds$ = new Subject<void>();
 
-  // FIXME: Con el siguiente ejercicio el puzzle es imposible de resolver porque incluye una coronación
-  /*
-  fen: "7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50"
-  gameUrl: "https://lichess.org/P16cwZZd#99"
-  moves: "h4h5 b3b2 g7b7 h8h7 b7h7 b2b1q"
-  nbPlays: 2892
-  openingFamily: "\r"
-  openingVariation: ""
-  popularity: 93
-  randomNumberQuery: 7508
-  rating: 1449
-  ratingDeviation: 75
-  themes:  ['advancedPawn', 'crushing', 'deflection', 'endgame', 'long', 'promotion', 'rookEndgame']
-  uid: "02fzY"
-  */
-
   // FIXME: no se realiza el enroque bien, solo se mueve el rey las dos casillas pero la torre no se mueve
 
   constructor(
@@ -122,7 +109,6 @@ export class TrainingComponent implements OnInit {
     private profileService: ProfileService,
     private userPuzzlesService: UserPuzzlesService,
     public appService: AppService,
-    private soundsService: SoundsService,
     private toolsService: ToolsService,
     private engineService: EngineService
   ) {
@@ -163,25 +149,25 @@ export class TrainingComponent implements OnInit {
     if (this.engineWorking) {
       this.subscribeEngine?.unsubscribe();
       // console.log(this.chessInstance.fen());
-      this.subscribeEngine = this.engineService.getBestMove(this.chessInstance.fen()).subscribe((evaluationData: Evaluation) => {
+
+      const fenToEvaluate = this.chessInstance.fen();
+      this.subscribeEngine = this.engineService.getBestMove(fenToEvaluate).subscribe((evaluationData: Evaluation) => {
         // se convierte el string de la mejor jugada. por ejemplo: De4 a un objeto {from: 'd2', to: 'd4'}
-        // FIXME: se esta enviando el fen correcto pero la jugada, en ocasiones se envia la anterior
-        const bestMove = this.toolsService.moveSANToUCI(evaluationData.bestMove, this.chessInstance.fen());
+        // Validar que sea el mismo fen y no mostrar flechas que no corresponden a eventos que se queden en cola
+        if (fenToEvaluate === this.chessInstance.fen()) {
 
-        if (!bestMove) {
-          console.log('evaluationData: ', evaluationData);
-          // console.log('bestMove: ', bestMove);
-        }
+          const bestMove = this.toolsService.moveSANToUCI(evaluationData.bestMove, fenToEvaluate);
 
-
-        if (bestMove) {
-          const arrowsOnSquare = this.board.getArrows(undefined, bestMove.from, bestMove.to);
-          if (arrowsOnSquare.length > 0) {
-            this.board.removeArrows(undefined, bestMove.from, bestMove.to);
+          if (bestMove) {
+            const arrowsOnSquare = this.board.getArrows(undefined, bestMove.from, bestMove.to);
+            if (arrowsOnSquare.length > 0) {
+              this.board.removeArrows(undefined, bestMove.from, bestMove.to);
+            }
+            this.board.removeArrows(undefined, undefined, undefined, 'arrowPointy');
+            this.board.addArrow(markerArrowEngine, bestMove.from, bestMove.to);
           }
-          this.board.removeArrows(undefined, undefined, undefined, 'arrowPointy');
-          this.board.addArrow(markerArrowEngine, bestMove.from, bestMove.to);
         }
+
 
       });
     } else {
@@ -211,25 +197,14 @@ export class TrainingComponent implements OnInit {
 
   async loadPuzzle() {
 
-    // this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
+    this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
 
     // console.log(JSON.stringify(this.puzzleToResolve));
 
-    this.puzzleToResolve = {
-      fen: '7r/6RP/2p5/8/2k4K/1p6/5P2/8 w - - 0 50',
-      gameUrl: 'https://lichess.org/P16cwZZd#99',
-      moves: 'h4h5 b3b2 g7b7 h8h7 b7h7 b2b1q',
-      nbPlays: 2892,
-      openingFamily: '\r',
-      openingVariation: '',
-      popularity: 93,
-      randomNumberQuery: 7508,
-      rating: 1449,
-      ratingDeviation: 75,
-      themes: ['advancedPawn', 'crushing', 'deflection', 'endgame', 'long', 'promotion', 'rookEndgame'],
-      uid: '02fzY'
-    };
-
+    // detiene el engine si esta encendido
+    if (this.engineWorking) {
+      this.switchEngine('stop');
+    }
 
     this.fenSolution = [];
     const chessInstance = new Chess(this.puzzleToResolve.fen);

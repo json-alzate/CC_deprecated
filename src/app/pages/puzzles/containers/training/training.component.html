@@ -92,8 +92,8 @@
 
           <div>
 
-            <ion-button size="large" fill="clear" [color]="engineWorking ? 'success' : 'medium'"
-              (click)="switchEngine()">
+            <ion-button *ngIf="uiSet.allowNextPuzzle" size="large" fill="clear"
+              [color]="engineWorking ? 'success' : 'medium'" (click)="switchEngine()">
               <ion-icon slot="icon-only" name="hardware-chip-outline"></ion-icon>
             </ion-button>
 
