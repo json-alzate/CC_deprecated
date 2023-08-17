@@ -328,10 +328,23 @@ export class FirestoreService {
 
   //------- Admin only
 
+  // add new puzzle
   async adminAddNewPuzzle(puzzleToAdd: Puzzle): Promise<string> {
     await setDoc(doc(this.db, 'puzzles', puzzleToAdd.uid), puzzleToAdd);
     return puzzleToAdd.uid;
   }
+
+  // get total number of puzzles in db
+  async adminGetTotalPuzzles(): Promise<number> {
+    const q = query(
+      collection(this.db, 'puzzles'),
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.size;
+  }
+
+
+
 
 
 

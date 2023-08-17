@@ -1,4 +1,5 @@
 // TODO: asegurarse de que chess js tenga el mismo fen siempre que se muestre en el tablero , para que el engine trabaje bien
+// sucede mucho al adelantar o atrasar la jugada
 
 
 //core and third party libraries
@@ -49,7 +50,6 @@ import { PuzzlesService } from '@services/puzzles.service';
 import { ProfileService } from '@services/profile.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
 import { AppService } from '@services/app.service';
-import { SoundsService } from '@services/sounds.service';
 import { ToolsService } from '@services/tools.service';
 import { EngineService } from '@services/engine.service';
 
@@ -117,6 +117,11 @@ export class TrainingComponent implements OnInit {
       if (profile?.eloPuzzles) {
         this.eloToShow = profile.eloPuzzles;
       }
+    });
+
+    this.puzzlesService.getTotalPuzzlesInDB().then(totalPuzzles => {
+      console.log('totalPuzzles', totalPuzzles);
+
     });
   }
 
@@ -335,8 +340,6 @@ export class TrainingComponent implements OnInit {
           endSquare = event.square;
 
           if (startSquare === endSquare) {
-
-            // TODO: aquí se debe utilizar la lógica para adicionar un marker para que haga el efecto como en lichess
             return;
           }
 
@@ -371,7 +374,6 @@ export class TrainingComponent implements OnInit {
 
         if (event.type === SQUARE_SELECT_TYPE.secondary && event.mouseEvent.type === 'mousedown') {
 
-          // TODO: llevar esto a un metodo para ser llamada desde adicionar arrow si solo se mueve a la misma casilla (como en lichess)
           let classCircle = 'marker-circle-green';
 
           if (ctrKeyPressed) {

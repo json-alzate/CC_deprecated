@@ -27,6 +27,7 @@ export class EngineService {
   }
 
   getBestMove(fen: string): Observable<Evaluation> {
+
     if (this.lozza) {
       this.stopEvaluation();
     }

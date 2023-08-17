@@ -95,9 +95,6 @@ export class ToolsService {
     const move = this.chessInstanceMoveSANToUCI.move(sanMove);
     // Si la jugada es inválida, devuelve null o maneja el error como prefieras
     if (move === null) {
-      console.log('Invalid fen', this.chessInstanceMoveSANToUCI.fen());
-      console.log('Invalid fen', fen);
-      console.log('Invalid move ', sanMove);
       return null;
     }
 
