@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { State, select } from '@ngrx/store';
+
+import { UIState } from '@redux/states/ui.state';
 
 
 @Injectable({
