@@ -17,3 +17,8 @@ export const clearMessageToast = createAction(
     '[UI] clearMessageToast'
 );
 
+export const setPiecesStyle = createAction(
+    '[UI] setPiecesStyle',
+    props<{ piecesStyle: 'fantasy' | 'cburnett' | 'staunty' }>()
+);
+

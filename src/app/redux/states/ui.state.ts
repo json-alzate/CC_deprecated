@@ -5,7 +5,7 @@ export interface UIState {
     loading: boolean;
     toast: string | null;
     typeToast: string;
-    // piecesStyle: 'default' | 'fantasy';
+    piecesStyle: 'fantasy' | 'cburnett' | 'staunty';
     // boardStyle: string;
     // TODO: sonidos
 }

@@ -4,7 +4,8 @@ import {
   activeLoading,
   stopLoading,
   addMessageToast,
-  clearMessageToast
+  clearMessageToast,
+  setPiecesStyle
 } from '@redux/actions/ui.actions';
 
 import { UIState } from '@redux/states/ui.state';
@@ -12,41 +13,39 @@ import { UIState } from '@redux/states/ui.state';
 export const initialState: UIState = {
   loading: false,
   toast: null,
-  typeToast: null
+  typeToast: null,
+  piecesStyle: 'fantasy'
 };
 
 export const iuiReducer = createReducer(
   initialState,
 
-  on(activeLoading, (state) => {
-    return {
-      ...state,
-      loading: true
-    };
-  }),
+  on(activeLoading, (state) => ({
+    ...state,
+    loading: true
+  })),
 
-  on(stopLoading, (state) => {
-    return {
-      ...state,
-      loading: false
-    };
-  }),
+  on(stopLoading, (state) => ({
+    ...state,
+    loading: false
+  })),
 
-  on(addMessageToast, (state, { message, status }) => {
-    return {
-      ...state,
-      toast: message,
-      typeToast: status
-    };
-  }),
+  on(addMessageToast, (state, { message, status }) => ({
+    ...state,
+    toast: message,
+    typeToast: status
+  })),
 
-  on(clearMessageToast, (state) => {
-    return {
-      ...state,
-      toast: null,
-      typeToast: null
-    };
-  })
+  on(clearMessageToast, (state) => ({
+    ...state,
+    toast: null,
+    typeToast: null
+  })),
+
+  on(setPiecesStyle, (state, { piecesStyle }) => ({
+    ...state,
+    piecesStyle
+  }))
 );
 
 export function uiReducer(state: UIState | undefined, action: Action) {

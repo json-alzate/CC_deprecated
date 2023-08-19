@@ -74,8 +74,8 @@ export class PuzzlesService {
       return null;  // o podrías lanzar un error, dependiendo de lo que prefieras
     }
 
-    const eloRangeStart = elo - (options?.rangeStart ?? 600);
-    const eloRangeEnd = elo + (options?.rangeEnd ?? 600);
+    const eloRangeStart = elo - (options?.rangeStart ?? 100);
+    const eloRangeEnd = elo + (options?.rangeEnd ?? 100);
 
     // search in the local array of puzzles
     const puzzlesFilter = this.puzzles.filter((p) =>
