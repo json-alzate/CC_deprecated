@@ -274,6 +274,24 @@ export class FirestoreService {
 
   }
 
+  /**
+   * Get one puzzle by uid
+   * Obtiene un puzzle por su uid
+   *
+   * @param uid
+   */
+
+  async getPuzzleByUid(uid: string): Promise<Puzzle> {
+    const docRef = doc(this.db, 'puzzles', uid);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data() as Puzzle;
+    } else {
+      console.log(`No puzzle found with uid ${uid}`);
+      return null;
+    }
+  }
+
 
 
 

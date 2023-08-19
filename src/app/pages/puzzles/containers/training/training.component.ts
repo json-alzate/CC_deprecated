@@ -119,13 +119,18 @@ export class TrainingComponent implements OnInit {
       }
     });
 
-    this.puzzlesService.getTotalPuzzlesInDB().then(totalPuzzles => {
-      console.log('totalPuzzles', totalPuzzles);
 
-    });
   }
 
   ngOnInit() {
+
+    // this.puzzlesService.getTotalPuzzlesInDB().then(totalPuzzles => {
+    //   console.log('totalPuzzles', totalPuzzles);
+    // });
+
+    // this.puzzlesService.getOnePuzzleByUid('090As').then(puzzle => {
+    //   console.log('puzzle', JSON.stringify(puzzle));
+    // });
 
 
   }
@@ -203,6 +208,7 @@ export class TrainingComponent implements OnInit {
   async loadPuzzle() {
 
     this.puzzleToResolve = await this.puzzlesService.getPuzzle(this.eloToShow || 1500);
+
 
     // console.log(JSON.stringify(this.puzzleToResolve));
 
@@ -430,6 +436,13 @@ export class TrainingComponent implements OnInit {
       this.isPuzzleCompleted = true;
       this.saveUserPuzzle();
       this.stopTimer();
+    }
+
+    // Actualiza el tablero después de un movimiento de enroque
+    if (
+      this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('k') ||
+      this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('q')) {
+      this.board.setPosition(this.chessInstance.fen());
     }
   }
 
