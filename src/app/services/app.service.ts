@@ -1,7 +1,16 @@
 import { Injectable } from '@angular/core';
-import { State, select } from '@ngrx/store';
+import { Store, select } from '@ngrx/store';
 
 import { UIState } from '@redux/states/ui.state';
+
+// models
+import { PiecesStyle } from '@models/ui.model';
+
+// actions
+import { setPiecesStyle } from '@redux/actions/ui.actions';
+
+// selectors
+import { getPiecesStyle } from '@redux/selectors/ui.selectors';
 
 
 @Injectable({
@@ -66,12 +75,14 @@ export class AppService {
   private boardStyleSelected = this.boardStyles[6];
 
 
-  private piecesStyles: string[] = ['cburnett', 'fantasy', 'staunty'];
-  private piecesStyleSelected: string;
+  private piecesStyles: PiecesStyle[] = ['cburnett', 'fantasy', 'staunty'];
+  private piecesStyleSelected: 'fantasy' | 'cburnett' | 'staunty';
   private baseUrl = '/assets/images/pieces/';
 
-  constructor() {
-    this.changeTheme('fantasy');
+  constructor(
+    private store: Store<UIState>
+  ) {
+    this.changePiecesStyle('fantasy');
   }
 
   get currentPiecesStyleSelected() {
@@ -106,14 +117,17 @@ export class AppService {
     return this.boardStyleSelected;
   }
 
-  changeTheme(name: string) {
+  changePiecesStyle(name: string) {
     const theme = this.piecesStyles.find(t => t === name);
     if (theme) {
       this.piecesStyleSelected = theme;
     }
+    this.store.dispatch(setPiecesStyle({ piecesStyle: this.piecesStyleSelected }));
+  }
 
-    console.log('Theme changed to: ', this.piecesStyleSelected);
-
+  // listeners
+  listenPiecesStyle() {
+    return this.store.pipe(select(getPiecesStyle));
   }
 
 

@@ -20,14 +20,18 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private appService: AppService
-  ) { }
+  ) {
+    this.appService.listenPiecesStyle().subscribe((piecesStyle: 'fantasy' | 'cburnett' | 'staunty') => {
+      this.currentPiecesStyleSelected = piecesStyle;
+    });
+  }
 
   ngOnInit() { }
 
   changePiecesStyle(name: string) {
     console.log('changePiecesStyle: ', name);
 
-    this.appService.changeTheme(name);
+    this.appService.changePiecesStyle(name);
   }
 
   changeBoardStyle(name: string) {

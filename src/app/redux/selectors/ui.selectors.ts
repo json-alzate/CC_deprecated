@@ -9,13 +9,16 @@ export const getLoading = createSelector(
   uiState => uiState.loading
 );
 
+export const getPiecesStyle = createSelector(
+  getUIState,
+  uiState => uiState.piecesStyle
+);
+
 
 export const getToast = createSelector(
   getUIState,
-  (state: UIState) => {
-    return {
-      message: state.toast,
-      status: state.typeToast
-    };
-  }
+  (state: UIState) => ({
+    message: state.toast,
+    status: state.typeToast
+  })
 );

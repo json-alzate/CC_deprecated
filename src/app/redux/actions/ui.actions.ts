@@ -1,5 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
+import { PiecesStyle } from '@models/ui.model';
+
 export const activeLoading = createAction(
     '[UI] activeLoading'
 );
@@ -19,6 +21,6 @@ export const clearMessageToast = createAction(
 
 export const setPiecesStyle = createAction(
     '[UI] setPiecesStyle',
-    props<{ piecesStyle: 'fantasy' | 'cburnett' | 'staunty' }>()
+    props<{ piecesStyle: PiecesStyle }>()
 );
 

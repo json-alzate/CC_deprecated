@@ -36,6 +36,7 @@ import { Puzzle } from '@models/puzzle.model';
 import { Profile } from '@models/profile.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 import { Evaluation } from '@models/engine.model';
+import { PiecesStyle } from '@models/ui.model';
 
 interface UISettings {
   allowBackMove: boolean;
@@ -137,7 +138,39 @@ export class TrainingComponent implements OnInit {
 
   ionViewDidEnter() {
     this.loadPuzzle();
+    this.subscribeToPiecesStyle();
   }
+
+  subscribeToPiecesStyle() {
+    this.appService.listenPiecesStyle().subscribe((piecesStyle: PiecesStyle) => {
+      if (this.board) {
+        this.changePieceStyle(piecesStyle);
+      }
+    });
+  }
+
+
+  changePieceStyle(newPieceStyle: string) {
+    // Actualiza la configuración del tablero
+    this.board.destroy();
+    this.board = null;
+    const boardElement = document.getElementById('boardPuzzle');
+    while (boardElement.firstChild) {
+      boardElement.removeChild(boardElement.firstChild);
+    }
+    const spriteDiv = document.getElementById('cm-chessboard-sprite');
+    if (spriteDiv) {
+      spriteDiv.parentNode.removeChild(spriteDiv);
+    }
+
+    console.log(this.appService.pieces);
+    // espera un segundo para que se destruya el tablero
+    setTimeout(() => {
+      this.loadBoard();
+    }, 1000);
+
+  }
+
 
   switchEngine(engineSetStatus: 'start' | 'stop' | 'toggle' = 'toggle') {
 
@@ -161,7 +194,9 @@ export class TrainingComponent implements OnInit {
       // console.log(this.chessInstance.fen());
 
       const fenToEvaluate = this.chessInstance.fen();
+
       this.subscribeEngine = this.engineService.getBestMove(fenToEvaluate).subscribe((evaluationData: Evaluation) => {
+
         // se convierte el string de la mejor jugada. por ejemplo: De4 a un objeto {from: 'd2', to: 'd4'}
         // Validar que sea el mismo fen y no mostrar flechas que no corresponden a eventos que se queden en cola
         if (fenToEvaluate === this.chessInstance.fen()) {
@@ -245,15 +280,21 @@ export class TrainingComponent implements OnInit {
     // Se valida si es la primera vez que se carga el tablero
     if (!this.board) {
 
+      const uniqueTimestamp = new Date().getTime();
+      const piecesPath = `${this.appService.pieces}?t=${uniqueTimestamp}`;;
+      console.log(piecesPath);
+
+
       this.board = new Chessboard(document.getElementById('boardPuzzle'), {
         responsive: true,
         position: this.puzzleToResolve.fen,
         assetsUrl: '/assets/cm-chessboard/',
+        assetsCache: true,
         style: {
           // cssClass: 'chessboard-js',
           borderType: BORDER_TYPE.thin,
           pieces: {
-            file: this.appService.pieces
+            file: piecesPath
           }
         },
         extensions: [
@@ -420,6 +461,17 @@ export class TrainingComponent implements OnInit {
     this.puzzleMoveResponse();
     this.initTimer();
   }
+
+
+
+  /**
+   * Build board ui
+   */
+  buildBoard() {
+
+  }
+
+
 
   validateMove() {
     const fenChessInstance = this.chessInstance.fen();

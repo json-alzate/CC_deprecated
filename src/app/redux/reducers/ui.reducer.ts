@@ -48,6 +48,6 @@ export const iuiReducer = createReducer(
   }))
 );
 
-export function uiReducer(state: UIState | undefined, action: Action) {
-  return iuiReducer(state, action);
-}
+export const uiReducer = (state: UIState | undefined, action: Action) => iuiReducer(state, action);
+
+
