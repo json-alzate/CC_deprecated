@@ -11,7 +11,7 @@
   <ion-accordion-group>
     <ion-accordion value="first">
       <ion-item slot="header">
-        <ion-icon slot="start" name="brush-outline"></ion-icon>
+        <ion-icon slot="start" name="color-filter-outline"></ion-icon>
         <ion-label>Piezas</ion-label>
       </ion-item>
       <div class="ion-padding" slot="content">
@@ -37,7 +37,7 @@
 
     <ion-accordion value="second">
       <ion-item slot="header">
-        <ion-icon slot="start" name="brush-outline"></ion-icon>
+        <ion-icon slot="start" name="grid-outline"></ion-icon>
 
         <ion-label>Tablero</ion-label>
       </ion-item>
@@ -51,7 +51,7 @@
             <ion-avatar slot="start"
               [style]="'background-color: '+boardStyle.colorsSquares.dark  +'; border-radius: 0;'">
             </ion-avatar>
-            <ion-icon color="primary" *ngIf="currentBoardStyleSelected.name === boardStyle.name" slot="end"
+            <ion-icon color="primary" *ngIf="currentBoardStyleSelected === boardStyle.name" slot="end"
               name="checkmark-outline"></ion-icon>
           </ion-item>
         </ion-list>

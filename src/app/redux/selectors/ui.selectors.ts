@@ -14,6 +14,11 @@ export const getPiecesStyle = createSelector(
   uiState => uiState.piecesStyle
 );
 
+export const getBoardStyle = createSelector(
+  getUIState,
+  uiState => uiState.boardStyle
+);
+
 
 export const getToast = createSelector(
   getUIState,

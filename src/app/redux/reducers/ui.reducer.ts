@@ -5,7 +5,8 @@ import {
   stopLoading,
   addMessageToast,
   clearMessageToast,
-  setPiecesStyle
+  setPiecesStyle,
+  setBoardStyle
 } from '@redux/actions/ui.actions';
 
 import { UIState } from '@redux/states/ui.state';
@@ -14,7 +15,8 @@ export const initialState: UIState = {
   loading: false,
   toast: null,
   typeToast: null,
-  piecesStyle: 'fantasy'
+  piecesStyle: 'fantasy',
+  boardStyle: 'default'
 };
 
 export const iuiReducer = createReducer(
@@ -45,6 +47,10 @@ export const iuiReducer = createReducer(
   on(setPiecesStyle, (state, { piecesStyle }) => ({
     ...state,
     piecesStyle
+  })),
+  on(setBoardStyle, (state, { boardStyle }) => ({
+    ...state,
+    boardStyle
   }))
 );
 

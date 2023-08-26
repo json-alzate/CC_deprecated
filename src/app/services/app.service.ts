@@ -1,16 +1,26 @@
+// TODO: Mover los estilos de piezas y tablero a un servicio UI
+
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { UIState } from '@redux/states/ui.state';
 
 // models
-import { PiecesStyle } from '@models/ui.model';
+import { PiecesStyle, BoardStyle } from '@models/ui.model';
+
+interface BoardStylesArray {
+  name: BoardStyle;
+  colorsSquares: {
+    light: string;
+    dark: string;
+  };
+}
 
 // actions
-import { setPiecesStyle } from '@redux/actions/ui.actions';
+import { setPiecesStyle, setBoardStyle } from '@redux/actions/ui.actions';
 
 // selectors
-import { getPiecesStyle } from '@redux/selectors/ui.selectors';
+import { getPiecesStyle, getBoardStyle } from '@redux/selectors/ui.selectors';
 
 
 @Injectable({
@@ -20,7 +30,7 @@ export class AppService {
 
 
 
-  private boardStyles = [
+  private boardStyles: BoardStylesArray[] = [
     {
       name: 'default',
       colorsSquares: {
@@ -72,7 +82,7 @@ export class AppService {
     }
   ];
 
-  private boardStyleSelected = this.boardStyles[6];
+  private boardStyleSelected: BoardStylesArray = this.boardStyles[0];
 
 
   private piecesStyles: PiecesStyle[] = ['cburnett', 'fantasy', 'staunty'];
@@ -117,7 +127,7 @@ export class AppService {
     return this.boardStyleSelected;
   }
 
-  changePiecesStyle(name: string) {
+  changePiecesStyle(name: PiecesStyle) {
     const theme = this.piecesStyles.find(t => t === name);
     if (theme) {
       this.piecesStyleSelected = theme;
@@ -125,9 +135,24 @@ export class AppService {
     this.store.dispatch(setPiecesStyle({ piecesStyle: this.piecesStyleSelected }));
   }
 
+  changeBoardStyle(name: BoardStyle) {
+
+    const theme = this.boardStyles.find(t => t.name === name);
+    if (theme) {
+      this.boardStyleSelected = theme;
+    }
+
+    this.store.dispatch(setBoardStyle({ boardStyle: this.boardStyleSelected.name }));
+
+  }
+
   // listeners
   listenPiecesStyle() {
     return this.store.pipe(select(getPiecesStyle));
+  }
+
+  listenBoardStyle() {
+    return this.store.pipe(select(getBoardStyle));
   }
 
 

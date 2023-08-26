@@ -22,7 +22,7 @@ import { createUid } from '@utils/create-uid';
 import { calculateElo } from '@utils/calculate-elo';
 
 // rxjs
-import { interval, Subject, Observable, Subscription } from 'rxjs';
+import { interval, Subject, Observable, Subscription, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -35,7 +35,7 @@ import { Puzzle } from '@models/puzzle.model';
 import { Profile } from '@models/profile.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 import { Evaluation } from '@models/engine.model';
-import { PiecesStyle } from '@models/ui.model';
+import { PiecesStyle, BoardStyle } from '@models/ui.model';
 
 interface UISettings {
   allowBackMove: boolean;
@@ -136,19 +136,24 @@ export class TrainingComponent implements OnInit {
 
   ionViewDidEnter() {
     this.loadPuzzle();
-    this.subscribeToPiecesStyle();
+    this.subscribeToStyles();
   }
 
-  subscribeToPiecesStyle() {
-    this.appService.listenPiecesStyle().subscribe((piecesStyle: PiecesStyle) => {
+  subscribeToStyles() {
+
+    // se utiliza combineLatest para que se ejecute cuando los dos observables emitan un valor
+    combineLatest([
+      this.appService.listenPiecesStyle(),
+      this.appService.listenBoardStyle()
+    ]).subscribe(([piecesStyle, boardStyle]) => {
       if (this.board) {
-        this.changePieceStyle(piecesStyle);
+        this.destroyAndRebuildBoard();
       }
     });
   }
 
 
-  changePieceStyle(newPieceStyle: string) {
+  destroyAndRebuildBoard() {
     // Actualiza la configuración del tablero
     this.board.destroy();
     this.board = null;
@@ -161,7 +166,6 @@ export class TrainingComponent implements OnInit {
       spriteDiv.parentNode.removeChild(spriteDiv);
     }
 
-    console.log(this.appService.pieces);
     // espera un segundo para que se destruya el tablero
     setTimeout(() => {
       this.buildBoard(this.chessInstance.fen());
@@ -283,6 +287,8 @@ export class TrainingComponent implements OnInit {
     } else {
       // Ya el tablero fue cargado la primera vez
       this.board.setPosition(this.fenSolution[this.uiSet.currentMoveNumber]);
+      this.turnRoundBoard(this.puzzleColor);
+
     }
 
 
@@ -298,9 +304,11 @@ export class TrainingComponent implements OnInit {
    */
   buildBoard(fen: string) {
 
+    // Se configura la ruta de las piezas con un timestamp para que no se guarde en cache (assetsCache: false, no se ven bien las piezas)
     const uniqueTimestamp = new Date().getTime();
-    const piecesPath = `${this.appService.pieces}?t=${uniqueTimestamp}`;;
-    console.log(piecesPath);
+    const piecesPath = `${this.appService.pieces}?t=${uniqueTimestamp}`;
+
+    const cssClass = this.appService.currentBoardStyleSelected.name !== 'default' ? this.appService.currentBoardStyleSelected.name : null;
 
 
     this.board = new Chessboard(document.getElementById('boardPuzzle'), {
@@ -309,7 +317,7 @@ export class TrainingComponent implements OnInit {
       assetsUrl: '/assets/cm-chessboard/',
       assetsCache: true,
       style: {
-        // cssClass: 'chessboard-js',
+        cssClass,
         borderType: BORDER_TYPE.thin,
         pieces: {
           file: piecesPath
