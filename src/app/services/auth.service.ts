@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { Store } from '@ngrx/store';
 
+import { Platform } from '@ionic/angular';
+
+import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
 import { TranslocoService } from '@ngneat/transloco';
 
 
@@ -24,7 +27,6 @@ import {
 } from 'firebase/auth';
 import { getApp } from 'firebase/app';
 
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 
 // rxjs
 import { from, Subject } from 'rxjs';
@@ -52,6 +54,7 @@ export class AuthService {
   private auth: Auth;
 
   constructor(
+    private platform: Platform,
     private translocoService: TranslocoService,
     private store: Store<AuthState>
   ) { }
@@ -84,10 +87,20 @@ export class AuthService {
    * Ingresa con Google
    */
   async loginGoogle() {
-    const answer = await GoogleAuth.signIn();
-    const credential = GoogleAuthProvider.credential(answer.authentication.idToken, answer.authentication.accessToken);
-    signInWithCredential(this.auth, credential);
+    // const answer = await GoogleAuth.signIn();
+    // const credential = GoogleAuthProvider.credential(answer.authentication.idToken, answer.authentication.accessToken);
+    // signInWithCredential(this.auth, credential);
+
+    let userCredential: UserCredential | void;
+    if (this.platform.is('capacitor')) {
+      userCredential = await this.loginWithGoogleNative();
+    } else {
+      userCredential = await this.loginWithGoogleWeb();
+    }
   }
+
+
+
 
 
   /**
@@ -156,5 +169,38 @@ export class AuthService {
     return from(this.auth.signOut());
   }
 
+
+  /**
+   * Launch Login with google native
+   *
+   * @private
+   * @returns Promise<UserCredential>
+   */
+  private async loginWithGoogleNative(): Promise<UserCredential> {
+    // 1. Create credentials on the native layer
+    const result = await FirebaseAuthentication.signInWithGoogle()
+      .catch(error => {
+        console.log('error', error);
+      });
+    // 2. Sign in on the web layer using the id token and nonce
+    if (result) {
+      const credential = GoogleAuthProvider.credential(result.credential?.idToken);
+      const userSignedIn = await signInWithCredential(this.auth, credential);
+      console.log('userSignedIn', userSignedIn);
+      return userSignedIn;
+    }
+    return null;
+  }
+
+  /**
+   * Show Login with google popup for web
+   *
+   * @private
+   * @returns Promise<UserCredential>
+   */
+  private async loginWithGoogleWeb(): Promise<UserCredential> {
+    const provider = new GoogleAuthProvider();
+    return signInWithPopup(this.auth, provider);
+  }
 
 }

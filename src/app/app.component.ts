@@ -4,7 +4,6 @@ import { Store, select } from '@ngrx/store';
 import { TranslocoService } from '@ngneat/transloco';
 import { ModalController, Platform, isPlatform, NavController, MenuController } from '@ionic/angular';
 import { Device } from '@capacitor/device';
-import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 // import { Socket } from 'ngx-socket-io';
 import { initializeApp } from 'firebase/app';
 import { environment } from '@environments/environment';
@@ -32,7 +31,6 @@ import { Profile } from '@models/profile.model';
 import { FirestoreService } from '@services/firestore.service';
 import { AuthService } from '@services/auth.service';
 import { ProfileService } from '@services/profile.service';
-import { SocketsService } from '@services/sockets.service';
 import { FcmService } from '@services/fcm.service';
 import { ToolsService } from '@services/tools.service';
 import { UiService } from '@services/ui.service';
@@ -59,7 +57,6 @@ export class AppComponent {
     private profileService: ProfileService,
     private platform: Platform,
     private firestoreService: FirestoreService,
-    private socketsService: SocketsService,
     // private socket: Socket,
     private store: Store<AuthState>,
     private fcmService: FcmService,
@@ -93,16 +90,6 @@ export class AppComponent {
   initApp() {
 
     this.initFirebase();
-    // se debe inicializar para la web
-    if (!isPlatform('capacitor')) {
-      GoogleAuth.initialize();
-    }
-    // this.platform.ready().then(() => {
-    //   GoogleAuth.initialize()
-    // })
-    // se prepara para utilizar los sockets
-    // TODO: habilitar socket
-    // this.socketsService.startConnection();
 
     this.toolsService.loadFlags();
     this.fcmService.initPush();

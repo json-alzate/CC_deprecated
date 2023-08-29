@@ -30,8 +30,6 @@ import * as fromGuards from '@guards/index';
 
 import { TranslocoRootModule } from './transloco-root.module';
 
-import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 
 const PROVIDERS = [
   ...fromGuards.guards
