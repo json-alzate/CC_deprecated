@@ -19,7 +19,6 @@ export class ProfileComponent implements OnInit {
   piecesStylesInfo = this.uiService.piecesStylesInfo;
 
   boardStylesInfo = this.uiService.boardStylesInfo;
-  currentBoardStyleSelected: BoardStyle = this.uiService.currentBoardStyleSelected.name || 'default';
 
   constructor(
     public uiService: UiService,

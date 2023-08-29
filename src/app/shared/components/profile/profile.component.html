@@ -51,7 +51,7 @@
             <ion-avatar slot="start"
               [style]="'background-color: '+boardStyle.colorsSquares.dark  +'; border-radius: 0;'">
             </ion-avatar>
-            <ion-icon color="primary" *ngIf="currentBoardStyleSelected === boardStyle.name" slot="end"
+            <ion-icon color="primary" *ngIf="uiService.currentBoardStyleSelected.name === boardStyle.name" slot="end"
               name="checkmark-outline"></ion-icon>
           </ion-item>
         </ion-list>
