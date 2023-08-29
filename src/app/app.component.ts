@@ -35,6 +35,7 @@ import { ProfileService } from '@services/profile.service';
 import { SocketsService } from '@services/sockets.service';
 import { FcmService } from '@services/fcm.service';
 import { ToolsService } from '@services/tools.service';
+import { UiService } from '@services/ui.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -64,7 +65,8 @@ export class AppComponent {
     private fcmService: FcmService,
     private toolsService: ToolsService,
     private navController: NavController,
-    private menuController: MenuController
+    private menuController: MenuController,
+    private uiService: UiService
   ) {
 
     this.initApp();
@@ -77,6 +79,12 @@ export class AppComponent {
     this.profile$.subscribe((profile: Profile) => {
       if (profile?.email && !profile.name) {
         this.presentModalOnboarding();
+      }
+      if (profile?.pieces) {
+        this.uiService.changePiecesStyle(profile.pieces);
+      }
+      if (profile?.board) {
+        this.uiService.changeBoardStyle(profile.board);
       }
     });
 

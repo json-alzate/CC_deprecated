@@ -29,7 +29,7 @@ import { Profile } from '@models/profile.model';
 // services
 import { CoordinatesPuzzlesService } from '@services/coordinates-puzzles.service';
 import { ProfileService } from '@services/profile.service';
-import { AppService } from '@services/app.service';
+import { UiService } from '@services/ui.service';
 
 // components
 
@@ -76,7 +76,7 @@ export class CoordinatesPage implements OnInit {
     private alertController: AlertController,
     private coordinatesPuzzlesService: CoordinatesPuzzlesService,
     private profileService: ProfileService,
-    private appService: AppService
+    private uiService: UiService
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;
@@ -103,7 +103,7 @@ export class CoordinatesPage implements OnInit {
         showCoordinates,
         borderType: BORDER_TYPE.thin,
         pieces: {
-          file: this.appService.pieces,
+          file: this.uiService.pieces,
         }
       },
     });

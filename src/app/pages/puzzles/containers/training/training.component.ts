@@ -22,7 +22,7 @@ import { createUid } from '@utils/create-uid';
 import { calculateElo } from '@utils/calculate-elo';
 
 // rxjs
-import { interval, Subject, Observable, Subscription, combineLatest } from 'rxjs';
+import { interval, Subject, Observable, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 
@@ -49,7 +49,7 @@ interface UISettings {
 import { PuzzlesService } from '@services/puzzles.service';
 import { ProfileService } from '@services/profile.service';
 import { UserPuzzlesService } from '@services/user-puzzles.service';
-import { AppService } from '@services/app.service';
+import { UiService } from '@services/ui.service';
 import { ToolsService } from '@services/tools.service';
 import { EngineService } from '@services/engine.service';
 
@@ -107,7 +107,7 @@ export class TrainingComponent implements OnInit {
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
     private userPuzzlesService: UserPuzzlesService,
-    public appService: AppService,
+    public uiService: UiService,
     private toolsService: ToolsService,
     private engineService: EngineService
   ) {
@@ -140,12 +140,9 @@ export class TrainingComponent implements OnInit {
   }
 
   subscribeToStyles() {
-
-    // se utiliza combineLatest para que se ejecute cuando los dos observables emitan un valor
-    combineLatest([
-      this.appService.listenPiecesStyle(),
-      this.appService.listenBoardStyle()
-    ]).subscribe(([piecesStyle, boardStyle]) => {
+    this.uiService.changeStyle$.pipe(
+      takeUntil(this.unsubscribe$)
+    ).subscribe(({ pieces, board }) => {
       if (this.board) {
         this.destroyAndRebuildBoard();
       }
@@ -169,7 +166,7 @@ export class TrainingComponent implements OnInit {
     // espera un segundo para que se destruya el tablero
     setTimeout(() => {
       this.buildBoard(this.chessInstance.fen());
-    }, 1000);
+    }, 400);
 
   }
 
@@ -306,9 +303,9 @@ export class TrainingComponent implements OnInit {
 
     // Se configura la ruta de las piezas con un timestamp para que no se guarde en cache (assetsCache: false, no se ven bien las piezas)
     const uniqueTimestamp = new Date().getTime();
-    const piecesPath = `${this.appService.pieces}?t=${uniqueTimestamp}`;
+    const piecesPath = `${this.uiService.pieces}?t=${uniqueTimestamp}`;
 
-    const cssClass = this.appService.currentBoardStyleSelected.name !== 'default' ? this.appService.currentBoardStyleSelected.name : null;
+    const cssClass = this.uiService.currentBoardStyleSelected.name !== 'default' ? this.uiService.currentBoardStyleSelected.name : null;
 
 
     this.board = new Chessboard(document.getElementById('boardPuzzle'), {

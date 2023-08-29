@@ -3,7 +3,8 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 // models
 import { PiecesStyle, BoardStyle } from '@models/ui.model';
 
-import { AppService } from '@services/app.service';
+import { UiService } from '@services/ui.service';
+import { ProfileService } from '@services/profile.service';
 
 
 @Component({
@@ -15,31 +16,26 @@ export class ProfileComponent implements OnInit {
 
   @Output() closeProfile = new EventEmitter();
 
-  piecesStylesInfo = this.appService.piecesStylesInfo;
-  currentPiecesStyleSelected = this.appService.currentPiecesStyleSelected;
+  piecesStylesInfo = this.uiService.piecesStylesInfo;
 
-  boardStylesInfo = this.appService.boardStylesInfo;
-  currentBoardStyleSelected: BoardStyle = this.appService.currentBoardStyleSelected.name || 'default';
+  boardStylesInfo = this.uiService.boardStylesInfo;
+  currentBoardStyleSelected: BoardStyle = this.uiService.currentBoardStyleSelected.name || 'default';
 
   constructor(
-    private appService: AppService
-  ) {
-    this.appService.listenPiecesStyle().subscribe((piecesStyle: PiecesStyle) => {
-      this.currentPiecesStyleSelected = piecesStyle;
-    });
-    this.appService.listenBoardStyle().subscribe((boardStyle: BoardStyle) => {
-      this.currentBoardStyleSelected = boardStyle;
-    });
-  }
+    public uiService: UiService,
+    private profileService: ProfileService
+  ) { }
 
   ngOnInit() { }
 
   changePiecesStyle(name: PiecesStyle) {
-    this.appService.changePiecesStyle(name);
+    this.uiService.changePiecesStyle(name);
+    this.profileService.updateProfile({ pieces: name });
   }
 
   changeBoardStyle(name: BoardStyle) {
-    this.appService.changeBoardStyle(name);
+    this.uiService.changeBoardStyle(name);
+    this.profileService.updateProfile({ board: name });
   }
 
   logout() {

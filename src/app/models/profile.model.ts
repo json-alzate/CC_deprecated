@@ -1,10 +1,10 @@
 import { User } from './user.model';
+import { PiecesStyle, BoardStyle } from './ui.model';
+
 
 export interface Profile extends User {
     email: string;
     lang: string;
-    theme?: {
-        pieces: string;
-        board: string;
-    };
+    pieces?: PiecesStyle;
+    board?: BoardStyle;
 }

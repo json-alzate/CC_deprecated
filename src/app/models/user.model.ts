@@ -1,3 +1,5 @@
+import { PiecesStyle, BoardStyle } from './ui.model';
+
 export interface User {
     uid: string;
     name?: string;
