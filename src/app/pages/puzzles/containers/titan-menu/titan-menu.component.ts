@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-titan-menu',
@@ -7,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TitanMenuComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private navController: NavController
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  goTo(path: string) {
+    this.navController.navigateForward(path);
+  }
 
 }

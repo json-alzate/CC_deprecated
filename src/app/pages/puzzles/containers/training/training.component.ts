@@ -118,6 +118,7 @@ export class TrainingComponent implements OnInit {
       }
     });
 
+    // this.puzzlesService.getPuzzlesToUpload();
 
   }
 
