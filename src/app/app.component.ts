@@ -34,6 +34,7 @@ import { ProfileService } from '@services/profile.service';
 import { FcmService } from '@services/fcm.service';
 import { ToolsService } from '@services/tools.service';
 import { UiService } from '@services/ui.service';
+import { AppService } from '@services/app.service';
 
 // components
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -57,13 +58,13 @@ export class AppComponent {
     private profileService: ProfileService,
     private platform: Platform,
     private firestoreService: FirestoreService,
-    // private socket: Socket,
     private store: Store<AuthState>,
     private fcmService: FcmService,
     private toolsService: ToolsService,
     private navController: NavController,
     private menuController: MenuController,
-    private uiService: UiService
+    private uiService: UiService,
+    private appService: AppService
   ) {
 
     this.initApp();
@@ -90,7 +91,7 @@ export class AppComponent {
   initApp() {
 
     this.initFirebase();
-
+    this.appService.loadThemesPuzzle();
     this.toolsService.loadFlags();
     this.fcmService.initPush();
   }

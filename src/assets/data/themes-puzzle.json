@@ -1,0 +1,78 @@
+[
+    {
+        "GroupName": "Fases",
+        "Themes": [
+            {
+                "nameEs": "Apertura",
+                "descriptionEs": "Una táctica durante la primera fase de la partida",
+                "count": 200805,
+                "value": ""
+            },
+            {
+                "nameEs": "Medio juego",
+                "descriptionEs": "Una táctica durante la segunda fase de la partida",
+                "count": 1701404,
+                "value": ""
+            },
+            {
+                "nameEs": "Final",
+                "descriptionEs": "Una táctica durante la ultima fase de la partida",
+                "count": 1599336,
+                "value": ""
+            },
+            {
+                "nameEs": "Final de torres",
+                "descriptionEs": "Un final solo con torres y peones",
+                "count": 161380,
+                "value": ""
+            },
+            {
+                "nameEs": "Final de alfiles",
+                "descriptionEs": "Un final con solo con alfiles y peones",
+                "count": 39753,
+                "value": ""
+            },
+            {
+                "nameEs": "Final de caballos",
+                "descriptionEs": "Un final con solo con caballos y peones",
+                "count": 25727,
+                "value": ""
+            },
+            {
+                "nameEs": "Final de damas",
+                "descriptionEs": "Un final con solo con damas y peones",
+                "count": 31622,
+                "value": ""
+            },
+            {
+                "nameEs": "Final de damas y torres",
+                "descriptionEs": "Un final con damas, torres y peones",
+                "count": 101465,
+                "value": ""
+            }
+        ]
+    },
+    {
+        "GroupName": "Temas",
+        "Themes": [
+            {
+                "nameEs": "Peón avanzado",
+                "descriptionEs": "Uno de tus peones está bien avanzado en territorio enemigo, quizás amenazando promocionar.",
+                "count": 188234,
+                "value": ""
+            },
+            {
+                "nameEs": "Atacando f2 o f7",
+                "descriptionEs": "Un ataque centrado en el peón f2 o f7, como en el ataque Fegatello.",
+                "count": 19444,
+                "value": ""
+            },
+            {
+                "nameEs": "Capturar al defensor",
+                "descriptionEs": "Eliminar una pieza fundamental para la defensa de otra, permitiendo capturar la pieza, ahora indefensa, en el futuro.",
+                "count": 30509,
+                "value": ""
+            }
+        ]
+    }
+]

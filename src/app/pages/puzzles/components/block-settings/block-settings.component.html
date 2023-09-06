@@ -1,5 +1,30 @@
 <ion-list>
-  <form [formGroup]="form">
+  <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+
+    <ion-item-divider>
+      <ion-label>Duración</ion-label>
+    </ion-item-divider>
+
+
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-checkbox formControlName="durationTime" slot="start"></ion-checkbox>
+          <ion-label position="floating">Tiempo (min.)</ion-label>
+          <ion-input formControlName="time" type="number"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-checkbox formControlName="durationCount" slot="start"></ion-checkbox>
+          <ion-label position="floating"># ejercicios</ion-label>
+          <ion-input formControlName="puzzlesCount" type="number"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+
 
     <ion-item-divider>
       <ion-label>Elo</ion-label>
@@ -32,18 +57,62 @@
 
     <ion-row>
       <ion-col size="12">
+
+        <ion-accordion-group>
+          <ion-accordion value="first">
+            <ion-item slot="header" color="light">
+              <ion-label>Tema</ion-label>
+              <ion-text slot="end" color="primary">
+                Todos
+              </ion-text>
+            </ion-item>
+            <div class="ion-padding" slot="content">First Content</div>
+          </ion-accordion>
+        </ion-accordion-group>
+
+      </ion-col>
+
+      <ion-col size="6">
         <ion-item>
-          <ion-label>Temas</ion-label>
-          <ion-select value="peperoni" multiple="true" placeholder="Select Pizza">
-            <ion-select-option value="peperoni">Peperoni</ion-select-option>
-            <ion-select-option value="hawaii">Hawaii</ion-select-option>
-          </ion-select>
+          <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
+          <ion-input formControlName="puzzleTime"></ion-input>
+        </ion-item>
+      </ion-col>
+
+      <ion-col size="6">
+
+        <ion-item>
+          <ion-label>mostrar solución</ion-label>
+          <ion-checkbox formControlName="showPuzzleSolution" slot="end"></ion-checkbox>
+        </ion-item>
+
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label>Fantasma</ion-label>
+          <ion-toggle formControlName="goshPuzzle" slot="end"></ion-toggle>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="floating">Tiempo visible (seg.)</ion-label>
+          <ion-input formControlName="goshPuzzleTime"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
 
 
-
+    <ion-row>
+      <ion-col size="12">
+        <ion-button type="submit" [disabled]="!form.valid" class="ion-margin" expand="block" size="large">
+          Jugar
+        </ion-button>
+      </ion-col>
+    </ion-row>
 
 
   </form>
