@@ -72,6 +72,33 @@
 
       </ion-col>
 
+    </ion-row>
+
+    <ion-row class="ion-margin-vertical ion-padding">
+
+      <ion-col size="4">
+        <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
+          (click)="color = 'white';">
+          <ion-icon style=" font-size: 2.5em;" slot="icon-only" [src]="uiService.piecesPath+'wK.svg'"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button size="large" expand="block" [color]=" color === 'random' ? 'primary' : 'medium' "
+          (click)="color = 'random'" class="ion-no-padding">
+          <ion-icon slot="icon-only" name="shuffle"></ion-icon>
+        </ion-button>
+      </ion-col>
+      <ion-col size="4">
+        <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
+          (click)="color = 'black'; ">
+          <ion-icon style=" font-size: 2.5em;" slot="icon-only" [src]="uiService.piecesPath+'bK.svg'"></ion-icon>
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+
       <ion-col size="6">
         <ion-item>
           <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
@@ -93,7 +120,7 @@
     <ion-row>
       <ion-col size="6">
         <ion-item>
-          <ion-label>Fantasma</ion-label>
+          <ion-label>A ciegas</ion-label>
           <ion-toggle formControlName="goshPuzzle" slot="end"></ion-toggle>
         </ion-item>
       </ion-col>

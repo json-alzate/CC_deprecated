@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PuzzlesPage } from './puzzles.page';
 import { TrainingComponent } from './containers/training/training.component';
 import { TitanMenuComponent } from './containers/titan-menu/titan-menu.component';
-import { InfinityComponent } from './containers/infinity/infinity.component';
+import { BlockTrainingComponent } from './containers/block-training/block-training.component';
 
 const routes: Routes = [
   {
@@ -20,8 +20,8 @@ const routes: Routes = [
     component: TitanMenuComponent
   },
   {
-    path: 'infinity',
-    component: InfinityComponent
+    path: 'portion',
+    component: BlockTrainingComponent
   }
 ];
 

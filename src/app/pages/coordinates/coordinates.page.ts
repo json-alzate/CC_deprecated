@@ -76,7 +76,7 @@ export class CoordinatesPage implements OnInit {
     private alertController: AlertController,
     private coordinatesPuzzlesService: CoordinatesPuzzlesService,
     private profileService: ProfileService,
-    private uiService: UiService
+    public uiService: UiService
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;

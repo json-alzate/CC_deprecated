@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { InfinityComponent } from './infinity.component';
+import { BoardPuzzleComponent } from './board-puzzle.component';
 
-describe('InfinityComponent', () => {
-  let component: InfinityComponent;
-  let fixture: ComponentFixture<InfinityComponent>;
+describe('BoardPuzzleComponent', () => {
+  let component: BoardPuzzleComponent;
+  let fixture: ComponentFixture<BoardPuzzleComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfinityComponent ],
+      declarations: [ BoardPuzzleComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InfinityComponent);
+    fixture = TestBed.createComponent(BoardPuzzleComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

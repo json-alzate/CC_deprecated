@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 
 import { AppPuzzlesThemes } from '@models/app.models';
 import { Block } from '@models/plan.model';
 
-
 // services
 import { AppService } from '@services/app.service';
+import { UiService } from '@services/ui.service';
 
 @Component({
   selector: 'app-block-settings',
@@ -15,31 +15,44 @@ import { AppService } from '@services/app.service';
 })
 export class BlockSettingsComponent implements OnInit {
 
+  @Output() newBlock = new EventEmitter<Block>();
+  color = 'random';
 
   puzzlesThemes: AppPuzzlesThemes[] = [];
-
   form: FormGroup;
 
-  @Output() newBlock = new EventEmitter<Block>();
+  private dashObligatoryDuration: boolean;
+
 
   constructor(
     private formBuilder: FormBuilder,
-    private appService: AppService
+    private appService: AppService,
+    public uiService: UiService
   ) {
     this.puzzlesThemes = this.appService.getThemesPuzzle;
   }
 
-  ngOnInit() {
-    this.buildForm();
+  get obligatoryDuration(): boolean {
+    return this.dashObligatoryDuration;
+  }
+
+  @Input()
+  set obligatoryDuration(value: boolean) {
+    this.dashObligatoryDuration = value;
+    this.updateFormValidators();
   }
 
 
+  ngOnInit() {
+    this.buildForm();
+    this.updateFormValidators();
+  }
+
   buildForm() {
     this.form = this.formBuilder.group({
-
-      time: [null, Validators.min(3)],
+      time: [{ value: null, disabled: true }, Validators.min(3)],
       durationTime: false,
-      puzzlesCount: [null, Validators.min(1)],
+      puzzlesCount: [{ value: null, disabled: true }, Validators.min(1)],
       durationCount: false,
       eloStart: [800, Validators.required],
       eloEnd: [3000, Validators.required],
@@ -51,7 +64,7 @@ export class BlockSettingsComponent implements OnInit {
       goshPuzzle: false,
       goshPuzzleTime: [{ value: 30, disabled: true }]
     }, {
-      validators: this.rangeDifferenceValidator
+      validators: [this.rangeDifferenceValidator, this.durationValidator()]
     });
 
     this.form.get('goshPuzzle').valueChanges.subscribe(() => {
@@ -74,6 +87,20 @@ export class BlockSettingsComponent implements OnInit {
     return null;
   }
 
+  durationValidator(): ValidatorFn {
+    return (group: FormGroup): ValidationErrors | null => {
+      if (this.obligatoryDuration) {
+        const timeValue = group.get('time').value;
+        const puzzlesCountValue = group.get('puzzlesCount').value;
+
+        if (!timeValue && !puzzlesCountValue) {
+          return { durationRequired: true };
+        }
+      }
+      return null;
+    };
+  }
+
   toggleFieldBasedOnBoolean(booleanControlName: string, targetControlName: string) {
     const booleanControl = this.form.get(booleanControlName);
     const targetControl = this.form.get(targetControlName);
@@ -82,25 +109,33 @@ export class BlockSettingsComponent implements OnInit {
       targetControl.enable();
       targetControl.setValidators(Validators.required);
     } else {
+      targetControl.setValue(null);
       targetControl.disable();
       targetControl.clearValidators();
     }
     targetControl.updateValueAndValidity();
   }
 
-  onSubmit(event) {
+  updateFormValidators() {
+    if (!this.form) {
+      return; // Si el formulario aún no está inicializado, simplemente regresa
+    }
 
+    if (this.obligatoryDuration) {
+      this.form.setValidators([this.rangeDifferenceValidator, this.durationValidator()]);
+    } else {
+      this.form.setValidators([this.rangeDifferenceValidator]);
+    }
+    this.form.updateValueAndValidity();
+  }
+
+  onSubmit(event) {
     // prevent default submit action
     event.preventDefault();
     // validate form
     if (this.form.invalid) {
       return;
     }
-
     console.log(this.form.value);
-
-
   }
-
-
 }

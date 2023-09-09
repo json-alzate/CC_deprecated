@@ -60,7 +60,7 @@
               <ion-col size="4">
                 <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
                   (click)="color = 'white'; changeOrientation('w')">
-                  <ion-icon slot="icon-only" src="assets/images/pieces/wK.svg"></ion-icon>
+                  <ion-icon slot="icon-only" [src]="uiService.piecesPath+'wK.svg'"></ion-icon>
                 </ion-button>
               </ion-col>
               <ion-col size="4">
@@ -72,7 +72,7 @@
               <ion-col size="4">
                 <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
                   (click)="color = 'black'; changeOrientation('b')">
-                  <ion-icon slot="icon-only" src="assets/images/pieces/bK.svg"></ion-icon>
+                  <ion-icon slot="icon-only" [src]="uiService.piecesPath+'bK.svg'"></ion-icon>
                 </ion-button>
               </ion-col>
             </ion-row>
