@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 
-import { AppPuzzlesThemes } from '@models/app.models';
+import { AppPuzzlesThemes, AppPuzzleThemesGroup } from '@models/app.models';
 import { Block } from '@models/plan.model';
 
 // services
@@ -18,7 +18,7 @@ export class BlockSettingsComponent implements OnInit {
   @Output() newBlock = new EventEmitter<Block>();
   color = 'random';
 
-  puzzlesThemes: AppPuzzlesThemes[] = [];
+  puzzlesGroupsThemes: AppPuzzleThemesGroup[] = [];
   form: FormGroup;
 
   private dashObligatoryDuration: boolean;
@@ -29,7 +29,10 @@ export class BlockSettingsComponent implements OnInit {
     private appService: AppService,
     public uiService: UiService
   ) {
-    this.puzzlesThemes = this.appService.getThemesPuzzle;
+    this.puzzlesGroupsThemes = this.appService.getThemesPuzzle;
+
+    console.log(this.puzzlesGroupsThemes);
+
   }
 
   get obligatoryDuration(): boolean {

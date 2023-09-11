@@ -66,7 +66,47 @@
                 Todos
               </ion-text>
             </ion-item>
-            <div class="ion-padding" slot="content">First Content</div>
+            <div class="content-accordion-themes" slot="content">
+
+              <ion-radio-group name="auto" value="all">
+                <ion-item>
+                  <ion-label>Todos</ion-label>
+                  <ion-radio value="all"></ion-radio>
+                </ion-item>
+
+                <ion-list>
+
+                  <div *ngFor="let puzzlesGroupThemes of puzzlesGroupsThemes">
+
+                    <ion-list-header>
+                      <ion-label>{{ puzzlesGroupThemes.groupName }}</ion-label>
+                    </ion-list-header>
+
+                    <ion-item *ngFor="let puzzlesGroup of puzzlesGroupThemes.themes">
+
+                      <ion-thumbnail slot="start">
+                        <img [src]="'/assets/images/puzzle-themes/'+puzzlesGroup.img" />
+                      </ion-thumbnail>
+                      <ion-label>
+                        <h2>
+                          {{ puzzlesGroup.nameEs }}
+                        </h2>
+                        <p>
+                          <small>
+                            {{ puzzlesGroup.descriptionEs }}
+                          </small>
+                        </p>
+                      </ion-label>
+                      <ion-radio [value]="puzzlesGroup.value"></ion-radio>
+                    </ion-item>
+
+                  </div>
+
+                </ion-list>
+
+              </ion-radio-group>
+
+            </div>
           </ion-accordion>
         </ion-accordion-group>
 

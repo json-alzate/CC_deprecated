@@ -1,76 +1,408 @@
 [
     {
-        "GroupName": "Fases",
-        "Themes": [
+        "groupName": "Fases",
+        "themes": [
             {
                 "nameEs": "Apertura",
-                "descriptionEs": "Una táctica durante la primera fase de la partida",
+                "descriptionEs": "Una táctica durante la primera fase de la partida.",
                 "count": 200805,
+                "img": "opening.svg",
                 "value": ""
             },
             {
                 "nameEs": "Medio juego",
-                "descriptionEs": "Una táctica durante la segunda fase de la partida",
+                "descriptionEs": "Una táctica durante la segunda fase de la partida.",
                 "count": 1701404,
+                "img": "middlegame.svg",
                 "value": ""
             },
             {
                 "nameEs": "Final",
-                "descriptionEs": "Una táctica durante la ultima fase de la partida",
+                "descriptionEs": "Una táctica durante la última fase de la partida.",
                 "count": 1599336,
+                "img": "endgame.svg",
                 "value": ""
             },
             {
                 "nameEs": "Final de torres",
-                "descriptionEs": "Un final solo con torres y peones",
+                "descriptionEs": "Un final solo con torres y peones.",
                 "count": 161380,
+                "img": "rookEndgame.svg",
                 "value": ""
             },
             {
                 "nameEs": "Final de alfiles",
-                "descriptionEs": "Un final con solo con alfiles y peones",
+                "descriptionEs": "Un final con sólo alfiles y peones.",
                 "count": 39753,
+                "img": "bishopEndgame.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Final de peones",
+                "descriptionEs": "Un final solo con peones.",
+                "count": 94936,
+                "img": "pawnEndgame.svg",
                 "value": ""
             },
             {
                 "nameEs": "Final de caballos",
-                "descriptionEs": "Un final con solo con caballos y peones",
+                "descriptionEs": "Un final solo con caballos y peones.",
                 "count": 25727,
+                "img": "knightEndgame.svg",
                 "value": ""
             },
             {
                 "nameEs": "Final de damas",
-                "descriptionEs": "Un final con solo con damas y peones",
+                "descriptionEs": "Un final solo con damas y peones.",
                 "count": 31622,
+                "img": "queenEndgame.svg",
                 "value": ""
             },
             {
-                "nameEs": "Final de damas y torres",
-                "descriptionEs": "Un final con damas, torres y peones",
-                "count": 101465,
+                "nameEs": "Final de dama y torre",
+                "descriptionEs": "Un final solo con damas, torres y peones.",
+                "count": 22424,
+                "img": "queenRookEndgame.svg",
                 "value": ""
             }
         ]
     },
     {
-        "GroupName": "Temas",
-        "Themes": [
+        "groupName": "Temas",
+        "themes": [
             {
                 "nameEs": "Peón avanzado",
                 "descriptionEs": "Uno de tus peones está bien avanzado en territorio enemigo, quizás amenazando promocionar.",
                 "count": 188234,
+                "img": "advancedPawn.svg",
                 "value": ""
             },
             {
                 "nameEs": "Atacando f2 o f7",
                 "descriptionEs": "Un ataque centrado en el peón f2 o f7, como en el ataque Fegatello.",
                 "count": 19444,
+                "img": "attackingF2F7.svg",
                 "value": ""
             },
             {
                 "nameEs": "Capturar al defensor",
                 "descriptionEs": "Eliminar una pieza fundamental para la defensa de otra, permitiendo capturar la pieza, ahora indefensa, en el futuro.",
                 "count": 30509,
+                "img": "capturingDefender.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ataque a la descubierta",
+                "descriptionEs": "Mover una pieza que bloqueaba el ataque de otra pieza de largo alcance, como por ejemplo, quitar un caballo del camino de una torre.",
+                "count": 201748,
+                "img": "discoveredAttack.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Jaque doble",
+                "descriptionEs": "Dar jaque con dos piezas a la vez, como consecuencia de una ataque a la descubierta, donde tanto la pieza movida como la revelada atacan al rey del oponente.",
+                "count": 16672,
+                "img": "doubleCheck.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Rey expuesto",
+                "descriptionEs": "Una táctica que involucra a un rey con poca defensa a su alrededor, a menudo conduce a jaque mate.",
+                "count": 94665,
+                "img": "exposedKing.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ataque doble",
+                "descriptionEs": "Un movimiento donde la pieza movida ataca dos piezas del oponente a la vez.",
+                "count": 511684,
+                "img": "fork.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Pieza colgada",
+                "descriptionEs": "Una táctica que implica que una pieza del adversario no esté defendida o insuficientemente defendida y quede para ser capturada.",
+                "count": 153180,
+                "img": "hangingPiece.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ataque en el flanco de rey",
+                "descriptionEs": "Un ataque contra el enroque corto.",
+                "count": 268218,
+                "img": "kingsideAttack.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Clavada",
+                "descriptionEs": "Una táctica donde una pieza no puede moverse sin revelar un ataque a una pieza de mayor valor.",
+                "count": 225824,
+                "img": "pin.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ataque en el flanco de dama",
+                "descriptionEs": "Un ataque al rey del oponente, luego de haber realizado el enroque largo.",
+                "count": 46124,
+                "img": "queensideAttack.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Sacrificio",
+                "descriptionEs": "Una táctica que implica ceder material a corto plazo, para obtener una ventaja luego de una secuencia forzada de movimientos.",
+                "count": 247411,
+                "img": "sacrifice.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Pincho",
+                "descriptionEs": "Un motivo que implica el ataque de una pieza de alto valor, que se aparta del camino y permite capturar o atacar una pieza de menor valor detrás de ella, lo contrario de una clavada.",
+                "count": 77863,
+                "img": "skewer.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Pieza atrapada",
+                "descriptionEs": "Una pieza no puede escapar de la captura porque tiene movimientos limitados.",
+                "count": 52692,
+                "img": "trappedPiece.svg",
+                "value": ""
+            }
+        ]
+    },
+    {
+        "groupName": "Avanzado",
+        "themes": [
+            {
+                "nameEs": "Atracción",
+                "descriptionEs": "Un cambio o sacrificio que invita o fuerza al oponente a colocar una pieza en una casilla que propicia una oportunidad táctica.",
+                "count": 119207,
+                "img": "attraction.svg",
+                "value": "/training/attraction"
+            },
+            {
+                "nameEs": "Despeje",
+                "descriptionEs": "Un movimiento, a menudo con ganancia de tiempo, que limpia una casilla, una fila o una diagonal para una idea táctica de seguimiento.",
+                "count": 48077,
+                "img": "clearance.svg",
+                "value": "/training/clearance"
+            },
+            {
+                "nameEs": "Movimiento defensivo",
+                "descriptionEs": "Un movimiento o una secuencia de movimientos necesarios para evitar la pérdida de material u otra ventaja.",
+                "count": 211659,
+                "img": "defensiveMove.svg",
+                "value": "/training/defensiveMove"
+            },
+            {
+                "nameEs": "Desviación",
+                "descriptionEs": "Un movimiento que distrae una pieza del oponente de alguna de las tareas que desempeña, como la protección de una casilla clave. También conocido como \"sobrecarga\".",
+                "count": 147909,
+                "img": "deflection.svg",
+                "value": "/training/deflection"
+            },
+            {
+                "nameEs": "Interferencia",
+                "descriptionEs": "Mover una pieza entre dos piezas del oponente para dejar una o ambas piezas del oponente sin defensa, por ejemplo un caballo en una casilla entre dos torres.",
+                "count": 14185,
+                "img": "interference.svg",
+                "value": "/training/interference"
+            },
+            {
+                "nameEs": "Jugada intermedia",
+                "descriptionEs": "En lugar de jugar el movimiento esperado, se realiza antes otro movimiento que plantea una amenaza inmediata a la que el oponente debe responder. También conocido como \"Zwischenzug\" o \"Intermezzo\".",
+                "count": 50833,
+                "img": "intermezzo.svg",
+                "value": "/training/intermezzo"
+            },
+            {
+                "nameEs": "Jugada tranquila",
+                "descriptionEs": "Un movimiento que no da jaque o captura pieza, ni amenza inmediatamente capturar una pieza, pero que prepara una amenaza inevitable más oculta para una jugada posterior.",
+                "count": 134863,
+                "img": "quietMove.svg",
+                "value": "/training/quietMove"
+            },
+            {
+                "nameEs": "Ataque por rayos X",
+                "descriptionEs": "Una pieza ataca o defiende una casilla, a través de una pieza del oponente.",
+                "count": 11842,
+                "img": "xRayAttack.svg",
+                "value": "/training/xRayAttack"
+            },
+            {
+                "nameEs": "Zugzwang",
+                "descriptionEs": "El oponente está limitado en los movimientos que puede realizar, y todos los movimientos empeoran su posición.",
+                "count": 27287,
+                "img": "zugzwang.svg",
+                "value": "/training/zugzwang"
+            }
+        ]
+    },
+    {
+        "groupName": "Mates",
+        "themes": [
+            {
+                "nameEs": "Jaque mate",
+                "descriptionEs": "Gana la partida con estilo.",
+                "count": 841849,
+                "img": "mate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate en 1",
+                "descriptionEs": "Dar mate en un movimiento.",
+                "count": 315945,
+                "img": "mate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate en 2",
+                "descriptionEs": "Dar mate en dos movimientos.",
+                "count": 407709,
+                "img": "mate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate en 3",
+                "descriptionEs": "Dar mate en tres movimientos.",
+                "count": 100470,
+                "img": "mate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate en 4",
+                "descriptionEs": "Dar mate en cuatro movimientos.",
+                "count": 14515,
+                "img": "mate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate en 5 o más",
+                "descriptionEs": "Calcular una secuencia de mate larga.",
+                "count": 3210,
+                "img": "mate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate de Anastasia",
+                "descriptionEs": "Un caballo y una torre o dama se unen para atrapar al rey contrario entre un extremo del tablero y una pieza de su bando.",
+                "count": 3487,
+                "img": "anastasiaMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate árabe",
+                "descriptionEs": "Un caballo y una torre se unen para atrapar al rey contrario en una esquina del tablero.",
+                "count": 3325,
+                "img": "arabianMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate del pasillo",
+                "descriptionEs": "Jaque mate en la última fila, cuando el rey se encuentra atrapado por sus propias piezas.",
+                "count": 107332,
+                "img": "backRankMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate de Boden",
+                "descriptionEs": "Dos alfiles atacantes en diagonales cruzadas dan mate al rey, obstruido por piezas de su bando.",
+                "count": 1265,
+                "img": "bodenMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate de los dos alfiles",
+                "descriptionEs": "Dos alfiles atacantes en diagonales adyacentes dan mate al rey obstruido por piezas de su bando.",
+                "count": 1354,
+                "img": "doubleBishopMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate de Cozio",
+                "descriptionEs": "Una dama da mate al rey adyacente, cuyas únicas dos casillas de escape están obstruidas por piezas de su bando.",
+                "count": 1654,
+                "img": "dovetailMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate del gancho",
+                "descriptionEs": "Jaque mate con una torre, un caballo y un peón junto con un peón enemigo para limitar el escape del rey adversario.",
+                "count": 4765,
+                "img": "hookMate.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Mate de la coz",
+                "descriptionEs": "Un jaque mate con caballo, en el cual el rey enemigo no se puede mover al encontrarse rodeado (o ahogado) por sus propias piezas.",
+                "count": 9381,
+                "img": "smotheredMate.svg",
+                "value": ""
+            }
+        ]
+    },
+    {
+        "groupName": "Objetivos",
+        "themes": [
+            {
+                "nameEs": "Igualdad",
+                "descriptionEs": "Recupérate de una posición perdedora y asegura las tablas o una posición de igualdad. (eval ≤ 200cp)",
+                "count": 42995,
+                "img": "equality.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ventaja",
+                "descriptionEs": "Aprovecha la oportunidad de obtener una ventaja decisiva. (200cp ≤ eval ≤ 600cp)",
+                "count": 1042201,
+                "img": "advantage.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Aplastante",
+                "descriptionEs": "Detecta el error del oponente para obtener una ventaja ganadora. (eval ≥ 600cp)",
+                "count": 1571508,
+                "img": "crushing.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Jaque mate",
+                "descriptionEs": "Gana la partida con estilo.",
+                "count": 841849,
+                "img": "mate.svg",
+                "value": ""
+            }
+        ]
+    },
+    {
+        "groupName": "Duración",
+        "themes": [
+            {
+                "nameEs": "Ejercicio de un solo movimiento",
+                "descriptionEs": "Un movimiento para ganar.",
+                "count": 363205,
+                "img": "oneMove.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ejercicio corto",
+                "descriptionEs": "Dos movimientos para ganar.",
+                "count": 1998310,
+                "img": "short.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ejercicio largo",
+                "descriptionEs": "Tres movimientos para ganar.",
+                "count": 861739,
+                "img": "long.svg",
+                "value": ""
+            },
+            {
+                "nameEs": "Ejercicio muy largo",
+                "descriptionEs": "Cuatro movimientos o más para ganar.",
+                "count": 275301,
+                "img": "veryLong.svg",
                 "value": ""
             }
         ]

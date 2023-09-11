@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { lastValueFrom, take } from 'rxjs';
 
-import { AppPuzzlesThemes } from '@models/app.models';
+import { AppPuzzlesThemes, AppPuzzleThemesGroup } from '@models/app.models';
 
 
 @Injectable({
@@ -11,7 +11,7 @@ import { AppPuzzlesThemes } from '@models/app.models';
 })
 export class AppService {
 
-  themesPuzzle: AppPuzzlesThemes[] = [];
+  themesPuzzle: AppPuzzleThemesGroup[] = [];
 
 
   constructor(
@@ -23,9 +23,9 @@ export class AppService {
   }
 
   async loadThemesPuzzle() {
-    const request$ = this.httpClient.get<AppPuzzlesThemes[]>('assets/data/themes-puzzle.json')
+    const request$ = this.httpClient.get<AppPuzzleThemesGroup[]>('assets/data/themes-puzzle.json')
       .pipe(take(1));
-    this.themesPuzzle = await lastValueFrom<AppPuzzlesThemes[]>(request$);
+    this.themesPuzzle = await lastValueFrom<AppPuzzleThemesGroup[]>(request$);
 
   }
 
