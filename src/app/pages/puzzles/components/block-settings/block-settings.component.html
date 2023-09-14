@@ -1,186 +1,174 @@
-<ion-list>
-  <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
+<form [formGroup]="form" (ngSubmit)="onSubmit($event)">
 
-    <ion-item-divider>
-      <ion-label>Duración</ion-label>
-    </ion-item-divider>
+  <ion-accordion-group>
+    <ion-accordion value="duration">
+      <ion-item slot="header" color="light">
+        <ion-label>Duración</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
 
+        <ion-list>
+          <ion-item>
+            <ion-checkbox formControlName="durationTime" slot="start"></ion-checkbox>
+            <ion-label position="floating">Tiempo (min.)</ion-label>
+            <ion-input formControlName="time" type="number"></ion-input>
+          </ion-item>
 
+          <ion-item>
+            <ion-checkbox formControlName="durationCount" slot="start"></ion-checkbox>
+            <ion-label position="floating"># ejercicios</ion-label>
+            <ion-input formControlName="puzzlesCount" type="number"></ion-input>
+          </ion-item>
+        </ion-list>
 
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-checkbox formControlName="durationTime" slot="start"></ion-checkbox>
-          <ion-label position="floating">Tiempo (min.)</ion-label>
-          <ion-input formControlName="time" type="number"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-checkbox formControlName="durationCount" slot="start"></ion-checkbox>
-          <ion-label position="floating"># ejercicios</ion-label>
-          <ion-input formControlName="puzzlesCount" type="number"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-
-
-
-    <ion-item-divider>
-      <ion-label>Elo</ion-label>
-    </ion-item-divider>
-
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Mínimo</ion-label>
-          <ion-input formControlName="eloStart" type="number" min="800" max="2900"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Máximo</ion-label>
-          <ion-input formControlName="eloEnd" type="number" min="900" max="3000"></ion-input>
-        </ion-item>
-      </ion-col>
-
-      <div style="width: 100%;" *ngIf="form.hasError('rangeTooSmall')">
-        <ion-text color="danger">
-          <p class="ion-padding-start">La diferencia entre los valores debe ser de al menos 100.</p>
-        </ion-text>
       </div>
-    </ion-row>
+    </ion-accordion>
 
-    <ion-item-divider>
-      <ion-label>Ejercicios</ion-label>
-    </ion-item-divider>
+    <ion-accordion value="elo">
+      <ion-item slot="header" color="light">
+        <ion-label>Elo</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
 
-    <ion-row>
-      <ion-col size="12">
+        <ion-list>
+          <ion-item>
+            <ion-label position="floating">Mínimo</ion-label>
+            <ion-input formControlName="eloStart" type="number" min="800" max="2900"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label position="floating">Máximo</ion-label>
+            <ion-input formControlName="eloEnd" type="number" min="900" max="3000"></ion-input>
+          </ion-item>
 
-        <ion-accordion-group>
-          <ion-accordion value="first">
-            <ion-item slot="header" color="light">
-              <ion-label>Tema</ion-label>
-              <ion-text slot="end" color="primary">
-                Todos
-              </ion-text>
-            </ion-item>
-            <div class="content-accordion-themes" slot="content">
+          <div style="width: 100%;" *ngIf="form.hasError('rangeTooSmall')">
+            <ion-text color="danger">
+              <p class="ion-padding-start">La diferencia entre los valores debe ser de al menos 100.</p>
+            </ion-text>
+          </div>
+        </ion-list>
 
-              <ion-radio-group name="auto" value="all">
-                <ion-item>
-                  <ion-label>Todos</ion-label>
-                  <ion-radio value="all"></ion-radio>
-                </ion-item>
+      </div>
+    </ion-accordion>
 
-                <ion-list>
+    <ion-accordion value="puzzles">
+      <ion-item slot="header" color="light">
+        <ion-label>Ejercicios</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
 
-                  <div *ngFor="let puzzlesGroupThemes of puzzlesGroupsThemes">
+        <ion-list>
 
-                    <ion-list-header>
-                      <ion-label>{{ puzzlesGroupThemes.groupName }}</ion-label>
-                    </ion-list-header>
+          <ion-item>
+            <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
+            <ion-input formControlName="puzzleTime"></ion-input>
+          </ion-item>
 
-                    <ion-item *ngFor="let puzzlesGroup of puzzlesGroupThemes.themes">
 
-                      <ion-thumbnail slot="start">
-                        <img [src]="'/assets/images/puzzle-themes/'+puzzlesGroup.img" />
-                      </ion-thumbnail>
-                      <ion-label>
-                        <h2>
-                          {{ puzzlesGroup.nameEs }}
-                        </h2>
-                        <p>
-                          <small>
-                            {{ puzzlesGroup.descriptionEs }}
-                          </small>
-                        </p>
-                      </ion-label>
-                      <ion-radio [value]="puzzlesGroup.value"></ion-radio>
-                    </ion-item>
+          <ion-item>
+            <ion-label>mostrar solución</ion-label>
+            <ion-checkbox formControlName="showPuzzleSolution" slot="end"></ion-checkbox>
+          </ion-item>
 
-                  </div>
 
-                </ion-list>
+          <ion-item>
+            <ion-label>A ciegas</ion-label>
+            <ion-toggle formControlName="goshPuzzle" slot="end"></ion-toggle>
+          </ion-item>
 
-              </ion-radio-group>
+          <ion-item>
+            <ion-label position="floating">Tiempo visible (seg.)</ion-label>
+            <ion-input formControlName="goshPuzzleTime"></ion-input>
+          </ion-item>
+        </ion-list>
+
+
+
+      </div>
+    </ion-accordion>
+
+    <ion-accordion value="theme">
+      <ion-item slot="header" color="light">
+        <ion-label>Tema</ion-label>
+        <ion-text slot="end" color="primary">
+          Todos
+        </ion-text>
+      </ion-item>
+      <div class="content-accordion-themes" slot="content">
+
+        <ion-radio-group name="auto" value="all">
+          <ion-item>
+            <ion-label>Todos</ion-label>
+            <ion-radio value="all"></ion-radio>
+          </ion-item>
+
+          <ion-list>
+
+            <div *ngFor="let puzzlesGroupThemes of puzzlesGroupsThemes">
+
+              <ion-list-header>
+                <ion-label>{{ puzzlesGroupThemes.groupName }}</ion-label>
+              </ion-list-header>
+
+              <ion-item *ngFor="let puzzlesGroup of puzzlesGroupThemes.themes">
+
+                <ion-thumbnail slot="start">
+                  <img [src]="'/assets/images/puzzle-themes/'+puzzlesGroup.img" />
+                </ion-thumbnail>
+                <ion-label>
+                  <h2>
+                    {{ puzzlesGroup.nameEs }}
+                  </h2>
+                  <p>
+                    <small>
+                      {{ puzzlesGroup.descriptionEs }}
+                    </small>
+                  </p>
+                </ion-label>
+                <ion-radio [value]="puzzlesGroup.value"></ion-radio>
+              </ion-item>
 
             </div>
-          </ion-accordion>
-        </ion-accordion-group>
 
-      </ion-col>
+          </ion-list>
 
-    </ion-row>
+        </ion-radio-group>
 
-    <ion-row class="ion-margin-vertical ion-padding">
+      </div>
+    </ion-accordion>
 
-      <ion-col size="4">
-        <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
-          (click)="color = 'white';">
-          <ion-icon style=" font-size: 2.5em;" slot="icon-only" [src]="uiService.piecesPath+'wK.svg'"></ion-icon>
-        </ion-button>
-      </ion-col>
-      <ion-col size="4">
-        <ion-button size="large" expand="block" [color]=" color === 'random' ? 'primary' : 'medium' "
-          (click)="color = 'random'" class="ion-no-padding">
-          <ion-icon slot="icon-only" name="shuffle"></ion-icon>
-        </ion-button>
-      </ion-col>
-      <ion-col size="4">
-        <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
-          (click)="color = 'black'; ">
-          <ion-icon style=" font-size: 2.5em;" slot="icon-only" [src]="uiService.piecesPath+'bK.svg'"></ion-icon>
-        </ion-button>
-      </ion-col>
+  </ion-accordion-group>
 
-    </ion-row>
+  <ion-row>
 
-    <ion-row>
+    <ion-col size="4">
+      <ion-button size="large" expand="block" [color]=" color === 'white' ? 'primary' : 'medium' "
+        (click)="color = 'white';">
+        <ion-icon style=" font-size: 2.5em;" slot="icon-only" [src]="uiService.piecesPath+'wK.svg'"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col size="4">
+      <ion-button size="large" expand="block" [color]=" color === 'random' ? 'primary' : 'medium' "
+        (click)="color = 'random'" class="ion-no-padding">
+        <ion-icon slot="icon-only" name="shuffle"></ion-icon>
+      </ion-button>
+    </ion-col>
+    <ion-col size="4">
+      <ion-button size="large" expand="block" [color]=" color === 'black' ? 'primary' : 'medium' "
+        (click)="color = 'black'; ">
+        <ion-icon style=" font-size: 2.5em;" slot="icon-only" [src]="uiService.piecesPath+'bK.svg'"></ion-icon>
+      </ion-button>
+    </ion-col>
 
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
-          <ion-input formControlName="puzzleTime"></ion-input>
-        </ion-item>
-      </ion-col>
-
-      <ion-col size="6">
-
-        <ion-item>
-          <ion-label>mostrar solución</ion-label>
-          <ion-checkbox formControlName="showPuzzleSolution" slot="end"></ion-checkbox>
-        </ion-item>
-
-      </ion-col>
-
-    </ion-row>
-
-    <ion-row>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label>A ciegas</ion-label>
-          <ion-toggle formControlName="goshPuzzle" slot="end"></ion-toggle>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-label position="floating">Tiempo visible (seg.)</ion-label>
-          <ion-input formControlName="goshPuzzleTime"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+  </ion-row>
 
 
-    <ion-row>
-      <ion-col size="12">
-        <ion-button type="submit" [disabled]="!form.valid" class="ion-margin" expand="block" size="large">
-          Jugar
-        </ion-button>
-      </ion-col>
-    </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-button type="submit" [disabled]="!form.valid" class="ion-margin" expand="block" size="large">
+        Jugar
+      </ion-button>
+    </ion-col>
+  </ion-row>
 
 
-  </form>
-</ion-list>
+</form>
