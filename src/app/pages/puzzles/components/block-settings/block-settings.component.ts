@@ -15,6 +15,7 @@ import { UiService } from '@services/ui.service';
 })
 export class BlockSettingsComponent implements OnInit {
 
+
   @Output() newBlock = new EventEmitter<Block>();
   color = 'random';
 
@@ -31,19 +32,28 @@ export class BlockSettingsComponent implements OnInit {
   ) {
     this.puzzlesGroupsThemes = this.appService.getThemesPuzzle;
 
-    console.log(this.puzzlesGroupsThemes);
-
   }
+
+  get timeField() {
+    return this.form.get('time');
+  }
+
+  get puzzlesCountField() {
+    return this.form.get('puzzlesCount');
+  }
+
 
   get obligatoryDuration(): boolean {
     return this.dashObligatoryDuration;
   }
+
 
   @Input()
   set obligatoryDuration(value: boolean) {
     this.dashObligatoryDuration = value;
     this.updateFormValidators();
   }
+
 
 
   ngOnInit() {

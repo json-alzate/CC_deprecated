@@ -1,9 +1,24 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
 
   <ion-accordion-group>
+
+
     <ion-accordion value="duration">
       <ion-item slot="header" color="light">
         <ion-label>Duración</ion-label>
+        <div slot="end">
+          <ng-container *ngIf="timeField.value || puzzlesCountField.value; else elseTemplateDurationInfo">
+            <ion-text color="primary">
+              <p>
+                {{ timeField.value ? timeField.value + ' min.' : '' }}
+                {{ puzzlesCountField.value ? puzzlesCountField.value + ' ejercicios' : '' }}
+              </p>
+            </ion-text>
+          </ng-container>
+          <ng-template #elseTemplateDurationInfo>
+            <ion-icon name="infinite-outline"></ion-icon>
+          </ng-template>
+        </div>
       </ion-item>
       <div class="ion-padding" slot="content">
 
@@ -46,42 +61,6 @@
             </ion-text>
           </div>
         </ion-list>
-
-      </div>
-    </ion-accordion>
-
-    <ion-accordion value="puzzles">
-      <ion-item slot="header" color="light">
-        <ion-label>Ejercicios</ion-label>
-      </ion-item>
-      <div class="ion-padding" slot="content">
-
-        <ion-list>
-
-          <ion-item>
-            <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
-            <ion-input formControlName="puzzleTime"></ion-input>
-          </ion-item>
-
-
-          <ion-item>
-            <ion-label>mostrar solución</ion-label>
-            <ion-checkbox formControlName="showPuzzleSolution" slot="end"></ion-checkbox>
-          </ion-item>
-
-
-          <ion-item>
-            <ion-label>A ciegas</ion-label>
-            <ion-toggle formControlName="goshPuzzle" slot="end"></ion-toggle>
-          </ion-item>
-
-          <ion-item>
-            <ion-label position="floating">Tiempo visible (seg.)</ion-label>
-            <ion-input formControlName="goshPuzzleTime"></ion-input>
-          </ion-item>
-        </ion-list>
-
-
 
       </div>
     </ion-accordion>
@@ -135,6 +114,43 @@
 
       </div>
     </ion-accordion>
+
+    <ion-accordion value="puzzles">
+      <ion-item slot="header" color="light">
+        <ion-label>Ejercicios</ion-label>
+      </ion-item>
+      <div class="ion-padding" slot="content">
+
+        <ion-list>
+
+          <ion-item>
+            <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
+            <ion-input formControlName="puzzleTime"></ion-input>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label>mostrar solución</ion-label>
+            <ion-checkbox formControlName="showPuzzleSolution" slot="end"></ion-checkbox>
+          </ion-item>
+
+
+          <ion-item>
+            <ion-label>A ciegas</ion-label>
+            <ion-toggle formControlName="goshPuzzle" slot="end"></ion-toggle>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="floating">Tiempo visible (seg.)</ion-label>
+            <ion-input formControlName="goshPuzzleTime"></ion-input>
+          </ion-item>
+        </ion-list>
+
+
+
+      </div>
+    </ion-accordion>
+
 
   </ion-accordion-group>
 
