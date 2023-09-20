@@ -42,6 +42,9 @@
     <ion-accordion value="elo">
       <ion-item slot="header" color="light">
         <ion-label>Elo</ion-label>
+        <ion-note slot="end">
+          {{ eloStartField.value ? eloStartField.value + ' - ' + eloEndField.value : '' }}
+        </ion-note>
       </ion-item>
       <div class="ion-padding" slot="content">
 
@@ -68,13 +71,14 @@
     <ion-accordion value="theme">
       <ion-item slot="header" color="light">
         <ion-label>Tema</ion-label>
-        <ion-text slot="end" color="primary">
-          Todos
-        </ion-text>
+
+        <ion-thumbnail class="thumbnail-theme" slot="end" *ngIf="themesField.value !== 'all'">
+          <img [src]="'/assets/images/puzzle-themes/'+themesField.value+'.svg'" />
+        </ion-thumbnail>
       </ion-item>
       <div class="content-accordion-themes" slot="content">
 
-        <ion-radio-group name="auto" value="all">
+        <ion-radio-group name="auto" formControlName="theme">
           <ion-item>
             <ion-label>Todos</ion-label>
             <ion-radio value="all"></ion-radio>

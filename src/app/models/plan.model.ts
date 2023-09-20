@@ -7,6 +7,7 @@ export interface Block {
     openingFamily?: string;
     eloStart: number;
     eloEnd: number;
+    color: 'white' | 'black' | 'random';
     puzzleTime: number;
     puzzles?: Puzzle[];
     showPuzzleSolution?: boolean;

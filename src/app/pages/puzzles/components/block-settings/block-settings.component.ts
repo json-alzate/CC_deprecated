@@ -42,6 +42,18 @@ export class BlockSettingsComponent implements OnInit {
     return this.form.get('puzzlesCount');
   }
 
+  get themesField() {
+    return this.form.get('theme');
+  }
+
+  get eloStartField() {
+    return this.form.get('eloStart');
+  }
+
+  get eloEndField() {
+    return this.form.get('eloEnd');
+  }
+
 
   get obligatoryDuration(): boolean {
     return this.dashObligatoryDuration;
@@ -67,9 +79,10 @@ export class BlockSettingsComponent implements OnInit {
       durationTime: false,
       puzzlesCount: [{ value: null, disabled: true }, Validators.min(1)],
       durationCount: false,
-      eloStart: [800, Validators.required],
-      eloEnd: [3000, Validators.required],
-      theme: '',
+      // adicionar validacion minimo 800 y maximo 3000
+      eloStart: [800, Validators.compose([Validators.required, Validators.min(800), Validators.max(2900)])],
+      eloEnd: [3000, Validators.compose([Validators.required, Validators.min(900), Validators.max(3000)])],
+      theme: 'all',
       openingFamily: '',
       puzzleTime: [60, Validators.required],
       nextPuzzleImmediately: true,
@@ -149,6 +162,8 @@ export class BlockSettingsComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+    // emit new block
+    this.newBlock.emit({ ...this.form.value, color: this.color });
     console.log(this.form.value);
   }
 }
