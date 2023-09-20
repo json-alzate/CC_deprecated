@@ -164,6 +164,5 @@ export class BlockSettingsComponent implements OnInit {
     }
     // emit new block
     this.newBlock.emit({ ...this.form.value, color: this.color });
-    console.log(this.form.value);
   }
 }

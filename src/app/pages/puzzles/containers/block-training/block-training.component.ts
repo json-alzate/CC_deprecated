@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Block } from '@models/plan.model';
+
+
 @Component({
   selector: 'app-block-training',
   templateUrl: './block-training.component.html',
@@ -9,6 +12,10 @@ export class BlockTrainingComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  onCreateBlock(newBlock: Block) {
+    console.log(newBlock);
+  }
 
 }

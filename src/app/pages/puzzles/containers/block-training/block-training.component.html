@@ -7,7 +7,7 @@
 
       <ion-col class="ion-no-padding ion-margin-top ion-padding-horizontal" size="12" size-sm="12" size-md="12"
         size-lg="3" size-xl="3">
-        <app-block-settings></app-block-settings>
+        <app-block-settings (newBlock)="onCreateBlock($event)"></app-block-settings>
       </ion-col>
 
       <ion-col class="ion-no-padding ion-margin-top" size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
