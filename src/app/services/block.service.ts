@@ -14,7 +14,7 @@ export class BlockService {
     private puzzlesService: PuzzlesService
   ) { }
 
-  async generateBlockOfPuzzles(blockSettings: Block): Promise<Block> {
+  async generateBlockOfPuzzles(blockSettings: Block): Promise<Puzzle[]> {
 
     const options: PuzzleQueryOptions = {
       rangeStart: blockSettings.eloStart,
@@ -37,10 +37,8 @@ export class BlockService {
       puzzles = puzzlesToAdd;
     }
 
-    return {
-      ...blockSettings,
-      puzzles
-    };
+    return puzzles;
+
 
   }
 }
