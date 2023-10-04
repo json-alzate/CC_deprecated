@@ -17,7 +17,7 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 
 
 // models
-import { Puzzle } from '@models/puzzle.model';
+import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
@@ -42,13 +42,7 @@ export class PuzzlesService {
     private appService: AppService
   ) { }
 
-  public async getPuzzle(elo: number, options?: {
-    rangeStart?: number;
-    rangeEnd?: number;
-    themes?: string[];
-    openingFamily?: string;
-    openingVariation?: string;
-  }, attempts: number = 0): Promise<Puzzle> {
+  public async getPuzzle(elo: number, options?: PuzzleQueryOptions, attempts: number = 0): Promise<Puzzle> {
 
 
     /*
@@ -119,19 +113,17 @@ export class PuzzlesService {
     }
   }
 
-  async loadMorePuzzles(elo: number, options?: {
-    rangeStart?: number;
-    rangeEnd?: number;
-    themes?: string[];
-    openingFamily?: string;
-    openingVariation?: string;
-  }) {
+  async loadMorePuzzles(elo: number, options?: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
     // se cargan los puzzles desde la base de datos, para que se actualice la lista de puzzles disponibles
     const newPuzzlesFromDB = await this.firestoreService.getPuzzles(elo, options);
-    // adicionar puzzles al estado de redux
-    this.store.dispatch(addPuzzles({ puzzles: newPuzzlesFromDB }));
-    // se adiciona al array local de puzzles
-    this.puzzles.push(...newPuzzlesFromDB);
+    if (!actionMethod || actionMethod === 'toStore') {
+      // adicionar puzzles al estado de redux
+      this.store.dispatch(addPuzzles({ puzzles: newPuzzlesFromDB }));
+      // se adiciona al array local de puzzles
+      this.puzzles.push(...newPuzzlesFromDB);
+    } else if (actionMethod === 'return') {
+      return newPuzzlesFromDB;
+    }
   }
 
 

@@ -12,3 +12,12 @@ export interface Puzzle {
     openingFamily: string;
     openingVariation: string;
 }
+
+export interface PuzzleQueryOptions {
+    rangeStart?: number;
+    rangeEnd?: number;
+    themes?: string[];
+    openingFamily?: string;
+    openingVariation?: string;
+    color?: 'w' | 'b';
+};

@@ -213,6 +213,8 @@ export class FirestoreService {
 
   /**
    * Get puzzles from firestore
+   *
+   * @param elo: number // si elo === 0, se obtienen puzzles de cualquier elo, si es === -1 es obligatorio start y end en options set rango
    * */
   async getPuzzles(elo: number, options?: {
     rangeStart?: number;
@@ -220,12 +222,26 @@ export class FirestoreService {
     themes?: string[];
     openingFamily?: string;
     openingVariation?: string;
+    color?: 'w' | 'b';
   }) {
 
-
     const DEFAULT_RANGE = 600;
-    const eloStart = elo - (options?.rangeStart ?? DEFAULT_RANGE);
-    const eloEnd = elo + (options?.rangeEnd ?? DEFAULT_RANGE);
+    let eloStart = 0;
+    let eloEnd = 4000;
+
+
+    switch (elo) {
+      case -1:
+        eloStart = options.rangeStart;
+        eloEnd = options.rangeEnd;
+        break;
+
+      default:
+        eloStart = elo - (options?.rangeStart ?? DEFAULT_RANGE);
+        eloEnd = elo + (options?.rangeEnd ?? DEFAULT_RANGE);
+        break;
+    }
+
 
     const MAX_ATTEMPTS = 5;
     let attempts = 0;
@@ -236,11 +252,18 @@ export class FirestoreService {
       let baseQuery: Query = collection(this.db, 'puzzles');
       baseQuery = query(baseQuery, where('randomNumberQuery', '>=', minRandom), limit(300));
 
+      console.log('options ', options);
+
+
       if (options?.themes && options?.themes.length) {
+        console.log('options.themes', options.themes);
+
         const themeConditions = options.themes.map(theme => where('themes', 'array-contains', theme));
         themeConditions.forEach(condition => {
           baseQuery = query(baseQuery, condition);
         });
+        console.log('baseQuery', baseQuery);
+
       }
 
       if (options?.openingFamily) {
@@ -257,8 +280,12 @@ export class FirestoreService {
       querySnapshot.forEach((document) => {
         const puzzleToAdd = document.data() as Puzzle;
         if (puzzleToAdd.rating >= eloStart && puzzleToAdd.rating <= eloEnd) {
-          puzzleToAdd.uid = document.id;
-          puzzlesToReturn.push(puzzleToAdd);
+          // filtrar por color
+          if (!options?.color || (options?.color && puzzleToAdd.fen.includes(` ${options.color} `))) {
+            puzzleToAdd.uid = document.id;
+            puzzlesToReturn.push(puzzleToAdd);
+          }
+
         }
       });
 

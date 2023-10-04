@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Block } from '@models/plan.model';
 
 
+import { BlockService } from '@services/block.service';
+
+
 @Component({
   selector: 'app-block-training',
   templateUrl: './block-training.component.html',
@@ -10,12 +13,16 @@ import { Block } from '@models/plan.model';
 })
 export class BlockTrainingComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private blockService: BlockService
+  ) { }
 
   ngOnInit() { }
 
-  onCreateBlock(newBlock: Block) {
-    console.log(newBlock);
+  async onCreateBlock(newBlock: Block) {
+
+    const block = await this.blockService.generateBlockOfPuzzles(newBlock);
+    console.log('bloque para tocar', block);
   }
 
 }

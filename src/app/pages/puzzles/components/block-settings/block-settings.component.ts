@@ -43,7 +43,7 @@ export class BlockSettingsComponent implements OnInit {
   }
 
   get themesField() {
-    return this.form.get('theme');
+    return this.form.get('themes');
   }
 
   get eloStartField() {
@@ -82,7 +82,7 @@ export class BlockSettingsComponent implements OnInit {
       // adicionar validacion minimo 800 y maximo 3000
       eloStart: [800, Validators.compose([Validators.required, Validators.min(800), Validators.max(2900)])],
       eloEnd: [3000, Validators.compose([Validators.required, Validators.min(900), Validators.max(3000)])],
-      theme: 'all',
+      themes: 'all',
       openingFamily: '',
       puzzleTime: [60, Validators.required],
       nextPuzzleImmediately: true,
@@ -163,6 +163,6 @@ export class BlockSettingsComponent implements OnInit {
       return;
     }
     // emit new block
-    this.newBlock.emit({ ...this.form.value, color: this.color });
+    this.newBlock.emit({ ...this.form.value, color: this.color, themes: [this.form.value.themes] });
   }
 }
