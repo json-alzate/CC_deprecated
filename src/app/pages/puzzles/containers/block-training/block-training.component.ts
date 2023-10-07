@@ -15,7 +15,25 @@ import { BlockService } from '@services/block.service';
 })
 export class BlockTrainingComponent implements OnInit {
 
-  puzzleToPlay: Puzzle;
+  puzzleToPlay: Puzzle = {
+    gameUrl: 'https://lichess.org/x79ejp2U/black#42',
+    popularity: 93,
+    openingFamily: '\r',
+    themes: [
+      'crushing',
+      'fork',
+      'middlegame',
+      'short'
+    ],
+    rating: 1654,
+    fen: '2r3k1/R4ppp/1p1p1b2/1B1rpq2/P7/1P6/4QPPP/5RK1 b - - 0 21',
+    ratingDeviation: 75,
+    randomNumberQuery: 3182,
+    uid: '07FQY',
+    nbPlays: 6011,
+    openingVariation: '',
+    moves: 'h7h6 b5d7 f5d3 e2d3'
+  };
   block: Block;
 
   constructor(

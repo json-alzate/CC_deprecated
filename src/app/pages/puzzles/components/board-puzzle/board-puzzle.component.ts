@@ -13,6 +13,10 @@ import { ARROW_TYPE, Arrows } from 'cm-chessboard/src/extensions/arrows/arrows';
 import { PromotionDialog } from 'cm-chessboard/src/extensions/promotion-dialog/PromotionDialog';
 import Chess from 'chess.js';
 
+// rxjs
+import { interval, Subject, Observable, Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 // models
 import { Puzzle } from '@models/puzzle.model';
 
@@ -37,18 +41,19 @@ import { ToolsService } from '@services/tools.service';
 })
 export class BoardPuzzleComponent implements OnInit {
 
-  @Input() puzzle: Puzzle;
-  puzzleColor: 'b' | 'w' = 'w';
+  puzzle: Puzzle;
 
-  uiSet: UISettings = {
-    allowBackMove: false,
-    allowNextMove: false,
-    allowNextPuzzle: false,
-    currentMoveNumber: 0,
-    isRetrying: false,
-    puzzleStatus: 'start',
-    isPuzzleCompleted: false
-  };
+  currentMoveNumber = 0;
+  arrayFenSolution = [];
+  totalMoves = 0;
+  allowMoveArrows = false;
+  fenToCompareAndPlaySound: string;
+
+
+  // timer
+  time = 0;
+  timeColor = 'success';
+  subsSeconds: Observable<number>;
 
 
   board;
@@ -58,23 +63,53 @@ export class BoardPuzzleComponent implements OnInit {
     private uiService: UiService,
     private toolsService: ToolsService
   ) { }
+  @Input() set setPuzzle(data: Puzzle) {
+    if (data) {
+      this.puzzle = data;
+      console.log('puzzle', this.puzzle);
+
+      this.initPuzzle();
+    }
+  }
 
   ngOnInit() {
-
-    // this.puzzlesService.getTotalPuzzlesInDB().then(totalPuzzles => {
-    //   console.log('totalPuzzles', totalPuzzles);
-    // });
-
-    // this.puzzlesService.getOnePuzzleByUid('090As').then(puzzle => {
-    //   console.log('puzzle', JSON.stringify(puzzle));
-    // });
-
-    this.buildBoard('8/8/8/8/8/8/8/8 w - - 0 1');
+    if (!this.board) {
+      this.buildBoard('8/8/8/8/8/8/8/8 w - - 0 1');
+    }
   }
 
 
-  ionViewDidEnter() {
-    this.buildBoard(this.puzzle.fen);
+  initPuzzle() {
+    if (this.board) {
+      this.board.setPosition(this.puzzle.fen);
+    } else {
+      this.buildBoard(this.puzzle.fen);
+    }
+    this.chessInstance.load(this.puzzle.fen);
+    this.fenToCompareAndPlaySound = this.puzzle.fen;
+    // Se cambia el color porque luego se realizara automáticamente la jugada inicial de la maquina
+    // el fen del puzzle inicia siempre con el color contrario al del que le toca jugar al usuario
+    this.turnRoundBoard(this.chessInstance.turn() === 'b' ? 'w' : 'b');
+    this.currentMoveNumber = 0;
+    this.allowMoveArrows = false;
+
+    this.arrayFenSolution = [];
+    // se construye un arreglo con los fen de la solución
+    const movesArray = this.puzzle.moves.split(' ');
+    this.arrayFenSolution.push(this.chessInstance.fen());
+    for (const move of movesArray) {
+      this.chessInstance.move(move, { sloppy: true });
+      const fen = this.chessInstance.fen();
+      this.arrayFenSolution.push(fen);
+    }
+    this.totalMoves = this.arrayFenSolution.length - 1;
+
+    // ejecutar primera jugada
+    this.puzzleMoveResponse();
+
+
+
+    // this.initTimer();
   }
 
 
@@ -119,7 +154,7 @@ export class BoardPuzzleComponent implements OnInit {
           this.board.removeMarkers();
           this.board.removeArrows();
 
-          if (this.chessInstance.turn() === this.puzzleColor && this.chessInstance.moves({ square: event.square }).length > 0) {
+          if (this.chessInstance.moves({ square: event.square }).length > 0) {
             // adiciona el marcador para la casilla seleccionada
             const markerSquareSelected = { class: 'marker-square-green', slice: 'markerSquare' };
             this.board.addMarker(markerSquareSelected, event.square);
@@ -255,7 +290,6 @@ export class BoardPuzzleComponent implements OnInit {
       }
     });
 
-    this.turnRoundBoard(this.puzzleColor);
   }
 
 
@@ -265,15 +299,14 @@ export class BoardPuzzleComponent implements OnInit {
 
     // this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);
 
-    this.uiSet.currentMoveNumber++;
-    // if (fenChessInstance === this.fenSolution[this.uiSet.currentMoveNumber] || this.chessInstance.in_checkmate()) {
-    //   this.uiSet.allowBackMove = true;
-    //   this.uiSet.puzzleStatus = 'good';
-    //   this.puzzleMoveResponse();
-    // } else {
-    //   this.uiSet.puzzleStatus = 'wrong';
-    //   this.uiSet.isPuzzleCompleted = true;
-    // }
+    this.currentMoveNumber++;
+    if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
+      this.puzzleMoveResponse();
+    } else {
+      // TODO: puzzle resuelto incorrectamente
+      console.log('puzzle resuelto incorrectamente');
+
+    }
 
     // Actualiza el tablero después de un movimiento de enroque
     if (
@@ -281,6 +314,43 @@ export class BoardPuzzleComponent implements OnInit {
       this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('q')) {
       this.board.setPosition(this.chessInstance.fen());
     }
+  }
+
+  /**
+   * Reacciona con el siguiente movimiento en el puzzle, cuando el usuario realiza una jugada correcta
+   * React with the following movement in the puzzle, when the user makes a correct move
+   *
+   * @param moveNumber: number
+   */
+  async puzzleMoveResponse() {
+    this.currentMoveNumber++;
+
+    if (this.arrayFenSolution.length === this.currentMoveNumber) {
+
+      // TODO: puzzle resuelto
+      this.allowMoveArrows = true;
+      this.currentMoveNumber--;
+
+      // this.saveUserPuzzle();
+      // this.stopTimer();
+    } else {
+
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(() => resolve(), 1000);
+      });
+
+      this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+      const fen = this.chessInstance.fen();
+      this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fen);
+      this.fenToCompareAndPlaySound = fen;
+      this.board.removeMarkers();
+      this.board.removeArrows();
+
+      await this.board.setPosition(fen, true);
+
+    }
+
+
   }
 
 
@@ -302,6 +372,66 @@ export class BoardPuzzleComponent implements OnInit {
         this.board.setOrientation('w');
       }
     }
+  }
+
+  // Arrows
+
+  starPosition() {
+    this.board.removeArrows();
+    this.board.removeMarkers();
+    this.board.setPosition(this.puzzle.fen, true);
+    this.chessInstance.load(this.puzzle.fen);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
+    this.currentMoveNumber = 0;
+  }
+
+  /**
+   * Navega a la anterior jugada en el tablero
+   * Navigate to the previous play on the board
+   *
+   */
+  backMove() {
+    if (this.currentMoveNumber <= 0) {
+      return;
+    } else {
+      this.currentMoveNumber--;
+    }
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, this.chessInstance.fen());
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+  }
+
+  /**
+   * Navega a la siguiente jugada en el tablero
+   * Navigate to the next play on the board
+   *
+   */
+  nextMove() {
+    if (this.currentMoveNumber >= this.totalMoves) {
+      return;
+    } else {
+      this.currentMoveNumber++;
+    }
+    // aquí setear el tablero con la siguiente jugada
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, this.chessInstance.fen());
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
+
+  }
+
+  moveToEnd() {
+    this.currentMoveNumber = this.totalMoves;
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
   }
 
 }
