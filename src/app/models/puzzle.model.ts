@@ -11,6 +11,11 @@ export interface Puzzle {
     gameUrl: string;
     openingFamily: string;
     openingVariation: string;
+    times?: {
+        warningOn: number;
+        dangerOn: number;
+        total: number;
+    };
 }
 
 export interface PuzzleQueryOptions {

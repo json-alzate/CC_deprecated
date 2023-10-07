@@ -54,6 +54,7 @@ export class BoardPuzzleComponent implements OnInit {
   time = 0;
   timeColor = 'success';
   subsSeconds: Observable<number>;
+  timerUnsubscribe$ = new Subject<void>();
 
 
   board;
@@ -107,9 +108,7 @@ export class BoardPuzzleComponent implements OnInit {
     // ejecutar primera jugada
     this.puzzleMoveResponse();
 
-
-
-    // this.initTimer();
+    this.initTimer();
   }
 
 
@@ -292,6 +291,23 @@ export class BoardPuzzleComponent implements OnInit {
 
   }
 
+  // Timer --------------------------------------------
+  initTimer() {
+    this.subsSeconds = interval(1000);
+    this.subsSeconds.pipe(
+      takeUntil(this.timerUnsubscribe$)
+    ).subscribe(() => {
+      this.time++;
+      if (this.time === 60) {
+        this.time = 0;
+      }
+    });
+  }
+
+  stopTimer() {
+    this.timerUnsubscribe$.next();
+    this.timerUnsubscribe$.complete();
+  }
 
 
   validateMove() {
@@ -336,7 +352,7 @@ export class BoardPuzzleComponent implements OnInit {
     } else {
 
       await new Promise<void>((resolve, reject) => {
-        setTimeout(() => resolve(), 1000);
+        setTimeout(() => resolve(), 500);
       });
 
       this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
@@ -415,7 +431,6 @@ export class BoardPuzzleComponent implements OnInit {
     } else {
       this.currentMoveNumber++;
     }
-    // aquí setear el tablero con la siguiente jugada
     this.board.removeMarkers();
     this.board.removeArrows();
     this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, this.chessInstance.fen());
