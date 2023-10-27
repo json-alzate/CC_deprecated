@@ -16,6 +16,7 @@ export interface Puzzle {
         dangerOn: number;
         total: number;
     };
+    timeUsed?: number;
 }
 
 export interface PuzzleQueryOptions {

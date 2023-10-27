@@ -56,6 +56,8 @@ export class BoardPuzzleComponent implements OnInit {
   subsSeconds: Observable<number>;
   timerUnsubscribe$ = new Subject<void>();
 
+  timeUsed = 0;
+
 
   board;
   chessInstance = new Chess();
@@ -302,6 +304,7 @@ export class BoardPuzzleComponent implements OnInit {
     let warningColorOn = 0;
     let dangerColorOn = 0;
     this.time = 0;
+    this.timeUsed = 0;
     if (this.puzzle.times.total) {
       this.time = this.puzzle.times.total;
       warningColorOn = this.puzzle.times.warningOn;
@@ -314,10 +317,12 @@ export class BoardPuzzleComponent implements OnInit {
       takeUntil(this.timerUnsubscribe$)
     ).subscribe(() => {
 
+      this.timeUsed++;
+
       if (this.puzzle.times.total) {
         this.time--;
         if (this.time === 0) {
-          this.puzzleEndByTime.emit(this.puzzle);
+          this.puzzleEndByTime.emit({ ...this.puzzle, timeUsed: this.timeUsed });
           this.stopTimer();
         }
       } else {
@@ -348,8 +353,7 @@ export class BoardPuzzleComponent implements OnInit {
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
       this.puzzleMoveResponse();
     } else {
-
-      this.puzzleFailed.emit(this.puzzle);
+      this.puzzleFailed.emit({ ...this.puzzle, timeUsed: this.timeUsed });
       this.stopTimer();
     }
 
@@ -373,7 +377,7 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.arrayFenSolution.length === this.currentMoveNumber) {
       this.allowMoveArrows = true;
       this.currentMoveNumber--;
-      this.puzzleCompleted.emit(this.puzzle);
+      this.puzzleCompleted.emit({ ...this.puzzle, timeUsed: this.timeUsed });
       this.stopTimer();
     } else {
 
