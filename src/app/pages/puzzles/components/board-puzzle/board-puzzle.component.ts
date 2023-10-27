@@ -60,6 +60,10 @@ export class BoardPuzzleComponent implements OnInit {
   board;
   chessInstance = new Chess();
 
+  @Output() puzzleCompleted = new EventEmitter<Puzzle>();
+  @Output() puzzleFailed = new EventEmitter<Puzzle>();
+  @Output() puzzleEndByTime = new EventEmitter<Puzzle>();
+
   constructor(
     private uiService: UiService,
     private toolsService: ToolsService
@@ -293,13 +297,38 @@ export class BoardPuzzleComponent implements OnInit {
 
   // Timer --------------------------------------------
   initTimer() {
+
+    // el puzzle tiene un tiempo limite para resolverlo
+    let warningColorOn = 0;
+    let dangerColorOn = 0;
+    this.time = 0;
+    if (this.puzzle.times.total) {
+      this.time = this.puzzle.times.total;
+      warningColorOn = this.puzzle.times.warningOn;
+      dangerColorOn = this.puzzle.times.dangerOn;
+    }
+
+
     this.subsSeconds = interval(1000);
     this.subsSeconds.pipe(
       takeUntil(this.timerUnsubscribe$)
     ).subscribe(() => {
-      this.time++;
-      if (this.time === 60) {
-        this.time = 0;
+
+      if (this.puzzle.times.total) {
+        this.time--;
+        if (this.time === 0) {
+          this.puzzleEndByTime.emit(this.puzzle);
+          this.stopTimer();
+        }
+      } else {
+        this.time++;
+      }
+
+      if (this.time === warningColorOn) {
+        this.timeColor = 'warning';
+      }
+      if (this.time === dangerColorOn) {
+        this.timeColor = 'danger';
       }
     });
   }
@@ -319,9 +348,9 @@ export class BoardPuzzleComponent implements OnInit {
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
       this.puzzleMoveResponse();
     } else {
-      // TODO: puzzle resuelto incorrectamente
-      console.log('puzzle resuelto incorrectamente');
 
+      this.puzzleFailed.emit(this.puzzle);
+      this.stopTimer();
     }
 
     // Actualiza el tablero después de un movimiento de enroque
@@ -342,13 +371,10 @@ export class BoardPuzzleComponent implements OnInit {
     this.currentMoveNumber++;
 
     if (this.arrayFenSolution.length === this.currentMoveNumber) {
-
-      // TODO: puzzle resuelto
       this.allowMoveArrows = true;
       this.currentMoveNumber--;
-
-      // this.saveUserPuzzle();
-      // this.stopTimer();
+      this.puzzleCompleted.emit(this.puzzle);
+      this.stopTimer();
     } else {
 
       await new Promise<void>((resolve, reject) => {

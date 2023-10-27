@@ -32,7 +32,12 @@ export class BlockTrainingComponent implements OnInit {
     uid: '07FQY',
     nbPlays: 6011,
     openingVariation: '',
-    moves: 'h7h6 b5d7 f5d3 e2d3'
+    moves: 'h7h6 b5d7 f5d3 e2d3',
+    times: {
+      dangerOn: 15,
+      total: 60,
+      warningOn: 30
+    }
   };
   block: Block;
 
