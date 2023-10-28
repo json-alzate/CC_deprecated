@@ -37,6 +37,7 @@ export class BlockTrainingComponent implements OnInit {
     nbPlays: 6011,
     openingVariation: '',
     moves: 'h7h6 b5d7 f5d3 e2d3',
+    goshPuzzleTime: 10,
     times: {
       dangerOn: 15,
       total: 60,
@@ -61,7 +62,10 @@ export class BlockTrainingComponent implements OnInit {
   selectPuzzleToPlay() {
     // busca un puzzle del bloque que no haya sido resuelto
     // eslint-disable-next-line max-len
-    this.puzzleToPlay = this.block.puzzles.find(puzzle => !this.block.puzzlesPlayed.find(puzzlePlayed => puzzlePlayed.uidPuzzle === puzzle.uid));
+    this.puzzleToPlay = {
+      ...this.block.puzzles.find(puzzle => !this.block.puzzlesPlayed.find(puzzlePlayed => puzzlePlayed.uidPuzzle === puzzle.uid)),
+      goshPuzzleTime: this.block.goshPuzzleTime
+    };
     console.log('puzzleToPlay', this.puzzleToPlay);
 
   }

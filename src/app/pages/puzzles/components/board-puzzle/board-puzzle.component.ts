@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, Renderer2 } from '@angular/core';
 
 import {
   COLOR,
@@ -58,6 +58,8 @@ export class BoardPuzzleComponent implements OnInit {
 
   timeUsed = 0;
 
+  goshPuzzleTime = 0;
+
 
   board;
   chessInstance = new Chess();
@@ -67,6 +69,7 @@ export class BoardPuzzleComponent implements OnInit {
   @Output() puzzleEndByTime = new EventEmitter<Puzzle>();
 
   constructor(
+    private renderer: Renderer2,
     private uiService: UiService,
     private toolsService: ToolsService
   ) { }
@@ -115,6 +118,7 @@ export class BoardPuzzleComponent implements OnInit {
     this.puzzleMoveResponse();
 
     this.initTimer();
+    this.initGoshTimer();
   }
 
 
@@ -336,6 +340,31 @@ export class BoardPuzzleComponent implements OnInit {
         this.timeColor = 'danger';
       }
     });
+  }
+
+  initGoshTimer() {
+
+    this.goshPuzzleTime = this.puzzle.goshPuzzleTime || 0;
+    if (this.goshPuzzleTime > 0) {
+      // Se crea una cuenta regresiva según puzzle.goshPuzzleTime para ocultar las piezas
+      // se cancela con timerUnsubscribe$ o cuando llegue a 0
+      const subsGoshSeconds = interval(1000);
+      subsGoshSeconds.pipe(
+        takeUntil(this.timerUnsubscribe$),
+      ).subscribe(() => {
+        this.goshPuzzleTime--;
+        if (this.goshPuzzleTime === 0) {
+          const piecesLayer = this.renderer.selectRootElement('.pieces-layer');
+          this.renderer.setStyle(piecesLayer, 'visibility', 'hidden');
+          // FIXME no se vuelven  a mostrar las piezas
+          // se espera 5 segundo para mostrar las piezas
+          setTimeout(() => {
+            this.renderer.setStyle(piecesLayer, 'visibility', 'visible');
+          }, 5000);
+        }
+      });
+    }
+
   }
 
   stopTimer() {

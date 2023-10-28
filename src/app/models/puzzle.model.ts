@@ -17,6 +17,7 @@ export interface Puzzle {
         total: number;
     };
     timeUsed?: number;
+    goshPuzzleTime?: number;
 }
 
 export interface PuzzleQueryOptions {

@@ -7,6 +7,17 @@
     <ion-item>
       <ion-label [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
       <ion-buttons slot="end">
+        <ion-button size="large" fill="clear">
+
+          <span *ngIf="goshPuzzleTime < 0">
+            <ion-icon name="eye-off-outline"></ion-icon>
+          </span>
+          <span *ngIf="goshPuzzleTime > 0">
+            {{ goshPuzzleTime | secondsToMinutesSeconds: true }}
+            <ion-icon name="eye-outline"></ion-icon>
+          </span>
+
+        </ion-button>
         <ion-button fill="clear" (click)="turnRoundBoard()">
           <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
         </ion-button>
