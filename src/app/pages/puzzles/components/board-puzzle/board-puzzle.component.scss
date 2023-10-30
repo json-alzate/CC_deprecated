@@ -4,20 +4,3 @@
     margin: 0 auto;
     display: block;
 }
-
-.fade-out {
-    animation-name: fadeout;
-    animation-timing-function: ease-out;
-    animation-duration: 5s;
-    animation-fill-mode: forwards;
-}
-
-@keyframes fadeout {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-        // visibility: hidden;
-    }
-}

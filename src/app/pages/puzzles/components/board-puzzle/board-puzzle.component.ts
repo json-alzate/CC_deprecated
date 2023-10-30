@@ -91,6 +91,11 @@ export class BoardPuzzleComponent implements OnInit {
 
   initPuzzle() {
     if (this.board) {
+      // en caso de que se haya jugado un puzzle a ciegas anteriormente, se muestra las piezas
+      const pieces = document.getElementsByClassName('pieces');
+      if (pieces.length > 0) {
+        this.renderer.setStyle(pieces[0], 'opacity', '1');
+      }
       this.board.setPosition(this.puzzle.fen);
     } else {
       this.buildBoard(this.puzzle.fen);
@@ -354,13 +359,12 @@ export class BoardPuzzleComponent implements OnInit {
       ).subscribe(() => {
         this.goshPuzzleTime--;
         if (this.goshPuzzleTime === 0) {
-          const piecesLayer = this.renderer.selectRootElement('.pieces-layer');
-          this.renderer.setStyle(piecesLayer, 'visibility', 'hidden');
-          // FIXME no se vuelven  a mostrar las piezas
-          // se espera 5 segundo para mostrar las piezas
-          setTimeout(() => {
-            this.renderer.setStyle(piecesLayer, 'visibility', 'visible');
-          }, 5000);
+          // Se ocultan las piezas tomando el elemento con la clase "pieces"
+          const pieces = document.getElementsByClassName('pieces');
+          if (pieces.length > 0) {
+            this.renderer.setStyle(pieces[0], 'opacity', '0');
+          }
+
         }
       });
     }
