@@ -45,6 +45,7 @@ export class BoardPuzzleComponent implements OnInit {
 
   currentMoveNumber = 0;
   arrayFenSolution = [];
+  arrayMovesSolution = [];
   totalMoves = 0;
   allowMoveArrows = false;
   fenToCompareAndPlaySound: string;
@@ -110,9 +111,11 @@ export class BoardPuzzleComponent implements OnInit {
 
     this.arrayFenSolution = [];
     // se construye un arreglo con los fen de la solución
-    const movesArray = this.puzzle.moves.split(' ');
+    this.arrayMovesSolution = this.puzzle.moves.split(' ');
     this.arrayFenSolution.push(this.chessInstance.fen());
-    for (const move of movesArray) {
+    for (const move of this.arrayMovesSolution) {
+      console.log('move', move);
+
       this.chessInstance.move(move, { sloppy: true });
       const fen = this.chessInstance.fen();
       this.arrayFenSolution.push(fen);
@@ -185,9 +188,10 @@ export class BoardPuzzleComponent implements OnInit {
           if ((event.squareTo.charAt(1) === '8' || event.squareTo.charAt(1) === '1') && event.piece.charAt(1) === 'p') {
 
             const colorToShow = event.piece.charAt(0) === 'w' ? COLOR.white : COLOR.black;
-
+            // FIXME: se puede promocionar  si se toma un peon y se lleva con el mause a la ultima fila
             this.board.showPromotionDialog(event.squareTo, colorToShow, (result) => {
               if (result && result.piece) {
+                // FIXME: No valida la coronación con chess.js
                 this.board.setPiece(result.square, result.piece, true);
                 // remover la piece de la casilla de origen
                 this.board.setPiece(event.squareFrom, undefined, true);
@@ -216,6 +220,7 @@ export class BoardPuzzleComponent implements OnInit {
         case 'moveInputFinished':
           this.board.removeMarkers();
           this.board.removeArrows();
+          this.showLastMove();
           break;
         default:
           return true;
@@ -293,10 +298,12 @@ export class BoardPuzzleComponent implements OnInit {
 
 
         const markersOnSquare = this.board.getMarkers(undefined, event.square);
-        if (markersOnSquare.length > 0) {
+        console.log('markersOnSquare', markersOnSquare);
+
+        // remueve las marcas de la casilla diferentes a la del id 'lastMove'
+        if (markersOnSquare.length > 0 && markersOnSquare[0].id !== 'lastMove') {
           this.board.removeMarkers(undefined, event.square);
         } else {
-
           this.board.addMarker(myOwnMarker, event.square);
         }
 
@@ -304,6 +311,22 @@ export class BoardPuzzleComponent implements OnInit {
       }
     });
 
+  }
+
+  // Muestra la ultima jugada utilizando marcadores
+  showLastMove(from?: string, to?: string) {
+    const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
+    this.board.removeMarkers(marker);
+    if (!from && !to) {
+      // eslint-disable-next-line max-len
+      from = this.chessInstance.history({ verbose: true }).slice(-1)[0]?.from;
+      to = this.chessInstance.history({ verbose: true }).slice(-1)[0]?.to;
+
+    }
+    this.board.addMarker(marker, from);
+    this.board.addMarker(marker, to);
+
+    console.log(this.board.getMarkers());
   }
 
   // Timer --------------------------------------------
@@ -426,6 +449,9 @@ export class BoardPuzzleComponent implements OnInit {
       this.board.removeArrows();
 
       await this.board.setPosition(fen, true);
+      const from = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(0, 2);
+      const to = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(2, 4);
+      this.showLastMove(from, to);
 
     }
 
