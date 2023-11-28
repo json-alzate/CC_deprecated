@@ -37,11 +37,11 @@ export class BlockTrainingComponent implements OnInit {
     nbPlays: 6011,
     openingVariation: '',
     moves: 'h7h6 b5d7 f5d3 e2d3',
-    goshPuzzleTime: 0,
+    goshPuzzleTime: 10,
     times: {
       dangerOn: 15,
       total: 60,
-      warningOn: 30
+      warningOn: 50
     }
   };
   block: Block;

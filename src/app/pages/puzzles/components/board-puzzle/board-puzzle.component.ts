@@ -117,8 +117,6 @@ export class BoardPuzzleComponent implements OnInit {
     this.arrayMovesSolution = this.puzzle.moves.split(' ');
     this.arrayFenSolution.push(this.chessInstance.fen());
     for (const move of this.arrayMovesSolution) {
-      console.log('move', move);
-
       this.chessInstance.move(move, { sloppy: true });
       const fen = this.chessInstance.fen();
       this.arrayFenSolution.push(fen);
@@ -213,7 +211,6 @@ export class BoardPuzzleComponent implements OnInit {
           const theMove = this.chessInstance.move(objectMove);
 
           if (theMove) {
-            this.board.removeMarkers();
             this.board.removeArrows();
             this.showLastMove();
             this.validateMove();
@@ -302,7 +299,6 @@ export class BoardPuzzleComponent implements OnInit {
 
 
         const markersOnSquare = this.board.getMarkers(undefined, event.square);
-        console.log('markersOnSquare', markersOnSquare);
 
         // remueve las marcas de la casilla diferentes a la del id 'lastMove'
         if (markersOnSquare.length > 1) {
@@ -327,7 +323,6 @@ export class BoardPuzzleComponent implements OnInit {
     }
     markersOnSquare.forEach(marker => {
       if (marker.type.id !== 'lastMove') {
-        console.log('marker.type.id', marker.type.id);
         this.board.removeMarkers(marker.type, square);
       }
     });
@@ -337,18 +332,24 @@ export class BoardPuzzleComponent implements OnInit {
 
   // Muestra la ultima jugada utilizando marcadores
   showLastMove(from?: string, to?: string) {
-    const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
-    this.board.removeMarkers(marker);
+    this.board.removeMarkers();
     if (!from && !to) {
       // eslint-disable-next-line max-len
       from = this.chessInstance.history({ verbose: true }).slice(-1)[0]?.from;
       to = this.chessInstance.history({ verbose: true }).slice(-1)[0]?.to;
 
-    }
-    this.board.addMarker(marker, from);
-    this.board.addMarker(marker, to);
+      if (!from || !to) {
+        from = this.arrayMovesSolution[this.currentMoveNumber - 1]?.slice(0, 2);
+        to = this.arrayMovesSolution[this.currentMoveNumber - 1]?.slice(2, 4);
+      }
 
-    console.log('loggg ', this.board.getMarkers());
+    }
+    if (from && to) {
+      const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
+      this.board.addMarker(marker, from);
+      this.board.addMarker(marker, to);
+    }
+
   }
 
   // Timer --------------------------------------------
@@ -398,9 +399,10 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.goshPuzzleTime > 0) {
       // Se crea una cuenta regresiva según puzzle.goshPuzzleTime para ocultar las piezas
       // se cancela con timerUnsubscribe$ o cuando llegue a 0
+      const goshUnsubscribe$ = new Subject<void>();
       const subsGoshSeconds = interval(1000);
       subsGoshSeconds.pipe(
-        takeUntil(this.timerUnsubscribe$),
+        takeUntil(this.timerUnsubscribe$ || goshUnsubscribe$),
       ).subscribe(() => {
         this.goshPuzzleTime--;
         if (this.goshPuzzleTime === 0) {
@@ -409,7 +411,7 @@ export class BoardPuzzleComponent implements OnInit {
           if (pieces.length > 0) {
             this.renderer.setStyle(pieces[0], 'opacity', '0');
           }
-
+          goshUnsubscribe$.next();
         }
       });
     }
@@ -528,7 +530,7 @@ export class BoardPuzzleComponent implements OnInit {
     this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, this.chessInstance.fen());
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
-    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.showLastMove();
   }
 
   /**
@@ -548,7 +550,7 @@ export class BoardPuzzleComponent implements OnInit {
     this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.fenToCompareAndPlaySound = this.chessInstance.fen();
-
+    this.showLastMove();
   }
 
   moveToEnd() {
@@ -558,6 +560,7 @@ export class BoardPuzzleComponent implements OnInit {
     this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.fenToCompareAndPlaySound = this.chessInstance.fen();
+    this.showLastMove();
   }
 
 }
