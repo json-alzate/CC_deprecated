@@ -34,6 +34,9 @@ interface UISettings {
 import { UiService } from '@services/ui.service';
 import { ToolsService } from '@services/tools.service';
 
+// Utils
+import { createUid } from '@utils/create-uid';
+
 @Component({
   selector: 'app-board-puzzle',
   templateUrl: './board-puzzle.component.html',
@@ -167,10 +170,10 @@ export class BoardPuzzleComponent implements OnInit {
       switch (event.type) {
 
         case 'moveInputStarted':
-          // mostrar indicadores para donde se puede mover la pieza
-          this.board.removeMarkers();
+          this.removeMarkerNotLastMove(event.square);
           this.board.removeArrows();
 
+          // mostrar indicadores para donde se puede mover la pieza
           if (this.chessInstance.moves({ square: event.square }).length > 0) {
             // adiciona el marcador para la casilla seleccionada
             const markerSquareSelected = { class: 'marker-square-green', slice: 'markerSquare' };
@@ -210,6 +213,9 @@ export class BoardPuzzleComponent implements OnInit {
           const theMove = this.chessInstance.move(objectMove);
 
           if (theMove) {
+            this.board.removeMarkers();
+            this.board.removeArrows();
+            this.showLastMove();
             this.validateMove();
           }
           // return true, if input is accepted/valid, `false` takes the move back
@@ -218,10 +224,8 @@ export class BoardPuzzleComponent implements OnInit {
           // hide the indicators
           return true;
         case 'moveInputFinished':
-          this.board.removeMarkers();
-          this.board.removeArrows();
-          this.showLastMove();
-          break;
+
+          return true;
         default:
           return true;
       }
@@ -241,7 +245,7 @@ export class BoardPuzzleComponent implements OnInit {
         startSquare = event.square;
       }
 
-
+      // Dibujar flechas
       if (event.mouseEvent.type === 'mouseup' && event.mouseEvent.which === 3) { // liberar click derecho
         endSquare = event.square;
 
@@ -273,7 +277,7 @@ export class BoardPuzzleComponent implements OnInit {
 
         if (!this.chessInstance.get(event.square)) {
           this.board.removeArrows();
-          this.board.removeMarkers();
+          this.removeMarkerNotLastMove();
         }
 
       }
@@ -289,8 +293,8 @@ export class BoardPuzzleComponent implements OnInit {
         } else if (altKeyPressed) {
           classCircle = 'marker-circle-yellow';
         }
-
-        let myOwnMarker = { class: classCircle, slice: 'markerCircle' };
+        // id debe ser único, random
+        let myOwnMarker = { id: createUid(), class: classCircle, slice: 'markerCircle' };
 
         if (ctrKeyPressed && shiftKeyPressed && altKeyPressed) {
           myOwnMarker = MARKER_TYPE.frame;
@@ -301,8 +305,8 @@ export class BoardPuzzleComponent implements OnInit {
         console.log('markersOnSquare', markersOnSquare);
 
         // remueve las marcas de la casilla diferentes a la del id 'lastMove'
-        if (markersOnSquare.length > 0 && markersOnSquare[0].id !== 'lastMove') {
-          this.board.removeMarkers(undefined, event.square);
+        if (markersOnSquare.length > 1) {
+          this.removeMarkerNotLastMove(event.square);
         } else {
           this.board.addMarker(myOwnMarker, event.square);
         }
@@ -310,6 +314,24 @@ export class BoardPuzzleComponent implements OnInit {
 
       }
     });
+
+  }
+
+  removeMarkerNotLastMove(square?: string) {
+
+    let markersOnSquare = [];
+    if (square) {
+      markersOnSquare = this.board.getMarkers(undefined, square);
+    } else {
+      markersOnSquare = this.board.getMarkers();
+    }
+    markersOnSquare.forEach(marker => {
+      if (marker.type.id !== 'lastMove') {
+        console.log('marker.type.id', marker.type.id);
+        this.board.removeMarkers(marker.type, square);
+      }
+    });
+
 
   }
 
@@ -326,7 +348,7 @@ export class BoardPuzzleComponent implements OnInit {
     this.board.addMarker(marker, from);
     this.board.addMarker(marker, to);
 
-    console.log(this.board.getMarkers());
+    console.log('loggg ', this.board.getMarkers());
   }
 
   // Timer --------------------------------------------
