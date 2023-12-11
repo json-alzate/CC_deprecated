@@ -1,11 +1,11 @@
 import { TrainingComponent } from './training/training.component';
-import { TitanMenuComponent } from './titan-menu/titan-menu.component';
+import { TrainingMenuComponent } from './training-menu/training-menu.component';
 import { BlockTrainingComponent } from './block-training/block-training.component';
 
 
 export const CONTAINERS: any[] = [
     TrainingComponent,
-    TitanMenuComponent,
+    TrainingMenuComponent,
     BlockTrainingComponent
 ];
 

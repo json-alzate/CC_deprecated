@@ -3,11 +3,11 @@ import { NavController } from '@ionic/angular';
 
 
 @Component({
-  selector: 'app-titan-menu',
-  templateUrl: './titan-menu.component.html',
-  styleUrls: ['./titan-menu.component.scss'],
+  selector: 'app-training-menu',
+  templateUrl: './training-menu.component.html',
+  styleUrls: ['./training-menu.component.scss'],
 })
-export class TitanMenuComponent implements OnInit {
+export class TrainingMenuComponent implements OnInit {
 
   constructor(
     private navController: NavController
