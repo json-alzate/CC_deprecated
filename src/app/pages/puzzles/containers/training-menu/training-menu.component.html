@@ -4,7 +4,8 @@
   <ion-grid fixed class="ion-margin-top">
     <ion-row>
       <ion-col size="12">
-        <ion-card>
+        <ion-card class="ion-activatable" (click)="createPlan(0)">
+          <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
               <ion-text color="dark">
@@ -19,39 +20,35 @@
     <ion-row>
       <ion-col size="4">
 
-        <ion-card>
+        <ion-card class="ion-activatable" (click)="createPlan(5)">
+          <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
               <ion-text color="dark">
                 <h1 class="ion-text-center">5</h1>
               </ion-text>
             </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
           </ion-card-header>
         </ion-card>
 
       </ion-col>
       <ion-col size="4">
 
-        <ion-card>
+        <ion-card class="ion-activatable" (click)="createPlan(10)">
+          <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
               <ion-text color="dark">
                 <h1 class="ion-text-center">10</h1>
               </ion-text>
             </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
           </ion-card-header>
         </ion-card>
 
       </ion-col>
       <ion-col size="4">
 
-        <ion-card class="ion-activatable ripple-parent" (click)="goTo('/puzzles/portion')">
+        <ion-card class="ion-activatable ripple-parent" (click)="createPlan(101)">
           <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
@@ -61,9 +58,7 @@
                 </h2>
               </ion-text>
             </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Trozo
-            </ion-card-subtitle>
+
           </ion-card-header>
         </ion-card>
 
@@ -74,39 +69,36 @@
     <ion-row>
       <ion-col size="4">
 
-        <ion-card>
+        <ion-card class="ion-activatable" (click)="createPlan(20)">
+          <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
               <ion-text color="dark">
                 <h1 class="ion-text-center">20</h1>
               </ion-text>
             </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
           </ion-card-header>
         </ion-card>
 
       </ion-col>
       <ion-col size="4">
 
-        <ion-card>
+        <ion-card class="ion-activatable" (click)="createPlan(30)">
+          <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
               <ion-text color="dark">
                 <h1 class="ion-text-center">30</h1>
               </ion-text>
             </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
           </ion-card-header>
         </ion-card>
 
       </ion-col>
       <ion-col size="4">
 
-        <ion-card>
+        <ion-card class="ion-activatable" (click)="createPlan(200)">
+          <ion-ripple-effect></ion-ripple-effect>
           <ion-card-header>
             <ion-card-title>
               <ion-text color="dark">
@@ -115,9 +107,6 @@
                 </h1>
               </ion-text>
             </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Personalizado
-            </ion-card-subtitle>
           </ion-card-header>
         </ion-card>
 

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 
+import { Plan, Block } from '@models/plan.model';
+import { PlanService } from '@services/plan.service';
+import { BlockService } from '@services/block.service';
 
 @Component({
   selector: 'app-training-menu',
@@ -9,11 +12,23 @@ import { NavController } from '@ionic/angular';
 })
 export class TrainingMenuComponent implements OnInit {
 
+
   constructor(
-    private navController: NavController
+    private navController: NavController,
+    private planService: PlanService,
+    private blockService: BlockService
   ) { }
 
   ngOnInit() { }
+
+  async createPlan(option: number) {
+
+
+    const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
+
+    const newPlan: Plan = await this.planService.newPlan(blocks);
+
+  }
 
   goTo(path: string) {
     this.navController.navigateForward(path);
