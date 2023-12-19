@@ -162,7 +162,12 @@ export class BlockSettingsComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
+
+    const themesValue = this.form.value.themes;
     // emit new block
-    this.newBlock.emit({ ...this.form.value, color: this.color, themes: [this.form.value.themes] });
+
+    this.newBlock.emit({ ...this.form.value, color: this.color, themes: themesValue !== 'all' ? [themesValue] : [] });
+
+
   }
 }

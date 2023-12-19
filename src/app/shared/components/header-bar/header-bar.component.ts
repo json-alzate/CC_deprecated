@@ -33,7 +33,8 @@ export class HeaderBarComponent implements OnInit {
   @Input() title: string;
 
   profile$: Observable<Profile>;
-
+  // FIXME: cuando se navega por varias paginas, deja de funcionar el boton que lanza
+  // las opciones de login
   constructor(
     private store: Store<AuthState>,
     private menuController: MenuController,

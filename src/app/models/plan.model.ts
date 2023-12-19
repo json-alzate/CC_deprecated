@@ -1,4 +1,5 @@
 import { Puzzle } from './puzzle.model';
+import { UserPuzzle } from './user-puzzles.model';
 
 export interface Block {
     time: number; // in seconds (-1 for infinite)
@@ -10,6 +11,7 @@ export interface Block {
     color: 'white' | 'black' | 'random';
     puzzleTime: number;
     puzzles?: Puzzle[];
+    puzzlesPlayed?: UserPuzzle[];
     showPuzzleSolution?: boolean;
     nextPuzzleImmediately?: boolean;
     goshPuzzle?: boolean;

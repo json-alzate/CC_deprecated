@@ -51,7 +51,7 @@
         </ion-menu-toggle>
 
         <ion-menu-toggle>
-          <ion-item button (click)="goTo('/puzzles/titan')" detail="false">
+          <ion-item button (click)="goTo('/puzzles/training-menu')" detail="false">
             <ion-icon name="barbell-outline" slot="start"></ion-icon>
             <ion-label>Entrenamiento</ion-label>
           </ion-item>
@@ -128,6 +128,9 @@
       </ion-toolbar>
     </ion-footer>
   </ion-menu>
+
+  <app-header-bar></app-header-bar>
+
 
   <ion-router-outlet id="main"></ion-router-outlet>
 </ion-app>
