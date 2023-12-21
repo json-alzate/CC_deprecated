@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Plan, Block } from '@models/plan.model';
 
+import { createUid } from '@utils/create-uid';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -8,13 +10,18 @@ export class PlanService {
 
   constructor() { }
 
-  newPlan(blocks: Block[]): Promise<Plan> {
+  /**
+   *
+   * @param blocks
+   * @param time in seconds (-1 for infinite)
+   * */
+  newPlan(blocks: Block[], time = -1): Promise<Plan> {
 
     return new Promise((resolve, reject) => {
 
       const plan: Plan = {
-        uid: '123456',
-        time: 60,
+        uid: createUid(),
+        time,
         blocks
       };
 
