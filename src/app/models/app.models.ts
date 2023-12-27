@@ -12,3 +12,8 @@ export interface AppPuzzlesThemes {
     value: string; // Name to send to the DB query
 };
 
+export interface Opening {
+    name: string;
+    value: number;
+}
+

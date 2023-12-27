@@ -9,7 +9,11 @@ export interface Block {
     eloStart: number;
     eloEnd: number;
     color: 'white' | 'black' | 'random';
-    puzzleTime: number;
+    puzzleTimes?: {
+        warningOn: number; // in seconds, -1 for off
+        dangerOn: number; // in seconds, -1 for off
+        total: number; // in seconds, -1 for off
+    };
     puzzles?: Puzzle[];
     puzzlesPlayed?: UserPuzzle[];
     showPuzzleSolution?: boolean;

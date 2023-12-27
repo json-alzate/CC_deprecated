@@ -92,6 +92,7 @@ export class AppComponent {
 
     this.initFirebase();
     this.appService.loadThemesPuzzle();
+    this.appService.loadOpenings();
     this.toolsService.loadFlags();
     this.fcmService.initPush();
   }

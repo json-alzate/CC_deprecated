@@ -6,15 +6,18 @@ import { Profile } from '@models/profile.model';
 
 import { PuzzlesService } from '@services/puzzles.service';
 import { ProfileService } from '@services/profile.service';
+import { AppService } from '@services/app.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BlockService {
 
+
   constructor(
     private puzzlesService: PuzzlesService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private appService: AppService
   ) { }
 
   async generateBlockOfPuzzles(blockSettings: Block): Promise<Puzzle[]> {
@@ -60,42 +63,103 @@ export class BlockService {
           //  2 minutos de mates en 1 (elo - 500) / tiempo por puzzle = 10 segundos
           //  1 minuto de mates en 2 / tiempo por puzzle = 10 segundos
           // 1 ejercicio de mate
-          const mateIn1Elo = profile?.elos?.warmup['mateIn1'];
-          const blocks: Block[] = [
+          const color0 = Math.random() > 0.5 ? 'white' : 'black';
+          const mateIn1Elo0 = profile?.elos?.warmup['mateIn1'];
+          const mateIn2Elo0 = profile?.elos?.warmup['mateIn2'];
+          const mateElo0 = profile?.elos?.warmup['mate'];
+
+          const blocks0: Block[] = [
             {
               time: 120,
               puzzlesCount: 0,
               themes: ['mateIn1'],
-              eloStart: mateIn1Elo ? mateIn1Elo - 600 : defaultEloStart,
-              eloEnd: (mateIn1Elo ?? defaultElo) - 500,
-              color: 'random',
-              puzzleTime: 10
+              eloStart: mateIn1Elo0 ? mateIn1Elo0 - 600 : defaultEloStart - 600,
+              eloEnd: mateIn1Elo0 ? mateIn1Elo0 - 500 : defaultElo - 500,
+              color: color0,
+              puzzleTimes: {
+                warningOn: 6,
+                dangerOn: 3,
+                total: 10
+              },
+              nextPuzzleImmediately: true
             },
             {
-              time: 60,
-              puzzlesCount: 6,
-              themes: ['mate'],
-              eloStart: 500,
-              eloEnd: 500,
-              color: 'random',
-              puzzleTime: 10
+              time: 120,
+              puzzlesCount: 0,
+              themes: ['mateIn2'],
+              eloStart: mateIn2Elo0 ? mateIn2Elo0 - 100 : defaultEloStart,
+              eloEnd: (mateIn2Elo0 ?? defaultElo),
+              color: color0,
+              puzzleTimes: {
+                warningOn: 6,
+                dangerOn: 3,
+                total: 10
+              },
+              nextPuzzleImmediately: true
             },
             {
-              time: 60,
+              time: -1,
               puzzlesCount: 1,
               themes: ['mate'],
-              eloStart: 500,
-              eloEnd: 500,
-              color: 'random',
-              puzzleTime: 60
+              eloStart: mateElo0 ? mateElo0 : defaultEloStart,
+              eloEnd: (mateElo0 ?? defaultElo),
+              color: color0
             }
           ];
+          resolve(blocks0);
           break;
         case 5:
           /* No Muestra soluciones / un mismo color
               - tema random = t 2.5 minutos / 15 segundos por puzzle
               - tema debilidades (elo - 200) = t 2.5 minutos / 30 segundos por puzzle
           */
+          const color5 = Math.random() > 0.5 ? 'white' : 'black';
+          // obtener el tema random , asignando una posición aleatoria de un array
+          const themeRandom5 = this.appService.getThemesPuzzlesList[
+            Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+          ];
+          if (!themeRandom5) {
+            reject('No se pudo obtener el tema random themeRandom5');
+          }
+          // se busca el elo del usuario según el string del temaRandom5
+          const themeRandomElo5 = profile?.elos?.plan5[themeRandom5];
+          // se elige el elo mas bajo que el usuario tenga en el plan5, sino se asigna el elo por defecto
+          let weakness5 = this.profileService.getWeaknessTheme(profile?.elos?.plan5);
+          if (!weakness5) {
+            weakness5 = this.appService.getThemesPuzzlesList[
+              Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+            ];
+          }
+          const block5: Block[] = [
+            {
+              time: 150,
+              puzzlesCount: 0,
+              themes: [themeRandom5],
+              eloStart: themeRandomElo5 ? themeRandomElo5 - 100 : defaultEloStart,
+              eloEnd: themeRandomElo5 ? themeRandomElo5 + 100 : defaultElo + 100,
+              color: color5,
+              puzzleTimes: {
+                warningOn: 12,
+                dangerOn: 6,
+                total: 15
+              },
+              nextPuzzleImmediately: true
+            },
+            {
+              time: 150,
+              puzzlesCount: 0,
+              themes: [weakness5],
+              eloStart: profile?.elos?.plan5[weakness5] ? profile?.elos?.plan5[weakness5] - 200 : defaultEloStart,
+              eloEnd: (profile?.elos?.plan5[weakness5] ?? defaultElo) - 200,
+              color: color5,
+              puzzleTimes: {
+                warningOn: 24,
+                dangerOn: 12,
+                total: 30
+              },
+              nextPuzzleImmediately: true
+            }
+          ];
           break;
         case 10:
 
@@ -106,7 +170,23 @@ export class BlockService {
            * - mismo tema random = t 1 minuto / 20 segundos por puzzle
            * - misma apertura + finales = t 2 minutos / 60 segundos por puzzle
            */
-
+          const color10 = Math.random() > 0.5 ? 'white' : 'black';
+          // obtener el tema random , asignando una posición aleatoria de un array
+          const themeRandom10 = this.appService.getThemesPuzzlesList[
+            Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+          ];
+          if (!themeRandom10) {
+            reject('No se pudo obtener el tema random themeRandom10');
+          }
+          // se busca el elo del usuario según el string del themeRandom10
+          const themeRandomElo10 = profile?.elos?.plan5[themeRandom10];
+          // se elige el elo mas bajo que el usuario tenga en el plan10, sino se asigna el elo por defecto
+          let weakness10 = this.profileService.getWeaknessTheme(profile?.elos?.plan10);
+          if (!weakness10) {
+            weakness10 = this.appService.getThemesPuzzlesList[
+              Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+            ];
+          }
           break;
         case 20:
           /** Muestra soluciones / cambio de color
