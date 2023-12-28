@@ -49,23 +49,23 @@ export class ProfileService {
 
   /**
    *
-   * @param themes : { [key: string]: number; }
+   * @param themes : or Openings { [key: string]: number; }
    * @returns Return theme with the lowest value
    */
-  public getWeaknessTheme(themes: {
+  public getWeakness(themes: {
     [key: string]: number;
   }): string {
-    let weakness5;
+    let weakness;
     if (themes) {
       Object.keys(themes).forEach(key => {
-        if (!weakness5) {
-          weakness5 = themes[key];
-        } else if (themes[key] < weakness5) {
-          weakness5 = themes[key];
+        if (!weakness) {
+          weakness = themes[key];
+        } else if (themes[key] < weakness) {
+          weakness = themes[key];
         }
       });
     }
-    return weakness5;
+    return weakness;
   }
 
   // subscribe to profile

@@ -124,7 +124,7 @@ export class BlockService {
           // se busca el elo del usuario según el string del temaRandom5
           const themeRandomElo5 = profile?.elos?.plan5[themeRandom5];
           // se elige el elo mas bajo que el usuario tenga en el plan5, sino se asigna el elo por defecto
-          let weakness5 = this.profileService.getWeaknessTheme(profile?.elos?.plan5);
+          let weakness5 = this.profileService.getWeakness(profile?.elos?.plan5);
           if (!weakness5) {
             weakness5 = this.appService.getThemesPuzzlesList[
               Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
@@ -160,33 +160,144 @@ export class BlockService {
               nextPuzzleImmediately: true
             }
           ];
+          resolve(block5);
           break;
         case 10:
 
           /** No Muestra soluciones / un mismo color
            * - tema random || debilidades = t 2 minutos / 15 segundos por puzzle (elo - 100)
            * - apertura random || apertura débil = t 2 minutos / 30 segundos por puzzle
-           * - misma apertura + mismo tema random = t 3 minutos / 60 segundos por puzzle
-           * - mismo tema random = t 1 minuto / 20 segundos por puzzle
+           * - misma apertura + mismo tema  = t 3 minutos / 60 segundos por puzzle
+           * - mismo tema = t 1 minuto / 20 segundos por puzzle
            * - misma apertura + finales = t 2 minutos / 60 segundos por puzzle
            */
           const color10 = Math.random() > 0.5 ? 'white' : 'black';
-          // obtener el tema random , asignando una posición aleatoria de un array
-          const themeRandom10 = this.appService.getThemesPuzzlesList[
-            Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-          ];
-          if (!themeRandom10) {
-            reject('No se pudo obtener el tema random themeRandom10');
-          }
-          // se busca el elo del usuario según el string del themeRandom10
-          const themeRandomElo10 = profile?.elos?.plan5[themeRandom10];
-          // se elige el elo mas bajo que el usuario tenga en el plan10, sino se asigna el elo por defecto
-          let weakness10 = this.profileService.getWeaknessTheme(profile?.elos?.plan10);
-          if (!weakness10) {
-            weakness10 = this.appService.getThemesPuzzlesList[
+
+          let theme10: string;
+          let opening10: string;
+          if (Math.random() < 0.5) { // tema random o debilidad
+            // tema random
+            // obtener el tema random , asignando una posición aleatoria de un array
+            theme10 = this.appService.getThemesPuzzlesList[
               Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
             ];
+            if (!theme10) {
+              reject('No se pudo obtener el tema random theme10');
+            }
+
+          } else {
+            // tema debilidad
+            // se elige el tema con el elo mas bajo que el usuario tenga en el plan10,
+            // sino elige un tema random de la lista de temas
+            theme10 = this.profileService.getWeakness(profile?.elos?.plan10);
+            if (!theme10) {
+              theme10 = this.appService.getThemesPuzzlesList[
+                Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+              ];
+            }
+
           }
+          // se busca el elo del usuario según el string del theme10
+          const eloTheme10 = profile?.elos?.plan10[theme10];
+
+          if (Math.random() < 0.5) { // apertura random o debilidad
+            // apertura random
+            opening10 = this.appService.getOpeningsList[
+              Math.floor(Math.random() * this.appService.getOpeningsList.length)
+            ].name;
+            if (!opening10) {
+              reject('No se pudo obtener la apertura random opening10');
+            }
+
+          } else {
+            // se elige la apertura con el elo mas bajo que el usuario tenga en el plan10,
+            // sino elige una apertura random de la lista de aperturas
+            opening10 = this.profileService.getWeakness(profile?.elos?.plan10Openings);
+            if (!opening10) {
+              opening10 = this.appService.getOpeningsList[
+                Math.floor(Math.random() * this.appService.getOpeningsList.length)
+              ].name;
+            }
+          }
+          // se busca el elo del usuario según el string de la opening10
+          const eloOpening10 = profile?.elos?.plan10Openings[opening10];
+
+          const block10: Block[] = [
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: [theme10],
+              eloStart: eloTheme10 ? eloTheme10 - 100 : defaultEloStart,
+              eloEnd: eloTheme10 ? eloTheme10 + 100 : defaultElo + 100,
+              color: color10,
+              puzzleTimes: {
+                warningOn: 12,
+                dangerOn: 6,
+                total: 15
+              },
+              nextPuzzleImmediately: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: [],
+              openingFamily: opening10,
+              eloStart: eloOpening10 ? eloOpening10 : defaultEloStart,
+              eloEnd: eloOpening10 ? eloOpening10 : defaultElo,
+              color: color10,
+              puzzleTimes: {
+                warningOn: 15,
+                dangerOn: 8,
+                total: 30
+              },
+              nextPuzzleImmediately: true
+            },
+            {
+              time: 180,
+              puzzlesCount: 0,
+              themes: [theme10],
+              openingFamily: opening10,
+              eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
+              eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
+              color: color10,
+              puzzleTimes: {
+                warningOn: 30,
+                dangerOn: 15,
+                total: 60
+              },
+              nextPuzzleImmediately: true
+            },
+            {
+              time: 60,
+              puzzlesCount: 0,
+              themes: [theme10],
+              eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
+              eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
+              color: color10,
+              puzzleTimes: {
+                warningOn: 12,
+                dangerOn: 6,
+                total: 20
+              },
+              nextPuzzleImmediately: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: [theme10, 'endgame'],
+              eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
+              eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
+              color: color10,
+              puzzleTimes: {
+                warningOn: 30,
+                dangerOn: 15,
+                total: 60
+              },
+              nextPuzzleImmediately: true
+            }
+          ];
+
+          resolve(block10);
           break;
         case 20:
           /** Muestra soluciones / cambio de color
