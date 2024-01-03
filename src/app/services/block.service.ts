@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 
 import { Puzzle, PuzzleQueryOptions } from '../models/puzzle.model';
@@ -177,47 +178,27 @@ export class BlockService {
           let opening10: string;
           if (Math.random() < 0.5) { // tema random o debilidad
             // tema random
-            // obtener el tema random , asignando una posición aleatoria de un array
-            theme10 = this.appService.getThemesPuzzlesList[
-              Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-            ];
+            theme10 = this.getRandomTheme();
             if (!theme10) {
               reject('No se pudo obtener el tema random theme10');
             }
 
           } else {
             // tema debilidad
-            // se elige el tema con el elo mas bajo que el usuario tenga en el plan10,
-            // sino elige un tema random de la lista de temas
-            theme10 = this.profileService.getWeakness(profile?.elos?.plan10);
-            if (!theme10) {
-              theme10 = this.appService.getThemesPuzzlesList[
-                Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-              ];
-            }
-
+            theme10 = this.getWeaknessInPlan(profile?.elos?.plan10);
           }
           // se busca el elo del usuario según el string del theme10
           const eloTheme10 = profile?.elos?.plan10[theme10];
-
           if (Math.random() < 0.5) { // apertura random o debilidad
             // apertura random
-            opening10 = this.appService.getOpeningsList[
-              Math.floor(Math.random() * this.appService.getOpeningsList.length)
-            ].name;
+            opening10 = this.getRandomOpening();
             if (!opening10) {
               reject('No se pudo obtener la apertura random opening10');
             }
 
           } else {
             // se elige la apertura con el elo mas bajo que el usuario tenga en el plan10,
-            // sino elige una apertura random de la lista de aperturas
-            opening10 = this.profileService.getWeakness(profile?.elos?.plan10Openings);
-            if (!opening10) {
-              opening10 = this.appService.getOpeningsList[
-                Math.floor(Math.random() * this.appService.getOpeningsList.length)
-              ].name;
-            }
+            opening10 = this.getWeaknessInPlanOpenings(profile?.elos?.plan10Openings);
           }
           // se busca el elo del usuario según el string de la opening10
           const eloOpening10 = profile?.elos?.plan10Openings[opening10];
@@ -301,28 +282,299 @@ export class BlockService {
           break;
         case 20:
           /** Muestra soluciones / cambio de color
-           * - debilidades = t 3 minutos / 40 segundos por puzzle (elo - 500)
-           * - tema random = t 5 minutos / 3 minutos por puzzle
-           * - mate en 1 = t 2 minutos / 30 segundos por puzzle
-           * - mismo tema random = t 2 minutos / 50 segundos por puzzle (elo - 300)
-           * - mismo tema random = t 2 minuto / 50 segundos por puzzle (elo + 200)
+           * -  debilidades = t 3 minutos / 40 segundos por puzzle (elo - 500)
+           * -  tema random = t 5 minutos / 3 minutos por puzzle
+           * -  mate en 1 = t 2 minutos / 10 segundos por puzzle
+           * -  mismo tema random = t 2 minutos / 50 segundos por puzzle (elo - 300)
+           * -  mismo tema random = t 2 minuto / 50 segundos por puzzle (elo + 200)
            * - mismo tema random = t 1 minuto / 15 segundos por puzzle (elo - 800)
            *    ||  mismo tema random a ciegas 10 segundos = t 1 minuto / 60 segundos por puzzle
            * - finales = t 3 minutos / 60 segundos por puzzle
            * - mate 3 = t 2 minutos / 60 segundos por puzzle
            * */
 
+          const theme20Random = this.getRandomTheme();
+          const themeWeakness20 = this.getWeaknessInPlan(profile?.elos?.plan20);
+          const eloThemeWeakness20 = profile?.elos?.plan20[themeWeakness20];
+          const eloTheme20Random = profile?.elos?.plan20[theme20Random];
+          const eloMateIn120 = profile?.elos?.plan20['mateIn1'];
+          const eloEndgame20 = profile?.elos?.plan20['endgame'];
+          const eloMateIn320 = profile?.elos?.plan20['mateIn3'];
+
+          let randomBlockOrBlind: Block;
+
+          if (Math.random() < 0.5 ? true : false) {
+            // tema a ciegas
+            randomBlockOrBlind = {
+              time: 60,
+              puzzlesCount: 0,
+              themes: [theme20Random],
+              eloStart: eloTheme20Random ? eloTheme20Random - 800 : defaultElo - 800,
+              eloEnd: eloTheme20Random ? eloTheme20Random - 700 : defaultElo - 700,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 8,
+                dangerOn: 5,
+                total: 15
+              },
+              nextPuzzleImmediately: true
+            };
+
+          } else {
+            randomBlockOrBlind = {
+              time: 60,
+              puzzlesCount: 0,
+              themes: [theme20Random],
+              eloStart: eloTheme20Random ? eloTheme20Random - 800 : defaultElo - 800,
+              eloEnd: eloTheme20Random ? eloTheme20Random - 700 : defaultElo - 700,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 24,
+                dangerOn: 12,
+                total: 60
+              },
+              goshPuzzle: true,
+              goshPuzzleTime: 10,
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            };
+          }
+
+
+          const block20: Block[] = [
+            {
+              time: 180,
+              puzzlesCount: 0,
+              themes: [theme10],
+              eloStart: eloThemeWeakness20 ? eloThemeWeakness20 - 600 : defaultEloStart,
+              eloEnd: eloThemeWeakness20 ? eloThemeWeakness20 - 500 : defaultElo + 100,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 24,
+                dangerOn: 12,
+                total: 40
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 300,
+              puzzlesCount: 0,
+              themes: [theme20Random],
+              eloStart: eloTheme20Random ? eloTheme20Random : defaultElo,
+              eloEnd: eloTheme20Random ? eloTheme20Random + 100 : defaultElo + 100,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 50,
+                dangerOn: 20,
+                total: 240
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: ['mateIn1'],
+              eloStart: eloMateIn120 ? eloMateIn120 : defaultElo,
+              eloEnd: eloMateIn120 ? eloMateIn120 + 100 : defaultElo + 100,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 6,
+                dangerOn: 3,
+                total: 10
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: [theme20Random],
+              eloStart: eloTheme20Random ? eloTheme20Random - 400 : defaultEloStart,
+              eloEnd: eloTheme20Random ? eloTheme20Random - 300 : defaultElo,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 24,
+                dangerOn: 12,
+                total: 50
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            randomBlockOrBlind,
+            {
+              time: 180,
+              puzzlesCount: 0,
+              themes: ['endgame'],
+              eloStart: eloEndgame20 ? eloEndgame20 : defaultElo,
+              eloEnd: eloEndgame20 ? eloEndgame20 + 100 : defaultElo + 100,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 24,
+                dangerOn: 12,
+                total: 60
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: ['mateIn3'],
+              eloStart: eloMateIn320 ? eloMateIn320 : defaultElo,
+              eloEnd: eloMateIn320 ? eloMateIn320 : defaultElo + 100,
+              color: 'random',
+              puzzleTimes: {
+                warningOn: 24,
+                dangerOn: 12,
+                total: 60
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+          ];
+
+          resolve(block20);
+
+
           break;
         case 30:
           /** Muestra soluciones / un mismo color
-           * - debilidades = t 5 minutos / 60 segundos por puzzle (elo - 200)
-           * - apertura random = t 2 minutos / 30 segundos por puzzle
-           * - tema random = t 5 minutos / 3 minutos por puzzle
-           * - mismo tema random  a ciegas 15 segundos = t 5 minutos / 50 segundos por puzzle (elo - 300)
-           * - finales = t 5 minutos / 60 segundos por puzzle
+           * -  debilidades = t 5 minutos / 60 segundos por puzzle (elo - 200)
+           * -   apertura random = t 2 minutos / 30 segundos por puzzle
+           * -  tema random = t 5 minutos / 3 minutos por puzzle
+           * -  mismo tema random  a ciegas 15 segundos = t 5 minutos / 50 segundos por puzzle (elo - 300)
+           * -  finales = t 5 minutos / 60 segundos por puzzle
            * - finales de peones = t 5 minutos / 3 minutos por puzzle
            * - mate 4 o mas = t 2 minutos / 60 segundos por puzzle
            * */
+
+          const color30 = Math.random() > 0.5 ? 'white' : 'black';
+          const themeWeakness30 = this.getWeaknessInPlan(profile?.elos?.plan30);
+          const eloThemeWeakness30 = profile?.elos?.plan20[themeWeakness30];
+          const theme30Random = this.getRandomTheme();
+          const eloTheme30Random = profile?.elos?.plan30[theme30Random];
+          const opening30Random = this.getRandomOpening();
+          const eloOpening30Random = profile?.elos?.plan30Openings[opening30Random];
+          const eloEndgame30 = profile?.elos?.plan30['endgame'];
+          const eloPawnEndgame30 = profile?.elos?.plan30['pawnEndgame'];
+          const eloMateIn430 = profile?.elos?.plan30['mateIn4'];
+
+          const black30: Block[] = [
+            {
+              time: 300,
+              puzzlesCount: 0,
+              themes: [themeWeakness30],
+              eloStart: eloThemeWeakness30 ? eloThemeWeakness30 - 300 : defaultElo - 300,
+              eloEnd: eloThemeWeakness30 ? eloThemeWeakness30 - 200 : defaultElo - 200,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 40,
+                dangerOn: 20,
+                total: 60
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: [],
+              openingFamily: opening30Random,
+              eloStart: eloOpening30Random ? eloOpening30Random : defaultElo,
+              eloEnd: eloOpening30Random ? eloOpening30Random + 100 : defaultElo + 100,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 15,
+                dangerOn: 8,
+                total: 30
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 300,
+              puzzlesCount: 0,
+              themes: [theme30Random],
+              eloStart: eloTheme30Random ? eloTheme30Random : defaultElo,
+              eloEnd: eloTheme30Random ? eloTheme30Random + 100 : defaultElo + 100,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 50,
+                dangerOn: 20,
+                total: 180
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 300,
+              puzzlesCount: 0,
+              themes: [theme30Random],
+              eloStart: eloTheme30Random ? eloTheme30Random - 300 : defaultElo - 300,
+              eloEnd: eloTheme30Random ? eloTheme30Random - 200 : defaultElo - 200,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 20,
+                dangerOn: 10,
+                total: 50
+              },
+              goshPuzzle: true,
+              goshPuzzleTime: 15,
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 300,
+              puzzlesCount: 0,
+              themes: ['endgame'],
+              eloStart: eloEndgame30 ? eloEndgame30 : defaultElo,
+              eloEnd: eloEndgame30 ? eloEndgame30 + 100 : defaultElo + 100,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 20,
+                dangerOn: 10,
+                total: 60
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 300,
+              puzzlesCount: 0,
+              themes: ['pawnEndgame'],
+              eloStart: eloPawnEndgame30 ? eloPawnEndgame30 : defaultElo,
+              eloEnd: eloPawnEndgame30 ? eloPawnEndgame30 + 100 : defaultElo + 100,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 20,
+                dangerOn: 10,
+                total: 60
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 120,
+              puzzlesCount: 0,
+              themes: ['mateIn4'],
+              eloStart: eloMateIn430 ? eloMateIn430 : defaultElo,
+              eloEnd: eloMateIn430 ? eloMateIn430 + 100 : defaultElo + 100,
+              color: color30,
+              puzzleTimes: {
+                warningOn: 20,
+                dangerOn: 10,
+                total: 60
+              },
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+
+          ];
+
+          resolve(black30);
+
 
           break;
         case -1:
@@ -333,13 +585,108 @@ export class BlockService {
            * - 3 ejercicios de mates en 2 (elo : de 800 a 1000)
            * - 3 ejercicios de mates en 1 (elo : de 800 a 1000)
            */
-          break;
-        default:
+
+          const colorBackToCalm = Math.random() > 0.5 ? 'white' : 'black';
+
+          const blockBackToCalm: Block[] = [
+            {
+              time: 0,
+              puzzlesCount: 3,
+              themes: ['mate'],
+              eloStart: 800,
+              eloEnd: 1000,
+              color: colorBackToCalm,
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 0,
+              puzzlesCount: 3,
+              themes: ['mateIn2'],
+              eloStart: 800,
+              eloEnd: 1000,
+              color: colorBackToCalm,
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            },
+            {
+              time: 0,
+              puzzlesCount: 3,
+              themes: ['mateIn1'],
+              eloStart: 800,
+              eloEnd: 1000,
+              color: colorBackToCalm,
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
+            }
+          ];
+
+          resolve(blockBackToCalm);
+
           break;
       }
 
     });
   }
+
+  /**
+   * Obtiene un tema random de la lista de temas
+   * */
+  getRandomTheme(): string {
+    return this.appService.getThemesPuzzlesList[
+      Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+    ];
+  }
+
+  /**
+   * Obtiene una apertura random de la lista de aperturas
+   * */
+  getRandomOpening(): string {
+    return this.appService.getOpeningsList[
+      Math.floor(Math.random() * this.appService.getOpeningsList.length)
+    ].name;
+  }
+
+  /**
+   * Obtiene el tema debil del usuario
+   * según el plan que se le pase
+   *
+   * */
+  getWeaknessInPlan(plan: {
+    [key: string]: number;
+  }): string {
+    // se elige el tema con el elo mas bajo que el usuario tenga en el plan,
+    // sino elige un tema random de la lista de temas
+    let theme = this.profileService.getWeakness(plan);
+    if (!theme) {
+      theme = this.appService.getThemesPuzzlesList[
+        Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
+      ];
+    }
+
+    return theme;
+  }
+
+  /**
+   * Obtiene la apertura débil del usuario
+   * según el plan que se le pase
+   * */
+  getWeaknessInPlanOpenings(plan: {
+    [key: string]: number;
+  }): string {
+    // se elige la apertura con el elo mas bajo que el usuario tenga en el plan,
+    // sino elige una apertura random de la lista de aperturas
+    let opening = this.profileService.getWeakness(plan);
+    if (!opening) {
+      opening = this.appService.getOpeningsList[
+        Math.floor(Math.random() * this.appService.getOpeningsList.length)
+      ].name;
+    }
+
+    return opening;
+  }
+
+
 
 
 
