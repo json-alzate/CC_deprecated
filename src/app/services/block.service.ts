@@ -118,7 +118,7 @@ export class BlockService {
           // obtener el tema random , asignando una posición aleatoria de un array
           const themeRandom5 = this.appService.getThemesPuzzlesList[
             Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-          ];
+          ].value;
           if (!themeRandom5) {
             reject('No se pudo obtener el tema random themeRandom5');
           }
@@ -129,7 +129,7 @@ export class BlockService {
           if (!weakness5) {
             weakness5 = this.appService.getThemesPuzzlesList[
               Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-            ];
+            ].value;
           }
           const block5: Block[] = [
             {
@@ -635,7 +635,7 @@ export class BlockService {
   getRandomTheme(): string {
     return this.appService.getThemesPuzzlesList[
       Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-    ];
+    ].value;
   }
 
   /**
@@ -661,7 +661,7 @@ export class BlockService {
     if (!theme) {
       theme = this.appService.getThemesPuzzlesList[
         Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
-      ];
+      ].value;
     }
 
     return theme;

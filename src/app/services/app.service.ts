@@ -16,7 +16,7 @@ import {
 export class AppService {
 
   themesPuzzle: AppPuzzleThemesGroup[] = [];
-  themesPuzzlesList: string[] = [];
+  themesPuzzlesList: AppPuzzlesThemes[] = [];
 
   openingsList: Opening[] = [];
 
