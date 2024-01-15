@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { Plan, Block } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
 import { BlockService } from '@services/block.service';
+import { PuzzlesService } from '@services/puzzles.service';
 
 @Component({
   selector: 'app-training-menu',
@@ -16,10 +17,17 @@ export class TrainingMenuComponent implements OnInit {
   constructor(
     private navController: NavController,
     private planService: PlanService,
-    private blockService: BlockService
+    private blockService: BlockService,
+    private puzzlesService: PuzzlesService
   ) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    // this.puzzlesService.getTotalPuzzlesInDB().then((total) => {
+    //   console.log('Total puzzles', total);
+    // }
+    // );
+
+  }
 
   async createPlan(option: number) {
 

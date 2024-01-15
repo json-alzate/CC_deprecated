@@ -590,7 +590,7 @@ export class BlockService {
 
           const blockBackToCalm: Block[] = [
             {
-              time: 0,
+              time: -1,
               puzzlesCount: 3,
               themes: ['mate'],
               eloStart: 800,
@@ -600,7 +600,7 @@ export class BlockService {
               showPuzzleSolution: true
             },
             {
-              time: 0,
+              time: -1,
               puzzlesCount: 3,
               themes: ['mateIn2'],
               eloStart: 800,
@@ -610,7 +610,7 @@ export class BlockService {
               showPuzzleSolution: true
             },
             {
-              time: 0,
+              time: -1,
               puzzlesCount: 3,
               themes: ['mateIn1'],
               eloStart: 800,
