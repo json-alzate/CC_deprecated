@@ -9,6 +9,7 @@ import { authReducer } from '@redux/reducers/auth.reducer';
 import { coordinatesPuzzleReducer } from '@redux/reducers/coordinates-puzzles.reducer';
 import { puzzlesReducer } from '@redux/reducers/puzzles.reducer';
 import { userPuzzlesReducer } from '@redux/reducers/user-puzzles.reducer';
+import { planReducer } from '@redux/reducers/plan.reducer';
 
 
 // states
@@ -25,7 +26,8 @@ export const appReducers: ActionReducerMap<AppState> = {
     router: fromRouter.routerReducer,
     coordinatesPuzzles: coordinatesPuzzleReducer,
     puzzles: puzzlesReducer,
-    userPuzzles: userPuzzlesReducer
+    userPuzzles: userPuzzlesReducer,
+    plan: planReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

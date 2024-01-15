@@ -23,6 +23,9 @@ export class BlockService {
 
   async generateBlockOfPuzzles(blockSettings: Block): Promise<Puzzle[]> {
 
+    console.log('Block settings', blockSettings);
+
+
     const options: PuzzleQueryOptions = {
       rangeStart: blockSettings.eloStart,
       rangeEnd: blockSettings.eloEnd,
@@ -265,7 +268,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: [theme10, 'endgame'],
+              themes: ['endgame'],
+              openingFamily: opening10,
               eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
               eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
               color: color10,
@@ -345,7 +349,7 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              themes: [theme10],
+              themes: [themeWeakness20],
               eloStart: eloThemeWeakness20 ? eloThemeWeakness20 - 600 : defaultEloStart,
               eloEnd: eloThemeWeakness20 ? eloThemeWeakness20 - 500 : defaultElo + 100,
               color: 'random',

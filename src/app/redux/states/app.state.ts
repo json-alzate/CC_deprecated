@@ -1,7 +1,9 @@
 import { RouterReducerState } from '@ngrx/router-store';
+import { createFeatureSelector } from '@ngrx/store';
 import { RouterStateUrl } from './router.state';
 
 // models
+import { Plan } from '@models/plan.model';
 
 
 // states
@@ -20,4 +22,8 @@ export interface AppState {
   coordinatesPuzzles: CoordinatesPuzzlesState;
   puzzles: PuzzlesState;
   userPuzzles: UserPuzzlesState;
+  plan: Plan;
 }
+
+export const getPlanState = createFeatureSelector<Plan>('plan');
+
