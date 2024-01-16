@@ -5,17 +5,22 @@ import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 /**
- * Funcionalidad: que al mostrar la solucion lo haga que cada jugada deje flechas,  despues
- * las piezas se disuelvan y queden las flechas en un efecto de fade out dramatico
+ * Funcionalidad: que al mostrar la solución lo haga que cada jugada deje flechas,  después
+ * las piezas se disuelvan y queden las flechas en un efecto de fade out dramático
  * para que se evidencie el patron con las flechas
  * */
 
 // models
 import { Puzzle } from '@models/puzzle.model';
+import { UserPuzzle } from '@models/user-puzzles.model';
 import { Plan, Block } from '@models/plan.model';
 
 // Services
 import { PlanService } from '@services/plan.service';
+import { ProfileService } from '@services/profile.service';
+
+// utils
+import { createUid } from '@utils/create-uid';
 
 @Component({
   selector: 'app-training',
@@ -32,8 +37,10 @@ export class TrainingComponent implements OnInit {
 
   constructor(
     private planService: PlanService,
-    private navController: NavController
-  ) { }
+    private navController: NavController,
+    private profileService: ProfileService
+  ) {
+  }
 
   ngOnInit() {
     this.planService.getPlan().then((plan: Plan) => {
@@ -94,7 +101,54 @@ export class TrainingComponent implements OnInit {
     this.timerUnsubscribe$.complete();
   }
 
-  onPuzzleCompleted(puzzleCompleted: Puzzle, puzzleStatus: 'good' | 'bad') {
+  onPuzzleCompleted(puzzleCompleted: Puzzle, puzzleStatus: 'good' | 'bad' | 'timeOut') {
+
+    const userPuzzle: UserPuzzle = {
+      uid: createUid(),
+      uidUser: this.profileService.getProfile.uid,
+      uidPuzzle: puzzleCompleted.uid,
+      date: new Date().getTime(),
+      resolved: puzzleStatus === 'good',
+      resolvedTime: puzzleCompleted.timeUsed,
+      currentEloUser: this.profileService.getProfile.elo,
+      eloPuzzle: puzzleCompleted.rating,
+      themes: puzzleCompleted.themes,
+      openingFamily: puzzleCompleted.openingFamily,
+      openingVariation: puzzleCompleted.openingVariation,
+    };
+
+
+    // Crear una copia del bloque actual
+    const currentBlock = {
+      ...this.plan.blocks[this.currentIndexBlock],
+      puzzlesPlayed: [...this.plan.blocks[this.currentIndexBlock].puzzlesPlayed, userPuzzle]
+    };
+
+    // Crear una nueva copia de todos los bloques
+    const newBlocks = [...this.plan.blocks];
+    // Reemplazar el bloque actual con la copia actualizada
+    newBlocks[this.currentIndexBlock] = currentBlock;
+
+    // Ahora actualizar el plan con los nuevos bloques
+    this.plan = {
+      ...this.plan,
+      blocks: newBlocks
+    };
+
+    switch (puzzleStatus) {
+      case 'good':
+        this.selectPuzzleToPlay();
+        break;
+      case 'bad':
+        this.selectPuzzleToPlay();
+        break;
+      case 'timeOut':
+        this.selectPuzzleToPlay();
+        break;
+
+      default:
+        break;
+    }
 
   }
 

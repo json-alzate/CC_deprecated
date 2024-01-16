@@ -15,7 +15,7 @@ export interface Block {
         total: number; // in seconds, -1 for off
     };
     puzzles?: Puzzle[];
-    puzzlesPlayed?: UserPuzzle[];
+    puzzlesPlayed: UserPuzzle[];
     showPuzzleSolution?: boolean;
     nextPuzzleImmediately?: boolean;
     goshPuzzle?: boolean;

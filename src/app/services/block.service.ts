@@ -85,6 +85,7 @@ export class BlockService {
                 dangerOn: 3,
                 total: 10
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -99,6 +100,7 @@ export class BlockService {
                 dangerOn: 3,
                 total: 10
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -107,6 +109,7 @@ export class BlockService {
               themes: ['mate'],
               eloStart: mateElo0 ? mateElo0 : defaultEloStart,
               eloEnd: (mateElo0 ?? defaultElo),
+              puzzlesPlayed: [],
               color: color0
             }
           ];
@@ -147,6 +150,7 @@ export class BlockService {
                 dangerOn: 6,
                 total: 15
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -161,6 +165,7 @@ export class BlockService {
                 dangerOn: 12,
                 total: 30
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             }
           ];
@@ -219,6 +224,7 @@ export class BlockService {
                 dangerOn: 6,
                 total: 15
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -234,6 +240,7 @@ export class BlockService {
                 dangerOn: 8,
                 total: 30
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -249,6 +256,7 @@ export class BlockService {
                 dangerOn: 15,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -263,6 +271,7 @@ export class BlockService {
                 dangerOn: 6,
                 total: 20
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             },
             {
@@ -278,6 +287,7 @@ export class BlockService {
                 dangerOn: 15,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             }
           ];
@@ -321,6 +331,7 @@ export class BlockService {
                 dangerOn: 5,
                 total: 15
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true
             };
 
@@ -339,6 +350,7 @@ export class BlockService {
               },
               goshPuzzle: true,
               goshPuzzleTime: 10,
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             };
@@ -358,6 +370,7 @@ export class BlockService {
                 dangerOn: 12,
                 total: 40
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -373,6 +386,7 @@ export class BlockService {
                 dangerOn: 20,
                 total: 240
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -388,6 +402,7 @@ export class BlockService {
                 dangerOn: 3,
                 total: 10
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -403,6 +418,7 @@ export class BlockService {
                 dangerOn: 12,
                 total: 50
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -419,6 +435,7 @@ export class BlockService {
                 dangerOn: 12,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -434,6 +451,7 @@ export class BlockService {
                 dangerOn: 12,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -478,6 +496,7 @@ export class BlockService {
                 dangerOn: 20,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -494,6 +513,7 @@ export class BlockService {
                 dangerOn: 8,
                 total: 30
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -509,6 +529,7 @@ export class BlockService {
                 dangerOn: 20,
                 total: 180
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -526,6 +547,7 @@ export class BlockService {
               },
               goshPuzzle: true,
               goshPuzzleTime: 15,
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -541,6 +563,7 @@ export class BlockService {
                 dangerOn: 10,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -556,6 +579,7 @@ export class BlockService {
                 dangerOn: 10,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -571,6 +595,7 @@ export class BlockService {
                 dangerOn: 10,
                 total: 60
               },
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -600,6 +625,7 @@ export class BlockService {
               eloStart: 800,
               eloEnd: 1000,
               color: colorBackToCalm,
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -610,6 +636,7 @@ export class BlockService {
               eloStart: 800,
               eloEnd: 1000,
               color: colorBackToCalm,
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             },
@@ -620,6 +647,7 @@ export class BlockService {
               eloStart: 800,
               eloEnd: 1000,
               color: colorBackToCalm,
+              puzzlesPlayed: [],
               nextPuzzleImmediately: true,
               showPuzzleSolution: true
             }
