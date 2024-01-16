@@ -1,3 +1,25 @@
-<p>
-  training works!
-</p>
+<ion-content>
+
+  <ion-grid>
+    <ion-row>
+
+      <ion-col size="3">
+
+        <ion-text color="medium">
+          <h1>{{ timeLeft | secondsToMinutesSeconds }}</h1>
+        </ion-text>
+
+      </ion-col>
+
+      <ion-col class="ion-no-padding ion-margin-top" size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
+        <app-board-puzzle [setPuzzle]="puzzleToPlay"
+          (puzzleCompleted)="onPuzzleCompleted($event, 'good')"></app-board-puzzle>
+      </ion-col>
+
+
+
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
