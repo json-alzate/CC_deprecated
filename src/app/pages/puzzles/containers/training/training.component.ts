@@ -74,8 +74,6 @@ export class TrainingComponent implements OnInit {
 
     this.puzzleToPlay = puzzle;
 
-    console.log('Puzzle to play', this.puzzleToPlay);
-
 
   }
 
@@ -105,12 +103,12 @@ export class TrainingComponent implements OnInit {
 
     const userPuzzle: UserPuzzle = {
       uid: createUid(),
-      uidUser: this.profileService.getProfile.uid,
+      uidUser: this.profileService.getProfile?.uid,
       uidPuzzle: puzzleCompleted.uid,
       date: new Date().getTime(),
       resolved: puzzleStatus === 'good',
       resolvedTime: puzzleCompleted.timeUsed,
-      currentEloUser: this.profileService.getProfile.elo,
+      currentEloUser: this.profileService.getProfile?.elo || 0,
       eloPuzzle: puzzleCompleted.rating,
       themes: puzzleCompleted.themes,
       openingFamily: puzzleCompleted.openingFamily,

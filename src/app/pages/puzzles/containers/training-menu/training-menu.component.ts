@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 
 import { Plan, Block } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
@@ -13,12 +13,15 @@ import { PuzzlesService } from '@services/puzzles.service';
 })
 export class TrainingMenuComponent implements OnInit {
 
+  loader: any;
+
 
   constructor(
     private navController: NavController,
     private planService: PlanService,
     private blockService: BlockService,
-    private puzzlesService: PuzzlesService
+    private puzzlesService: PuzzlesService,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() {
@@ -32,11 +35,13 @@ export class TrainingMenuComponent implements OnInit {
   async createPlan(option: number) {
 
 
+    this.showLoading();
     const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
 
     console.log('No puzzles', blocks);
     // se recorre cada bloque para generar los puzzles
     for (const block of blocks) {
+      // TODO: se debe controlar de que si se retornen puzzles
       block.puzzles = await this.blockService.generateBlockOfPuzzles(block);
     }
 
@@ -45,10 +50,24 @@ export class TrainingMenuComponent implements OnInit {
     const newPlan: Plan = await this.planService.newPlan(blocks, option * 60);
 
     console.log('New plan', newPlan);
-
+    this.closeLoading();
     this.goTo('/puzzles/training');
 
   }
+
+
+  async showLoading() {
+    this.loader = await this.loadingController.create({
+      message: 'Cargando ejercicios del entrenamiento...',
+    });
+
+    this.loader.present();
+  }
+
+  closeLoading() {
+    this.loader.dismiss();
+  }
+
 
   goTo(path: string) {
     this.navController.navigateForward(path);
