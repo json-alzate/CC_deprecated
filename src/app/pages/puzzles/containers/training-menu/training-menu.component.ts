@@ -14,6 +14,10 @@ import { PuzzlesService } from '@services/puzzles.service';
 export class TrainingMenuComponent implements OnInit {
 
   loader: any;
+  generalEloPlan5 = '1500?';
+  generalEloPlan10 = '1500?';
+  generalEloPlan20 = '1500?';
+  generalEloPlan30 = '1500?';
 
 
   constructor(
