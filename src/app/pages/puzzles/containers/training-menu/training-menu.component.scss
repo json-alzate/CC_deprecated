@@ -1,7 +1,35 @@
+.layout {
+    display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
+    height: 100%;
+    flex-direction: column;
+
+    .menu {
+        height: 70%;
+
+        .item-plan-description {
+            --background: transparent;
+        }
+
+        .img-plan {
+            display: block;
+            margin: 0 auto;
+            width: 50%;
+        }
+    }
+
+    .chart {
+        height: 30%;
+    }
+}
+
+
 ion-card {
     cursor: pointer;
 }
 
 h1 {
-    font-size: 5em;
+    font-size: 3rem;
 }
