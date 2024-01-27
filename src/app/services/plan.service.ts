@@ -37,7 +37,8 @@ export class PlanService {
       const plan: Plan = {
         uid: createUid(),
         time: time > 0 ? time : -1,
-        blocks
+        blocks,
+        createdAt: new Date().getTime(),
       };
 
       this.store.dispatch(setPlan({ plan }));

@@ -26,5 +26,5 @@ export interface Plan {
     uid: string;
     time: number; // in seconds (-1 for infinite)
     blocks: Block[];
-
+    createdAt: number;
 };
