@@ -47,6 +47,27 @@ export class ProfileService {
     return this.profile?.eloPuzzles || 1500;
   }
 
+  /**
+   *
+   * @param themes : or Openings { [key: string]: number; }
+   * @returns Return theme with the lowest value
+   */
+  public getWeakness(themes: {
+    [key: string]: number;
+  }): string {
+    let weakness;
+    if (themes) {
+      Object.keys(themes).forEach(key => {
+        if (!weakness) {
+          weakness = themes[key];
+        } else if (themes[key] < weakness) {
+          weakness = themes[key];
+        }
+      });
+    }
+    return weakness;
+  }
+
   // subscribe to profile
   subscribeToProfile() {
     return this.store.pipe(select(getProfile));

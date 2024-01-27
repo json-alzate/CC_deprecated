@@ -1,0 +1,262 @@
+[
+    {
+        "name": "Sicilian Defense",
+        "count": 136.137
+    },
+    {
+        "name": "French Defense",
+        "count": 56.069
+    },
+    {
+        "name": "Queen's Pawn Game",
+        "count": 48.411
+    },
+    {
+        "name": "Italian Game",
+        "count": 47.878
+    },
+    {
+        "name": "Caro-Kann Defense",
+        "count": 41.565
+    },
+    {
+        "name": "Scandinavian Defense",
+        "count": 33.440
+    },
+    {
+        "name": "Queen's Gambit Declined",
+        "count": 32.653
+    },
+    {
+        "name": "English Opening",
+        "count": 27.474
+    },
+    {
+        "name": "Roy Lopez",
+        "count": 27.433
+    },
+    {
+        "name": "Indian defense",
+        "count": 26.966
+    },
+    {
+        "name": "Scotch Game",
+        "count": 23.119
+    },
+    {
+        "name": "Russian Game",
+        "count": 18.647
+    },
+    {
+        "name": "Philidor Defense",
+        "count": 17.451
+    },
+    {
+        "name": "Modern Defense",
+        "count": 13.304
+    },
+    {
+        "name": "Four Knights Game",
+        "count": 13.180
+    },
+    {
+        "name": "King's Gambit accepted",
+        "count": 12.939
+    },
+    {
+        "name": "Zukertort Opening",
+        "count": 11.745
+    },
+    {
+        "name": "Bishop's Opening",
+        "count": 11.575
+    },
+    {
+        "name": "Slav Defense",
+        "count": 11.411
+    },
+    {
+        "name": "Pirc Defense",
+        "count": 11.339
+    },
+    {
+        "name": "King's Pawn Game",
+        "count": 10.991
+    },
+    {
+        "name": "Vienna Game",
+        "count": 10.746
+    },
+    {
+        "name": "Queen's Gambit Accepted",
+        "count": 8.983
+    },
+    {
+        "name": "King's Indian Defense",
+        "count": 8.471
+    },
+    {
+        "name": "Benoni Defense",
+        "count": 8.059
+    },
+    {
+        "name": "Nimzowitsch Defense",
+        "count": 7.367
+    },
+    {
+        "name": "Alekhine Defense",
+        "count": 7.293
+    },
+    {
+        "name": "Nimzo-Larsen Attack",
+        "count": 7.184
+    },
+    {
+        "name": "Horwitz Defense",
+        "count": 6.993
+    },
+    {
+        "name": "King's Gambit Declined",
+        "count": 6.258
+    },
+    {
+        "name": "Owen Defense",
+        "count": 6.096
+    },
+    {
+        "name": "Bird Opening",
+        "count": 5.564
+    },
+    {
+        "name": "Dutch Defense",
+        "count": 5.330
+    },
+    {
+        "name": "Nimzo-Indian Defense",
+        "count": 5.311
+    },
+    {
+        "name": "Van't Kruijs Opening",
+        "count": 5.300
+    },
+    {
+        "name": "Semi-Slav Defense",
+        "count": 4.502
+    },
+    {
+        "name": "Center Game",
+        "count": 4.132
+    },
+    {
+        "name": "Hungarian Opening",
+        "count": 4.024
+    },
+    {
+        "name": "Englud Gambit Complex",
+        "count": 3.966
+    },
+    {
+        "name": "Three Knights Opening",
+        "count": 3.336
+    },
+    {
+        "name": "Ponziani Opening",
+        "count": 3.201
+    },
+    {
+        "name": "Englund Gambit",
+        "count": 3.110
+    },
+    {
+        "name": "Grünfeld Defense",
+        "count": 3.015
+    },
+    {
+        "name": "Blackmar-Diemer Gambit",
+        "count": 2.995
+    },
+    {
+        "name": "Elephant Gambit",
+        "count": 2.934
+    },
+    {
+        "name": "Polish Opening",
+        "count": 2.902
+    },
+    {
+        "name": "Danish Gambit",
+        "count": 2.834
+    },
+    {
+        "name": "King's Indian Attack",
+        "count": 2.778
+    },
+    {
+        "name": "Rat Defense",
+        "count": 2.709
+    },
+    {
+        "name": "King's Gambit",
+        "count": 2.681
+    },
+    {
+        "name": "Trompowsky Attack",
+        "count": 2.601
+    },
+    {
+        "name": "English Defense",
+        "count": 2.495
+    },
+    {
+        "name": "Grob Opening",
+        "count": 1.964
+    },
+    {
+        "name": "Rapport-Jobava System",
+        "count": 1.899
+    },
+    {
+        "name": "King's Knight Opening",
+        "count": 1.822
+    },
+    {
+        "name": "Van Geet Opening",
+        "count": 1.668
+    },
+    {
+        "name": "Tarrasch Defense",
+        "count": 1.652
+    },
+    {
+        "name": "Old Indian Defense",
+        "count": 1.582
+    },
+    {
+        "name": "Danish Gambit Accepted",
+        "count": 1.582
+    },
+    {
+        "name": "Catalan Opening",
+        "count": 1.369
+    },
+    {
+        "name": "Réti Opening",
+        "count": 1.285
+    },
+    {
+        "name": "Mieses Opening",
+        "count": 1.241
+    },
+    {
+        "name": "Englund Gambit Declined",
+        "count": 1.122
+    },
+    {
+        "name": "Queen's Indian Defense",
+        "count": 1.120
+    },
+    {
+        "name": "London System",
+        "count": 1.061
+    }
+]

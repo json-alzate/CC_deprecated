@@ -3,7 +3,11 @@ import { HttpClient } from '@angular/common/http';
 
 import { lastValueFrom, take } from 'rxjs';
 
-import { AppPuzzlesThemes, AppPuzzleThemesGroup } from '@models/app.models';
+import {
+  Opening,
+  AppPuzzlesThemes,
+  AppPuzzleThemesGroup
+} from '@models/app.models';
 
 
 @Injectable({
@@ -12,6 +16,9 @@ import { AppPuzzlesThemes, AppPuzzleThemesGroup } from '@models/app.models';
 export class AppService {
 
   themesPuzzle: AppPuzzleThemesGroup[] = [];
+  themesPuzzlesList: AppPuzzlesThemes[] = [];
+
+  openingsList: Opening[] = [];
 
 
   constructor(
@@ -22,11 +29,27 @@ export class AppService {
     return this.themesPuzzle;
   }
 
+  get getThemesPuzzlesList() {
+    return this.themesPuzzlesList;
+  }
+
+  get getOpeningsList() {
+    return this.openingsList;
+  }
+
   async loadThemesPuzzle() {
     const request$ = this.httpClient.get<AppPuzzleThemesGroup[]>('assets/data/themes-puzzle.json')
       .pipe(take(1));
     this.themesPuzzle = await lastValueFrom<AppPuzzleThemesGroup[]>(request$);
 
+    this.themesPuzzlesList = this.themesPuzzle.reduce((acc, themeGroup) =>
+      [...acc, ...themeGroup.themes], []);
+  }
+
+  async loadOpenings() {
+    const request$ = this.httpClient.get<Opening[]>('assets/data/openings.json')
+      .pipe(take(1));
+    this.openingsList = await lastValueFrom<Opening[]>(request$);
   }
 
 

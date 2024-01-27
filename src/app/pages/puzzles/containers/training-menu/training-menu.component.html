@@ -1,131 +1,130 @@
 <ion-content>
 
-
-  <ion-grid fixed class="ion-margin-top">
+  <ion-grid class="ion-margin-top">
     <ion-row>
-      <ion-col size="12">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h2 class="ion-text-center">Calentamiento</h2>
-              </ion-text>
-            </ion-card-title>
-          </ion-card-header>
-        </ion-card>
+
+      <ion-col size="3" class="ion-padding">
+
+        <ion-button expand="block" mode="ios" color="light" (click)="createPlan(0)">
+          <ion-icon slot="start" name="flame"></ion-icon>
+          Calentamiento
+        </ion-button>
+
+
       </ion-col>
+
+      <ion-col size="3" offset="3" class="ion-padding">
+
+        <ion-button expand="block" mode="ios" color="light">
+          <ion-icon slot="start" name="cube"></ion-icon>
+          Bloque
+        </ion-button>
+
+      </ion-col>
+
+
+      <ion-col size="3" class="ion-padding">
+
+        <ion-button expand="block" mode="ios" color="light">
+          <ion-icon slot="start" name="grid"></ion-icon>
+          Rutina
+        </ion-button>
+
+
+      </ion-col>
+
     </ion-row>
 
     <ion-row>
-      <ion-col size="4">
+      <ion-col size="3">
 
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h1 class="ion-text-center">5</h1>
-              </ion-text>
-            </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-
-      </ion-col>
-      <ion-col size="4">
-
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h1 class="ion-text-center">10</h1>
-              </ion-text>
-            </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-
-      </ion-col>
-      <ion-col size="4">
-
-        <ion-card class="ion-activatable ripple-parent" (click)="goTo('/puzzles/portion')">
+        <ion-card color="light" class="ion-activatable" (click)="createPlan(5)">
           <ion-ripple-effect></ion-ripple-effect>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h2 class="ion-text-center">
-                  <ion-icon style="font-size: 5em;" name="pizza-outline"></ion-icon>
-                </h2>
-              </ion-text>
-            </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Trozo
-            </ion-card-subtitle>
-          </ion-card-header>
+          <ion-item class="item-plan-description">
+            <ion-label>
+              <b>
+                {{generalEloPlan5}}
+              </b>
+            </ion-label>
+            <div slot="end">
+              5 <ion-icon name="timer-outline"></ion-icon>
+            </div>
+          </ion-item>
+          <img class="img-plan" src="assets/images/plan-icons/rabbit_gold.png" alt="rabbit" srcset="">
         </ion-card>
 
       </ion-col>
+      <ion-col size="3">
+
+        <ion-card color="light" class="ion-activatable" (click)="createPlan(10)">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-item class="item-plan-description">
+            <ion-label>
+              <b>
+                {{generalEloPlan10}}
+              </b>
+            </ion-label>
+            <div slot="end">
+              10 <ion-icon name="timer-outline"></ion-icon>
+            </div>
+          </ion-item>
+          <img class="img-plan" src="assets/images/plan-icons/horse_gold.png" alt="horse" srcset="">
+        </ion-card>
+
+      </ion-col>
+
+
+      <ion-col size="3">
+
+        <ion-card color="light" class="ion-activatable" (click)="createPlan(20)">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-item class="item-plan-description">
+            <ion-label>
+              <b>
+                {{generalEloPlan20}}
+              </b>
+            </ion-label>
+            <div slot="end">
+              20 <ion-icon name="timer-outline"></ion-icon>
+            </div>
+          </ion-item>
+          <img class="img-plan" src="assets/images/plan-icons/elephant_gold.png" alt="elephant" srcset="">
+        </ion-card>
+
+      </ion-col>
+      <ion-col size="3">
+
+        <ion-card color="light" class="ion-activatable" (click)="createPlan(30)">
+          <ion-ripple-effect></ion-ripple-effect>
+          <ion-item class="item-plan-description">
+            <ion-label>
+              <b>
+                {{generalEloPlan30}}
+              </b>
+            </ion-label>
+            <div slot="end">
+              30 <ion-icon name="timer-outline"></ion-icon>
+            </div>
+          </ion-item>
+          <img class="img-plan" src="assets/images/plan-icons/turtle_gold.png" alt="turtle" srcset="">
+        </ion-card>
+
+      </ion-col>
+
     </ion-row>
 
+    <ion-row class="ion-margin-top">
+      <ion-col size="6" offset="3">
 
-    <ion-row>
-      <ion-col size="4">
-
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h1 class="ion-text-center">20</h1>
-              </ion-text>
-            </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-
-      </ion-col>
-      <ion-col size="4">
-
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h1 class="ion-text-center">30</h1>
-              </ion-text>
-            </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Awesome Subtitle
-            </ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-
-      </ion-col>
-      <ion-col size="4">
-
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>
-              <ion-text color="dark">
-                <h1 class="ion-text-center">
-                  <ion-icon name="settings-outline"></ion-icon>
-                </h1>
-              </ion-text>
-            </ion-card-title>
-            <ion-card-subtitle class="ion-text-center">
-              Personalizado
-            </ion-card-subtitle>
-          </ion-card-header>
-        </ion-card>
-
+        <app-activity-chart></app-activity-chart>
       </ion-col>
     </ion-row>
-
 
   </ion-grid>
+
+
+
+
 
 
 

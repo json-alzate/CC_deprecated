@@ -360,12 +360,13 @@ export class BoardPuzzleComponent implements OnInit {
     let dangerColorOn = 0;
     this.time = 0;
     this.timeUsed = 0;
+    this.timeColor = 'success';
     if (this.puzzle.times.total) {
       this.time = this.puzzle.times.total;
       warningColorOn = this.puzzle.times.warningOn;
       dangerColorOn = this.puzzle.times.dangerOn;
     }
-
+    this.timerUnsubscribe$ = new Subject<void>();
 
     this.subsSeconds = interval(1000);
     this.subsSeconds.pipe(
@@ -419,6 +420,7 @@ export class BoardPuzzleComponent implements OnInit {
   }
 
   stopTimer() {
+    this.subsSeconds = null;
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
   }
