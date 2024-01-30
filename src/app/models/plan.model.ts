@@ -2,6 +2,8 @@ import { Puzzle } from './puzzle.model';
 import { UserPuzzle } from './user-puzzles.model';
 
 export interface Block {
+    title?: string;
+    description?: string;
     time: number; // in seconds (-1 for infinite)
     puzzlesCount: number; // 0 for infinite (until time is over)
     themes: string[];

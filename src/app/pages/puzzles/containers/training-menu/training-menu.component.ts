@@ -37,8 +37,6 @@ export class TrainingMenuComponent implements OnInit {
   }
 
   async createPlan(option: number) {
-
-
     this.showLoading();
     const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
 

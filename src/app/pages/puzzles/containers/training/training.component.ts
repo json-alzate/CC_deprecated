@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ModalController } from '@ionic/angular';
 
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -18,9 +18,13 @@ import { Plan, Block } from '@models/plan.model';
 // Services
 import { PlanService } from '@services/plan.service';
 import { ProfileService } from '@services/profile.service';
+import { AppService } from '@services/app.service';
 
 // utils
 import { createUid } from '@utils/create-uid';
+
+// components
+import { BlockPresentationComponent } from '@pages/puzzles/components/block-presentation/block-presentation.component';
 
 @Component({
   selector: 'app-training',
@@ -35,10 +39,16 @@ export class TrainingComponent implements OnInit {
   timeLeft = 0;
   timerUnsubscribe$ = new Subject<void>();
 
+  timeLeftBlock = 0;
+  timerUnsubscribeBlock$ = new Subject<void>();
+  countPuzzlesPlayedBlock = 0;
+
   constructor(
     private planService: PlanService,
     private navController: NavController,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private modalController: ModalController,
+    private appService: AppService
   ) {
   }
 
@@ -50,8 +60,48 @@ export class TrainingComponent implements OnInit {
         return;
       }
       this.plan = plan;
+      this.showBlockPresentation();
+    });
+  }
+
+  async showBlockPresentation() {
+
+    const themeName = this.plan.blocks[this.currentIndexBlock].themes[0];
+
+    const theme = themeName ?
+      this.appService.getThemePuzzleByValue(themeName).nameEs :
+      this.plan.blocks[this.currentIndexBlock].openingFamily;
+
+    const title = this.plan.blocks[this.currentIndexBlock].title ?
+      this.plan.blocks[this.currentIndexBlock].title :
+      theme;
+
+    let image = 'assets/images/puzzle-themes/opening.svg';
+    if (themeName) {
+      // si el tema es mateIn1, mateIn2, mateIn3, mateIn4, mateIn5, mateIn6, mateIn7, mateIn8, etc se debe mostrar el tema mate
+      if (themeName.includes('mateIn')) {
+        image = 'assets/images/puzzle-themes/mate.svg';
+      } else {
+        image = `assets/images/puzzle-themes/${themeName}.svg`;
+      }
+    }
+
+    const modal = await this.modalController.create({
+      component: BlockPresentationComponent,
+      componentProps: {
+        title,
+        description: this.plan.blocks[this.currentIndexBlock].description || this.appService.getThemePuzzleByValue(themeName).descriptionEs,
+        image,
+      }
+    });
+
+    await modal.present();
+
+    modal.onDidDismiss().then((data) => {
       this.playPlan();
     });
+
+
   }
 
   playPlan() {
@@ -73,13 +123,10 @@ export class TrainingComponent implements OnInit {
     }
 
     this.puzzleToPlay = puzzle;
-
-
   }
 
   // init countDown
   initTimeToEndPlan(timePlan: number) {
-
     this.timeLeft = timePlan;
     const countDown = interval(1000);
     countDown.pipe(
@@ -94,12 +141,35 @@ export class TrainingComponent implements OnInit {
     });
   }
 
+  initTimeToEndBlock(timeBlock: number) {
+    this.timeLeftBlock = timeBlock;
+    const countDown = interval(1000);
+    countDown.pipe(
+      takeUntil(this.timerUnsubscribeBlock$)
+    ).subscribe(() => {
+      if (this.timeLeftBlock > 0) {
+        this.timeLeftBlock--;
+      } else {
+        // unsubscribe
+        this.stopBlockTimer();
+      }
+    });
+  }
+
+  stopBlockTimer() {
+    this.timerUnsubscribeBlock$.next();
+    this.timerUnsubscribeBlock$.complete();
+  }
+
   stopPlanTimer() {
+    this.stopBlockTimer();
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
   }
 
   onPuzzleCompleted(puzzleCompleted: Puzzle, puzzleStatus: 'good' | 'bad' | 'timeOut') {
+
+    this.countPuzzlesPlayedBlock++;
 
     const userPuzzle: UserPuzzle = {
       uid: createUid(),
