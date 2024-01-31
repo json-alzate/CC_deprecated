@@ -33,7 +33,12 @@ import { BlockPresentationComponent } from '@pages/puzzles/components/block-pres
 })
 export class TrainingComponent implements OnInit {
 
-  currentIndexBlock = 0;
+  //ui
+  showPlanTimer = false;
+  showBlockTimer = false;
+  showCountPuzzlesLeft = false;
+
+  currentIndexBlock = -1; // -1 para que al iniciar se seleccione el primer bloque sumando ++ y queda en 0
   plan: Plan;
   puzzleToPlay: Puzzle;
   timeLeft = 0;
@@ -60,7 +65,8 @@ export class TrainingComponent implements OnInit {
         return;
       }
       this.plan = plan;
-      this.showBlockPresentation();
+      this.playPlan();
+      this.playNextBlock();
     });
   }
 
@@ -98,15 +104,29 @@ export class TrainingComponent implements OnInit {
     await modal.present();
 
     modal.onDidDismiss().then((data) => {
-      this.playPlan();
+      this.selectPuzzleToPlay();
+      this.resumePlanTimer();
+
+      if (this.plan.blocks[this.currentIndexBlock].time !== -1) {
+        this.showBlockTimer = true;
+        this.initTimeToEndBlock(this.plan.blocks[this.currentIndexBlock].time);
+      } else {
+        this.showBlockTimer = false;
+        this.stopBlockTimer();
+      }
+
+
+
     });
 
 
   }
 
   playPlan() {
-    this.selectPuzzleToPlay();
-    this.initTimeToEndPlan(this.plan.time);
+    if (this.plan.time) {
+      this.showPlanTimer = true;
+      this.initTimeToEndPlan(this.plan.time);
+    }
   }
 
   selectPuzzleToPlay() {
@@ -156,9 +176,39 @@ export class TrainingComponent implements OnInit {
     });
   }
 
+  playNextBlock() {
+    this.currentIndexBlock++;
+
+
+
+
+    this.countPuzzlesPlayedBlock = 0;
+    this.showBlockTimer = false;
+    this.pausePlanTimer();
+    this.showBlockPresentation();
+  }
+
+  pauseBlockTimer() {
+    this.timerUnsubscribeBlock$.next();
+  }
+
+  resumeBlockTimer() {
+    this.initTimeToEndBlock(this.timeLeftBlock);
+  }
+
   stopBlockTimer() {
     this.timerUnsubscribeBlock$.next();
     this.timerUnsubscribeBlock$.complete();
+  }
+
+  pausePlanTimer() {
+    if (this.showPlanTimer) {
+      this.timerUnsubscribe$.next();
+    }
+  }
+
+  resumePlanTimer() {
+    this.initTimeToEndPlan(this.timeLeft);
   }
 
   stopPlanTimer() {

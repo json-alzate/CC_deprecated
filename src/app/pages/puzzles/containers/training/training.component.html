@@ -6,7 +6,10 @@
       <ion-col size="3">
 
         <ion-text color="medium">
-          <h1>{{ timeLeft | secondsToMinutesSeconds }}</h1>
+          <h1 *ngIf="showPlanTimer">{{ timeLeft | secondsToMinutesSeconds }}</h1>
+          <h1 *ngIf="showCountPuzzlesLeft">{{ countPuzzlesPlayedBlock }} / {{
+            this.plan.blocks[this.currentIndexBlock].puzzlesCount }}</h1>
+          <h3 *ngIf="showBlockTimer">{{ timeLeftBlock | secondsToMinutesSeconds }}</h3>
         </ion-text>
 
       </ion-col>
