@@ -37,6 +37,14 @@ export class AppService {
     return this.openingsList;
   }
 
+  getThemePuzzleByValue(value: string) {
+    const theme = this.themesPuzzlesList.find(themeItem => themeItem.value === value);
+    if (!theme) {
+      this.logError('No se encontró el tema', value);
+    }
+    return theme;
+  }
+
   async loadThemesPuzzle() {
     const request$ = this.httpClient.get<AppPuzzleThemesGroup[]>('assets/data/themes-puzzle.json')
       .pipe(take(1));

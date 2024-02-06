@@ -36,7 +36,6 @@ export class PlanService {
 
       const plan: Plan = {
         uid: createUid(),
-        time: time > 0 ? time : -1,
         blocks,
         createdAt: new Date().getTime(),
       };

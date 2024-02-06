@@ -10,11 +10,13 @@ export class SoundsService {
 
   select;
   error;
+  good;
   move;
   capture;
   check;
   checkMate;
   castle;
+  lowTime;
 
   constructor() {
     this.loadSounds();
@@ -30,6 +32,9 @@ export class SoundsService {
     this.error = new Howl({
       src: [basePath + 'Error.mp3']
     });
+    this.good = new Howl({
+      src: [basePath + 'PuzzleStormGood.mp3']
+    });
     this.move = new Howl({
       src: [basePath + 'Move.mp3']
     });
@@ -44,6 +49,9 @@ export class SoundsService {
     });
     this.checkMate = new Howl({
       src: [basePath + 'Victory.mp3']
+    });
+    this.lowTime = new Howl({
+      src: [basePath + 'LowTime.mp3']
     });
 
   }
@@ -74,8 +82,16 @@ export class SoundsService {
     this.select.play();
   }
 
+  playLowTime() {
+    this.lowTime.play();
+  }
+
   playError() {
     this.error.play();
+  }
+
+  playGood() {
+    this.good.play();
   }
 
 }

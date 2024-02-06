@@ -81,7 +81,7 @@ export class BoardPuzzleComponent implements OnInit {
     if (data) {
       this.puzzle = data;
       console.log('puzzle', this.puzzle);
-
+      this.stopTimer();
       this.initPuzzle();
     }
   }
@@ -126,7 +126,12 @@ export class BoardPuzzleComponent implements OnInit {
     // ejecutar primera jugada
     this.puzzleMoveResponse();
 
-    this.initTimer();
+    // se valida si el puzzle tiene un tiempo limite para resolverlo
+    if (this.puzzle?.times?.total) {
+      this.initTimer();
+    }
+
+
     this.initGoshTimer();
   }
 
@@ -186,7 +191,7 @@ export class BoardPuzzleComponent implements OnInit {
         case 'validateMoveInput':
 
 
-          if ((event.squareTo.charAt(1) === '8' || event.squareTo.charAt(1) === '1') && event.piece.charAt(1) === 'p') {
+          if ((event?.squareTo?.charAt(1) === '8' || event?.squareTo?.charAt(1) === '1') && event?.piece?.charAt(1) === 'p') {
 
             const colorToShow = event.piece.charAt(0) === 'w' ? COLOR.white : COLOR.black;
             // FIXME: se puede promocionar  si se toma un peon y se lleva con el mause a la ultima fila
@@ -361,7 +366,7 @@ export class BoardPuzzleComponent implements OnInit {
     this.time = 0;
     this.timeUsed = 0;
     this.timeColor = 'success';
-    if (this.puzzle.times.total) {
+    if (this.puzzle?.times?.total) {
       this.time = this.puzzle.times.total;
       warningColorOn = this.puzzle.times.warningOn;
       dangerColorOn = this.puzzle.times.dangerOn;
@@ -421,15 +426,17 @@ export class BoardPuzzleComponent implements OnInit {
 
   stopTimer() {
     this.subsSeconds = null;
-    this.timerUnsubscribe$.next();
-    this.timerUnsubscribe$.complete();
+    if (this.timerUnsubscribe$) {
+      this.timerUnsubscribe$.next();
+      this.timerUnsubscribe$.complete();
+    }
   }
 
 
   validateMove() {
     const fenChessInstance = this.chessInstance.fen();
 
-    // this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fenChessInstance);
 
     this.currentMoveNumber++;
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
