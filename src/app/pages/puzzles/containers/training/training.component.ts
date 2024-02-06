@@ -34,19 +34,18 @@ import { BlockPresentationComponent } from '@pages/puzzles/components/block-pres
 export class TrainingComponent implements OnInit {
 
   //ui
-  showPlanTimer = false;
   showBlockTimer = false;
-  showCountPuzzlesLeft = false;
 
   currentIndexBlock = -1; // -1 para que al iniciar se seleccione el primer bloque sumando ++ y queda en 0
   plan: Plan;
   puzzleToPlay: Puzzle;
-  timeLeft = 0;
+  timeTraining = 0;
   timerUnsubscribe$ = new Subject<void>();
 
   timeLeftBlock = 0;
   timerUnsubscribeBlock$ = new Subject<void>();
   countPuzzlesPlayedBlock = 0;
+  totalPuzzlesInBlock = 0;
 
   constructor(
     private planService: PlanService,
@@ -70,7 +69,30 @@ export class TrainingComponent implements OnInit {
     });
   }
 
+  playNextBlock() {
+    this.currentIndexBlock++;
+
+    // se valida si se ha llegado al final del plan
+    if (this.currentIndexBlock === this.plan.blocks.length) {
+      this.endPlan();
+      return;
+    }
+
+    this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
+
+
+
+    this.countPuzzlesPlayedBlock = 0;
+    this.showBlockTimer = false;
+    this.pausePlanTimer();
+    this.showBlockPresentation();
+  }
+
   async showBlockPresentation() {
+
+    this.pauseBlockTimer();
+
+    this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
 
     const themeName = this.plan.blocks[this.currentIndexBlock].themes[0];
 
@@ -105,8 +127,6 @@ export class TrainingComponent implements OnInit {
 
     modal.onDidDismiss().then((data) => {
       this.selectPuzzleToPlay();
-      this.resumePlanTimer();
-
       if (this.plan.blocks[this.currentIndexBlock].time !== -1) {
         this.showBlockTimer = true;
         this.initTimeToEndBlock(this.plan.blocks[this.currentIndexBlock].time);
@@ -114,22 +134,21 @@ export class TrainingComponent implements OnInit {
         this.showBlockTimer = false;
         this.stopBlockTimer();
       }
-
-
-
     });
 
 
   }
 
-  playPlan() {
-    if (this.plan.time) {
-      this.showPlanTimer = true;
-      this.initTimeToEndPlan(this.plan.time);
-    }
-  }
 
   selectPuzzleToPlay() {
+
+    // se valida si el bloque es por cantidad de puzzles y si ya se jugaron todos
+    if (this.plan.blocks[this.currentIndexBlock].puzzlesCount !== 0 &&
+      this.countPuzzlesPlayedBlock === this.plan.blocks[this.currentIndexBlock].puzzlesCount) {
+      this.playNextBlock();
+      return;
+    }
+
     const puzzle = {
       ...this.plan.blocks[this.currentIndexBlock].puzzles.find(puzzleItem =>
         !this.plan.blocks[this.currentIndexBlock]?.puzzlesPlayed?.find(puzzlePlayed => puzzlePlayed.uidPuzzle === puzzleItem.uid))
@@ -146,23 +165,19 @@ export class TrainingComponent implements OnInit {
   }
 
   // init countDown
-  initTimeToEndPlan(timePlan: number) {
-    this.timeLeft = timePlan;
+  playPlan() {
+
     const countDown = interval(1000);
     countDown.pipe(
       takeUntil(this.timerUnsubscribe$)
     ).subscribe(() => {
-      if (this.timeLeft > 0) {
-        this.timeLeft--;
-      } else {
-        // unsubscribe
-        this.stopPlanTimer();
-      }
+      this.timeTraining++;
     });
   }
 
   initTimeToEndBlock(timeBlock: number) {
     this.timeLeftBlock = timeBlock;
+    this.timerUnsubscribeBlock$ = new Subject<void>();
     const countDown = interval(1000);
     countDown.pipe(
       takeUntil(this.timerUnsubscribeBlock$)
@@ -172,20 +187,14 @@ export class TrainingComponent implements OnInit {
       } else {
         // unsubscribe
         this.stopBlockTimer();
+        this.playNextBlock();
       }
     });
   }
 
-  playNextBlock() {
-    this.currentIndexBlock++;
 
-
-
-
-    this.countPuzzlesPlayedBlock = 0;
-    this.showBlockTimer = false;
-    this.pausePlanTimer();
-    this.showBlockPresentation();
+  endPlan() {
+    console.log('Plan finalizado');
   }
 
   pauseBlockTimer() {
@@ -202,16 +211,16 @@ export class TrainingComponent implements OnInit {
   }
 
   pausePlanTimer() {
-    if (this.showPlanTimer) {
-      this.timerUnsubscribe$.next();
-    }
+
+    this.timerUnsubscribe$.next();
+
   }
 
-  resumePlanTimer() {
-    this.initTimeToEndPlan(this.timeLeft);
-  }
+
 
   stopPlanTimer() {
+    console.log('Plan finalizado');
+
     this.stopBlockTimer();
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
