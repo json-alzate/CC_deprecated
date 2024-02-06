@@ -436,7 +436,7 @@ export class BoardPuzzleComponent implements OnInit {
   validateMove() {
     const fenChessInstance = this.chessInstance.fen();
 
-    // this.toolsService.determineChessMoveType(this.fenToCompare, fenChessInstance);
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fenChessInstance);
 
     this.currentMoveNumber++;
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {

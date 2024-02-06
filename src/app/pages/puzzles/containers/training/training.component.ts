@@ -19,6 +19,7 @@ import { Plan, Block } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
 import { ProfileService } from '@services/profile.service';
 import { AppService } from '@services/app.service';
+import { SoundsService } from '@services/sounds.service';
 
 // utils
 import { createUid } from '@utils/create-uid';
@@ -52,7 +53,8 @@ export class TrainingComponent implements OnInit {
     private navController: NavController,
     private profileService: ProfileService,
     private modalController: ModalController,
-    private appService: AppService
+    private appService: AppService,
+    private soundsService: SoundsService
   ) {
   }
 
@@ -264,12 +266,15 @@ export class TrainingComponent implements OnInit {
 
     switch (puzzleStatus) {
       case 'good':
+        this.soundsService.playGood();
         this.selectPuzzleToPlay();
         break;
       case 'bad':
+        this.soundsService.playError();
         this.selectPuzzleToPlay();
         break;
       case 'timeOut':
+        this.soundsService.playLowTime();
         this.selectPuzzleToPlay();
         break;
 
