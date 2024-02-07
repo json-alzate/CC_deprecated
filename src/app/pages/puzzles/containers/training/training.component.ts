@@ -48,6 +48,8 @@ export class TrainingComponent implements OnInit {
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
 
+  showEndPlan = false;
+
   constructor(
     private planService: PlanService,
     private navController: NavController,
@@ -221,11 +223,14 @@ export class TrainingComponent implements OnInit {
 
 
   stopPlanTimer() {
-    console.log('Plan finalizado');
+    console.log('Plan finalizado ', this.plan);
+
 
     this.stopBlockTimer();
+    this.showEndPlan = true;
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
+
   }
 
   onPuzzleCompleted(puzzleCompleted: Puzzle, puzzleStatus: 'good' | 'bad' | 'timeOut') {
@@ -244,6 +249,7 @@ export class TrainingComponent implements OnInit {
       themes: puzzleCompleted.themes,
       openingFamily: puzzleCompleted.openingFamily,
       openingVariation: puzzleCompleted.openingVariation,
+      fenPuzzle: puzzleCompleted.fen
     };
 
 
@@ -267,20 +273,15 @@ export class TrainingComponent implements OnInit {
     switch (puzzleStatus) {
       case 'good':
         this.soundsService.playGood();
-        this.selectPuzzleToPlay();
         break;
       case 'bad':
         this.soundsService.playError();
-        this.selectPuzzleToPlay();
         break;
       case 'timeOut':
         this.soundsService.playLowTime();
-        this.selectPuzzleToPlay();
-        break;
-
-      default:
         break;
     }
+    this.selectPuzzleToPlay();
 
   }
 

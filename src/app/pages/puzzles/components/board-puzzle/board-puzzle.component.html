@@ -5,7 +5,7 @@
     </div>
 
     <ion-item>
-      <ion-label [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
+      <ion-label *ngIf="showTimer" [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
       <ion-buttons slot="end">
         <ion-button *ngIf="goshPuzzleTime > -1" size="large" fill="clear">
 
@@ -38,5 +38,5 @@
     </ion-item>
 
   </ion-card-content>
-  <ion-progress-bar [color]="timeColor" buffer></ion-progress-bar>
+  <ion-progress-bar *ngIf="showTimer" [color]="timeColor" buffer></ion-progress-bar>
 </ion-card>

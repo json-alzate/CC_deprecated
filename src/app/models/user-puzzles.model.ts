@@ -10,4 +10,5 @@ export interface UserPuzzle {
     themes: string[];
     openingFamily?: string;
     openingVariation?: string;
+    fenPuzzle?: string;
 }

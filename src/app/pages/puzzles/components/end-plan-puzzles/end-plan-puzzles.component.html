@@ -1,0 +1,12 @@
+<ion-row>
+  <ion-col size="3" *ngFor="let userPuzzle of userPuzzles">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Awesome</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <app-fen-board [setFen]="userPuzzle.fenPuzzle"></app-fen-board>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>

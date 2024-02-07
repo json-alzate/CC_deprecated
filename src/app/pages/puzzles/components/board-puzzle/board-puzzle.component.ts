@@ -55,6 +55,7 @@ export class BoardPuzzleComponent implements OnInit {
 
 
   // timer
+  showTimer = true;
   time = 0;
   timeColor = 'success';
   subsSeconds: Observable<number>;
@@ -128,7 +129,10 @@ export class BoardPuzzleComponent implements OnInit {
 
     // se valida si el puzzle tiene un tiempo limite para resolverlo
     if (this.puzzle?.times?.total) {
+      this.showTimer = true;
       this.initTimer();
+    } else {
+      this.showTimer = false;
     }
 
 
