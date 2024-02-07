@@ -28,8 +28,8 @@
         </ng-container>
         <ng-template #elseTemplateBoardPuzzle>
 
-          <app-board-puzzle [setPuzzle]="puzzleToPlay" (puzzleCompleted)="onPuzzleCompleted($event, 'good')"
-            (puzzleFailed)="onPuzzleCompleted($event, 'bad')"
+          <app-board-puzzle [setPuzzle]="puzzleToPlay" [setForceStopTimer]="forceStopTimerInPuzzleBoard"
+            (puzzleCompleted)="onPuzzleCompleted($event, 'good')" (puzzleFailed)="onPuzzleCompleted($event, 'bad')"
             (puzzleEndByTime)="onPuzzleCompleted($event, 'timeOut')"></app-board-puzzle>
         </ng-template>
 

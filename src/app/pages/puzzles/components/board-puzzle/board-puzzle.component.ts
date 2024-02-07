@@ -81,9 +81,17 @@ export class BoardPuzzleComponent implements OnInit {
   @Input() set setPuzzle(data: Puzzle) {
     if (data) {
       this.puzzle = data;
-      console.log('puzzle', this.puzzle);
       this.stopTimer();
       this.initPuzzle();
+    }
+  }
+
+  @Input() set setForceStopTimer(data: boolean) {
+    console.log('setForceStopTimer', data);
+
+    if (data) {
+      // por que no se detiene el timer?
+      this.stopTimer();
     }
   }
 
@@ -433,6 +441,8 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.timerUnsubscribe$) {
       this.timerUnsubscribe$.next();
       this.timerUnsubscribe$.complete();
+      console.log('timerUnsubscribe$ completed');
+
     }
   }
 

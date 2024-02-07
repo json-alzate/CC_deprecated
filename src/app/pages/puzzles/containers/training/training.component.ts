@@ -49,6 +49,7 @@ export class TrainingComponent implements OnInit {
   totalPuzzlesInBlock = 0;
 
   showEndPlan = false;
+  forceStopTimerInPuzzleBoard = false;
 
   constructor(
     private planService: PlanService,
@@ -77,6 +78,9 @@ export class TrainingComponent implements OnInit {
     this.currentIndexBlock++;
 
     // se valida si se ha llegado al final del plan
+    console.log('currentIndexBlock ', this.currentIndexBlock, ' plan.blocks.length ', this.plan.blocks.length);
+
+
     if (this.currentIndexBlock === this.plan.blocks.length) {
       this.endPlan();
       return;
@@ -94,6 +98,7 @@ export class TrainingComponent implements OnInit {
 
   async showBlockPresentation() {
 
+    this.forceStopTimerInPuzzleBoard = true;
     this.pauseBlockTimer();
 
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
@@ -138,6 +143,7 @@ export class TrainingComponent implements OnInit {
         this.showBlockTimer = false;
         this.stopBlockTimer();
       }
+      this.forceStopTimerInPuzzleBoard = false;
     });
 
 
@@ -223,7 +229,7 @@ export class TrainingComponent implements OnInit {
 
 
   stopPlanTimer() {
-    console.log('Plan finalizado ', this.plan);
+    console.log('Plan finalizado ', JSON.stringify(this.plan));
 
 
     this.stopBlockTimer();
