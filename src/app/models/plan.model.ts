@@ -1,6 +1,10 @@
 import { Puzzle } from './puzzle.model';
 import { UserPuzzle } from './user-puzzles.model';
 
+export type PlanTypes = 'warmup' | 'plan5' | 'plan10' | 'plan20' | 'plan30' | 'backToCalm';
+
+
+
 export interface Block {
     title?: string;
     description?: string;
@@ -29,4 +33,5 @@ export interface Plan {
     uidUser?: string;
     blocks: Block[];
     createdAt: number;
+    planType: string;
 };
