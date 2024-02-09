@@ -6,8 +6,9 @@
       <ion-col size="3">
 
         <ion-text color="medium">
-          <h1 *ngIf="totalPuzzlesInBlock > 0">{{ countPuzzlesPlayedBlock }} / {{
-            totalPuzzlesInBlock }}</h1>
+          <h1 *ngIf="totalPuzzlesInBlock > 0">
+            {{ countPuzzlesPlayedBlock }} / {{totalPuzzlesInBlock }}
+          </h1>
           <h3 *ngIf="showBlockTimer">{{ timeLeftBlock | secondsToMinutesSeconds }}</h3>
           <h6>{{ timeTraining | secondsToMinutesSeconds }}</h6>
         </ion-text>
@@ -16,27 +17,47 @@
 
       <ion-col class="ion-no-padding ion-margin-top" size="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
 
-        <ng-container *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
-
-          <div *ngFor="let block of plan?.blocks">
-
-            <app-end-plan-puzzles [userPuzzles]="block.puzzlesPlayed"></app-end-plan-puzzles>
-
-          </div>
 
 
-        </ng-container>
+
+        <ion-accordion-group *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
+
+          <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
+            <ion-item slot="header" color="light">
+              <ion-label>{{ plan?.uid+i }}</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+
+              <!-- <app-end-plan-puzzles [setUserPuzzles]="block.puzzlesPlayed"></app-end-plan-puzzles> -->
+
+              <ion-row>
+                <ion-col size="3" *ngFor="let userPuzzle of block.puzzlesPlayed">
+
+                  <ion-card>
+
+                    <ion-card-content>
+                      <app-fen-board [setFen]="userPuzzle.fenPuzzle"></app-fen-board>
+                    </ion-card-content>
+                    <ion-item>
+                      <ion-label>Awesome Label</ion-label>
+                    </ion-item>
+                  </ion-card>
+
+                </ion-col>
+              </ion-row>
+
+            </div>
+          </ion-accordion>
+
+        </ion-accordion-group>
+
+
         <ng-template #elseTemplateBoardPuzzle>
 
           <app-board-puzzle [setPuzzle]="puzzleToPlay" [setForceStopTimer]="forceStopTimerInPuzzleBoard"
             (puzzleCompleted)="onPuzzleCompleted($event, 'good')" (puzzleFailed)="onPuzzleCompleted($event, 'bad')"
             (puzzleEndByTime)="onPuzzleCompleted($event, 'timeOut')"></app-board-puzzle>
         </ng-template>
-
-
-
-
-
 
       </ion-col>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 
 import {
   Chessboard,
@@ -15,7 +15,7 @@ import { UiService } from '@services/ui.service';
   templateUrl: './fen-board.component.html',
   styleUrls: ['./fen-board.component.scss'],
 })
-export class FenBoardComponent implements OnInit {
+export class FenBoardComponent implements OnInit, AfterViewInit {
 
   fen: string;
   uid: string;
@@ -30,12 +30,15 @@ export class FenBoardComponent implements OnInit {
   @Input() set setFen(fen: string) {
     this.uid = createUid();
     this.fen = fen;
-    this.buildBoard();
   };
 
 
 
   ngOnInit() { }
+
+  ngAfterViewInit() {
+    this.buildBoard();
+  }
 
   buildBoard() {
 
@@ -45,6 +48,7 @@ export class FenBoardComponent implements OnInit {
 
     const cssClass = this.uiService.currentBoardStyleSelected.name !== 'default' ? this.uiService.currentBoardStyleSelected.name : null;
 
+    console.log(this.uid);
 
 
     this.board = new Chessboard(document.getElementById(this.uid), {
