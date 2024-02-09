@@ -48,9 +48,6 @@ export class FenBoardComponent implements OnInit, AfterViewInit {
 
     const cssClass = this.uiService.currentBoardStyleSelected.name !== 'default' ? this.uiService.currentBoardStyleSelected.name : null;
 
-    console.log(this.uid);
-
-
     this.board = new Chessboard(document.getElementById(this.uid), {
       responsive: true,
       position: this.fen,
