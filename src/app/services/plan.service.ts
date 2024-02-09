@@ -10,10 +10,13 @@ import { AppState, getPlanState } from '@redux/states/app.state';
 import { Store } from '@ngrx/store';
 
 // Actions
-import { setPlan } from '@redux/actions/plan.actions';
+import { setPlan, requestSavePlan } from '@redux/actions/plan.actions';
 
 // Selectors
 import { getPlan } from '@redux/selectors/plan.selectors';
+
+// services
+import { FirestoreService } from '@services/firestore.service';
 
 
 @Injectable({
@@ -23,7 +26,17 @@ export class PlanService {
 
   constructor(
     private store: Store<Store>,
+    private firestoreService: FirestoreService
   ) { }
+
+
+  /**
+   * Actions
+   */
+  requestSavePlanAction(plan: Plan) {
+    this.store.dispatch(requestSavePlan({ plan }));
+  }
+
 
   /**
    *
@@ -60,5 +73,13 @@ export class PlanService {
 
     });
 
+  }
+
+
+  /**
+   * Save the plan
+   */
+  savePlan(plan: Plan): Promise<string> {
+    return this.firestoreService.savePlan(plan);
   }
 }

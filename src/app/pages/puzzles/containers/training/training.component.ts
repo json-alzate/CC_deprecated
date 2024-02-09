@@ -209,6 +209,10 @@ export class TrainingComponent implements OnInit {
     this.showEndPlan = true;
     this.setValuesAccordionGroup();
     this.stopPlanTimer();
+    if (this.profileService.getProfile?.uid) {
+      this.plan.uidUser = this.profileService.getProfile?.uid;
+      this.planService.requestSavePlanAction(this.plan);
+    }
   }
 
   pauseBlockTimer() {
@@ -225,9 +229,7 @@ export class TrainingComponent implements OnInit {
   }
 
   pausePlanTimer() {
-
     this.timerUnsubscribe$.next();
-
   }
 
 

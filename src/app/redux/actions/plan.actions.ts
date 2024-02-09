@@ -7,3 +7,8 @@ export const setPlan = createAction(
     '[PLAN] setPlan',
     props<{ plan: Plan }>()
 );
+
+export const requestSavePlan = createAction(
+    '[PLAN] requestSavePlan',
+    props<{ plan: Plan }>()
+);

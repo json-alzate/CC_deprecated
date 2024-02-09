@@ -367,7 +367,22 @@ export class FirestoreService {
   }
 
 
+  /**
+   // ----------------------------------------------------------------------------
+    Plan
+   */
 
+  /**
+   * Save a plan in firestore
+   * Guarda un plan en firestore
+   *
+   * @param plan
+   * @returns
+   * */
+  async savePlan(plan: any): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'plans'), plan);
+    return docRef.id;
+  }
 
 
 

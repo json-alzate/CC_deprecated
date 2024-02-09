@@ -26,6 +26,7 @@ export interface Block {
 
 export interface Plan {
     uid: string;
+    uidUser?: string;
     blocks: Block[];
     createdAt: number;
 };
