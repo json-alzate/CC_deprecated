@@ -213,7 +213,7 @@ export class BlockService {
 
           const block10: Block[] = [
             {
-              time: 120,
+              time: 20,
               puzzlesCount: 0,
               themes: [theme10],
               eloStart: eloTheme10 ? eloTheme10 - 100 : defaultEloStart,

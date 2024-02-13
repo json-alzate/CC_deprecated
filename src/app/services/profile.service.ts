@@ -18,11 +18,15 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 // models
 import { User as FirebaseUser } from 'firebase/auth';
 import { Profile } from '@models/profile.model';
+import { PlanTypes } from '@models/plan.model';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
 
 // components
+
+// utils
+import { calculateElo } from '@utils/calculate-elo';
 
 
 @Injectable({
@@ -128,6 +132,60 @@ export class ProfileService {
 
   addNewNickName(nickname: string, uidUser: string) {
     return this.firestoreService.addNewNickName(nickname, uidUser);
+  }
+
+  /**
+   * Elos
+   */
+  calculateEloPuzzlePlan(
+    puzzleElo: number, result: 1 | 0.5 | 0,
+    planType: PlanTypes,
+    themes: string[],
+    openingFamily: string,
+  ) {
+
+    console.log('themes', themes);
+    console.log('openingFamily', openingFamily);
+
+    let elos = {};
+    let eloOpening = 1500;
+    // se valida el planType para saber sobre que objeto de elos se va a trabajar, validando que el usuario tenga la propiedad elos
+    if (this.profile.elos) {
+
+      elos = this.profile.elos[planType];
+      // ahora se toman los elos de las aperturas, que se conforman con el planType +'Openings' ejem plan5Openings
+      // y se busca el elo de la apertura que se jugo para actualizarlo, sino existe se crea realizando el calculo de elo con 1500
+      eloOpening = calculateElo(this.profile.elos[`${planType}Openings`][openingFamily] || 1500, puzzleElo, result);
+    } else {
+      eloOpening = calculateElo(1500, puzzleElo, result);
+    }
+
+    // se recorren los temas para actualizar los elos de los temas jugados en el planType
+    themes.forEach(theme => {
+      elos[theme] = calculateElo(elos[theme] || 1500, puzzleElo, result);
+    });
+
+    // se construye el objeto con los cambios para actualizar, tanto los elos de los temas como el elo de la apertura
+    const changes = {
+      elos: {
+        [planType]: elos
+      }
+    };
+
+    // se adiciona a los cambios el elo de la apertura, solo si openingFamily no esta vacio
+    if (openingFamily) {
+      changes.elos[`${planType}Openings`] = {
+        [openingFamily]: eloOpening
+      };
+    }
+
+    console.log('changes', changes);
+
+
+    // se actualiza el perfil
+    // this.updateProfile(changes);
+
+
   }
 
   private async setInitialProfile(dataAuth: FirebaseUser) {

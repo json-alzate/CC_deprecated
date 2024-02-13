@@ -33,5 +33,5 @@ export interface Plan {
     uidUser?: string;
     blocks: Block[];
     createdAt: number;
-    planType: string;
+    planType: PlanTypes;
 };

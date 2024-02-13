@@ -127,6 +127,7 @@ export class TrainingComponent implements OnInit {
       component: BlockPresentationComponent,
       componentProps: {
         title,
+        // FIXME: themeName puede estar vacio porque es una apertura, en ese caso se debe consultar la descripción de la apertura
         description: this.plan.blocks[this.currentIndexBlock].description || this.appService.getThemePuzzleByValue(themeName).descriptionEs,
         image,
       }
@@ -276,6 +277,17 @@ export class TrainingComponent implements OnInit {
       ...this.plan,
       blocks: newBlocks
     };
+
+
+
+    // se actualizan los elo's del usuario
+    this.profileService.calculateEloPuzzlePlan(
+      puzzleCompleted.rating,
+      puzzleStatus === 'good' ? 1 : 0,
+      this.plan.planType,
+      puzzleCompleted.themes,
+      puzzleCompleted.openingFamily,
+    );
 
     switch (puzzleStatus) {
       case 'good':
