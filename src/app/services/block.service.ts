@@ -107,7 +107,7 @@ export class BlockService {
               time: -1,
               puzzlesCount: 1,
               themes: ['mate'],
-              eloStart: mateElo0 ? mateElo0 : defaultEloStart,
+              eloStart: mateElo0 ? mateElo0 - 100 : defaultEloStart,
               eloEnd: (mateElo0 ?? defaultElo),
               puzzlesPlayed: [],
               color: color0

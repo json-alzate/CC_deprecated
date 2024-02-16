@@ -260,6 +260,9 @@ export class TrainingComponent implements OnInit {
       fenPuzzle: puzzleCompleted.fen
     };
 
+    console.log('puzzle ', puzzleCompleted);
+
+
 
     // Crear una copia del bloque actual
     const currentBlock = {

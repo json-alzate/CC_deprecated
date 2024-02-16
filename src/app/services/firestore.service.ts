@@ -124,6 +124,10 @@ export class FirestoreService {
    * @param changes Partial<User>
    */
   async updateProfile(changes: Partial<Profile>): Promise<void> {
+    // validate if profileDocRef exists
+    if (!this.profileDocRef) {
+      throw new Error('No profileDocRef');
+    }
     return updateDoc(this.profileDocRef, changes);
   }
 
@@ -279,6 +283,11 @@ export class FirestoreService {
 
       querySnapshot.forEach((document) => {
         const puzzleToAdd = document.data() as Puzzle;
+        // clear openeingFamily and openingVariation if they are empty (\r)
+        if (puzzleToAdd.openingFamily === '\r') {
+          puzzleToAdd.openingFamily = '';
+        }
+
         if (puzzleToAdd.rating >= eloStart && puzzleToAdd.rating <= eloEnd) {
           // filtrar por color
           if (!options?.color || (options?.color && puzzleToAdd.fen.includes(` ${options.color} `))) {
