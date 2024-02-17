@@ -4,6 +4,8 @@ import {
   Chessboard,
   BORDER_TYPE
 } from 'cm-chessboard';
+import { Markers } from 'cm-chessboard/src/extensions/markers/markers';
+
 
 import { createUid } from '@utils/create-uid';
 
@@ -18,6 +20,7 @@ import { UiService } from '@services/ui.service';
 export class FenBoardComponent implements OnInit, AfterViewInit {
 
   fen: string;
+  squaresHighlight: string[];
   uid: string;
   board;
 
@@ -27,9 +30,10 @@ export class FenBoardComponent implements OnInit, AfterViewInit {
   ) { }
 
 
-  @Input() set setFen(fen: string) {
+  @Input() set setFen(data: { fen: string; firstMoveSquaresHighlight: string[] }) {
     this.uid = createUid();
-    this.fen = fen;
+    this.fen = data.fen;
+    this.squaresHighlight = data.firstMoveSquaresHighlight;
   };
 
 
@@ -60,8 +64,23 @@ export class FenBoardComponent implements OnInit, AfterViewInit {
           file: piecesPath
         }
       },
-      extensions: []
+      extensions: [
+        { class: Markers }
+      ]
     });
+
+    this.showLastMove(this.squaresHighlight[0], this.squaresHighlight[1]);
+  }
+
+  // Muestra la ultima jugada utilizando marcadores
+  showLastMove(from: string, to: string) {
+
+    this.board.removeMarkers();
+    if (from && to) {
+      const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
+      this.board.addMarker(marker, from);
+      this.board.addMarker(marker, to);
+    }
   }
 
 }

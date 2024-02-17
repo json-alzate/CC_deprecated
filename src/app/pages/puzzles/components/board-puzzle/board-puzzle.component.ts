@@ -395,7 +395,10 @@ export class BoardPuzzleComponent implements OnInit {
       if (this.puzzle.times.total) {
         this.time--;
         if (this.time === 0) {
-          this.puzzleEndByTime.emit({ ...this.puzzle, timeUsed: this.timeUsed });
+          this.puzzleEndByTime.emit({
+            ...this.puzzle, timeUsed: this.timeUsed, fenStartUserPuzzle: this.arrayFenSolution[1],
+            firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
+          });
           this.stopTimer();
         }
       } else {
@@ -456,7 +459,10 @@ export class BoardPuzzleComponent implements OnInit {
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
       this.puzzleMoveResponse();
     } else {
-      this.puzzleFailed.emit({ ...this.puzzle, timeUsed: this.timeUsed });
+      this.puzzleFailed.emit({
+        ...this.puzzle, timeUsed: this.timeUsed, fenStartUserPuzzle: this.arrayFenSolution[1],
+        firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
+      });
       this.stopTimer();
     }
 
@@ -480,7 +486,11 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.arrayFenSolution.length === this.currentMoveNumber) {
       this.allowMoveArrows = true;
       this.currentMoveNumber--;
-      this.puzzleCompleted.emit({ ...this.puzzle, timeUsed: this.timeUsed });
+      this.puzzleCompleted.emit({
+        ...this.puzzle, timeUsed: this.timeUsed,
+        fenStartUserPuzzle: this.arrayFenSolution[1],
+        firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
+      });
       this.stopTimer();
     } else {
 

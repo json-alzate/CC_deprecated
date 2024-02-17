@@ -4,6 +4,7 @@ export interface UserPuzzle {
     uidPuzzle: string;
     date: number;
     resolved: boolean;
+    failByTime: boolean;
     resolvedTime: number;
     currentEloUser: number;
     eloPuzzle: number;
@@ -11,4 +12,6 @@ export interface UserPuzzle {
     openingFamily?: string;
     openingVariation?: string;
     fenPuzzle?: string;
+    fenStartUserPuzzle?: string;
+    firstMoveSquaresHighlight?: string[];
 }

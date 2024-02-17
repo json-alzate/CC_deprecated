@@ -39,6 +39,7 @@ export class TrainingComponent implements OnInit {
 
   currentIndexBlock = -1; // -1 para que al iniciar se seleccione el primer bloque sumando ++ y queda en 0
   plan: Plan;
+
   puzzleToPlay: Puzzle;
   timeTraining = 0;
   timerUnsubscribe$ = new Subject<void>();
@@ -251,13 +252,16 @@ export class TrainingComponent implements OnInit {
       uidPuzzle: puzzleCompleted.uid,
       date: new Date().getTime(),
       resolved: puzzleStatus === 'good',
+      failByTime: puzzleStatus === 'timeOut',
       resolvedTime: puzzleCompleted.timeUsed,
       currentEloUser: this.profileService.getProfile?.elo || 0,
       eloPuzzle: puzzleCompleted.rating,
       themes: puzzleCompleted.themes,
       openingFamily: puzzleCompleted.openingFamily,
       openingVariation: puzzleCompleted.openingVariation,
-      fenPuzzle: puzzleCompleted.fen
+      fenPuzzle: puzzleCompleted.fen,
+      fenStartUserPuzzle: puzzleCompleted.fenStartUserPuzzle,
+      firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight
     };
 
     console.log('puzzle ', puzzleCompleted);

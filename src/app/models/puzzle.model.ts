@@ -18,6 +18,8 @@ export interface Puzzle {
     };
     timeUsed?: number;
     goshPuzzleTime?: number;
+    fenStartUserPuzzle?: string;
+    firstMoveSquaresHighlight?: string[];
 }
 
 export interface PuzzleQueryOptions {
