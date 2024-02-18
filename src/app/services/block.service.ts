@@ -61,7 +61,7 @@ export class BlockService {
 
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
-
+      // TODO: Validar que ningún elo sea menor que 800 o mayor que 3000
       switch (option) {
         case 0: // Calentamiento / un mismo color
           //  2 minutos de mates en 1 (elo - 500) / tiempo por puzzle = 10 segundos
@@ -77,8 +77,8 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               themes: ['mateIn1'],
-              eloStart: mateIn1Elo0 ? mateIn1Elo0 - 600 : defaultEloStart - 600,
-              eloEnd: mateIn1Elo0 ? mateIn1Elo0 - 500 : defaultElo - 500,
+              eloStart: defaultEloStart,
+              eloEnd: mateIn1Elo0 && (mateIn1Elo0 - 500 > 1500) ? mateIn1Elo0 - 500 : defaultElo,
               color: color0,
               puzzleTimes: {
                 warningOn: 6,
@@ -213,7 +213,7 @@ export class BlockService {
 
           const block10: Block[] = [
             {
-              time: 20,
+              time: 120,
               puzzlesCount: 0,
               themes: [theme10],
               eloStart: eloTheme10 ? eloTheme10 - 100 : defaultEloStart,

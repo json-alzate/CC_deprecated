@@ -35,6 +35,7 @@ import { Profile } from '@models/profile.model';
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
+import { Plan } from '@models/plan.model';
 
 @Injectable({
   providedIn: 'root'
@@ -388,8 +389,11 @@ export class FirestoreService {
    * @param plan
    * @returns
    * */
-  async savePlan(plan: any): Promise<string> {
+  async savePlan(plan: Plan): Promise<string> {
     const docRef = await addDoc(collection(this.db, 'plans'), plan);
+
+    console.log('Document written with ID: ', docRef.id);
+
     return docRef.id;
   }
 

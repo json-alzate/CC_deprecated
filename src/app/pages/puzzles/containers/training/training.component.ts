@@ -207,12 +207,12 @@ export class TrainingComponent implements OnInit {
 
 
   endPlan() {
-    console.log('Plan finalizado ', JSON.stringify(this.plan));
     this.showEndPlan = true;
     this.setValuesAccordionGroup();
     this.stopPlanTimer();
     if (this.profileService.getProfile?.uid) {
       this.plan.uidUser = this.profileService.getProfile?.uid;
+      console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
     }
   }

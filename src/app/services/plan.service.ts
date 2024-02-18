@@ -34,6 +34,12 @@ export class PlanService {
    * Actions
    */
   requestSavePlanAction(plan: Plan) {
+
+    // clear puzzles in blocks
+    plan.blocks = plan.blocks.map((block: Block) => {
+      block.puzzles = [];
+      return block;
+    });
     this.store.dispatch(requestSavePlan({ plan }));
   }
 
