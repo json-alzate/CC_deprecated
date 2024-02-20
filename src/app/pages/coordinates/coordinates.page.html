@@ -93,7 +93,7 @@
 
           <div class="div-score-container">
             <img
-              [src]=" currentColorInBoard === 'white' ? 'assets/images/pieces/wK.svg' : 'assets/images/pieces/bK.svg'"
+              [src]=" currentColorInBoard === 'white' ? uiService.piecesPath +'wK.svg' : uiService.piecesPath +'bK.svg'"
               alt="King" class="img-current-king">
             <h1>{{ score }}</h1>
           </div>

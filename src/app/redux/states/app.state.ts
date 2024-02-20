@@ -12,6 +12,7 @@ import { AuthState } from './auth.state';
 import { CoordinatesPuzzlesState } from './coordinates-puzzles.state';
 import { PuzzlesState } from './puzzles.state';
 import { UserPuzzlesState } from './user-puzzles.state';
+import { PlansHistoryState } from './plans-history.state';
 
 
 
@@ -23,6 +24,7 @@ export interface AppState {
   puzzles: PuzzlesState;
   userPuzzles: UserPuzzlesState;
   plan: Plan;
+  plansHistory: PlansHistoryState;
 }
 
 export const getPlanState = createFeatureSelector<Plan>('plan');

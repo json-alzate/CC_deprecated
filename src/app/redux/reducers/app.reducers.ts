@@ -10,6 +10,7 @@ import { coordinatesPuzzleReducer } from '@redux/reducers/coordinates-puzzles.re
 import { puzzlesReducer } from '@redux/reducers/puzzles.reducer';
 import { userPuzzlesReducer } from '@redux/reducers/user-puzzles.reducer';
 import { planReducer } from '@redux/reducers/plan.reducer';
+import { plansHistoryReducer } from '@redux/reducers/plans-history.reducer';
 
 
 // states
@@ -27,7 +28,8 @@ export const appReducers: ActionReducerMap<AppState> = {
     coordinatesPuzzles: coordinatesPuzzleReducer,
     puzzles: puzzlesReducer,
     userPuzzles: userPuzzlesReducer,
-    plan: planReducer
+    plan: planReducer,
+    plansHistory: plansHistoryReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];

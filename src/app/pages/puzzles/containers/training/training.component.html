@@ -5,7 +5,7 @@
 
       <ion-col size="3">
 
-        <ion-text color="medium">
+        <ion-text *ngIf="!showEndPlan" color="medium">
           <h1 *ngIf="totalPuzzlesInBlock > 0" class="ion-text-center">
             {{ countPuzzlesPlayedBlock }} / {{totalPuzzlesInBlock }}
           </h1>
