@@ -1,4 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import { Chart, LinearScale, CategoryScale, PointElement, LineElement, Title, Tooltip, Filler, TimeScale } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { startOfToday, formatISO, format } from 'date-fns';
@@ -12,28 +15,40 @@ interface DataGroup {
   value: number;
 }
 
+// Services
+import { PlanService } from '@services/plan.service';
 
 @Component({
   selector: 'app-activity-chart',
   templateUrl: './activity-chart.component.html',
   styleUrls: ['./activity-chart.component.scss'],
 })
-export class ActivityChartComponent implements OnInit {
+export class ActivityChartComponent implements OnInit, AfterViewInit {
 
 
   @ViewChild('matrixChart') matrixChartRef: ElementRef;
 
   dataGroup: DataGroup[] = [];
   private chart: Chart; // Instancia del gráfico
+  private destroy$ = new Subject<void>();
 
-  constructor() {
+  constructor(
+    private planService: PlanService
+  ) {
     Chart.register(MatrixController, MatrixElement,
       LinearScale, CategoryScale, PointElement,
       LineElement, Title, Tooltip, Filler,
       TimeScale);
+
+    this.planService.getPlansHistoryState().pipe(takeUntil(this.destroy$)).subscribe(data => {
+      this.setData(data);
+    });
+
   }
 
-  @Input() set data(plans: Plan[]) {
+
+
+  setData(plans: Plan[]) {
 
     if (plans && plans.length > 0) {
       // Crear un objeto para almacenar los datos agrupados
@@ -54,6 +69,8 @@ export class ActivityChartComponent implements OnInit {
       });
 
       this.dataGroup = dataGroup;
+
+      this.updateChart();
 
     }
 
@@ -101,7 +118,6 @@ export class ActivityChartComponent implements OnInit {
 
 
   ngAfterViewInit() {
-
     this.chart = new Chart(this.matrixChartRef.nativeElement, {
       type: 'matrix',
       data: {
@@ -215,6 +231,18 @@ export class ActivityChartComponent implements OnInit {
         }
       }
     });
+  }
+
+  updateChart() {
+    if (this.chart) {
+      this.chart.data.datasets[0].data = this.generateData();
+      this.chart.update();
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 

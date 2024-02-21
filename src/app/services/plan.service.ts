@@ -1,4 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+
 import { Plan, Block, PlanTypes } from '@models/plan.model';
 
 import { createUid } from '@utils/create-uid';
@@ -14,6 +17,7 @@ import { setPlan, requestSavePlan, requestGetPlans } from '@redux/actions/plans.
 
 // Selectors
 import { getPlan } from '@redux/selectors/plan.selectors';
+import { getAllPlansHistory } from '@redux/selectors/plans-history.selectors';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
@@ -52,6 +56,13 @@ export class PlanService {
     return this.firestoreService.getPlans(uidUser);
   }
 
+  /** END ACTIONS */
+
+  /** STATE OBSERVABLES */
+
+  getPlansHistoryState(): Observable<Plan[]> {
+    return this.store.select(getAllPlansHistory);
+  }
 
   /**
    *
