@@ -10,7 +10,7 @@ import { AppState, getPlanState } from '@redux/states/app.state';
 import { Store } from '@ngrx/store';
 
 // Actions
-import { setPlan, requestSavePlan } from '@redux/actions/plan.actions';
+import { setPlan, requestSavePlan, requestGetPlans } from '@redux/actions/plans.actions';
 
 // Selectors
 import { getPlan } from '@redux/selectors/plan.selectors';
@@ -41,6 +41,15 @@ export class PlanService {
       return block;
     });
     this.store.dispatch(requestSavePlan({ plan }));
+  }
+
+
+  requestGetPlansAction(uidUser: string) {
+    this.store.dispatch(requestGetPlans({ uidUser }));
+  }
+
+  getPlans(uidUser: string): Promise<Plan[]> {
+    return this.firestoreService.getPlans(uidUser);
   }
 
 

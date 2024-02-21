@@ -383,6 +383,31 @@ export class FirestoreService {
    */
 
   /**
+   * Get plans from firestore
+   * Obtiene los planes de firestore
+   *
+   * @param uidUser
+   * @returns
+   * */
+  async getPlans(uidUser: string): Promise<Plan[]> {
+    const plansToReturn: Plan[] = [];
+    const q = query(
+      collection(this.db, 'plans'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const planToAdd = document.data() as Plan;
+      planToAdd.uid = document.id;
+      plansToReturn.push(planToAdd);
+    });
+
+    return plansToReturn;
+  }
+
+
+  /**
    * Save a plan in firestore
    * Guarda un plan en firestore
    *

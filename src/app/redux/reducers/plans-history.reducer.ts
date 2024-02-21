@@ -3,7 +3,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import { PlansHistoryState, plansHistoryStateAdapter } from '@redux/states/plans-history.state';
 
-import { addPlans } from '@redux/actions/plan.actions';
+import { addPlans } from '@redux/actions/plans.actions';
 
 export const initialState: PlansHistoryState = plansHistoryStateAdapter.getInitialState();
 

@@ -5,13 +5,29 @@ import { from } from 'rxjs';
 import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 
 import {
-    requestSavePlan
-} from '@redux/actions/plan.actions';
+    requestSavePlan, requestGetPlans, addPlans
+} from '@redux/actions/plans.actions';
 
 import { PlanService } from '@services/plan.service';
 
 @Injectable()
 export class PlanEffects {
+
+
+    requestGetPlans$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(requestGetPlans),
+            switchMap(({ uidUser }) =>
+                from(this.planService.getPlans(uidUser)).pipe(
+                    mergeMap((plans) => [addPlans({ plans })]),
+                    catchError((error) => {
+                        console.error('Error getting plans', error);
+                        return [];
+                    })
+                ))
+        )
+    );
+
 
     requestSavePlan$ = createEffect(() =>
         this.actions$.pipe(

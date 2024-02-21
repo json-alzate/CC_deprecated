@@ -2,7 +2,7 @@ import { createReducer, on, Action } from '@ngrx/store';
 
 import { Plan } from '@models/plan.model';
 
-import { setPlan } from '@redux/actions/plan.actions';
+import { setPlan } from '@redux/actions/plans.actions';
 
 
 
