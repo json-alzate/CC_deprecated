@@ -69,6 +69,8 @@ export class ProfileService {
         }
       });
     }
+    console.log('weakness', weakness);
+
     return weakness;
   }
 
@@ -168,7 +170,10 @@ export class ProfileService {
     }
 
     themes.forEach(theme => {
-      elos[planType][theme] = calculateElo(elos[planType][theme] || 1500, puzzleElo, result);
+      if (!elos[planType]) {
+        elos[planType] = {}; // Crea planType si no existe
+      }
+      elos[planType][theme] = calculateElo((elos[planType] && elos[planType][theme]) || 1500, puzzleElo, result);
     });
 
     // Inicializa el objeto de cambios con una copia de los elos existentes para evitar la sobrescritura

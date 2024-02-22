@@ -68,6 +68,7 @@ export class BoardPuzzleComponent implements OnInit {
 
   board;
   chessInstance = new Chess();
+  piecePathKingTurn = '';
 
   @Output() puzzleCompleted = new EventEmitter<Puzzle>();
   @Output() puzzleFailed = new EventEmitter<Puzzle>();
@@ -75,7 +76,7 @@ export class BoardPuzzleComponent implements OnInit {
 
   constructor(
     private renderer: Renderer2,
-    private uiService: UiService,
+    public uiService: UiService,
     private toolsService: ToolsService
   ) { }
   @Input() set setPuzzle(data: Puzzle) {
@@ -116,8 +117,10 @@ export class BoardPuzzleComponent implements OnInit {
     this.chessInstance.load(this.puzzle.fen);
     this.fenToCompareAndPlaySound = this.puzzle.fen;
     // Se cambia el color porque luego se realizara automáticamente la jugada inicial de la maquina
-    // el fen del puzzle inicia siempre con el color contrario al del que le toca jugar al usuario
+    // el fen del puzzle inicia siempre con el color contrario al del que le toc a jugar al usuario
     this.turnRoundBoard(this.chessInstance.turn() === 'b' ? 'w' : 'b');
+    // eslint-disable-next-line max-len
+    this.piecePathKingTurn = this.chessInstance.turn() === 'b' ? 'wK.svg' : 'bK.svg';
     this.currentMoveNumber = 0;
     this.allowMoveArrows = false;
 

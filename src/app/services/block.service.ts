@@ -68,9 +68,9 @@ export class BlockService {
           //  1 minuto de mates en 2 / tiempo por puzzle = 10 segundos
           // 1 ejercicio de mate
           const color0 = Math.random() > 0.5 ? 'white' : 'black';
-          const mateIn1Elo0 = profile?.elos?.warmup['mateIn1'];
-          const mateIn2Elo0 = profile?.elos?.warmup['mateIn2'];
-          const mateElo0 = profile?.elos?.warmup['mate'];
+          const mateIn1Elo0 = profile?.elos?.warmup ? profile?.elos?.warmup['mateIn1'] : undefined;
+          const mateIn2Elo0 = profile?.elos?.warmup ? profile?.elos?.warmup['mateIn2'] : undefined;
+          const mateElo0 = profile?.elos?.warmup ? profile?.elos?.warmup['mate'] : undefined;
 
           const blocks0: Block[] = [
             {
@@ -129,7 +129,7 @@ export class BlockService {
             reject('No se pudo obtener el tema random themeRandom5');
           }
           // se busca el elo del usuario según el string del temaRandom5
-          const themeRandomElo5 = profile?.elos?.plan5[themeRandom5];
+          const themeRandomElo5 = profile?.elos?.plan5 ? profile?.elos?.plan5[themeRandom5] : undefined;
           // se elige el elo mas bajo que el usuario tenga en el plan5, sino se asigna el elo por defecto
           let weakness5 = this.profileService.getWeakness(profile?.elos?.plan5);
           if (!weakness5) {
@@ -196,7 +196,7 @@ export class BlockService {
             theme10 = this.getWeaknessInPlan(profile?.elos?.plan10);
           }
           // se busca el elo del usuario según el string del theme10
-          const eloTheme10 = profile?.elos?.plan10[theme10];
+          const eloTheme10 = profile?.elos?.plan10 ? profile.elos.plan10[theme10] : undefined;
           if (Math.random() < 0.5) { // apertura random o debilidad
             // apertura random
             opening10 = this.getRandomOpening();
@@ -209,7 +209,7 @@ export class BlockService {
             opening10 = this.getWeaknessInPlanOpenings(profile?.elos?.plan10Openings);
           }
           // se busca el elo del usuario según el string de la opening10
-          const eloOpening10 = profile?.elos?.plan10Openings[opening10];
+          const eloOpening10 = profile?.elos?.plan10Openings ? profile?.elos?.plan10Openings[opening10] : undefined;
 
           const block10: Block[] = [
             {
@@ -309,11 +309,11 @@ export class BlockService {
 
           const theme20Random = this.getRandomTheme();
           const themeWeakness20 = this.getWeaknessInPlan(profile?.elos?.plan20);
-          const eloThemeWeakness20 = profile?.elos?.plan20[themeWeakness20];
-          const eloTheme20Random = profile?.elos?.plan20[theme20Random];
-          const eloMateIn120 = profile?.elos?.plan20['mateIn1'];
-          const eloEndgame20 = profile?.elos?.plan20['endgame'];
-          const eloMateIn320 = profile?.elos?.plan20['mateIn3'];
+          const eloThemeWeakness20 = profile?.elos?.plan20 ? profile?.elos?.plan20[themeWeakness20] : undefined;
+          const eloTheme20Random = profile?.elos?.plan20 ? profile?.elos?.plan20[theme20Random] : undefined;
+          const eloMateIn120 = profile?.elos?.plan20 ? profile?.elos?.plan20['mateIn1'] : undefined;
+          const eloEndgame20 = profile?.elos?.plan20 ? profile?.elos?.plan20['endgame'] : undefined;
+          const eloMateIn320 = profile?.elos?.plan20 ? profile?.elos?.plan20['mateIn3'] : undefined;
 
           let randomBlockOrBlind: Block;
 
@@ -474,16 +474,20 @@ export class BlockService {
 
           const color30 = Math.random() > 0.5 ? 'white' : 'black';
           const themeWeakness30 = this.getWeaknessInPlan(profile?.elos?.plan30);
-          const eloThemeWeakness30 = profile?.elos?.plan20[themeWeakness30];
-          const theme30Random = this.getRandomTheme();
-          const eloTheme30Random = profile?.elos?.plan30[theme30Random];
-          const opening30Random = this.getRandomOpening();
-          const eloOpening30Random = profile?.elos?.plan30Openings[opening30Random];
-          const eloEndgame30 = profile?.elos?.plan30['endgame'];
-          const eloPawnEndgame30 = profile?.elos?.plan30['pawnEndgame'];
-          const eloMateIn430 = profile?.elos?.plan30['mateIn4'];
+          console.log('themeWeakness30', themeWeakness30);
+          console.log('profile?.elos?.plan30', profile?.elos?.plan30);
 
-          const black30: Block[] = [
+
+          const eloThemeWeakness30 = profile?.elos?.plan30 ? profile?.elos?.plan30[themeWeakness30] : undefined;
+          const theme30Random = this.getRandomTheme();
+          const eloTheme30Random = profile?.elos?.plan30 ? profile?.elos?.plan30[theme30Random] : undefined;
+          const opening30Random = this.getRandomOpening();
+          const eloOpening30Random = profile?.elos?.plan30Openings ? profile?.elos?.plan30Openings[opening30Random] : undefined;
+          const eloEndgame30 = profile?.elos?.plan30 ? profile?.elos?.plan30['endgame'] : undefined;
+          const eloPawnEndgame30 = profile?.elos?.plan30 ? profile?.elos?.plan30['pawnEndgame'] : undefined;
+          const eloMateIn430 = profile?.elos?.plan30 ? profile?.elos?.plan30['mateIn4'] : undefined;
+
+          const block30: Block[] = [
             {
               time: 300,
               puzzlesCount: 0,
@@ -602,7 +606,7 @@ export class BlockService {
 
           ];
 
-          resolve(black30);
+          resolve(block30);
 
 
           break;
