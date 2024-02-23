@@ -44,7 +44,7 @@ export class TrainingMenuComponent implements OnInit {
     // se recorre cada bloque para generar los puzzles
     for (const block of blocks) {
       // TODO: se debe controlar de que si se retornen puzzles
-      block.puzzles = await this.blockService.generateBlockOfPuzzles(block);
+      // block.puzzles = await this.blockService.generateBlockOfPuzzles(block);
     }
 
     console.log(blocks);

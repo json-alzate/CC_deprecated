@@ -51,27 +51,24 @@ export class ProfileService {
     return this.profile?.eloPuzzles || 1500;
   }
 
+
   /**
    *
    * @param themes : or Openings { [key: string]: number; }
-   * @returns Return theme with the lowest value
+   * @returns Return the name of the theme with the lowest value
    */
-  public getWeakness(themes: {
-    [key: string]: number;
-  }): string {
-    let weakness;
-    if (themes) {
-      Object.keys(themes).forEach(key => {
-        if (!weakness) {
-          weakness = themes[key];
-        } else if (themes[key] < weakness) {
-          weakness = themes[key];
-        }
-      });
-    }
-    console.log('weakness', weakness);
+  public getWeakness(themes: { [key: string]: number }): string {
+    let lowestValue = Infinity; // Inicializar con Infinity para asegurarse de que cualquier valor sea menor.
+    let weakestTheme = ''; // Para almacenar el nombre del tema más débil.
 
-    return weakness;
+    Object.keys(themes).forEach(key => {
+      if (themes[key] < lowestValue) {
+        lowestValue = themes[key];
+        weakestTheme = key; // Almacenar el nombre del tema.
+      }
+    });
+
+    return weakestTheme; // Devolver el nombre del tema más débil.
   }
 
   // subscribe to profile

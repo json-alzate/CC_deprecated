@@ -477,6 +477,8 @@ export class BlockService {
           console.log('themeWeakness30', themeWeakness30);
           console.log('profile?.elos?.plan30', profile?.elos?.plan30);
 
+          // FIXME:  Esta retornando el valor y no el nombre del tema
+
 
           const eloThemeWeakness30 = profile?.elos?.plan30 ? profile?.elos?.plan30[themeWeakness30] : undefined;
           const theme30Random = this.getRandomTheme();
