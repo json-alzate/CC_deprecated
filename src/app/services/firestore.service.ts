@@ -247,7 +247,7 @@ export class FirestoreService {
         break;
     }
 
-
+    // TODO: considerar disminuir el numero de intentos cuando la BD este mas poblada, para reducir la facturación
     const MAX_ATTEMPTS = 5;
     let attempts = 0;
 
@@ -257,17 +257,13 @@ export class FirestoreService {
       let baseQuery: Query = collection(this.db, 'puzzles');
       baseQuery = query(baseQuery, where('randomNumberQuery', '>=', minRandom), limit(300));
 
-      console.log('options ', options);
-
 
       if (options?.themes && options?.themes.length) {
-        console.log('options.themes', options.themes);
 
         const themeConditions = options.themes.map(theme => where('themes', 'array-contains', theme));
         themeConditions.forEach(condition => {
           baseQuery = query(baseQuery, condition);
         });
-        console.log('baseQuery', baseQuery);
 
       }
 
