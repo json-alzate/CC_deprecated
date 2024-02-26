@@ -294,6 +294,7 @@ export class FirestoreService {
 
         }
       });
+      console.log('Count Puzzles to return: ', puzzlesToReturn.length, 'attempts: ', attempts);
 
       if (puzzlesToReturn.length) {
         return puzzlesToReturn;

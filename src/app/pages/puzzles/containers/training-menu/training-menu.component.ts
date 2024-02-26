@@ -34,6 +34,12 @@ export class TrainingMenuComponent implements OnInit {
     // }
     // );
 
+    // this.puzzlesService.getPuzzlesToUpload();
+
+    // this.puzzlesService.getOnePuzzleByUid('Fn5fU').then((puzzle) => {
+    //   console.log('Puzzle by uid', puzzle);
+    // });
+
   }
 
   async createPlan(option: number, planType: PlanTypes) {
