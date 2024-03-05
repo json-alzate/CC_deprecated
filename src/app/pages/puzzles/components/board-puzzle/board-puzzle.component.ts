@@ -55,6 +55,7 @@ export class BoardPuzzleComponent implements OnInit {
 
 
   // timer
+  showTimer = true;
   time = 0;
   timeColor = 'success';
   subsSeconds: Observable<number>;
@@ -67,6 +68,7 @@ export class BoardPuzzleComponent implements OnInit {
 
   board;
   chessInstance = new Chess();
+  piecePathKingTurn = '';
 
   @Output() puzzleCompleted = new EventEmitter<Puzzle>();
   @Output() puzzleFailed = new EventEmitter<Puzzle>();
@@ -74,15 +76,23 @@ export class BoardPuzzleComponent implements OnInit {
 
   constructor(
     private renderer: Renderer2,
-    private uiService: UiService,
+    public uiService: UiService,
     private toolsService: ToolsService
   ) { }
   @Input() set setPuzzle(data: Puzzle) {
     if (data) {
       this.puzzle = data;
-      console.log('puzzle', this.puzzle);
       this.stopTimer();
       this.initPuzzle();
+    }
+  }
+
+  @Input() set setForceStopTimer(data: boolean) {
+    console.log('setForceStopTimer', data);
+
+    if (data) {
+      // por que no se detiene el timer?
+      this.stopTimer();
     }
   }
 
@@ -107,8 +117,10 @@ export class BoardPuzzleComponent implements OnInit {
     this.chessInstance.load(this.puzzle.fen);
     this.fenToCompareAndPlaySound = this.puzzle.fen;
     // Se cambia el color porque luego se realizara automáticamente la jugada inicial de la maquina
-    // el fen del puzzle inicia siempre con el color contrario al del que le toca jugar al usuario
+    // el fen del puzzle inicia siempre con el color contrario al del que le toc a jugar al usuario
     this.turnRoundBoard(this.chessInstance.turn() === 'b' ? 'w' : 'b');
+    // eslint-disable-next-line max-len
+    this.piecePathKingTurn = this.chessInstance.turn() === 'b' ? 'wK.svg' : 'bK.svg';
     this.currentMoveNumber = 0;
     this.allowMoveArrows = false;
 
@@ -128,7 +140,10 @@ export class BoardPuzzleComponent implements OnInit {
 
     // se valida si el puzzle tiene un tiempo limite para resolverlo
     if (this.puzzle?.times?.total) {
+      this.showTimer = true;
       this.initTimer();
+    } else {
+      this.showTimer = false;
     }
 
 
@@ -383,7 +398,10 @@ export class BoardPuzzleComponent implements OnInit {
       if (this.puzzle.times.total) {
         this.time--;
         if (this.time === 0) {
-          this.puzzleEndByTime.emit({ ...this.puzzle, timeUsed: this.timeUsed });
+          this.puzzleEndByTime.emit({
+            ...this.puzzle, timeUsed: this.timeUsed, fenStartUserPuzzle: this.arrayFenSolution[1],
+            firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
+          });
           this.stopTimer();
         }
       } else {
@@ -429,6 +447,8 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.timerUnsubscribe$) {
       this.timerUnsubscribe$.next();
       this.timerUnsubscribe$.complete();
+      console.log('timerUnsubscribe$ completed');
+
     }
   }
 
@@ -442,7 +462,10 @@ export class BoardPuzzleComponent implements OnInit {
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
       this.puzzleMoveResponse();
     } else {
-      this.puzzleFailed.emit({ ...this.puzzle, timeUsed: this.timeUsed });
+      this.puzzleFailed.emit({
+        ...this.puzzle, timeUsed: this.timeUsed, fenStartUserPuzzle: this.arrayFenSolution[1],
+        firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
+      });
       this.stopTimer();
     }
 
@@ -466,7 +489,11 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.arrayFenSolution.length === this.currentMoveNumber) {
       this.allowMoveArrows = true;
       this.currentMoveNumber--;
-      this.puzzleCompleted.emit({ ...this.puzzle, timeUsed: this.timeUsed });
+      this.puzzleCompleted.emit({
+        ...this.puzzle, timeUsed: this.timeUsed,
+        fenStartUserPuzzle: this.arrayFenSolution[1],
+        firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
+      });
       this.stopTimer();
     } else {
 

@@ -1,11 +1,12 @@
 <ion-card class="ion-no-margin ion-no-padding">
 
   <ion-card-content class="ion-no-margin ion-no-padding">
+
     <div class="board" id="boardPuzzle">
     </div>
 
     <ion-item>
-      <ion-label [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
+      <ion-label *ngIf="showTimer" [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
       <ion-buttons slot="end">
         <ion-button *ngIf="goshPuzzleTime > -1" size="large" fill="clear">
 
@@ -34,9 +35,20 @@
         <ion-button fill="clear" [disabled]="!allowMoveArrows || currentMoveNumber >= totalMoves" (click)="moveToEnd()">
           <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
         </ion-button>
+
+        <ion-button disabled>
+          <ion-icon slot="icon-only"
+            [name]=" piecePathKingTurn === 'wK.svg' ? 'radio-button-on' : 'radio-button-off'"></ion-icon>
+        </ion-button>
+
       </ion-buttons>
+
+      <!-- <ion-thumbnail *ngIf="piecePathKingTurn" slot="end">
+        <img [src]="uiService.piecesPath + piecePathKingTurn" />
+      </ion-thumbnail> -->
+
     </ion-item>
 
   </ion-card-content>
-  <ion-progress-bar [color]="timeColor" buffer></ion-progress-bar>
+  <ion-progress-bar *ngIf="showTimer" [color]="timeColor" buffer></ion-progress-bar>
 </ion-card>

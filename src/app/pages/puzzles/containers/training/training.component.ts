@@ -39,6 +39,7 @@ export class TrainingComponent implements OnInit {
 
   currentIndexBlock = -1; // -1 para que al iniciar se seleccione el primer bloque sumando ++ y queda en 0
   plan: Plan;
+
   puzzleToPlay: Puzzle;
   timeTraining = 0;
   timerUnsubscribe$ = new Subject<void>();
@@ -47,6 +48,11 @@ export class TrainingComponent implements OnInit {
   timerUnsubscribeBlock$ = new Subject<void>();
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
+
+  showEndPlan = false;
+  forceStopTimerInPuzzleBoard = false;
+
+  valueAccordionGroup: string[] = [];
 
   constructor(
     private planService: PlanService,
@@ -60,15 +66,16 @@ export class TrainingComponent implements OnInit {
 
   ngOnInit() {
     this.planService.getPlan().then((plan: Plan) => {
-      console.log('Plan', plan);
       if (!plan) {
         this.navController.navigateRoot('/puzzles/training-menu');
         return;
       }
       this.plan = plan;
-      this.playPlan();
+      this.playPlanTimer();
       this.playNextBlock();
     });
+
+
   }
 
   playNextBlock() {
@@ -92,6 +99,7 @@ export class TrainingComponent implements OnInit {
 
   async showBlockPresentation() {
 
+    this.forceStopTimerInPuzzleBoard = true;
     this.pauseBlockTimer();
 
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
@@ -120,6 +128,7 @@ export class TrainingComponent implements OnInit {
       component: BlockPresentationComponent,
       componentProps: {
         title,
+        // FIXME: themeName puede estar vacio porque es una apertura, en ese caso se debe consultar la descripción de la apertura
         description: this.plan.blocks[this.currentIndexBlock].description || this.appService.getThemePuzzleByValue(themeName).descriptionEs,
         image,
       }
@@ -136,6 +145,8 @@ export class TrainingComponent implements OnInit {
         this.showBlockTimer = false;
         this.stopBlockTimer();
       }
+      this.forceStopTimerInPuzzleBoard = false;
+      this.playPlanTimer();
     });
 
 
@@ -167,7 +178,7 @@ export class TrainingComponent implements OnInit {
   }
 
   // init countDown
-  playPlan() {
+  playPlanTimer() {
 
     const countDown = interval(1000);
     countDown.pipe(
@@ -196,7 +207,14 @@ export class TrainingComponent implements OnInit {
 
 
   endPlan() {
-    console.log('Plan finalizado');
+    this.showEndPlan = true;
+    this.setValuesAccordionGroup();
+    this.stopPlanTimer();
+    if (this.profileService.getProfile?.uid) {
+      this.plan.uidUser = this.profileService.getProfile?.uid;
+      console.log('Plan finalizado ', JSON.stringify(this.plan));
+      this.planService.requestSavePlanAction(this.plan);
+    }
   }
 
   pauseBlockTimer() {
@@ -213,17 +231,13 @@ export class TrainingComponent implements OnInit {
   }
 
   pausePlanTimer() {
-
     this.timerUnsubscribe$.next();
-
   }
 
 
-
   stopPlanTimer() {
-    console.log('Plan finalizado');
-
     this.stopBlockTimer();
+    this.showEndPlan = true;
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
   }
@@ -238,13 +252,20 @@ export class TrainingComponent implements OnInit {
       uidPuzzle: puzzleCompleted.uid,
       date: new Date().getTime(),
       resolved: puzzleStatus === 'good',
+      failByTime: puzzleStatus === 'timeOut',
       resolvedTime: puzzleCompleted.timeUsed,
       currentEloUser: this.profileService.getProfile?.elo || 0,
       eloPuzzle: puzzleCompleted.rating,
       themes: puzzleCompleted.themes,
       openingFamily: puzzleCompleted.openingFamily,
       openingVariation: puzzleCompleted.openingVariation,
+      fenPuzzle: puzzleCompleted.fen,
+      fenStartUserPuzzle: puzzleCompleted.fenStartUserPuzzle,
+      firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight
     };
+
+    console.log('puzzle ', puzzleCompleted);
+
 
 
     // Crear una copia del bloque actual
@@ -264,24 +285,34 @@ export class TrainingComponent implements OnInit {
       blocks: newBlocks
     };
 
+
+
+    // se actualizan los elo's del usuario
+    this.profileService.calculateEloPuzzlePlan(
+      puzzleCompleted.rating,
+      puzzleStatus === 'good' ? 1 : 0,
+      this.plan.planType,
+      puzzleCompleted.themes,
+      puzzleCompleted.openingFamily,
+    );
+
     switch (puzzleStatus) {
       case 'good':
         this.soundsService.playGood();
-        this.selectPuzzleToPlay();
         break;
       case 'bad':
         this.soundsService.playError();
-        this.selectPuzzleToPlay();
         break;
       case 'timeOut':
         this.soundsService.playLowTime();
-        this.selectPuzzleToPlay();
-        break;
-
-      default:
         break;
     }
+    this.selectPuzzleToPlay();
 
+  }
+
+  setValuesAccordionGroup() {
+    this.valueAccordionGroup = this.plan.blocks.map((_, i) => this.plan.uid + i);
   }
 
 }

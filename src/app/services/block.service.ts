@@ -61,24 +61,24 @@ export class BlockService {
 
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
-
+      // TODO: Validar que ningún elo sea menor que 800 o mayor que 3000
       switch (option) {
         case 0: // Calentamiento / un mismo color
           //  2 minutos de mates en 1 (elo - 500) / tiempo por puzzle = 10 segundos
           //  1 minuto de mates en 2 / tiempo por puzzle = 10 segundos
           // 1 ejercicio de mate
           const color0 = Math.random() > 0.5 ? 'white' : 'black';
-          const mateIn1Elo0 = profile?.elos?.warmup['mateIn1'];
-          const mateIn2Elo0 = profile?.elos?.warmup['mateIn2'];
-          const mateElo0 = profile?.elos?.warmup['mate'];
+          const mateIn1Elo0 = profile?.elos?.warmup ? profile?.elos?.warmup['mateIn1'] : undefined;
+          const mateIn2Elo0 = profile?.elos?.warmup ? profile?.elos?.warmup['mateIn2'] : undefined;
+          const mateElo0 = profile?.elos?.warmup ? profile?.elos?.warmup['mate'] : undefined;
 
           const blocks0: Block[] = [
             {
               time: 120,
               puzzlesCount: 0,
               themes: ['mateIn1'],
-              eloStart: mateIn1Elo0 ? mateIn1Elo0 - 600 : defaultEloStart - 600,
-              eloEnd: mateIn1Elo0 ? mateIn1Elo0 - 500 : defaultElo - 500,
+              eloStart: defaultEloStart,
+              eloEnd: mateIn1Elo0 && (mateIn1Elo0 - 500 > 1500) ? mateIn1Elo0 - 500 : defaultElo,
               color: color0,
               puzzleTimes: {
                 warningOn: 6,
@@ -107,7 +107,7 @@ export class BlockService {
               time: -1,
               puzzlesCount: 1,
               themes: ['mate'],
-              eloStart: mateElo0 ? mateElo0 : defaultEloStart,
+              eloStart: mateElo0 ? mateElo0 - 200 : defaultEloStart,
               eloEnd: (mateElo0 ?? defaultElo),
               puzzlesPlayed: [],
               color: color0
@@ -129,7 +129,7 @@ export class BlockService {
             reject('No se pudo obtener el tema random themeRandom5');
           }
           // se busca el elo del usuario según el string del temaRandom5
-          const themeRandomElo5 = profile?.elos?.plan5[themeRandom5];
+          const themeRandomElo5 = profile?.elos?.plan5 ? profile?.elos?.plan5[themeRandom5] : undefined;
           // se elige el elo mas bajo que el usuario tenga en el plan5, sino se asigna el elo por defecto
           let weakness5 = this.profileService.getWeakness(profile?.elos?.plan5);
           if (!weakness5) {
@@ -142,8 +142,8 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               themes: [themeRandom5],
-              eloStart: themeRandomElo5 ? themeRandomElo5 - 100 : defaultEloStart,
-              eloEnd: themeRandomElo5 ? themeRandomElo5 + 100 : defaultElo + 100,
+              eloStart: themeRandomElo5 ? themeRandomElo5 - 200 : defaultEloStart,
+              eloEnd: themeRandomElo5 ? themeRandomElo5 + 200 : defaultElo + 200,
               color: color5,
               puzzleTimes: {
                 warningOn: 12,
@@ -157,8 +157,8 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               themes: [weakness5],
-              eloStart: profile?.elos?.plan5[weakness5] ? profile?.elos?.plan5[weakness5] - 200 : defaultEloStart,
-              eloEnd: (profile?.elos?.plan5[weakness5] ?? defaultElo) - 200,
+              eloStart: profile?.elos?.plan5[weakness5] ? profile?.elos?.plan5[weakness5] - 300 : defaultEloStart,
+              eloEnd: (profile?.elos?.plan5[weakness5] ?? defaultElo) - 300,
               color: color5,
               puzzleTimes: {
                 warningOn: 24,
@@ -196,7 +196,7 @@ export class BlockService {
             theme10 = this.getWeaknessInPlan(profile?.elos?.plan10);
           }
           // se busca el elo del usuario según el string del theme10
-          const eloTheme10 = profile?.elos?.plan10[theme10];
+          const eloTheme10 = profile?.elos?.plan10 ? profile.elos.plan10[theme10] : undefined;
           if (Math.random() < 0.5) { // apertura random o debilidad
             // apertura random
             opening10 = this.getRandomOpening();
@@ -209,15 +209,15 @@ export class BlockService {
             opening10 = this.getWeaknessInPlanOpenings(profile?.elos?.plan10Openings);
           }
           // se busca el elo del usuario según el string de la opening10
-          const eloOpening10 = profile?.elos?.plan10Openings[opening10];
+          const eloOpening10 = profile?.elos?.plan10Openings ? profile?.elos?.plan10Openings[opening10] : undefined;
 
           const block10: Block[] = [
             {
               time: 120,
               puzzlesCount: 0,
               themes: [theme10],
-              eloStart: eloTheme10 ? eloTheme10 - 100 : defaultEloStart,
-              eloEnd: eloTheme10 ? eloTheme10 + 100 : defaultElo + 100,
+              eloStart: eloTheme10 ? eloTheme10 - 200 : defaultEloStart,
+              eloEnd: eloTheme10 ? eloTheme10 + 200 : defaultElo + 200,
               color: color10,
               puzzleTimes: {
                 warningOn: 12,
@@ -309,11 +309,11 @@ export class BlockService {
 
           const theme20Random = this.getRandomTheme();
           const themeWeakness20 = this.getWeaknessInPlan(profile?.elos?.plan20);
-          const eloThemeWeakness20 = profile?.elos?.plan20[themeWeakness20];
-          const eloTheme20Random = profile?.elos?.plan20[theme20Random];
-          const eloMateIn120 = profile?.elos?.plan20['mateIn1'];
-          const eloEndgame20 = profile?.elos?.plan20['endgame'];
-          const eloMateIn320 = profile?.elos?.plan20['mateIn3'];
+          const eloThemeWeakness20 = profile?.elos?.plan20 ? profile?.elos?.plan20[themeWeakness20] : undefined;
+          const eloTheme20Random = profile?.elos?.plan20 ? profile?.elos?.plan20[theme20Random] : undefined;
+          const eloMateIn120 = profile?.elos?.plan20 ? profile?.elos?.plan20['mateIn1'] : undefined;
+          const eloEndgame20 = profile?.elos?.plan20 ? profile?.elos?.plan20['endgame'] : undefined;
+          const eloMateIn320 = profile?.elos?.plan20 ? profile?.elos?.plan20['mateIn3'] : undefined;
 
           let randomBlockOrBlind: Block;
 
@@ -379,7 +379,7 @@ export class BlockService {
               puzzlesCount: 0,
               themes: [theme20Random],
               eloStart: eloTheme20Random ? eloTheme20Random : defaultElo,
-              eloEnd: eloTheme20Random ? eloTheme20Random + 100 : defaultElo + 100,
+              eloEnd: eloTheme20Random ? eloTheme20Random + 200 : defaultElo + 200,
               color: 'random',
               puzzleTimes: {
                 warningOn: 50,
@@ -395,7 +395,7 @@ export class BlockService {
               puzzlesCount: 0,
               themes: ['mateIn1'],
               eloStart: eloMateIn120 ? eloMateIn120 : defaultElo,
-              eloEnd: eloMateIn120 ? eloMateIn120 + 100 : defaultElo + 100,
+              eloEnd: eloMateIn120 ? eloMateIn120 + 200 : defaultElo + 200,
               color: 'random',
               puzzleTimes: {
                 warningOn: 6,
@@ -428,7 +428,7 @@ export class BlockService {
               puzzlesCount: 0,
               themes: ['endgame'],
               eloStart: eloEndgame20 ? eloEndgame20 : defaultElo,
-              eloEnd: eloEndgame20 ? eloEndgame20 + 100 : defaultElo + 100,
+              eloEnd: eloEndgame20 ? eloEndgame20 + 200 : defaultElo + 200,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -444,7 +444,7 @@ export class BlockService {
               puzzlesCount: 0,
               themes: ['mateIn3'],
               eloStart: eloMateIn320 ? eloMateIn320 : defaultElo,
-              eloEnd: eloMateIn320 ? eloMateIn320 : defaultElo + 100,
+              eloEnd: eloMateIn320 ? eloMateIn320 : defaultElo + 200,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -474,16 +474,22 @@ export class BlockService {
 
           const color30 = Math.random() > 0.5 ? 'white' : 'black';
           const themeWeakness30 = this.getWeaknessInPlan(profile?.elos?.plan30);
-          const eloThemeWeakness30 = profile?.elos?.plan20[themeWeakness30];
-          const theme30Random = this.getRandomTheme();
-          const eloTheme30Random = profile?.elos?.plan30[theme30Random];
-          const opening30Random = this.getRandomOpening();
-          const eloOpening30Random = profile?.elos?.plan30Openings[opening30Random];
-          const eloEndgame30 = profile?.elos?.plan30['endgame'];
-          const eloPawnEndgame30 = profile?.elos?.plan30['pawnEndgame'];
-          const eloMateIn430 = profile?.elos?.plan30['mateIn4'];
+          console.log('themeWeakness30', themeWeakness30);
+          console.log('profile?.elos?.plan30', profile?.elos?.plan30);
 
-          const black30: Block[] = [
+          // FIXME:  Esta retornando el valor y no el nombre del tema
+
+
+          const eloThemeWeakness30 = profile?.elos?.plan30 ? profile?.elos?.plan30[themeWeakness30] : undefined;
+          const theme30Random = this.getRandomTheme();
+          const eloTheme30Random = profile?.elos?.plan30 ? profile?.elos?.plan30[theme30Random] : undefined;
+          const opening30Random = this.getRandomOpening();
+          const eloOpening30Random = profile?.elos?.plan30Openings ? profile?.elos?.plan30Openings[opening30Random] : undefined;
+          const eloEndgame30 = profile?.elos?.plan30 ? profile?.elos?.plan30['endgame'] : undefined;
+          const eloPawnEndgame30 = profile?.elos?.plan30 ? profile?.elos?.plan30['pawnEndgame'] : undefined;
+          const eloMateIn430 = profile?.elos?.plan30 ? profile?.elos?.plan30['mateIn4'] : undefined;
+
+          const block30: Block[] = [
             {
               time: 300,
               puzzlesCount: 0,
@@ -506,7 +512,7 @@ export class BlockService {
               themes: [],
               openingFamily: opening30Random,
               eloStart: eloOpening30Random ? eloOpening30Random : defaultElo,
-              eloEnd: eloOpening30Random ? eloOpening30Random + 100 : defaultElo + 100,
+              eloEnd: eloOpening30Random ? eloOpening30Random + 200 : defaultElo + 200,
               color: color30,
               puzzleTimes: {
                 warningOn: 15,
@@ -522,7 +528,7 @@ export class BlockService {
               puzzlesCount: 0,
               themes: [theme30Random],
               eloStart: eloTheme30Random ? eloTheme30Random : defaultElo,
-              eloEnd: eloTheme30Random ? eloTheme30Random + 100 : defaultElo + 100,
+              eloEnd: eloTheme30Random ? eloTheme30Random + 200 : defaultElo + 200,
               color: color30,
               puzzleTimes: {
                 warningOn: 50,
@@ -602,7 +608,7 @@ export class BlockService {
 
           ];
 
-          resolve(black30);
+          resolve(block30);
 
 
           break;

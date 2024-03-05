@@ -162,9 +162,9 @@ export class PuzzlesService {
 
         // 03vMK
 
-        console.log(index, '--', puzzleToAdd.randomNumberQuery);
+        console.log(index, '--', puzzleToAdd.uid, '-*-*-', puzzleToAdd.randomNumberQuery);
 
-        // this.firestoreService.adminAddNewPuzzle(puzzleToAdd);
+        this.firestoreService.adminAddNewPuzzle(puzzleToAdd);
         index++;
       }
 

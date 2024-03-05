@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Plan, Block } from '@models/plan.model';
+import { Observable } from 'rxjs';
+
+
+import { Plan, Block, PlanTypes } from '@models/plan.model';
 
 import { createUid } from '@utils/create-uid';
 
@@ -10,10 +13,14 @@ import { AppState, getPlanState } from '@redux/states/app.state';
 import { Store } from '@ngrx/store';
 
 // Actions
-import { setPlan } from '@redux/actions/plan.actions';
+import { setPlan, requestSavePlan, requestGetPlans } from '@redux/actions/plans.actions';
 
 // Selectors
 import { getPlan } from '@redux/selectors/plan.selectors';
+import { getAllPlansHistory } from '@redux/selectors/plans-history.selectors';
+
+// services
+import { FirestoreService } from '@services/firestore.service';
 
 
 @Injectable({
@@ -23,20 +30,53 @@ export class PlanService {
 
   constructor(
     private store: Store<Store>,
+    private firestoreService: FirestoreService
   ) { }
+
+
+  /**
+   * Actions
+   */
+  requestSavePlanAction(plan: Plan) {
+
+    // clear puzzles in blocks
+    plan.blocks = plan.blocks.map((block: Block) => {
+      block.puzzles = [];
+      return block;
+    });
+    this.store.dispatch(requestSavePlan({ plan }));
+  }
+
+
+  requestGetPlansAction(uidUser: string) {
+    this.store.dispatch(requestGetPlans({ uidUser }));
+  }
+
+  getPlans(uidUser: string): Promise<Plan[]> {
+    return this.firestoreService.getPlans(uidUser);
+  }
+
+  /** END ACTIONS */
+
+  /** STATE OBSERVABLES */
+
+  getPlansHistoryState(): Observable<Plan[]> {
+    return this.store.select(getAllPlansHistory);
+  }
 
   /**
    *
    * @param blocks
    * @param time in seconds (-1 for infinite)
    * */
-  newPlan(blocks: Block[], time = -1): Promise<Plan> {
+  newPlan(blocks: Block[], planType: PlanTypes, time = -1): Promise<Plan> {
 
     return new Promise((resolve, reject) => {
 
       const plan: Plan = {
         uid: createUid(),
         blocks,
+        planType,
         createdAt: new Date().getTime(),
       };
 
@@ -60,5 +100,13 @@ export class PlanService {
 
     });
 
+  }
+
+
+  /**
+   * Save the plan
+   */
+  savePlan(plan: Plan): Promise<string> {
+    return this.firestoreService.savePlan(plan);
   }
 }

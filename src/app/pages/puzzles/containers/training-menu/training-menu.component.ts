@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from '@ionic/angular';
 
-import { Plan, Block } from '@models/plan.model';
+import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
 import { BlockService } from '@services/block.service';
 import { PuzzlesService } from '@services/puzzles.service';
@@ -34,9 +34,15 @@ export class TrainingMenuComponent implements OnInit {
     // }
     // );
 
+    // this.puzzlesService.getPuzzlesToUpload();
+
+    // this.puzzlesService.getOnePuzzleByUid('Fn5fU').then((puzzle) => {
+    //   console.log('Puzzle by uid', puzzle);
+    // });
+
   }
 
-  async createPlan(option: number) {
+  async createPlan(option: number, planType: PlanTypes) {
     this.showLoading();
     const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
 
@@ -49,7 +55,7 @@ export class TrainingMenuComponent implements OnInit {
 
     console.log(blocks);
 
-    const newPlan: Plan = await this.planService.newPlan(blocks, option * 60);
+    const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
 
     console.log('New plan', newPlan);
     this.closeLoading();

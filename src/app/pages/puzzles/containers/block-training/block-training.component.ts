@@ -70,7 +70,7 @@ export class BlockTrainingComponent implements OnInit {
 
   }
 
-  onPuzzleCompleted(puzzleCompleted: Puzzle, puzzleStatus: 'good' | 'bad') {
+  onPuzzleCompleted(puzzleCompleted: Puzzle, puzzleStatus: 'good' | 'bad' | 'timeOut') {
     console.log('puzzleCompleted', puzzleCompleted);
     // TODO: calcular elo
 
@@ -78,6 +78,7 @@ export class BlockTrainingComponent implements OnInit {
       uid: createUid(),
       date: new Date().getTime(),
       resolvedTime: puzzleCompleted.timeUsed,
+      failByTime: puzzleStatus === 'timeOut',
       uidUser: '',
       currentEloUser: 1500,
       uidPuzzle: puzzleCompleted.uid,

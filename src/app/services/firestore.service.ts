@@ -35,6 +35,7 @@ import { Profile } from '@models/profile.model';
 import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
+import { Plan } from '@models/plan.model';
 
 @Injectable({
   providedIn: 'root'
@@ -124,6 +125,10 @@ export class FirestoreService {
    * @param changes Partial<User>
    */
   async updateProfile(changes: Partial<Profile>): Promise<void> {
+    // validate if profileDocRef exists
+    if (!this.profileDocRef) {
+      throw new Error('No profileDocRef');
+    }
     return updateDoc(this.profileDocRef, changes);
   }
 
@@ -242,7 +247,7 @@ export class FirestoreService {
         break;
     }
 
-
+    // TODO: considerar disminuir el numero de intentos cuando la BD este mas poblada, para reducir la facturación
     const MAX_ATTEMPTS = 5;
     let attempts = 0;
 
@@ -252,17 +257,13 @@ export class FirestoreService {
       let baseQuery: Query = collection(this.db, 'puzzles');
       baseQuery = query(baseQuery, where('randomNumberQuery', '>=', minRandom), limit(300));
 
-      console.log('options ', options);
-
 
       if (options?.themes && options?.themes.length) {
-        console.log('options.themes', options.themes);
 
         const themeConditions = options.themes.map(theme => where('themes', 'array-contains', theme));
         themeConditions.forEach(condition => {
           baseQuery = query(baseQuery, condition);
         });
-        console.log('baseQuery', baseQuery);
 
       }
 
@@ -279,6 +280,11 @@ export class FirestoreService {
 
       querySnapshot.forEach((document) => {
         const puzzleToAdd = document.data() as Puzzle;
+        // clear openeingFamily and openingVariation if they are empty (\r)
+        if (puzzleToAdd.openingFamily === '\r') {
+          puzzleToAdd.openingFamily = '';
+        }
+
         if (puzzleToAdd.rating >= eloStart && puzzleToAdd.rating <= eloEnd) {
           // filtrar por color
           if (!options?.color || (options?.color && puzzleToAdd.fen.includes(` ${options.color} `))) {
@@ -288,6 +294,7 @@ export class FirestoreService {
 
         }
       });
+      console.log('Count Puzzles to return: ', puzzlesToReturn.length, 'attempts: ', attempts);
 
       if (puzzlesToReturn.length) {
         return puzzlesToReturn;
@@ -367,7 +374,50 @@ export class FirestoreService {
   }
 
 
+  /**
+   // ----------------------------------------------------------------------------
+    Plan
+   */
 
+  /**
+   * Get plans from firestore
+   * Obtiene los planes de firestore
+   *
+   * @param uidUser
+   * @returns
+   * */
+  async getPlans(uidUser: string): Promise<Plan[]> {
+    const plansToReturn: Plan[] = [];
+    const q = query(
+      collection(this.db, 'plans'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const planToAdd = document.data() as Plan;
+      planToAdd.uid = document.id;
+      plansToReturn.push(planToAdd);
+    });
+
+    return plansToReturn;
+  }
+
+
+  /**
+   * Save a plan in firestore
+   * Guarda un plan en firestore
+   *
+   * @param plan
+   * @returns
+   * */
+  async savePlan(plan: Plan): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'plans'), plan);
+
+    console.log('Document written with ID: ', docRef.id);
+
+    return docRef.id;
+  }
 
 
 
