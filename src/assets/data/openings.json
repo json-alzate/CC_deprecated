@@ -1,262 +1,327 @@
 [
     {
         "name": "Sicilian Defense",
+        "value": "Sicilian_Defense",
         "count": 136.137
     },
     {
         "name": "French Defense",
+        "value": "French_Defense",
         "count": 56.069
     },
     {
         "name": "Queen's Pawn Game",
+        "value": "Queens_Pawn_Game",
         "count": 48.411
     },
     {
         "name": "Italian Game",
+        "value": "Italian_Game",
         "count": 47.878
     },
     {
         "name": "Caro-Kann Defense",
+        "value": "Caro-Kann_Defense",
         "count": 41.565
     },
     {
         "name": "Scandinavian Defense",
+        "value": "Scandinavian_Defense",
         "count": 33.440
     },
     {
         "name": "Queen's Gambit Declined",
+        "value": "Queens_Gambit_Declined",
         "count": 32.653
     },
     {
         "name": "English Opening",
+        "value": "English_Opening",
         "count": 27.474
     },
     {
-        "name": "Roy Lopez",
+        "name": "Ruy Lopez",
+        "value": "Ruy_Lopez",
         "count": 27.433
     },
     {
         "name": "Indian defense",
+        "value": "Indian_Defense",
         "count": 26.966
     },
     {
         "name": "Scotch Game",
+        "value": "Scotch_Game",
         "count": 23.119
     },
     {
         "name": "Russian Game",
+        "value": "Russian_Game",
         "count": 18.647
     },
     {
         "name": "Philidor Defense",
+        "value": "Philidor_Defense",
         "count": 17.451
     },
     {
         "name": "Modern Defense",
+        "value": "Modern_Defense",
         "count": 13.304
     },
     {
         "name": "Four Knights Game",
+        "value": "Four_Knights_Game",
         "count": 13.180
     },
     {
         "name": "King's Gambit accepted",
+        "value": "Kings_Gambit_Accepted",
         "count": 12.939
     },
     {
         "name": "Zukertort Opening",
+        "value": "Zukertort_Opening",
         "count": 11.745
     },
     {
         "name": "Bishop's Opening",
+        "value": "Bishops_Opening",
         "count": 11.575
     },
     {
         "name": "Slav Defense",
+        "value": "Slav_Defense",
         "count": 11.411
     },
     {
         "name": "Pirc Defense",
+        "value": "Pirc_Defense",
         "count": 11.339
     },
     {
         "name": "King's Pawn Game",
+        "value": "Kings_Pawn_Game",
         "count": 10.991
     },
     {
         "name": "Vienna Game",
+        "value": "Vienna_Game",
         "count": 10.746
     },
     {
         "name": "Queen's Gambit Accepted",
+        "value": "Queens_Gambit_Accepted",
         "count": 8.983
     },
     {
         "name": "King's Indian Defense",
+        "value": "Kings_Indian_Defense",
         "count": 8.471
     },
     {
         "name": "Benoni Defense",
+        "value": "Benoni_Defense",
         "count": 8.059
     },
     {
         "name": "Nimzowitsch Defense",
+        "value": "Nimzowitsch_Defense",
         "count": 7.367
     },
     {
         "name": "Alekhine Defense",
+        "value": "Alekhine_Defense",
         "count": 7.293
     },
     {
         "name": "Nimzo-Larsen Attack",
+        "value": "Nimzo-Larsen_Attack",
         "count": 7.184
     },
     {
         "name": "Horwitz Defense",
+        "value": "Horwitz_Defense",
         "count": 6.993
     },
     {
         "name": "King's Gambit Declined",
+        "value": "Kings_Gambit_Declined",
         "count": 6.258
     },
     {
         "name": "Owen Defense",
+        "value": "Owen_Defense",
         "count": 6.096
     },
     {
         "name": "Bird Opening",
+        "value": "Bird_Opening",
         "count": 5.564
     },
     {
         "name": "Dutch Defense",
+        "value": "Dutch_Defense",
         "count": 5.330
     },
     {
         "name": "Nimzo-Indian Defense",
+        "value": "Nimzo-Indian_Defense",
         "count": 5.311
     },
     {
         "name": "Van't Kruijs Opening",
+        "value": "Vant_Kruijs_Opening",
         "count": 5.300
     },
     {
         "name": "Semi-Slav Defense",
+        "value": "Semi-Slav_Defense",
         "count": 4.502
     },
     {
         "name": "Center Game",
+        "value": "Center_Game",
         "count": 4.132
     },
     {
         "name": "Hungarian Opening",
+        "value": "Hungarian_Opening",
         "count": 4.024
     },
     {
         "name": "Englud Gambit Complex",
+        "value": "Englund_Gambit_Complex",
         "count": 3.966
     },
     {
         "name": "Three Knights Opening",
+        "value": "Three_Knights_Opening",
         "count": 3.336
     },
     {
         "name": "Ponziani Opening",
+        "value": "Ponziani_Opening",
         "count": 3.201
     },
     {
         "name": "Englund Gambit",
+        "value": "Englund_Gambit",
         "count": 3.110
     },
     {
         "name": "Grünfeld Defense",
+        "value": "Grunfeld_Defense",
         "count": 3.015
     },
     {
         "name": "Blackmar-Diemer Gambit",
+        "value": "Blackmar-Diemer_Gambit",
         "count": 2.995
     },
     {
         "name": "Elephant Gambit",
+        "value": "Elephant_Gambit",
         "count": 2.934
     },
     {
         "name": "Polish Opening",
+        "value": "Polish_Opening",
         "count": 2.902
     },
     {
         "name": "Danish Gambit",
+        "value": "Danish_Gambit",
         "count": 2.834
     },
     {
         "name": "King's Indian Attack",
+        "value": "Kings_Indian_Attack",
         "count": 2.778
     },
     {
         "name": "Rat Defense",
+        "value": "Rat_Defense",
         "count": 2.709
     },
     {
         "name": "King's Gambit",
+        "value": "Kings_Gambit",
         "count": 2.681
     },
     {
         "name": "Trompowsky Attack",
+        "value": "Trompowsky_Attack",
         "count": 2.601
     },
     {
         "name": "English Defense",
+        "value": "English_Defense",
         "count": 2.495
     },
     {
         "name": "Grob Opening",
+        "value": "Grob_Opening",
         "count": 1.964
     },
     {
         "name": "Rapport-Jobava System",
+        "value": "Rapport-Jobava_System",
         "count": 1.899
     },
     {
         "name": "King's Knight Opening",
+        "value": "Kings_Knight_Opening",
         "count": 1.822
     },
     {
         "name": "Van Geet Opening",
+        "value": "Van_Geet_Opening",
         "count": 1.668
     },
     {
         "name": "Tarrasch Defense",
+        "value": "Tarrasch_Defense",
         "count": 1.652
     },
     {
         "name": "Old Indian Defense",
+        "value": "Old_Indian_Defense",
         "count": 1.582
     },
     {
         "name": "Danish Gambit Accepted",
+        "value": "Danish_Gambit_Accepted",
         "count": 1.582
     },
     {
         "name": "Catalan Opening",
+        "value": "Catalan_Opening",
         "count": 1.369
     },
     {
         "name": "Réti Opening",
+        "value": "Reti_Opening",
         "count": 1.285
     },
     {
         "name": "Mieses Opening",
+        "value": "Mieses_Opening",
         "count": 1.241
     },
     {
         "name": "Englund Gambit Declined",
+        "value": "Englund_Gambit_Declined",
         "count": 1.122
     },
     {
         "name": "Queen's Indian Defense",
+        "value": "Queens_Indian_Defense",
         "count": 1.120
     },
     {
         "name": "London System",
+        "value": "London_System",
         "count": 1.061
     }
 ]

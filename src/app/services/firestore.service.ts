@@ -230,6 +230,9 @@ export class FirestoreService {
     color?: 'w' | 'b';
   }) {
 
+    console.log('Elo: ', elo, 'Options: ', options);
+
+
     const DEFAULT_RANGE = 600;
     let eloStart = 0;
     let eloEnd = 4000;

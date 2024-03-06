@@ -682,7 +682,7 @@ export class BlockService {
   getRandomOpening(): string {
     return this.appService.getOpeningsList[
       Math.floor(Math.random() * this.appService.getOpeningsList.length)
-    ].name;
+    ].value;
   }
 
   /**
@@ -718,7 +718,7 @@ export class BlockService {
     if (!opening) {
       opening = this.appService.getOpeningsList[
         Math.floor(Math.random() * this.appService.getOpeningsList.length)
-      ].name;
+      ].value;
     }
 
     return opening;
