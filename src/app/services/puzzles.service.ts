@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
+import { environment } from '@environments/environment';
 import { HttpClient } from '@angular/common/http';
+
+import { firstValueFrom } from 'rxjs';
+
 
 import { Store, select } from '@ngrx/store';
 
@@ -25,7 +29,6 @@ import { UserPuzzlesService } from '@services/user-puzzles.service';
 import { AppService } from '@services/app.service';
 
 // utils
-import { randomNumber } from '@utils/random-number';
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +118,12 @@ export class PuzzlesService {
 
   async loadMorePuzzles(elo: number, options?: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
     // se cargan los puzzles desde la base de datos, para que se actualice la lista de puzzles disponibles
-    const newPuzzlesFromDB = await this.firestoreService.getPuzzles(elo, options);
+    // const newPuzzlesFromDB = await this.firestoreService.getPuzzles(elo, options);
+
+    // se toman los puzzles llamando al endpoint de la api utilizando un metodo post
+
+
+    const newPuzzlesFromDB = await firstValueFrom(this.http.post<Puzzle[]>(environment.apiPuzzlesUrl + 'get-puzzles', { elo, ...options }));
     if (!actionMethod || actionMethod === 'toStore') {
       // adicionar puzzles al estado de redux
       this.store.dispatch(addPuzzles({ puzzles: newPuzzlesFromDB }));
@@ -127,50 +135,6 @@ export class PuzzlesService {
   }
 
 
-
-  /**
-   * Con este método se suben los puzzles a la base de datos
-   */
-  getPuzzlesToUpload() {
-    this.http.get('/assets/data/puzzlesToUpload.csv', { responseType: 'text' }).subscribe(puzzles => {
-      // console.log(puzzles);
-
-      const list = puzzles.split('\n');
-      // console.log(list);
-
-
-      let index = 1;
-
-      for (const puzzle of list) {
-        const puzzleData = puzzle.split(',');
-        // console.log(puzzleData);
-
-        const puzzleToAdd: Puzzle = {
-          uid: puzzleData[0],
-          fen: puzzleData[1],
-          moves: puzzleData[2],
-          rating: Number(puzzleData[3]),
-          ratingDeviation: Number(puzzleData[4]),
-          popularity: Number(puzzleData[5]),
-          nbPlays: Number(puzzleData[6]),
-          randomNumberQuery: randomNumber(),
-          themes: puzzleData[7].split(' '),
-          gameUrl: puzzleData[8],
-          openingFamily: puzzleData[9] || '',
-          openingVariation: puzzleData[10] || ''
-        };
-
-        // 03vMK
-
-        console.log(index, '--', puzzleToAdd.uid, '-*-*-', puzzleToAdd.randomNumberQuery);
-
-        this.firestoreService.adminAddNewPuzzle(puzzleToAdd);
-        index++;
-      }
-
-
-    });
-  }
 
   async getOnePuzzleByUid(uidPuzzle: string) {
     return await this.firestoreService.getPuzzleByUid(uidPuzzle);
