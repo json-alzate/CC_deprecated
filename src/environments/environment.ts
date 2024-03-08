@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   environmentName: 'dev',
   firebase: keys.firebase,
-  socketUrl: 'https://chesscolatedis.json.com.co:3000/',
+  apiPuzzlesUrl: 'https://puzzles.chesscolate.com/puzzles/',
   version: '0.0.1'
 };
 
