@@ -4,7 +4,7 @@ import { NavController, LoadingController } from '@ionic/angular';
 import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
 import { BlockService } from '@services/block.service';
-import { PuzzlesService } from '@services/puzzles.service';
+import { ProfileService } from '@services/profile.service';
 
 @Component({
   selector: 'app-training-menu',
@@ -14,33 +14,32 @@ import { PuzzlesService } from '@services/puzzles.service';
 export class TrainingMenuComponent implements OnInit {
 
   loader: any;
-  generalEloPlan5 = '1500?';
-  generalEloPlan10 = '1500?';
-  generalEloPlan20 = '1500?';
-  generalEloPlan30 = '1500?';
+  generalEloPlan5: string | number = '1500?';
+  generalEloPlan10: string | number = '1500?';
+  generalEloPlan20: string | number = '1500?';
+  generalEloPlan30: string | number = '1500?';
 
 
   constructor(
     private navController: NavController,
     private planService: PlanService,
     private blockService: BlockService,
-    private puzzlesService: PuzzlesService,
-    private loadingController: LoadingController
-  ) { }
+    private loadingController: LoadingController,
+    private profileService: ProfileService
+  ) {
 
-  ngOnInit() {
-    // this.puzzlesService.getTotalPuzzlesInDB().then((total) => {
-    //   console.log('Total puzzles', total);
-    // }
-    // );
-
-    // this.puzzlesService.getPuzzlesToUpload();
-
-    // this.puzzlesService.getOnePuzzleByUid('Fn5fU').then((puzzle) => {
-    //   console.log('Puzzle by uid', puzzle);
-    // });
+    this.profileService.subscribeToProfile().subscribe((profile) => {
+      if (profile) {
+        this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
+        this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
+        this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
+        this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
+      }
+    });
 
   }
+
+  ngOnInit() { }
 
   async createPlan(option: number, planType: PlanTypes) {
     this.showLoading();

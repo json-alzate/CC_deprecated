@@ -151,7 +151,6 @@ export class ProfileService {
     console.log('themes', themes);
     console.log('openingFamily', openingFamily);
 
-    // Asumiendo que existe una estructura inicial para el objeto de elos
     const elos = this.profile?.elos ? { ...this.profile.elos } : {};
     let eloOpening = 1500;
 
@@ -173,11 +172,20 @@ export class ProfileService {
       elos[planType][theme] = calculateElo((elos[planType] && elos[planType][theme]) || 1500, puzzleElo, result);
     });
 
+    // calcular el elo total del plan, con el parámetro del perfil
+    const currentTotalElo = this.profile.elos[`${planType}Total`] || 1500;
+    const newTotalElo = calculateElo(currentTotalElo, puzzleElo, result);
+
+
+
     // Inicializa el objeto de cambios con una copia de los elos existentes para evitar la sobrescritura
     const changes = { elos: { ...elos } };
 
     // Actualiza específicamente para el tipo de plan y aperturas, haciendo merge adecuado
     changes.elos[planType] = { ...changes.elos[planType], ...elos[planType] };
+
+    // Actualiza el total del plan con el nuevo valor en el parametro correspondiente al plan
+    changes.elos[`${planType}Total`] = newTotalElo;
 
     if (openingFamily) {
       changes.elos[`${planType}Openings`] = {

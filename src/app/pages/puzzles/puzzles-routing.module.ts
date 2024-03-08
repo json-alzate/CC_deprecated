@@ -7,9 +7,15 @@ import { TrainingMenuComponent } from './containers/training-menu/training-menu.
 import { BlockTrainingComponent } from './containers/block-training/block-training.component';
 
 const routes: Routes = [
+  // {
+  //   path: '',
+  //   component: PuzzlesPage
+  // },
+  // redirectTo: training-menu if is empty
   {
     path: '',
-    component: PuzzlesPage
+    redirectTo: 'training-menu',
+    pathMatch: 'full'
   },
   {
     path: 'training',
@@ -19,10 +25,10 @@ const routes: Routes = [
     path: 'training-menu',
     component: TrainingMenuComponent
   },
-  {
-    path: 'portion',
-    component: BlockTrainingComponent
-  }
+  // {
+  //   path: 'portion',
+  //   component: BlockTrainingComponent
+  // }
 ];
 
 @NgModule({
