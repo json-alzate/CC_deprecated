@@ -18,17 +18,24 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'training',
-    component: TrainingComponent
-  },
-  {
-    path: 'training-menu',
+    path: '',
     component: TrainingMenuComponent
   },
   // {
   //   path: 'portion',
   //   component: BlockTrainingComponent
   // }
+  {
+    path: 'training',
+    component: TrainingComponent
+  },
+
+  {
+    path: '**',
+    redirectTo: '',
+    pathMatch: 'full'
+  }
+
 ];
 
 @NgModule({
