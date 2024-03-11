@@ -186,7 +186,6 @@ export class AuthService {
     if (result) {
       const credential = GoogleAuthProvider.credential(result.credential?.idToken);
       const userSignedIn = await signInWithCredential(this.auth, credential);
-      console.log('userSignedIn', userSignedIn);
       return userSignedIn;
     }
     return null;

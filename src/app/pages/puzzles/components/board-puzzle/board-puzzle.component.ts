@@ -88,8 +88,6 @@ export class BoardPuzzleComponent implements OnInit {
   }
 
   @Input() set setForceStopTimer(data: boolean) {
-    console.log('setForceStopTimer', data);
-
     if (data) {
       // por que no se detiene el timer?
       this.stopTimer();
@@ -447,8 +445,6 @@ export class BoardPuzzleComponent implements OnInit {
     if (this.timerUnsubscribe$) {
       this.timerUnsubscribe$.next();
       this.timerUnsubscribe$.complete();
-      console.log('timerUnsubscribe$ completed');
-
     }
   }
 

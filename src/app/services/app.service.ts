@@ -60,6 +60,11 @@ export class AppService {
     this.openingsList = await lastValueFrom<Opening[]>(request$);
   }
 
+  getOpeningByValue(value: string) {
+    const opening = this.openingsList.find(openingItem => openingItem.value === value) || {} as Opening;
+    return opening;
+  }
+
 
 
   logWaring(message: string, ...optionalParams: any[]) {

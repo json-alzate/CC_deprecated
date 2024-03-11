@@ -117,11 +117,16 @@ export class PuzzlesService {
   }
 
   async loadMorePuzzles(elo: number, options?: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
-    // se cargan los puzzles desde la base de datos, para que se actualice la lista de puzzles disponibles
-    // const newPuzzlesFromDB = await this.firestoreService.getPuzzles(elo, options);
 
-    // se toman los puzzles llamando al endpoint de la api utilizando un metodo post
-
+    // se valida si tiene options.rangeStart y options.rangeEnd,
+    // si tiene se valida que rangeStart no sea menor a 800 y que rangeEnd no sea mayor a 3000
+    // en caso contrario se establece un rango por defecto de 800 y/o 3000
+    if (options?.rangeStart && options.rangeStart < 800) {
+      options.rangeStart = 800;
+    }
+    if (options?.rangeEnd && options.rangeEnd > 3000) {
+      options.rangeEnd = 3000;
+    }
 
     const newPuzzlesFromDB = await firstValueFrom(this.http.post<Puzzle[]>(environment.apiPuzzlesUrl + 'get-puzzles', { elo, ...options }));
     if (!actionMethod || actionMethod === 'toStore') {
@@ -134,11 +139,6 @@ export class PuzzlesService {
     }
   }
 
-
-
-  async getOnePuzzleByUid(uidPuzzle: string) {
-    return await this.firestoreService.getPuzzleByUid(uidPuzzle);
-  }
 
   async getTotalPuzzlesInDB() {
     return await this.firestoreService.adminGetTotalPuzzles();

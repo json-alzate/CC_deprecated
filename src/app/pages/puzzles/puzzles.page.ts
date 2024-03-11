@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-import { PuzzlesService } from '@services/puzzles.service';
-
 @Component({
   selector: 'app-puzzles',
   templateUrl: './puzzles.page.html',
@@ -9,12 +7,7 @@ import { PuzzlesService } from '@services/puzzles.service';
 })
 export class PuzzlesPage implements OnInit {
 
-  constructor(
-    private puzzlesService: PuzzlesService
-  ) {
-    // this.puzzlesService.getPuzzlesToUpload();
-
-  }
+  constructor() { }
 
   ngOnInit() {
   }

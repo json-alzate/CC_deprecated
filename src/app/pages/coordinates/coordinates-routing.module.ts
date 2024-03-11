@@ -5,8 +5,13 @@ import { CoordinatesPage } from './coordinates.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'training',
     component: CoordinatesPage
+  },
+  {
+    path: '**',
+    redirectTo: 'training',
+    pathMatch: 'full'
   }
 ];
 
@@ -14,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CoordinatesPageRoutingModule {}
+export class CoordinatesPageRoutingModule { }

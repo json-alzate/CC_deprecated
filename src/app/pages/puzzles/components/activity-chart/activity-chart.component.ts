@@ -4,7 +4,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { Chart, LinearScale, CategoryScale, PointElement, LineElement, Title, Tooltip, Filler, TimeScale } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
-import { startOfToday, formatISO, format } from 'date-fns';
+import { formatISO, format, endOfToday } from 'date-fns';
 import { es } from 'date-fns/locale';
 import 'chartjs-adapter-date-fns';
 
@@ -97,7 +97,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit {
 
   generateData() {
     const data = [];
-    const end = startOfToday();
+    const end = endOfToday();
     let dt = new Date(new Date().setDate(end.getDate() - 365));
     while (dt <= end) {
       const iso = format(dt, 'yyyy-MM-dd');

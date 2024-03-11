@@ -8,30 +8,24 @@ import { PlansGuard } from '@guards/plans.guard';
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'puzzles',
-    pathMatch: 'full'
+    path: 'puzzles',
+    canActivate: [PlansGuard],
+    loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   },
-  // {
-  //   path: 'home',
-  //   loadChildren: () => import('./pages/home/home.module').then(m => m.HomePageModule),
-  // },
   {
     path: 'coordinates',
     canActivate: [CoordinatesPuzzlesGuard],
     loadChildren: () => import('./pages/coordinates/coordinates.module').then(m => m.CoordinatesPageModule)
   },
   {
-    path: 'puzzles',
-    canActivate: [PuzzlesGuard, UserPuzzlesGuard, PlansGuard],
-    loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
-  },
-  {
     path: 'squares',
     loadChildren: () => import('./pages/squares/squares.module').then(m => m.SquaresPageModule)
+  },
+  {
+    path: '**',
+    redirectTo: 'puzzles',
+    pathMatch: 'full'
   }
-
-
 
 ];
 
