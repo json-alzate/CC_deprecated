@@ -8,7 +8,7 @@ export const environment = {
   environmentName: 'dev',
   firebase: keys.firebase,
   apiPuzzlesUrl: 'https://puzzles.chesscolate.com/puzzles/',
-  version: '0.0.1'
+  version: '1.0.0'
 };
 
 

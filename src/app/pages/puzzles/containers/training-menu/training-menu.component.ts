@@ -53,7 +53,7 @@ export class TrainingMenuComponent implements OnInit {
 
     const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
     this.closeLoading();
-    this.goTo('/training');
+    this.goTo('/puzzles/training');
 
   }
 
