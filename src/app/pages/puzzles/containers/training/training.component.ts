@@ -105,14 +105,15 @@ export class TrainingComponent implements OnInit {
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
 
     const themeName = this.plan.blocks[this.currentIndexBlock].themes[0];
-
-    const theme = themeName ?
+    const openingFamily = this.plan.blocks[this.currentIndexBlock].openingFamily;
+    const blockDescription = this.plan.blocks[this.currentIndexBlock].description;
+    const themeOrOpeningName = themeName ?
       this.appService.getThemePuzzleByValue(themeName).nameEs :
-      this.plan.blocks[this.currentIndexBlock].openingFamily;
+      this.appService.getOpeningByValue(openingFamily).nameEs;
 
     const title = this.plan.blocks[this.currentIndexBlock].title ?
       this.plan.blocks[this.currentIndexBlock].title :
-      theme;
+      themeOrOpeningName;
 
     let image = 'assets/images/puzzle-themes/opening.svg';
     if (themeName) {
@@ -124,12 +125,15 @@ export class TrainingComponent implements OnInit {
       }
     }
 
+    const description = blockDescription ? blockDescription :
+      (themeName ? this.appService.getThemePuzzleByValue(themeName).descriptionEs :
+        this.appService.getOpeningByValue(openingFamily).descriptionEs);
+
     const modal = await this.modalController.create({
       component: BlockPresentationComponent,
       componentProps: {
         title,
-        // FIXME: themeName puede estar vacio porque es una apertura, en ese caso se debe consultar la descripción de la apertura
-        description: this.plan.blocks[this.currentIndexBlock].description || this.appService.getThemePuzzleByValue(themeName).descriptionEs,
+        description,
         image,
       }
     });

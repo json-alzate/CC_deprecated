@@ -13,7 +13,10 @@ export interface AppPuzzlesThemes {
 };
 
 export interface Opening {
-    names: string;
+    nameEn: string;
+    descriptionEn: string;
+    nameEs: string;
+    descriptionEs: string;
     value: string;
     count: number;
 }

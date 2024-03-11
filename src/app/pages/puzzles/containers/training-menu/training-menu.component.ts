@@ -45,20 +45,15 @@ export class TrainingMenuComponent implements OnInit {
     this.showLoading();
     const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
 
-    console.log('No puzzles', blocks);
     // se recorre cada bloque para generar los puzzles
     for (const block of blocks) {
       // TODO: se debe controlar de que si se retornen puzzles
       block.puzzles = await this.blockService.generateBlockOfPuzzles(block);
     }
 
-    console.log(blocks);
-
     const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
-
-    console.log('New plan', newPlan);
     this.closeLoading();
-    this.goTo('/puzzles/training');
+    this.goTo('/training');
 
   }
 
