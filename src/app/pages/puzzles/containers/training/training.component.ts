@@ -216,7 +216,7 @@ export class TrainingComponent implements OnInit {
     this.stopPlanTimer();
     if (this.profileService.getProfile?.uid) {
       this.plan.uidUser = this.profileService.getProfile?.uid;
-      console.log('Plan finalizado ', JSON.stringify(this.plan));
+      // console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
     }
   }
@@ -267,10 +267,6 @@ export class TrainingComponent implements OnInit {
       fenStartUserPuzzle: puzzleCompleted.fenStartUserPuzzle,
       firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight
     };
-
-    console.log('puzzle ', puzzleCompleted);
-
-
 
     // Crear una copia del bloque actual
     const currentBlock = {

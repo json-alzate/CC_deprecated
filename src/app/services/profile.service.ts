@@ -148,8 +148,6 @@ export class ProfileService {
     themes: string[],
     openingFamily: string,
   ) {
-    console.log('themes', themes);
-    console.log('openingFamily', openingFamily);
 
     const elos = this.profile?.elos ? { ...this.profile.elos } : {};
     let eloOpening = 1500;
@@ -193,8 +191,6 @@ export class ProfileService {
         [openingFamily]: eloOpening
       };
     }
-
-    console.log('changes', changes);
 
     // se actualiza el perfil con los cambios
     this.requestUpdateProfile(changes);

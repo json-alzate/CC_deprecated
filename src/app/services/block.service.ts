@@ -23,9 +23,6 @@ export class BlockService {
 
   async generateBlockOfPuzzles(blockSettings: Block): Promise<Puzzle[]> {
 
-    console.log('Block settings', blockSettings);
-
-
     const options: PuzzleQueryOptions = {
       rangeStart: blockSettings.eloStart,
       rangeEnd: blockSettings.eloEnd,
