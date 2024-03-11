@@ -7,13 +7,8 @@ import { UserPuzzlesGuard } from '@guards/user-puzzles.guard';
 import { PlansGuard } from '@guards/plans.guard';
 
 const routes: Routes = [
-  // {
-  //   path: '',
-  //   redirectTo: 'puzzles',
-  //   pathMatch: 'full'
-  // },
   {
-    path: '',
+    path: 'puzzles',
     canActivate: [PlansGuard],
     loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   },
@@ -28,7 +23,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: 'puzzles',
     pathMatch: 'full'
   }
 

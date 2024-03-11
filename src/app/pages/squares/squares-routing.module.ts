@@ -5,8 +5,13 @@ import { SquaresPage } from './squares.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'training',
     component: SquaresPage
+  },
+  {
+    path: '**',
+    redirectTo: 'training',
+    pathMatch: 'full'
   }
 ];
 
@@ -14,4 +19,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class SquaresPageRoutingModule {}
+export class SquaresPageRoutingModule { }

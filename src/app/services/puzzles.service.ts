@@ -140,11 +140,6 @@ export class PuzzlesService {
   }
 
 
-
-  async getOnePuzzleByUid(uidPuzzle: string) {
-    return await this.firestoreService.getPuzzleByUid(uidPuzzle);
-  }
-
   async getTotalPuzzlesInDB() {
     return await this.firestoreService.adminGetTotalPuzzles();
   }
