@@ -61,12 +61,6 @@ export class AppService {
     const request$ = this.httpClient.get<Opening[]>('assets/data/openings.json')
       .pipe(take(1));
     this.openingsList = await lastValueFrom<Opening[]>(request$);
-
-    let t = [];
-    for (const iterator of this.openingsList) {
-      t.push(iterator.value);
-    }
-    console.log('openings ', JSON.stringify(t));
   }
 
   getOpeningByValue(value: string) {

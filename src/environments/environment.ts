@@ -7,7 +7,7 @@ export const environment = {
   production: false,
   environmentName: 'dev',
   firebase: keys.firebase,
-  apiPuzzlesUrl: 'https://puzzles.chesscolate.com/puzzles/',
+  apiPuzzlesUrl: 'http://[::1]:3000/puzzles/',
   version: '1.0.0'
 };
 

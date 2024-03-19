@@ -23,10 +23,8 @@ export interface Puzzle {
 }
 
 export interface PuzzleQueryOptions {
-    rangeStart?: number;
-    rangeEnd?: number;
-    themes?: string[];
+    elo: number;
+    theme?: string;
     openingFamily?: string;
-    openingVariation?: string;
     color?: 'w' | 'b';
 };
