@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 
 
 
@@ -19,7 +19,7 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 @Injectable({
   providedIn: 'root'
 })
-export class CoordinatesPuzzlesGuard implements CanActivate {
+export class CoordinatesPuzzlesGuard  {
 
   constructor(
     private store: Store<CoordinatesPuzzlesState>

@@ -128,6 +128,9 @@ export class PuzzlesService {
       options.rangeEnd = 3000;
     }
 
+    console.log('params: ', JSON.stringify({ elo, ...options }));
+
+
     const newPuzzlesFromDB = await firstValueFrom(this.http.post<Puzzle[]>(environment.apiPuzzlesUrl + 'get-puzzles', { elo, ...options }));
     if (!actionMethod || actionMethod === 'toStore') {
       // adicionar puzzles al estado de redux
