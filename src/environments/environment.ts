@@ -8,7 +8,7 @@ export const environment = {
   environmentName: 'dev',
   firebase: keys.firebase,
   apiPuzzlesUrl: 'http://[::1]:3000/puzzles/',
-  version: '1.0.0'
+  version: '1.0.1'
 };
 
 
