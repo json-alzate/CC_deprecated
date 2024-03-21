@@ -39,7 +39,10 @@
       ],
       "@shared/*": [
         "src/app/shared/*"
-      ]
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ],
     },
   },
   "angularCompilerOptions": {
