@@ -5,7 +5,7 @@ import {
   BORDER_TYPE
 } from 'cm-chessboard';
 // import { Markers } from 'src/lib/cm-chessboard/src/extensions/markers/markers';
-import { Markers } from '../../../../lib/cm-chessboard/src/extensions/markers/markers';
+import { Markers } from 'cm-chessboard/src/extensions/markers/markers';
 
 
 import { createUid } from '@utils/create-uid';
