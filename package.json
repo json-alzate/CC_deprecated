@@ -5,7 +5,8 @@
   "homepage": "https://chesscolate.com/",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "serve:ssr:my-app",
+    "dev": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",

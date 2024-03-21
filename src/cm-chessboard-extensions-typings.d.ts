@@ -1,6 +1,6 @@
 // cm-chessboard-extensions-typings.d.ts
 
-declare module '@lib/cm-chessboard/src/extensions/markers/markers' {
+declare module 'cm-chessboard/src/extensions/markers/markers' {
     export class Markers {
         constructor(options?: any);
 
@@ -10,7 +10,7 @@ declare module '@lib/cm-chessboard/src/extensions/markers/markers' {
     export const MARKER_TYPE: any;
 }
 
-declare module '@lib/cm-chessboard/src/extensions/arrows/arrows' {
+declare module 'cm-chessboard/src/extensions/arrows/arrows' {
     export class Arrows {
         constructor(options?: any);
         // Métodos específicos de Arrows
@@ -20,7 +20,7 @@ declare module '@lib/cm-chessboard/src/extensions/arrows/arrows' {
     export const ARROW_TYPE: any;
 }
 
-declare module '@lib/cm-chessboard/src/extensions/promotion-dialog/PromotionDialog' {
+declare module 'cm-chessboard/src/extensions/promotion-dialog/PromotionDialog' {
     export class PromotionDialog {
         constructor(options?: any);
         // Métodos específicos de PromotionDialog
