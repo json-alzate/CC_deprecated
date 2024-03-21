@@ -7,7 +7,7 @@ import { TrainingMenuComponent } from './containers/training-menu/training-menu.
 
 const routes: Routes = [
   {
-    path: 'training-menu',
+    path: '',
     component: TrainingMenuComponent
   },
   {
@@ -16,7 +16,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'training-menu',
+    redirectTo: '',
     pathMatch: 'full'
   }
 
