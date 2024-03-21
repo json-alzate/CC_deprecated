@@ -10,9 +10,9 @@ import {
 } from 'cm-chessboard';
 // import { MARKER_TYPE, Markers } from 'cm-chessboard/src/extensions/markers/markers';
 // import { MARKER_TYPE, Markers } from 'src/lib/cm-chessboard/src/extensions/markers/markers';
-import { MARKER_TYPE, Markers } from 'cm-chessboard/src/extensions/markers/markers';
-import { ARROW_TYPE, Arrows } from 'cm-chessboard/src/extensions/arrows/arrows';
-import { PromotionDialog } from 'cm-chessboard/src/extensions/promotion-dialog/PromotionDialog';
+import { MARKER_TYPE, Markers } from '../../../../../lib/cm-chessboard/src/extensions/markers/markers';
+import { ARROW_TYPE, Arrows } from '../../../../../lib/cm-chessboard/src/extensions/arrows/arrows';
+import { PromotionDialog } from '../../../../../lib/cm-chessboard/src/extensions/promotion-dialog/PromotionDialog';
 import Chess from 'chess.js';
 
 // rxjs
