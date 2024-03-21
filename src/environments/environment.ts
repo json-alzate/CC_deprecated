@@ -1,6 +1,8 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+
+// for deploy comment out the next line
 let process;
 let localKeys;
 if (!process?.env?.FIREBASE_apiKey) {
@@ -14,6 +16,17 @@ export const environment = {
   apiPuzzlesUrl: 'http://[::1]:3000/puzzles/',
   version: '1.0.1'
 };
+
+// import { keys } from './private/keys';
+
+// export const environment = {
+//   production: false,
+//   environmentName: 'dev',
+//   firebase: keys.firebase,
+//   apiPuzzlesUrl: 'http://[::1]:3000/puzzles/',
+//   version: '1.0.1'
+// };
+
 
 
 

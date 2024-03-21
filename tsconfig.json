@@ -52,6 +52,6 @@
   "include": [
     "src/**/*.ts",
     "src/cm-chessboard-typings.d.ts",
-    "lib/**/*"
+    "cm-chessboard-extensions-typings.d.ts"
   ]
 }
