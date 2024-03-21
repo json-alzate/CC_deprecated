@@ -21,12 +21,11 @@ export class BlockService {
     private appService: AppService
   ) { }
 
-  async generateBlockOfPuzzles(blockSettings: Block): Promise<Puzzle[]> {
+  async getPuzzlesForBlock(blockSettings: Block): Promise<Puzzle[]> {
 
     const options: PuzzleQueryOptions = {
-      rangeStart: blockSettings.eloStart,
-      rangeEnd: blockSettings.eloEnd,
-      themes: blockSettings.themes,
+      elo: blockSettings.elo,
+      theme: blockSettings.theme,
       openingFamily: blockSettings.openingFamily
     };
 
@@ -34,7 +33,7 @@ export class BlockService {
       options.color = blockSettings.color === 'white' ? 'w' : 'b';
     }
 
-    const puzzlesToAdd: Puzzle[] = await this.puzzlesService.loadMorePuzzles(-1, options, 'return');
+    const puzzlesToAdd: Puzzle[] = await this.puzzlesService.getPuzzles(options, 'return');
 
     let puzzles: Puzzle[] = [];
 
@@ -58,7 +57,6 @@ export class BlockService {
 
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
-      // TODO: Validar que ningún elo sea menor que 800 o mayor que 3000
       switch (option) {
         case 0: // Calentamiento / un mismo color
           //  2 minutos de mates en 1 (elo - 500) / tiempo por puzzle = 10 segundos
@@ -73,9 +71,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: ['mateIn1'],
-              eloStart: defaultEloStart,
-              eloEnd: mateIn1Elo0 && (mateIn1Elo0 - 500 > 1500) ? mateIn1Elo0 - 500 : defaultElo,
+              theme: 'mateIn1',
+              elo: mateIn1Elo0 || defaultElo,
               color: color0,
               puzzleTimes: {
                 warningOn: 6,
@@ -88,9 +85,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: ['mateIn2'],
-              eloStart: mateIn2Elo0 ? mateIn2Elo0 - 100 : defaultEloStart,
-              eloEnd: (mateIn2Elo0 ?? defaultElo),
+              theme: 'mateIn2',
+              elo: mateIn2Elo0 || defaultElo,
               color: color0,
               puzzleTimes: {
                 warningOn: 6,
@@ -103,9 +99,8 @@ export class BlockService {
             {
               time: -1,
               puzzlesCount: 1,
-              themes: ['mate'],
-              eloStart: mateElo0 ? mateElo0 - 200 : defaultEloStart,
-              eloEnd: (mateElo0 ?? defaultElo),
+              theme: 'mate',
+              elo: mateElo0 || defaultElo,
               puzzlesPlayed: [],
               color: color0
             }
@@ -145,9 +140,8 @@ export class BlockService {
             {
               time: 150,
               puzzlesCount: 0,
-              themes: [themeRandom5],
-              eloStart: themeRandomElo5 ? themeRandomElo5 - 200 : defaultEloStart,
-              eloEnd: themeRandomElo5 ? themeRandomElo5 + 200 : defaultElo + 200,
+              theme: themeRandom5,
+              elo: themeRandomElo5 || defaultElo,
               color: color5,
               puzzleTimes: {
                 warningOn: 12,
@@ -160,9 +154,8 @@ export class BlockService {
             {
               time: 150,
               puzzlesCount: 0,
-              themes: [themeWeakness5],
-              eloStart: eloThemeWeakness5 ? eloThemeWeakness5 - 300 : defaultEloStart,
-              eloEnd: (eloThemeWeakness5 ?? defaultElo) - 300,
+              theme: themeWeakness5,
+              elo: eloThemeWeakness5 || defaultElo,
               color: color5,
               puzzleTimes: {
                 warningOn: 24,
@@ -221,9 +214,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: [theme10],
-              eloStart: eloTheme10 ? eloTheme10 - 200 : defaultEloStart,
-              eloEnd: eloTheme10 ? eloTheme10 + 200 : defaultElo + 200,
+              theme: theme10,
+              elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
                 warningOn: 12,
@@ -236,10 +228,9 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: [],
+              theme: '',
               openingFamily: opening10,
-              eloStart: eloOpening10 ? eloOpening10 : defaultEloStart,
-              eloEnd: eloOpening10 ? eloOpening10 : defaultElo,
+              elo: eloOpening10 || defaultElo,
               color: color10,
               puzzleTimes: {
                 warningOn: 15,
@@ -252,10 +243,9 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              themes: [theme10],
+              theme: theme10,
               openingFamily: opening10,
-              eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
-              eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
+              elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
                 warningOn: 30,
@@ -268,9 +258,8 @@ export class BlockService {
             {
               time: 60,
               puzzlesCount: 0,
-              themes: [theme10],
-              eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
-              eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
+              theme: theme10,
+              elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
                 warningOn: 12,
@@ -283,10 +272,9 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: ['endgame'],
+              theme: 'endgame',
               openingFamily: opening10,
-              eloStart: eloTheme10 ? eloTheme10 : defaultEloStart,
-              eloEnd: eloTheme10 ? eloTheme10 : defaultElo,
+              elo: eloOpening10 || defaultElo,
               color: color10,
               puzzleTimes: {
                 warningOn: 30,
@@ -328,9 +316,8 @@ export class BlockService {
             randomBlockOrBlind = {
               time: 60,
               puzzlesCount: 0,
-              themes: [theme20Random],
-              eloStart: eloTheme20Random ? eloTheme20Random - 800 : defaultElo - 800,
-              eloEnd: eloTheme20Random ? eloTheme20Random - 700 : defaultElo - 700,
+              theme: theme20Random,
+              elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 8,
@@ -345,9 +332,8 @@ export class BlockService {
             randomBlockOrBlind = {
               time: 60,
               puzzlesCount: 0,
-              themes: [theme20Random],
-              eloStart: eloTheme20Random ? eloTheme20Random - 800 : defaultElo - 800,
-              eloEnd: eloTheme20Random ? eloTheme20Random - 700 : defaultElo - 700,
+              theme: theme20Random,
+              elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -367,9 +353,8 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              themes: [themeWeakness20],
-              eloStart: eloThemeWeakness20 ? eloThemeWeakness20 - 600 : defaultEloStart,
-              eloEnd: eloThemeWeakness20 ? eloThemeWeakness20 - 500 : defaultElo + 100,
+              theme: themeWeakness20,
+              elo: eloThemeWeakness20 || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -383,9 +368,8 @@ export class BlockService {
             {
               time: 300,
               puzzlesCount: 0,
-              themes: [theme20Random],
-              eloStart: eloTheme20Random ? eloTheme20Random : defaultElo,
-              eloEnd: eloTheme20Random ? eloTheme20Random + 200 : defaultElo + 200,
+              theme: theme20Random,
+              elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 50,
@@ -399,9 +383,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: ['mateIn1'],
-              eloStart: eloMateIn120 ? eloMateIn120 : defaultElo,
-              eloEnd: eloMateIn120 ? eloMateIn120 + 200 : defaultElo + 200,
+              theme: 'mateIn1',
+              elo: eloMateIn120 || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 6,
@@ -415,9 +398,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: [theme20Random],
-              eloStart: eloTheme20Random ? eloTheme20Random - 400 : defaultEloStart,
-              eloEnd: eloTheme20Random ? eloTheme20Random - 300 : defaultElo,
+              theme: theme20Random,
+              elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -432,9 +414,8 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              themes: ['endgame'],
-              eloStart: eloEndgame20 ? eloEndgame20 : defaultElo,
-              eloEnd: eloEndgame20 ? eloEndgame20 + 200 : defaultElo + 200,
+              theme: 'endgame',
+              elo: eloEndgame20 || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -448,9 +429,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: ['mateIn3'],
-              eloStart: eloMateIn320 ? eloMateIn320 : defaultElo,
-              eloEnd: eloMateIn320 ? eloMateIn320 : defaultElo + 200,
+              theme: 'mateIn3',
+              elo: eloMateIn320 || defaultElo,
               color: 'random',
               puzzleTimes: {
                 warningOn: 24,
@@ -495,9 +475,8 @@ export class BlockService {
             {
               time: 300,
               puzzlesCount: 0,
-              themes: [themeWeakness30],
-              eloStart: eloThemeWeakness30 ? eloThemeWeakness30 - 300 : defaultElo - 300,
-              eloEnd: eloThemeWeakness30 ? eloThemeWeakness30 - 200 : defaultElo - 200,
+              theme: themeWeakness30,
+              elo: eloThemeWeakness30 || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 40,
@@ -511,10 +490,9 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: [],
+              theme: '',
               openingFamily: opening30Random,
-              eloStart: eloOpening30Random ? eloOpening30Random : defaultElo,
-              eloEnd: eloOpening30Random ? eloOpening30Random + 200 : defaultElo + 200,
+              elo: eloOpening30Random || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 15,
@@ -528,9 +506,8 @@ export class BlockService {
             {
               time: 300,
               puzzlesCount: 0,
-              themes: [theme30Random],
-              eloStart: eloTheme30Random ? eloTheme30Random : defaultElo,
-              eloEnd: eloTheme30Random ? eloTheme30Random + 200 : defaultElo + 200,
+              theme: theme30Random,
+              elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 50,
@@ -544,9 +521,8 @@ export class BlockService {
             {
               time: 300,
               puzzlesCount: 0,
-              themes: [theme30Random],
-              eloStart: eloTheme30Random ? eloTheme30Random - 300 : defaultElo - 300,
-              eloEnd: eloTheme30Random ? eloTheme30Random - 200 : defaultElo - 200,
+              theme: theme30Random,
+              elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 20,
@@ -562,9 +538,8 @@ export class BlockService {
             {
               time: 300,
               puzzlesCount: 0,
-              themes: ['endgame'],
-              eloStart: eloEndgame30 ? eloEndgame30 : defaultElo,
-              eloEnd: eloEndgame30 ? eloEndgame30 + 100 : defaultElo + 100,
+              theme: 'endgame',
+              elo: eloEndgame30 || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 20,
@@ -578,9 +553,8 @@ export class BlockService {
             {
               time: 300,
               puzzlesCount: 0,
-              themes: ['pawnEndgame'],
-              eloStart: eloPawnEndgame30 ? eloPawnEndgame30 : defaultElo,
-              eloEnd: eloPawnEndgame30 ? eloPawnEndgame30 + 100 : defaultElo + 100,
+              theme: 'pawnEndgame',
+              elo: eloPawnEndgame30 || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 20,
@@ -594,9 +568,8 @@ export class BlockService {
             {
               time: 120,
               puzzlesCount: 0,
-              themes: ['mateIn4'],
-              eloStart: eloMateIn430 ? eloMateIn430 : defaultElo,
-              eloEnd: eloMateIn430 ? eloMateIn430 + 100 : defaultElo + 100,
+              theme: 'mateIn4',
+              elo: eloMateIn430 || defaultElo,
               color: color30,
               puzzleTimes: {
                 warningOn: 20,
@@ -625,13 +598,15 @@ export class BlockService {
 
           const colorBackToCalm = Math.random() > 0.5 ? 'white' : 'black';
 
+          // un numero random entre 800 y 1500
+          const eloBackToCalm = Math.floor(Math.random() * (defaultElo - defaultEloStart + 1)) + defaultEloStart;
+
           const blockBackToCalm: Block[] = [
             {
               time: -1,
               puzzlesCount: 3,
-              themes: ['mate'],
-              eloStart: 800,
-              eloEnd: 1000,
+              theme: 'mate',
+              elo: eloBackToCalm,
               color: colorBackToCalm,
               puzzlesPlayed: [],
               nextPuzzleImmediately: true,
@@ -640,9 +615,8 @@ export class BlockService {
             {
               time: -1,
               puzzlesCount: 3,
-              themes: ['mateIn2'],
-              eloStart: 800,
-              eloEnd: 1000,
+              theme: 'mateIn2',
+              elo: eloBackToCalm,
               color: colorBackToCalm,
               puzzlesPlayed: [],
               nextPuzzleImmediately: true,
@@ -651,9 +625,8 @@ export class BlockService {
             {
               time: -1,
               puzzlesCount: 3,
-              themes: ['mateIn1'],
-              eloStart: 800,
-              eloEnd: 1000,
+              theme: 'mateIn1',
+              elo: eloBackToCalm,
               color: colorBackToCalm,
               puzzlesPlayed: [],
               nextPuzzleImmediately: true,

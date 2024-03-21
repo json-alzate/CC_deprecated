@@ -8,7 +8,7 @@ import { PlansGuard } from '@guards/plans.guard';
 
 const routes: Routes = [
   {
-    path: 'puzzles',
+    path: '',
     canActivate: [PlansGuard],
     loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   },
@@ -31,7 +31,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, initialNavigation: 'enabledBlocking' })
   ],
   exports: [RouterModule]
 })

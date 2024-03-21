@@ -104,7 +104,7 @@ export class TrainingComponent implements OnInit {
 
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
 
-    const themeName = this.plan.blocks[this.currentIndexBlock].themes[0];
+    const themeName = this.plan.blocks[this.currentIndexBlock].theme;
     const openingFamily = this.plan.blocks[this.currentIndexBlock].openingFamily;
     const blockDescription = this.plan.blocks[this.currentIndexBlock].description;
     const themeOrOpeningName = themeName ?

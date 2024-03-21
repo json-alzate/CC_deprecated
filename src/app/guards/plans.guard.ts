@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+
 
 
 
@@ -19,7 +19,7 @@ import { PlanService } from '@services/plan.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PlansGuard implements CanActivate {
+export class PlansGuard  {
 
   constructor(
     private planService: PlanService,

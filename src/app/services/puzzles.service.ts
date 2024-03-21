@@ -40,95 +40,25 @@ export class PuzzlesService {
   constructor(
     private http: HttpClient,
     private firestoreService: FirestoreService,
-    private userPuzzlesService: UserPuzzlesService,
-    private store: Store<PuzzlesState>,
-    private appService: AppService
+    private store: Store<PuzzlesState>
   ) { }
 
-  public async getPuzzle(elo: number, options?: PuzzleQueryOptions, attempts: number = 0): Promise<Puzzle> {
 
+  async getPuzzles(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
 
-    /*
-     lógica para el numero de intentos:
-      - se establece un numero máximo de intentos (MAX_ATTEMPTS)
-      - Si se alcanza el numero máximo de intentos, se eliminan las options, hasta solo quedar con elo
-      - Si es mayor, es por que se sobre paso el numero máximo de intentos, y se retorna null registrando el error
-     */
+    let path = `get-puzzles?elo=${options.elo}`;
 
-    const MAX_ATTEMPTS = 6;  // establece un número máximo de intentos
-
-    // cuando se valla alcanzando el limite se abre el rango para que no se quede sin puzzles
-    if (attempts === 4) {
-      this.appService.logWaring('Se esta llegando al máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
-      // se borra options, para que se busque un puzzle solo con el elo que se pidió
-      return this.getPuzzle(elo, undefined, attempts + 1);
+    if (options.theme) {
+      path = path + `&theme=${options.theme}`;
+    }
+    if (options.openingFamily) {
+      path = path + `&openingFamily=${options.openingFamily}`;
+    }
+    if (options.color) {
+      path = path + `&color=${options.color}`;
     }
 
-
-    if (attempts > MAX_ATTEMPTS) {
-      this.appService.logError('Se sobrepaso el número máximo de intentos sin encontrar un puzzle adecuado.', [elo, options, attempts]);
-      // TODO: Es un blank state, corregir
-      return null;  // o podrías lanzar un error, dependiendo de lo que prefieras
-    }
-
-    const eloRangeStart = elo - (options?.rangeStart ?? 100);
-    const eloRangeEnd = elo + (options?.rangeEnd ?? 100);
-
-    // search in the local array of puzzles
-    const puzzlesFilter = this.puzzles.filter((p) =>
-      // que este en el rango de elo
-      (p.rating >= eloRangeStart && p.rating <= eloRangeEnd) &&
-      // si options.themes existe, que el puzzle tenga alguno de los temas que se buscan
-      (!options?.themes || options.themes.some((t) => p.themes.includes(t))) &&
-      // si options.openingFamily existe, que el puzzle tenga la misma openingFamily
-      (!options?.openingFamily || p.openingFamily === options.openingFamily) &&
-      // si options.openingVariation existe, que el puzzle tenga la misma openingVariation
-      (!options?.openingVariation || p.openingVariation === options.openingVariation)
-    );
-
-    // se selecciona un puzzle aleatorio del array de puzzles filtrados
-    const puzzle = puzzlesFilter[Math.floor(Math.random() * puzzlesFilter.length)];
-    // si se encuentra un puzzle en el array local, se valida que no este en la lista de puzzles del usuario
-    if (puzzle) {
-
-      const userPuzzles = this.userPuzzlesService.getUserPuzzles;
-
-      // se busca que el puzzle no este en la lista de puzzles del usuario
-      const puzzleInUserPuzzles = userPuzzles.find((p) => p.uidPuzzle === puzzle.uid);
-      // si el puzzle esta en la lista de puzzles del usuario, se busca otro puzzle
-      if (puzzleInUserPuzzles) {
-        // se elimina el puzzle del array local para reducir la posibilidad de que se vuelva a encontrar
-        this.puzzles = this.puzzles.filter((p) => p.uid !== puzzle.uid);
-
-        await this.loadMorePuzzles(elo, options);
-        // se busca otro puzzle
-        return this.getPuzzle(elo, options, attempts + 1);
-      } else {
-        // se retorna el puzzle
-        return puzzle;
-      }
-
-    } else {
-      // si no se encuentra un puzzle en el array local, se busca en la base de datos
-      await this.loadMorePuzzles(elo, options);
-      // se busca otro puzzle
-      return this.getPuzzle(elo, options, attempts + 1);
-    }
-  }
-
-  async loadMorePuzzles(elo: number, options?: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
-
-    // se valida si tiene options.rangeStart y options.rangeEnd,
-    // si tiene se valida que rangeStart no sea menor a 800 y que rangeEnd no sea mayor a 3000
-    // en caso contrario se establece un rango por defecto de 800 y/o 3000
-    if (options?.rangeStart && options.rangeStart < 800) {
-      options.rangeStart = 800;
-    }
-    if (options?.rangeEnd && options.rangeEnd > 3000) {
-      options.rangeEnd = 3000;
-    }
-
-    const newPuzzlesFromDB = await firstValueFrom(this.http.post<Puzzle[]>(environment.apiPuzzlesUrl + 'get-puzzles', { elo, ...options }));
+    const newPuzzlesFromDB = await firstValueFrom(this.http.get<Puzzle[]>(environment.apiPuzzlesUrl + path));
     if (!actionMethod || actionMethod === 'toStore') {
       // adicionar puzzles al estado de redux
       this.store.dispatch(addPuzzles({ puzzles: newPuzzlesFromDB }));

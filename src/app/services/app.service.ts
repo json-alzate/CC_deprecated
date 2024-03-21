@@ -52,6 +52,9 @@ export class AppService {
 
     this.themesPuzzlesList = this.themesPuzzle.reduce((acc, themeGroup) =>
       [...acc, ...themeGroup.themes], []);
+
+
+
   }
 
   async loadOpenings() {
