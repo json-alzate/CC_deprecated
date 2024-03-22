@@ -8,7 +8,7 @@ import { PlansGuard } from '@guards/plans.guard';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'puzzles',
     canActivate: [PlansGuard],
     loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   },
