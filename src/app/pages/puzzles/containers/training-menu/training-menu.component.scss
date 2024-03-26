@@ -13,6 +13,31 @@ ion-card {
     cursor: pointer;
 }
 
-h1 {
-    font-size: 3rem;
+/** Pequeños Dispositivos Móviles (teléfonos en modo retrato) */
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+    .item-plan-description {
+        ion-label {
+            font-size: 0.7em;
+        }
+    }
+
+    .img-plan {
+        width: 80%;
+    }
+}
+/* Dispositivos Móviles de Mayor Tamaño (teléfonos grandes, modo retrato y paisaje) */
+@media only screen and (min-device-width: 481px) and (max-device-width: 768px) {
+    /* Estilos aquí */
+}
+/* Tablets (modo retrato) */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Estilos aquí */
+}
+/* Tablets y Computadoras Pequeñas (modo paisaje) */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1224px) {
+    /* Estilos aquí */
+}
+/* Pantallas Grandes y Monitores (computadoras de escritorio) */
+@media only screen and (min-device-width: 1224px) {
+    /* Estilos aquí */
 }

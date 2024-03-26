@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 
 import { Subject, interval } from 'rxjs';
@@ -315,4 +315,11 @@ export class TrainingComponent implements OnInit {
     this.valueAccordionGroup = this.plan.blocks.map((_, i) => this.plan.uid + i);
   }
 
+  ionViewWillLeave() {
+    this.forceStopTimerInPuzzleBoard = true;
+    this.timerUnsubscribe$.next();
+    this.timerUnsubscribe$.complete();
+    this.timerUnsubscribeBlock$.next();
+    this.timerUnsubscribeBlock$.complete();
+  }
 }
