@@ -55,11 +55,7 @@ export class HeaderBarComponent implements OnInit {
   }
 
   goTo(path: string) {
-    console.log('path', path);
     this.router.navigate([path]);
-    // this.navController.navigateForward(path).catch(err => {
-    //   console.log('err', err)
-    // });
   }
 
 }
