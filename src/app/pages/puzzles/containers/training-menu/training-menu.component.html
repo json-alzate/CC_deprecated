@@ -46,11 +46,11 @@
               5 <ion-icon name="timer-outline"></ion-icon>
             </div>
           </ion-item>
-          <img class="img-plan" src="assets/images/plan-icons/rabbit_gold.png" alt="rabbit" srcset="">
+          <ion-img class="img-plan" src="assets/images/plan-icons/rabbit_gold.png" alt="rabbit" srcset=""></ion-img>
         </ion-card>
 
       </ion-col>
-      <ion-col size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
 
         <ion-card color="light" class="ion-activatable" (click)="createPlan(10, 'plan10')">
           <ion-ripple-effect></ion-ripple-effect>
@@ -64,13 +64,13 @@
               10 <ion-icon name="timer-outline"></ion-icon>
             </div>
           </ion-item>
-          <img class="img-plan" src="assets/images/plan-icons/horse_gold.png" alt="horse" srcset="">
+          <ion-img class="img-plan" src="assets/images/plan-icons/horse_gold.png" alt="horse" srcset=""></ion-img>
         </ion-card>
 
       </ion-col>
 
 
-      <ion-col size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
 
         <ion-card color="light" class="ion-activatable" (click)="createPlan(20, 'plan20')">
           <ion-ripple-effect></ion-ripple-effect>
@@ -84,11 +84,11 @@
               20 <ion-icon name="timer-outline"></ion-icon>
             </div>
           </ion-item>
-          <img class="img-plan" src="assets/images/plan-icons/elephant_gold.png" alt="elephant" srcset="">
+          <ion-img class="img-plan" src="assets/images/plan-icons/elephant_gold.png" alt="elephant" srcset=""></ion-img>
         </ion-card>
 
       </ion-col>
-      <ion-col size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
 
         <ion-card color="light" class="ion-activatable" (click)="createPlan(30, 'plan30')">
           <ion-ripple-effect></ion-ripple-effect>
@@ -102,7 +102,7 @@
               30 <ion-icon name="timer-outline"></ion-icon>
             </div>
           </ion-item>
-          <img class="img-plan" src="assets/images/plan-icons/turtle_gold.png" alt="turtle" srcset="">
+          <ion-img class="img-plan" src="assets/images/plan-icons/turtle_gold.png" alt="turtle" srcset=""></ion-img>
         </ion-card>
 
       </ion-col>
@@ -112,7 +112,9 @@
     <ion-row class="ion-margin-top">
       <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
 
-        <app-activity-chart></app-activity-chart>
+        <div *ngIf="loadActivityChart">
+          <app-activity-chart></app-activity-chart>
+        </div>
       </ion-col>
     </ion-row>
 

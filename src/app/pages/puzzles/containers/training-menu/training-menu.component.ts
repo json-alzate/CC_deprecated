@@ -19,6 +19,8 @@ export class TrainingMenuComponent implements OnInit {
   generalEloPlan20: string | number = '1500?';
   generalEloPlan30: string | number = '1500?';
 
+  loadActivityChart = false;
+
 
   constructor(
     private navController: NavController,
@@ -26,8 +28,13 @@ export class TrainingMenuComponent implements OnInit {
     private blockService: BlockService,
     private loadingController: LoadingController,
     private profileService: ProfileService
-  ) {
+  ) { }
 
+  ngOnInit() {
+
+  }
+
+  ionViewDidEnter() {
     this.profileService.subscribeToProfile().subscribe((profile) => {
       if (profile) {
         this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
@@ -36,10 +43,8 @@ export class TrainingMenuComponent implements OnInit {
         this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
       }
     });
-
+    this.loadActivityChart = true;
   }
-
-  ngOnInit() { }
 
   async createPlan(option: number, planType: PlanTypes) {
     this.showLoading();

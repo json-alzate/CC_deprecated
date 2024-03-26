@@ -35,6 +35,11 @@ export class ActivityChartComponent implements OnInit, AfterViewInit {
   constructor(
     private planService: PlanService
   ) {
+
+
+  }
+
+  ngOnInit() {
     Chart.register(MatrixController, MatrixElement,
       LinearScale, CategoryScale, PointElement,
       LineElement, Title, Tooltip, Filler,
@@ -43,9 +48,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit {
     this.planService.getPlansHistoryState().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.setData(data);
     });
-
   }
-
 
 
   setData(plans: Plan[]) {
@@ -76,7 +79,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngOnInit() { }
+
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.data) {

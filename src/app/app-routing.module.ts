@@ -6,6 +6,8 @@ import { PuzzlesGuard } from '@guards/puzzles.guard';
 import { UserPuzzlesGuard } from '@guards/user-puzzles.guard';
 import { PlansGuard } from '@guards/plans.guard';
 
+import { CustomPreloadingStrategy } from '@services/preloading-strategy.service';
+
 const routes: Routes = [
   {
     path: 'puzzles',
@@ -31,7 +33,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, initialNavigation: 'enabledBlocking' })
+    RouterModule.forRoot(routes, { preloadingStrategy: CustomPreloadingStrategy, initialNavigation: 'enabledBlocking' })
   ],
   exports: [RouterModule]
 })
