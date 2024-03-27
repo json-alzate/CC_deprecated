@@ -1,5 +1,7 @@
 //core and third party libraries
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+
 
 import { AlertController } from '@ionic/angular';
 
@@ -76,14 +78,26 @@ export class CoordinatesPage implements OnInit {
     private alertController: AlertController,
     private coordinatesPuzzlesService: CoordinatesPuzzlesService,
     private profileService: ProfileService,
-    public uiService: UiService
+    public uiService: UiService,
+    private meta: Meta
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.meta.addTags([
+      { name: 'title', content: 'ChessColate' },
+      { name: 'description', content: 'Entrenamiento de coordenadas del tablero de ajedrez.' },
+      { name: 'keywords', content: 'ajedrez, entrenamiento, chess, board, coordinates' },
+      { name: 'robots', content: 'index, nofollow' },
+      { property: 'og:title', content: 'ChessColate' },
+      { property: 'og:description', content: 'Entrenamiento de coordenadas del tablero de ajedrez.' },
+      { property: 'og:image', content: 'https://chesscolate.com/assets/tags/chesscolate.jpg' },
+      { property: 'og:url', content: 'https://chesscolate.com/coordinates/training' }
+    ]);
+  }
 
   ionViewDidEnter() {
 
