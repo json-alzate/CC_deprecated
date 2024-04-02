@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from '@ionic/angular';
+import { Meta } from '@angular/platform-browser';
 
 import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
@@ -27,11 +28,21 @@ export class TrainingMenuComponent implements OnInit {
     private planService: PlanService,
     private blockService: BlockService,
     private loadingController: LoadingController,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private meta: Meta
   ) { }
 
   ngOnInit() {
-
+    this.meta.addTags([
+      { name: 'title', content: 'ChessColate' },
+      { name: 'description', content: 'Planes de entrenamiento táctico de ajedrez listos para jugar.' },
+      { name: 'keywords', content: 'ajedrez, táctica, entrenamiento, chess, tactic, training chess' },
+      { name: 'robots', content: 'index, follow' },
+      { property: 'og:title', content: 'ChessColate' },
+      { property: 'og:description', content: 'Planes de entrenamiento táctico de ajedrez listos para jugar.' },
+      { property: 'og:image', content: 'https://chesscolate.com/assets/tags/chesscolate.jpg' },
+      { property: 'og:url', content: 'https://chesscolate.com/puzzles/training-menu' }
+    ]);
   }
 
   ionViewDidEnter() {

@@ -1,4 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
+
 import { IonCard, Platform, Gesture, GestureController, AlertController } from '@ionic/angular';
 
 
@@ -39,12 +41,23 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
     private gestureCtrl: GestureController,
     private soundsService: SoundsService,
     private squaresService: SquaresService,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private meta: Meta
   ) {
     this.generateSquares();
   }
 
   ngOnInit() {
+    this.meta.addTags([
+      { name: 'title', content: 'ChessColate' },
+      { name: 'description', content: 'Jugar a reconocer los colores de cada casilla de un tablero de ajedrez.' },
+      { name: 'keywords', content: 'ajedrez, entrenamiento, casillas, chess, board, squares' },
+      { name: 'robots', content: 'index, nofollow' },
+      { property: 'og:title', content: 'ChessColate' },
+      { property: 'og:description', content: 'Jugar a reconocer los colores de cada casilla de un tablero de ajedrez.' },
+      { property: 'og:image', content: 'https://chesscolate.com/assets/tags/chesscolate.jpg' },
+      { property: 'og:url', content: 'https://chesscolate.com/squares/training' }
+    ]);
   }
 
   ngAfterViewInit() {

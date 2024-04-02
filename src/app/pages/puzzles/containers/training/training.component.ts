@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
+import { Meta } from '@angular/platform-browser';
 
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -60,11 +61,15 @@ export class TrainingComponent implements OnInit {
     private profileService: ProfileService,
     private modalController: ModalController,
     private appService: AppService,
-    private soundsService: SoundsService
+    private soundsService: SoundsService,
+    private meta: Meta
   ) {
   }
 
   ngOnInit() {
+    this.meta.addTags([
+      { name: 'robots', content: 'noindex' }
+    ]);
     this.planService.getPlan().then((plan: Plan) => {
       if (!plan) {
         this.navController.navigateRoot('/puzzles/training-menu');
