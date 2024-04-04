@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController, ModalController } from '@ionic/angular';
 import { Meta } from '@angular/platform-browser';
 
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
+
+
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -62,7 +65,8 @@ export class TrainingComponent implements OnInit {
     private modalController: ModalController,
     private appService: AppService,
     private soundsService: SoundsService,
-    private meta: Meta
+    private meta: Meta,
+    private googleTagManagerService: GoogleTagManagerService
   ) {
   }
 
@@ -224,6 +228,8 @@ export class TrainingComponent implements OnInit {
       // console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
     }
+    this.googleTagManagerService.pushTag({ event: 'endPlan', planType: this.plan.planType });
+
   }
 
   pauseBlockTimer() {

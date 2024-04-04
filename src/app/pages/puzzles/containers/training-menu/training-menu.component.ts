@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from '@ionic/angular';
 import { Meta } from '@angular/platform-browser';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
@@ -29,7 +30,8 @@ export class TrainingMenuComponent implements OnInit {
     private blockService: BlockService,
     private loadingController: LoadingController,
     private profileService: ProfileService,
-    private meta: Meta
+    private meta: Meta,
+    private googleTagManagerService: GoogleTagManagerService
   ) { }
 
   ngOnInit() {
@@ -68,6 +70,7 @@ export class TrainingMenuComponent implements OnInit {
 
     const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
     this.closeLoading();
+    this.googleTagManagerService.pushTag({ event: 'newPlan', planType, planTime: option });
     this.goTo('/puzzles/training');
 
   }

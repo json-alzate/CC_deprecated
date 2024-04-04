@@ -1,6 +1,8 @@
 //core and third party libraries
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 
 import { AlertController } from '@ionic/angular';
@@ -79,7 +81,9 @@ export class CoordinatesPage implements OnInit {
     private coordinatesPuzzlesService: CoordinatesPuzzlesService,
     private profileService: ProfileService,
     public uiService: UiService,
-    private meta: Meta
+    private meta: Meta,
+    private router: Router,
+    private googleTagManagerService: GoogleTagManagerService
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;
@@ -97,6 +101,16 @@ export class CoordinatesPage implements OnInit {
       { property: 'og:image', content: 'https://chesscolate.com/assets/tags/chesscolate.jpg' },
       { property: 'og:url', content: 'https://chesscolate.com/coordinates/training' }
     ]);
+    this.router.events.forEach(item => {
+      if (item instanceof NavigationEnd) {
+        const gtmTag = {
+          event: 'page',
+          pageName: item.url
+        };
+
+        this.googleTagManagerService.pushTag(gtmTag);
+      }
+    });
   }
 
   ionViewDidEnter() {
