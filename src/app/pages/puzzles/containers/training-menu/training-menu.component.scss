@@ -12,6 +12,9 @@
 ion-card {
     cursor: pointer;
 }
+a {
+    color: var(--ion-color-medium);
+}
 
 /** Pequeños Dispositivos Móviles (teléfonos en modo retrato) */
 @media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
