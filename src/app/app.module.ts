@@ -51,6 +51,9 @@ Sentry.init(
 import { TranslocoRootModule } from './transloco-root.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+import { GoogleTagManagerModule } from 'angular-google-tag-manager';
+
+
 
 const PROVIDERS = [
   ...fromGuards.guards
@@ -92,7 +95,9 @@ if (environment.production) {
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })
+    }),
+    GoogleTagManagerModule.forRoot({ id: 'G-20ME9L8R51' })
+
   ],
   providers: [
     PROVIDERS,

@@ -1,5 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit, OnDestroy } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
+
 import { Meta } from '@angular/platform-browser';
+import { GoogleTagManagerService } from 'angular-google-tag-manager';
+
 
 import { IonCard, Platform, Gesture, GestureController, AlertController } from '@ionic/angular';
 
@@ -42,7 +46,9 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
     private soundsService: SoundsService,
     private squaresService: SquaresService,
     private alertController: AlertController,
-    private meta: Meta
+    private meta: Meta,
+    private router: Router,
+    private googleTagManagerService: GoogleTagManagerService
   ) {
     this.generateSquares();
   }
@@ -58,6 +64,16 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
       { property: 'og:image', content: 'https://chesscolate.com/assets/tags/chesscolate.jpg' },
       { property: 'og:url', content: 'https://chesscolate.com/squares/training' }
     ]);
+    this.router.events.forEach(item => {
+      if (item instanceof NavigationEnd) {
+        const gtmTag = {
+          event: 'page',
+          pageName: item.url
+        };
+
+        this.googleTagManagerService.pushTag(gtmTag);
+      }
+    });
   }
 
   ngAfterViewInit() {
