@@ -141,6 +141,7 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeRandom5,
+              description: 'Tema Random con ' + color5 === 'white' ? 'Blancas' : 'Negras',
               elo: themeRandomElo5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -155,6 +156,7 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeWeakness5,
+              description: 'Debilidad con ' + color5 === 'white' ? 'Blancas' : 'Negras',
               elo: eloThemeWeakness5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -243,6 +245,7 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
+              description: 'Misma apertura y mismo tema',
               theme: theme10,
               openingFamily: opening10,
               elo: eloTheme10 || defaultElo,
@@ -259,6 +262,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme10,
+              description: 'Mismo tema menos tiempo',
               elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
@@ -317,6 +321,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
+              description: 'Mismo tema random a ciegas',
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -333,6 +338,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
+              description: 'Mismo tema random',
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -354,6 +360,7 @@ export class BlockService {
               time: 180,
               puzzlesCount: 0,
               theme: themeWeakness20,
+              description: 'Debilidades con cualquier color',
               elo: eloThemeWeakness20 || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -369,6 +376,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme20Random,
+              description: 'Tema Random con cualquier color',
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -399,6 +407,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: theme20Random,
+              description: 'Mismo tema random con menos tiempo',
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -476,6 +485,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: themeWeakness30,
+              description: 'Debilidad con ' + color30 === 'white' ? 'Blancas' : 'Negras',
               elo: eloThemeWeakness30 || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -491,6 +501,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: '',
+              description: 'Apertura Random',
               openingFamily: opening30Random,
               elo: eloOpening30Random || defaultElo,
               color: color30,
@@ -507,6 +518,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
+              description: 'Tema Random',
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -522,6 +534,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
+              description: 'Mismo tema random a ciegas',
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
