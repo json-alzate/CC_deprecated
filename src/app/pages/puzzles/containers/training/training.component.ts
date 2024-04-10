@@ -63,7 +63,7 @@ export class TrainingComponent implements OnInit {
     private navController: NavController,
     private profileService: ProfileService,
     private modalController: ModalController,
-    private appService: AppService,
+    public appService: AppService,
     private soundsService: SoundsService,
     private meta: Meta,
     private googleTagManagerService: GoogleTagManagerService
