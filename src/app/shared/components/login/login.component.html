@@ -55,19 +55,11 @@
 
           <ion-row>
             <ion-col size="12">
-              <ion-note>
-                {{ 'PasswordRestoreTittle' | transloco }}
-              </ion-note>
-            </ion-col>
-          </ion-row>
-
-          <ion-row>
-            <ion-col size="12">
               <ion-item>
-                <ion-label position="floating">
-                  {{ 'Email' | transloco }}
-                </ion-label>
-                <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+                <ion-input [label]=" 'Email' | transloco" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
+                ('LOGIN.ERRORS.EmailRequired' | transloco) :
+         (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | transloco) : ''))"
+                  formControlName="email" type="email" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
           </ion-row>
@@ -112,18 +104,17 @@
               <ion-row>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-label position="floating">
-                      {{ 'Email' | transloco }}
-                    </ion-label>
-                    <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+                    <ion-input [label]=" 'Email' | transloco" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
+                    ('LOGIN.ERRORS.EmailRequired' | transloco) :
+             (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | transloco) : ''))"
+                      formControlName="email" type="email" maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-label position="floating">
-                      {{ 'Password' | transloco }}
-                    </ion-label>
-                    <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
+                    <ion-input [label]=" 'Password' | transloco" labelPlacement="floating" [errorText]="(passwordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.PasswordRequired' | transloco) : 
+                  (passwordFielSingUp?.hasError('minlength') ? ('LOGIN.ERRORS.PasswordMinLength' | transloco) : '')) "
+                      formControlName="password" type="password" maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
@@ -178,20 +169,26 @@
               <ion-row>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-label position="floating">{{ 'Email' | transloco }}</ion-label>
-                    <ion-input formControlName="email" type="email" maxlength="100"></ion-input>
+                    <ion-input [label]=" 'Email' | transloco" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
+                    ('LOGIN.ERRORS.EmailRequired' | transloco) :
+             (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | transloco) : ''))"
+                      formControlName="email" type="email" maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-label position="floating">{{ 'Password' | transloco }}</ion-label>
-                    <ion-input formControlName="password" type="password" maxlength="100"></ion-input>
+                    <ion-input [label]=" 'Password' | transloco" labelPlacement="floating"
+                      [errorText]="(passwordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.PasswordRequired' | transloco) : 
+                    (passwordFielSingUp?.hasError('minlength') ? ('LOGIN.ERRORS.PasswordMinLength' | transloco) : '')) " formControlName="password" type="password"
+                      maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-label position="floating">{{ 'ConfirmPassword' | transloco }}</ion-label>
-                    <ion-input formControlName="rePassword" type="password" maxlength="100"></ion-input>
+                    <ion-input [label]=" 'ConfirmPassword' | transloco" labelPlacement="floating"
+                      [errorText]="(rePasswordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.ConfirmPasswordRequired' | transloco) :
+                    (rePasswordFielSingUp?.value !== passwordFielSingUp?.value ? ('LOGIN.ERRORS.ConfirmPasswordNotMatch' | transloco) : '')) " formControlName="rePassword" type="password"
+                      maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
               </ion-row>

@@ -50,7 +50,7 @@
             <ng-container *ngIf="profile?.email ; else elseTemplateLoginButton">
 
                 <ion-chip slot="end" class="ion-padding ion-hide-md-down" (click)="openMenuProfile()">
-                    <ion-label>{{ profile.name }}</ion-label>
+                    <ion-label>{{ profile.name || profile.email }}</ion-label>
                     <ion-icon name="menu"></ion-icon>
                 </ion-chip>
 
