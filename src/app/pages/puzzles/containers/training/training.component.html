@@ -10,8 +10,11 @@
           <div *ngFor="let block of plan?.blocks; let i=index">
             <div *ngIf="i === currentIndexBlock; else itemOtherBlock">
               <ion-item class="item-block-training-info" lines="none">
-                <ion-label *ngIf="block.title">{{ block.title }}</ion-label>
-                <ion-label *ngIf="block.theme">{{ block.theme }}</ion-label>
+                <ion-label>
+                  <h6 *ngIf="block.title">{{ block.title }}</h6>
+                  <h6 *ngIf="block.theme">{{ appService.getThemePuzzleByValue(block.theme).nameEs }}</h6>
+                  <h6 *ngIf="block.openingFamily">{{ appService.getOpeningByValue( block.openingFamily).nameEs }}</h6>
+                </ion-label>
                 <div slot="end" *ngIf="showBlockTimer">{{ timeLeftBlock | secondsToMinutesSeconds }}</div>
                 <div slot="end" *ngIf="totalPuzzlesInBlock > 0"> {{ countPuzzlesPlayedBlock }} / {{totalPuzzlesInBlock
                   }}</div>
@@ -19,8 +22,11 @@
             </div>
             <ng-template #itemOtherBlock>
               <ion-item class="item-block-training-info ion-hide-lg-down" lines="none" disabled>
-                <ion-label *ngIf="block.title">{{ block.title }}</ion-label>
-                <ion-label *ngIf="block.theme">{{ block.theme }}</ion-label>
+                <ion-label>
+                  <h6 *ngIf="block.title">{{ block.title }}</h6>
+                  <h6 *ngIf="block.theme">{{ appService.getThemePuzzleByValue(block.theme).nameEs }}</h6>
+                  <h6 *ngIf="block.openingFamily">{{ appService.getOpeningByValue( block.openingFamily).nameEs }}</h6>
+                </ion-label>
                 <ion-icon *ngIf="i < currentIndexBlock" color="success" slot="end"
                   name="checkmark-done-outline"></ion-icon>
                 <ion-icon *ngIf="i > currentIndexBlock" slot="end" name="checkmark-outline"></ion-icon>
@@ -35,14 +41,15 @@
 
       <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="8"
         offset-Xl="2" *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
+        <h1 class="ion-text-center">{{ plan.eloTotal }}</h1>
         <ion-accordion-group multiple="true" [value]="valueAccordionGroup">
 
           <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
             <ion-item slot="header" color="light">
               <ion-label>
-                <h2>
-                  {{ block.title || block.theme || block.openingFamily }}
-                </h2>
+                <h3 *ngIf="block.title">{{ block.title }}</h3>
+                <h3 *ngIf="block.theme">{{ appService.getThemePuzzleByValue(block.theme).nameEs }}</h3>
+                <h3 *ngIf="block.openingFamily">{{ appService.getOpeningByValue( block.openingFamily).nameEs }}</h3>
                 <p>
                   {{ block.description }}
                 </p>

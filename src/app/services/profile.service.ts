@@ -171,7 +171,7 @@ export class ProfileService {
     });
 
     // calcular el elo total del plan, con el parámetro del perfil
-    const currentTotalElo = this.profile?.elos[`${planType}Total`] || 1500;
+    const currentTotalElo = this.profile?.elos && this.profile?.elos[`${planType}Total`] ? this.profile?.elos[`${planType}Total`] : 1500;
     const newTotalElo = calculateElo(currentTotalElo, puzzleElo, result);
 
 

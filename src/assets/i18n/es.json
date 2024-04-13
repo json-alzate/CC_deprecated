@@ -15,5 +15,15 @@
     "Cancel": "Cancelar",
     "Send": "Enviar",
     "PasswordRestoreMessage": "Correo enviado con instrucciones para la restablecer contraseña",
-    "PasswordRestoreTitle": "Enviaremos un correo electrónico con las instrucciones para recuperar tu contraseña."
+    "PasswordRestoreTitle": "Enviaremos un correo electrónico con las instrucciones para recuperar tu contraseña.",
+    "LOGIN": {
+        "ERRORS": {
+            "EmailRequired": "El Email es requerido",
+            "EmailInvalid": "El Email no es valido",
+            "PasswordRequired": "La contraseña es requerida",
+            "PasswordMinLength": "La contraseña debe tener al menos 8 caracteres",
+            "ConfirmPasswordRequired": "La confirmación de contraseña es requerida",
+            "ConfirmPasswordNotMatch": "Las contraseñas no coinciden"
+        }
+    }
 }

@@ -18,6 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 import { Plan, Block } from '@models/plan.model';
+import { Profile } from '@models/profile.model';
 
 // Services
 import { PlanService } from '@services/plan.service';
@@ -58,12 +59,14 @@ export class TrainingComponent implements OnInit {
 
   valueAccordionGroup: string[] = [];
 
+  profile: Profile;
+
   constructor(
     private planService: PlanService,
     private navController: NavController,
     private profileService: ProfileService,
     private modalController: ModalController,
-    private appService: AppService,
+    public appService: AppService,
     private soundsService: SoundsService,
     private meta: Meta,
     private googleTagManagerService: GoogleTagManagerService
@@ -225,6 +228,8 @@ export class TrainingComponent implements OnInit {
     this.stopPlanTimer();
     if (this.profileService.getProfile?.uid) {
       this.plan.uidUser = this.profileService.getProfile?.uid;
+      this.profile = this.profileService.getProfile;
+      this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
       // console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
     }

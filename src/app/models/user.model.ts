@@ -10,6 +10,7 @@ export interface User {
     scoreCoordinatesB?: number;
     country?: string;
     elos?: {
+        warmupTotal?: number;
         warmup?: {
             [key: string]: number;
         };
@@ -41,6 +42,7 @@ export interface User {
         plan30Openings?: {
             [key: string]: number;
         };
+        backToCalmTotal?: number;
         backToCalm?: {
             [key: string]: number;
         };

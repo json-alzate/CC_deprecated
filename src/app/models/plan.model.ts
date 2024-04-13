@@ -30,6 +30,7 @@ export interface Block {
 export interface Plan {
     uid: string;
     uidUser?: string;
+    eloTotal?: number;
     blocks: Block[];
     createdAt: number;
     planType: PlanTypes;

@@ -75,9 +75,9 @@ export class AppComponent {
     );
 
     this.profile$.subscribe((profile: Profile) => {
-      if (profile?.email && !profile.name) {
-        this.presentModalOnboarding();
-      }
+      // if (profile?.email && !profile.name) {
+      //   this.presentModalOnboarding();
+      // }
       if (profile?.pieces) {
         this.uiService.changePiecesStyle(profile.pieces);
       }
@@ -132,16 +132,16 @@ export class AppComponent {
     await modal.present();
   }
 
-  async presentModalOnboarding() {
-    const modal = await this.modalController.create({
-      component: OnboardingComponent,
-      backdropDismiss: false,
-      cssClass: 'modal-onboarding'
-    });
+  // async presentModalOnboarding() {
+  //   const modal = await this.modalController.create({
+  //     component: OnboardingComponent,
+  //     backdropDismiss: false,
+  //     cssClass: 'modal-onboarding'
+  //   });
 
-    await modal.present();
+  //   await modal.present();
 
-  }
+  // }
 
 
   goTo(path) {
