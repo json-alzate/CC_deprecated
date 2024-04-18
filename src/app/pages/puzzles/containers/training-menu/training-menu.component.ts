@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, LoadingController } from '@ionic/angular';
+import { NavController, LoadingController, ModalController } from '@ionic/angular';
 import { Meta } from '@angular/platform-browser';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
@@ -7,6 +7,8 @@ import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
 import { BlockService } from '@services/block.service';
 import { ProfileService } from '@services/profile.service';
+
+import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 
 @Component({
   selector: 'app-training-menu',
@@ -31,7 +33,8 @@ export class TrainingMenuComponent implements OnInit {
     private loadingController: LoadingController,
     private profileService: ProfileService,
     private meta: Meta,
-    private googleTagManagerService: GoogleTagManagerService
+    private googleTagManagerService: GoogleTagManagerService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -86,6 +89,19 @@ export class TrainingMenuComponent implements OnInit {
 
   closeLoading() {
     this.loader.dismiss();
+  }
+
+  async showChart(planType: PlanTypes) {
+
+    const modal = await this.modalController.create({
+      component: PlanChartComponent,
+      componentProps: {
+        planType
+      }
+    });
+
+    await modal.present();
+    // this.googleTagManagerService.pushTag({ event: 'showChart', planType: planType });
   }
 
 
