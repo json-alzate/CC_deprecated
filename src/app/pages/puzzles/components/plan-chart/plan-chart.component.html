@@ -1,8 +1,22 @@
 <div class="ion-padding">
-  <h6 class="ion-text-center ion-no-margin ion-no-padding">Puntuación</h6>
-  <ion-text color="primary">
-    <h1 class="ion-text-center ion-no-margin ion-no-padding">{{ totalElo }}</h1>
-  </ion-text>
+
+  <ion-toolbar>
+    <ion-thumbnail slot="start">
+      <img [src]="'assets/images/plan-icons/'+ planType +'.png'" />
+    </ion-thumbnail>
+    <ion-title>
+      <h6 class="ion-text-center ion-no-margin ion-no-padding">Puntuación</h6>
+      <ion-text color="primary">
+        <h1 class="ion-text-center ion-no-margin ion-no-padding">{{ totalElo }}</h1>
+      </ion-text>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
   <ion-segment value="pizza">
     <ion-segment-button value="pizza">
       <ion-label>Temas</ion-label>
