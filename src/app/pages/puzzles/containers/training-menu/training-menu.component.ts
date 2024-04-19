@@ -96,7 +96,8 @@ export class TrainingMenuComponent implements OnInit {
     const modal = await this.modalController.create({
       component: PlanChartComponent,
       componentProps: {
-        planType
+        planType,
+        isModal: true
       }
     });
 

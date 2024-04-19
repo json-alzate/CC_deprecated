@@ -69,7 +69,7 @@ export class BlockService {
 
           const blocks0: Block[] = [
             {
-              time: 120,
+              time: 10,
               puzzlesCount: 0,
               theme: 'mateIn1',
               elo: mateIn1Elo0 || defaultElo,
@@ -83,7 +83,7 @@ export class BlockService {
               nextPuzzleImmediately: true
             },
             {
-              time: 120,
+              time: 10,
               puzzlesCount: 0,
               theme: 'mateIn2',
               elo: mateIn2Elo0 || defaultElo,

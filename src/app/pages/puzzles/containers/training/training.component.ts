@@ -174,8 +174,8 @@ export class TrainingComponent implements OnInit {
   selectPuzzleToPlay() {
 
     // se valida si el bloque es por cantidad de puzzles y si ya se jugaron todos
-    if (this.plan.blocks[this.currentIndexBlock].puzzlesCount !== 0 &&
-      this.countPuzzlesPlayedBlock === this.plan.blocks[this.currentIndexBlock].puzzlesCount) {
+    if (this.plan.blocks[this.currentIndexBlock]?.puzzlesCount !== 0 &&
+      this.countPuzzlesPlayedBlock === this.plan.blocks[this.currentIndexBlock]?.puzzlesCount) {
       this.playNextBlock();
       return;
     }
