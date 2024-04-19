@@ -50,7 +50,7 @@
             <ion-img class="img-plan" src="assets/images/plan-icons/plan5.png" alt="rabbit" srcset=""></ion-img>
           </div>
 
-          <ion-fab vertical="bottom" horizontal="end">
+          <ion-fab vertical="bottom" horizontal="end" *ngIf="generalEloPlan5 !== '1500?'">
             <ion-fab-button size="small" color="light" (click)="showChart('plan5')">
               <ion-icon name="stats-chart-outline"></ion-icon>
             </ion-fab-button>
@@ -80,7 +80,7 @@
             <ion-img class="img-plan" src="assets/images/plan-icons/plan10.png" alt="horse" srcset=""></ion-img>
 
           </div>
-          <ion-fab vertical="bottom" horizontal="end">
+          <ion-fab vertical="bottom" horizontal="end" *ngIf="generalEloPlan10 !== '1500?'">
             <ion-fab-button size="small" color="light" (click)="showChart('plan10')">
               <ion-icon name="stats-chart-outline"></ion-icon>
             </ion-fab-button>
@@ -109,7 +109,7 @@
             <ion-img class="img-plan" src="assets/images/plan-icons/plan20.png" alt="elephant" srcset=""></ion-img>
 
           </div>
-          <ion-fab vertical="bottom" horizontal="end">
+          <ion-fab vertical="bottom" horizontal="end" *ngIf="generalEloPlan20 !== '1500?'">
             <ion-fab-button size="small" color="light" (click)="showChart('plan20')">
               <ion-icon name="stats-chart-outline"></ion-icon>
             </ion-fab-button>
@@ -136,7 +136,7 @@
             <ion-img class="img-plan" src="assets/images/plan-icons/plan30.png" alt="turtle" srcset=""></ion-img>
 
           </div>
-          <ion-fab vertical="bottom" horizontal="end">
+          <ion-fab vertical="bottom" horizontal="end" *ngIf="generalEloPlan30 !== '1500?'">
             <ion-fab-button size="small" color="light" (click)="showChart('plan30')">
               <ion-icon name="stats-chart-outline"></ion-icon>
             </ion-fab-button>

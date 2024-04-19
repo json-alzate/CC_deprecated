@@ -32,6 +32,7 @@ export class PuzzleSolutionComponent implements OnInit {
 
   board;
   chessInstance = new Chess();
+  closeCancelMoves = false;
 
   constructor(
     private modalController: ModalController,
@@ -44,6 +45,7 @@ export class PuzzleSolutionComponent implements OnInit {
   }
 
   close() {
+    this.closeCancelMoves = true;
     this.modalController.dismiss();
   }
 
@@ -103,6 +105,9 @@ export class PuzzleSolutionComponent implements OnInit {
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < arrayFenSolution.length; i++) {
+      if (this.closeCancelMoves) {
+        break;
+      }
       let lastMove;
       if (!arrayFenSolution[i - 1]) {
         lastMove = this.puzzle.fen;
@@ -130,12 +135,9 @@ export class PuzzleSolutionComponent implements OnInit {
 
   showLastMove(from: string, to: string) {
     this.board.removeMarkers();
-
     const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
     this.board.addMarker(marker, from);
     this.board.addMarker(marker, to);
-
-
   }
 
 }

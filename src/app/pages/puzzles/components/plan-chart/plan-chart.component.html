@@ -76,11 +76,14 @@
 
 
 <ng-template #content>
-  <canvas [ngClass]="{ 'hide': segment !== 'themesUp'}" id="themesUpCanvas" #themesUpCanvas></canvas>
-  <canvas [ngClass]="{ 'hide': segment !== 'themesDown'}" id="themesDownCanvas" #themesDownCanvas></canvas>
+  <div class="div-chart-container">
 
-  <canvas [ngClass]="{ 'hide': segment !== 'openingsUp'}" id="openingsUpCanvas" #openingsUpCanvas></canvas>
-  <canvas [ngClass]="{ 'hide': segment !== 'openingsDown'}" id="openingsDownCanvas" #openingsDownCanvas></canvas>
+    <canvas [ngClass]="{ 'hide': segment !== 'themesUp'}" id="themesUpCanvas" #themesUpCanvas></canvas>
+    <canvas [ngClass]="{ 'hide': segment !== 'themesDown'}" id="themesDownCanvas" #themesDownCanvas></canvas>
+
+    <canvas [ngClass]="{ 'hide': segment !== 'openingsUp'}" id="openingsUpCanvas" #openingsUpCanvas></canvas>
+    <canvas [ngClass]="{ 'hide': segment !== 'openingsDown'}" id="openingsDownCanvas" #openingsDownCanvas></canvas>
+  </div>
 
 
 
