@@ -103,9 +103,14 @@
       <ion-col size-sm="12" size-md="12" size-lg="3" size-xl="3" class="ion-margin-top">
 
         <p class="ion-text-center">
-          <ion-note *ngIf="!showEndPlan" color="medium">
-            Total: {{ timeTraining | secondsToMinutesSeconds }}
-          </ion-note>
+          <span *ngIf="!showEndPlan" class="span-totals-container">
+            <ion-note color="medium">
+              {{totalPuzzlesPlayed}}
+            </ion-note>
+            <ion-note color="medium">
+              Total: {{ timeTraining | secondsToMinutesSeconds }}
+            </ion-note>
+          </span>
         </p>
       </ion-col>
 

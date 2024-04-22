@@ -66,8 +66,6 @@ export class PlanChartComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    console.log('Plan type ', this.planType);
-
     this.profileService.subscribeToProfile().pipe().subscribe(profile => {
       this.profile = profile;
 

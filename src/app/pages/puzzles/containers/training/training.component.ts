@@ -25,6 +25,7 @@ import { PlanService } from '@services/plan.service';
 import { ProfileService } from '@services/profile.service';
 import { AppService } from '@services/app.service';
 import { SoundsService } from '@services/sounds.service';
+import { BlockService } from '@services/block.service';
 
 // utils
 import { createUid } from '@utils/create-uid';
@@ -55,7 +56,7 @@ export class TrainingComponent implements OnInit {
   timerUnsubscribeBlock$ = new Subject<void>();
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
-
+  totalPuzzlesPlayed = 0;
   showEndPlan = false;
   forceStopTimerInPuzzleBoard = false;
 
@@ -65,6 +66,7 @@ export class TrainingComponent implements OnInit {
 
   constructor(
     private planService: PlanService,
+    private blockService: BlockService,
     private navController: NavController,
     private profileService: ProfileService,
     private modalController: ModalController,
@@ -180,10 +182,16 @@ export class TrainingComponent implements OnInit {
       return;
     }
 
-    const puzzle = {
-      ...this.plan.blocks[this.currentIndexBlock].puzzles.find(puzzleItem =>
-        !this.plan.blocks[this.currentIndexBlock]?.puzzlesPlayed?.find(puzzlePlayed => puzzlePlayed.uidPuzzle === puzzleItem.uid))
-    };
+    // calcular si queda menos de 10 puzzles por jugar, para cargar mas puzzles
+    const puzzlesLeftToPlay = this.plan.blocks[this.currentIndexBlock].puzzles?.length - this.countPuzzlesPlayedBlock;
+    if (puzzlesLeftToPlay < 10) {
+      this.blockService.getPuzzlesForBlock(this.plan.blocks[this.currentIndexBlock]).then((puzzlesToAdd: Puzzle[]) => {
+        this.plan.blocks[this.currentIndexBlock].puzzles = [...puzzlesToAdd];
+      });
+    }
+
+    const puzzle = { ...this.plan.blocks[this.currentIndexBlock].puzzles[this.countPuzzlesPlayedBlock] };
+
 
     if (this.plan.blocks[this.currentIndexBlock].goshPuzzleTime) {
       puzzle.goshPuzzleTime = this.plan.blocks[this.currentIndexBlock].goshPuzzleTime;
@@ -193,6 +201,7 @@ export class TrainingComponent implements OnInit {
     }
 
     this.puzzleToPlay = puzzle;
+    this.totalPuzzlesPlayed++;
   }
 
   // init countDown
