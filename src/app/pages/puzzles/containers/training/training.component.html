@@ -41,7 +41,7 @@
 
       <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="8"
         offset-Xl="2" *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
-        <h1 class="ion-text-center">{{ plan.eloTotal }}</h1>
+        <app-plan-chart [planType]="plan.planType"></app-plan-chart>
         <ion-accordion-group multiple="true" [value]="valueAccordionGroup">
 
           <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
@@ -103,9 +103,14 @@
       <ion-col size-sm="12" size-md="12" size-lg="3" size-xl="3" class="ion-margin-top">
 
         <p class="ion-text-center">
-          <ion-note *ngIf="!showEndPlan" color="medium">
-            Total: {{ timeTraining | secondsToMinutesSeconds }}
-          </ion-note>
+          <span *ngIf="!showEndPlan" class="span-totals-container">
+            <ion-note color="medium">
+              {{totalPuzzlesPlayed}}
+            </ion-note>
+            <ion-note color="medium">
+              Total: {{ timeTraining | secondsToMinutesSeconds }}
+            </ion-note>
+          </span>
         </p>
       </ion-col>
 

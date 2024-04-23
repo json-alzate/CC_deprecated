@@ -69,7 +69,7 @@ export class BlockService {
 
           const blocks0: Block[] = [
             {
-              time: 120,
+              time: 60,
               puzzlesCount: 0,
               theme: 'mateIn1',
               elo: mateIn1Elo0 || defaultElo,
@@ -83,7 +83,7 @@ export class BlockService {
               nextPuzzleImmediately: true
             },
             {
-              time: 120,
+              time: 60,
               puzzlesCount: 0,
               theme: 'mateIn2',
               elo: mateIn2Elo0 || defaultElo,
@@ -172,7 +172,7 @@ export class BlockService {
           break;
         case 10:
 
-          /** No Muestra soluciones / un mismo color
+          /**  Muestra soluciones / un mismo color
            * - tema random || debilidades = t 2 minutos / 15 segundos por puzzle (elo - 100)
            * - apertura random || apertura débil = t 2 minutos / 30 segundos por puzzle
            * - misma apertura + mismo tema  = t 3 minutos / 60 segundos por puzzle
@@ -225,7 +225,8 @@ export class BlockService {
                 total: 15
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             },
             {
               time: 120,
@@ -240,7 +241,8 @@ export class BlockService {
                 total: 30
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             },
             {
               time: 180,
@@ -256,7 +258,8 @@ export class BlockService {
                 total: 60
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             },
             {
               time: 60,
@@ -271,7 +274,8 @@ export class BlockService {
                 total: 20
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             },
             {
               time: 120,
@@ -286,7 +290,8 @@ export class BlockService {
                 total: 60
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             }
           ];
 
@@ -330,7 +335,8 @@ export class BlockService {
                 total: 15
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             };
 
           } else {

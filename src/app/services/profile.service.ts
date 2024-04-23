@@ -51,6 +51,18 @@ export class ProfileService {
     return this.profile?.eloPuzzles || 1500;
   }
 
+  public getElosThemesByPlanType(planType: PlanTypes): { [key: string]: number } {
+    return this.profile?.elos && this.profile?.elos[planType] ? this.profile?.elos[planType] : {};
+  }
+
+  public getEloTotalByPlanType(planType: PlanTypes): number {
+    return this.profile?.elos && this.profile?.elos[`${planType}Total`] ? this.profile?.elos[`${planType}Total`] : 1500;
+  }
+
+  public getElosOpeningsByPlanType(planType: PlanTypes): { [key: string]: number } {
+    return this.profile?.elos && this.profile?.elos[`${planType}Openings`] ? this.profile?.elos[`${planType}Openings`] : {};
+  }
+
 
   /**
    *

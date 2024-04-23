@@ -11,6 +11,9 @@
 
 ion-card {
     cursor: pointer;
+    ion-fab-button {
+        --box-shadow: none;
+    }
 }
 a {
     color: var(--ion-color-medium);

@@ -25,12 +25,15 @@ import { PlanService } from '@services/plan.service';
 import { ProfileService } from '@services/profile.service';
 import { AppService } from '@services/app.service';
 import { SoundsService } from '@services/sounds.service';
+import { BlockService } from '@services/block.service';
 
 // utils
 import { createUid } from '@utils/create-uid';
 
 // components
 import { BlockPresentationComponent } from '@pages/puzzles/components/block-presentation/block-presentation.component';
+import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
+
 
 @Component({
   selector: 'app-training',
@@ -53,7 +56,7 @@ export class TrainingComponent implements OnInit {
   timerUnsubscribeBlock$ = new Subject<void>();
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
-
+  totalPuzzlesPlayed = 0;
   showEndPlan = false;
   forceStopTimerInPuzzleBoard = false;
 
@@ -63,6 +66,7 @@ export class TrainingComponent implements OnInit {
 
   constructor(
     private planService: PlanService,
+    private blockService: BlockService,
     private navController: NavController,
     private profileService: ProfileService,
     private modalController: ModalController,
@@ -172,16 +176,22 @@ export class TrainingComponent implements OnInit {
   selectPuzzleToPlay() {
 
     // se valida si el bloque es por cantidad de puzzles y si ya se jugaron todos
-    if (this.plan.blocks[this.currentIndexBlock].puzzlesCount !== 0 &&
-      this.countPuzzlesPlayedBlock === this.plan.blocks[this.currentIndexBlock].puzzlesCount) {
+    if (this.plan.blocks[this.currentIndexBlock]?.puzzlesCount !== 0 &&
+      this.countPuzzlesPlayedBlock === this.plan.blocks[this.currentIndexBlock]?.puzzlesCount) {
       this.playNextBlock();
       return;
     }
 
-    const puzzle = {
-      ...this.plan.blocks[this.currentIndexBlock].puzzles.find(puzzleItem =>
-        !this.plan.blocks[this.currentIndexBlock]?.puzzlesPlayed?.find(puzzlePlayed => puzzlePlayed.uidPuzzle === puzzleItem.uid))
-    };
+    // calcular si queda menos de 10 puzzles por jugar, para cargar mas puzzles
+    const puzzlesLeftToPlay = this.plan.blocks[this.currentIndexBlock].puzzles?.length - this.countPuzzlesPlayedBlock;
+    if (puzzlesLeftToPlay < 10) {
+      this.blockService.getPuzzlesForBlock(this.plan.blocks[this.currentIndexBlock]).then((puzzlesToAdd: Puzzle[]) => {
+        this.plan.blocks[this.currentIndexBlock].puzzles = [...puzzlesToAdd];
+      });
+    }
+
+    const puzzle = { ...this.plan.blocks[this.currentIndexBlock].puzzles[this.countPuzzlesPlayedBlock] };
+
 
     if (this.plan.blocks[this.currentIndexBlock].goshPuzzleTime) {
       puzzle.goshPuzzleTime = this.plan.blocks[this.currentIndexBlock].goshPuzzleTime;
@@ -191,6 +201,7 @@ export class TrainingComponent implements OnInit {
     }
 
     this.puzzleToPlay = puzzle;
+    this.totalPuzzlesPlayed++;
   }
 
   // init countDown
@@ -222,20 +233,6 @@ export class TrainingComponent implements OnInit {
   }
 
 
-  endPlan() {
-    this.showEndPlan = true;
-    this.setValuesAccordionGroup();
-    this.stopPlanTimer();
-    if (this.profileService.getProfile?.uid) {
-      this.plan.uidUser = this.profileService.getProfile?.uid;
-      this.profile = this.profileService.getProfile;
-      this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
-      // console.log('Plan finalizado ', JSON.stringify(this.plan));
-      this.planService.requestSavePlanAction(this.plan);
-    }
-    this.googleTagManagerService.pushTag({ event: 'endPlan', planType: this.plan.planType });
-
-  }
 
   pauseBlockTimer() {
     this.timerUnsubscribeBlock$.next();
@@ -315,17 +312,60 @@ export class TrainingComponent implements OnInit {
     switch (puzzleStatus) {
       case 'good':
         this.soundsService.playGood();
+        this.selectPuzzleToPlay();
         break;
       case 'bad':
         this.soundsService.playError();
+
         break;
       case 'timeOut':
         this.soundsService.playLowTime();
         break;
     }
-    this.selectPuzzleToPlay();
+
+    if (puzzleStatus !== 'good' && this.plan.blocks[this.currentIndexBlock].showPuzzleSolution) {
+      this.showSolution();
+    } else {
+      this.selectPuzzleToPlay();
+    }
 
   }
+
+  async showSolution() {
+
+    this.forceStopTimerInPuzzleBoard = true;
+    this.pauseBlockTimer();
+
+    const modal = await this.modalController.create({
+      component: PuzzleSolutionComponent,
+      componentProps: {
+        puzzle: this.puzzleToPlay
+      }
+    });
+    await modal.present();
+    modal.onDidDismiss().then((data) => {
+      this.forceStopTimerInPuzzleBoard = false;
+      this.selectPuzzleToPlay();
+      this.resumeBlockTimer();
+    });
+
+  }
+
+  endPlan() {
+    this.showEndPlan = true;
+    this.setValuesAccordionGroup();
+    this.stopPlanTimer();
+    if (this.profileService.getProfile?.uid) {
+      this.plan.uidUser = this.profileService.getProfile?.uid;
+      this.profile = this.profileService.getProfile;
+      this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
+      // console.log('Plan finalizado ', JSON.stringify(this.plan));
+      this.planService.requestSavePlanAction(this.plan);
+    }
+    this.googleTagManagerService.pushTag({ event: 'endPlan', planType: this.plan.planType });
+
+  }
+
 
   setValuesAccordionGroup() {
     this.valueAccordionGroup = this.plan.blocks.map((_, i) => this.plan.uid + i);

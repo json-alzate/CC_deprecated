@@ -114,7 +114,6 @@ export class StaticsComponent implements OnInit, AfterViewInit {
       } else {
         dataForB.push(coordinatesPuzzle.score);
       }
-      // Agrega un label por cada elemento. Puedes ajustar esto a tus necesidades.
       labels.push('');
     }
 
