@@ -1,10 +1,19 @@
 .board {
-    max-height: 63vh;
-    max-width: 63vh;
+    max-height: 65vh;
+    max-width: 65vh;
     margin: 0 auto;
     display: block;
+    margin-top: 2vh;
 }
 
 ion-card {
     border-radius: 0;
+    height: 100%;
+    ion-card-content {
+        height: 100%;
+    }
+}
+
+ion-fab-button {
+    --box-shadow: none;
 }

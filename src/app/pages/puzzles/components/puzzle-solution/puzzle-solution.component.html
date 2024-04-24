@@ -1,18 +1,14 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-title></ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="close()">
-        <ion-icon slot="icon-only" name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
 <ion-content>
+
+  <ion-fab vertical="top" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" color="light" (click)="close()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-card class="ion-no-margin ion-no-padding">
 
-    <ion-card-content class="ion-no-margin ion-no-padding">
+    <ion-card-content class="ion-no-margin ion-padding">
 
       <div class="board" id="boardPuzzleSolution">
       </div>

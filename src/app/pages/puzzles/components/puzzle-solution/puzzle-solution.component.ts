@@ -2,10 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
 import {
-  COLOR,
-  INPUT_EVENT_TYPE,
-  MOVE_INPUT_MODE,
-  SQUARE_SELECT_TYPE,
   Chessboard,
   BORDER_TYPE
 } from 'cm-chessboard';
