@@ -58,10 +58,31 @@
 
       </div>
     </ion-accordion>
+
+    <ion-accordion value="third">
+      <ion-item slot="header">
+        <ion-icon slot="start" name="language-outline"></ion-icon>
+        <ion-label>Idioma</ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <ion-list>
+          <ion-item button (click)="changeLanguage('es') ">
+            <ion-label>Español</ion-label>
+            <ion-icon color="primary" *ngIf="currentLanguage === 'es'" slot="end" name="checkmark-outline"></ion-icon>
+          </ion-item>
+          <ion-item button (click)="changeLanguage('en')">
+            <ion-label>Inglés</ion-label>
+            <ion-icon color="primary" *ngIf="currentLanguage === 'en'" slot="end" name="checkmark-outline"></ion-icon>
+          </ion-item>
+        </ion-list>
+
+      </div>
+
+    </ion-accordion>
+
   </ion-accordion-group>
-
-
-
 
 
 

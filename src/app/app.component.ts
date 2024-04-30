@@ -50,6 +50,7 @@ export class AppComponent {
   profile$: Observable<Profile>;
   showProfile: boolean;
   version = environment.version;
+  currentLang: string;
 
   constructor(
     private modalController: ModalController,
@@ -78,6 +79,9 @@ export class AppComponent {
       // if (profile?.email && !profile.name) {
       //   this.presentModalOnboarding();
       // }
+      if (profile?.lang) {
+        this.getLang(profile?.lang);
+      }
       if (profile?.pieces) {
         this.uiService.changePiecesStyle(profile.pieces);
       }
@@ -115,16 +119,20 @@ export class AppComponent {
   /**
    * Se obtiene el idioma
    */
-  async getLang() {
-    // TODO: se debe obtener el idioma desde el perfil en caso de existir
-    const lang = await Device.getLanguageCode();
+  async getLang(langToUse?: string) {
 
-    console.log('lang', lang);
-
-
-    if (lang.value.slice(0, 2) === 'es') {
-      this.translocoService.setActiveLang('es');
+    if (langToUse) {
+      this.translocoService.setActiveLang(langToUse);
+      this.currentLang = langToUse;
+    } else {
+      const lang = await Device.getLanguageCode();
+      if (lang.value.slice(0, 2) === 'es') {
+        this.translocoService.setActiveLang('es');
+        this.currentLang = 'es';
+      }
     }
+
+
   }
 
   async presentModalLogin() {

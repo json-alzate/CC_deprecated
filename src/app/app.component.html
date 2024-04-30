@@ -112,7 +112,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <app-profile (closeProfile)="onLogout()"></app-profile>
+      <app-profile [currentLanguage]="currentLang" (closeProfile)="onLogout()"></app-profile>
     </ion-content>
     <ion-footer class="ion-no-border">
       <ion-toolbar>
