@@ -119,6 +119,9 @@ export class AppComponent {
     // TODO: se debe obtener el idioma desde el perfil en caso de existir
     const lang = await Device.getLanguageCode();
 
+    console.log('lang', lang);
+
+
     if (lang.value.slice(0, 2) === 'es') {
       this.translocoService.setActiveLang('es');
     }
