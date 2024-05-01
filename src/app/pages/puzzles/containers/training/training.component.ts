@@ -121,7 +121,9 @@ export class TrainingComponent implements OnInit {
   async showBlockPresentation() {
 
     this.forceStopTimerInPuzzleBoard = true;
-    this.pauseBlockTimer();
+    if (this.plan.blocks[this.currentIndexBlock].time !== -1) {
+      this.pauseBlockTimer();
+    }
 
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
 
@@ -339,7 +341,9 @@ export class TrainingComponent implements OnInit {
   async showSolution() {
 
     this.forceStopTimerInPuzzleBoard = true;
-    this.pauseBlockTimer();
+    if (this.plan.blocks[this.currentIndexBlock].time !== -1) {
+      this.pauseBlockTimer();
+    }
 
     const modal = await this.modalController.create({
       component: PuzzleSolutionComponent,
@@ -351,7 +355,9 @@ export class TrainingComponent implements OnInit {
     modal.onDidDismiss().then((data) => {
       this.forceStopTimerInPuzzleBoard = false;
       this.selectPuzzleToPlay();
-      this.resumeBlockTimer();
+      if (this.plan.blocks[this.currentIndexBlock].time !== -1) {
+        this.resumeBlockTimer();
+      }
     });
 
   }

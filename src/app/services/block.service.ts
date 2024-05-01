@@ -696,15 +696,23 @@ export class BlockService {
   getWeaknessInPlan(plan: {
     [key: string]: number;
   }): string {
+    // se filtra solo para devolver los temas que existan en la lista de la app
+    const themesList = this.appService.getThemesPuzzlesList;
+    let planElosFiltered: { [key: string]: number } = {};
+
+    Object.keys(plan).forEach(key => {
+      if (themesList.find(item => item.value === key)) {
+        planElosFiltered = { ...planElosFiltered, [key]: plan[key] };
+      }
+    });
     // se elige el tema con el elo mas bajo que el usuario tenga en el plan,
     // sino elige un tema random de la lista de temas
-    let theme = this.profileService.getWeakness(plan);
+    let theme = this.profileService.getWeakness(planElosFiltered);
     if (!theme) {
       theme = this.appService.getThemesPuzzlesList[
         Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
       ].value;
     }
-
     return theme;
   }
 
@@ -715,9 +723,18 @@ export class BlockService {
   getWeaknessInPlanOpenings(plan: {
     [key: string]: number;
   }): string {
+
+    // se filtra solo para devolver las aperturas que existan en la lista de la app
+    const openingsList = this.appService.getOpeningsList;
+    let planOpeningsFiltered: { [key: string]: number } = {};
+    Object.keys(plan).forEach(key => {
+      if (openingsList.find(item => item.value === key)) {
+        planOpeningsFiltered = { ...planOpeningsFiltered, [key]: plan[key] };
+      }
+    });
     // se elige la apertura con el elo mas bajo que el usuario tenga en el plan,
     // sino elige una apertura random de la lista de aperturas
-    let opening = this.profileService.getWeakness(plan);
+    let opening = this.profileService.getWeakness(planOpeningsFiltered);
     if (!opening) {
       opening = this.appService.getOpeningsList[
         Math.floor(Math.random() * this.appService.getOpeningsList.length)
