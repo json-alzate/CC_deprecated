@@ -12,8 +12,8 @@
               <ion-item class="item-block-training-info" lines="none">
                 <ion-label>
                   <h6 *ngIf="block.title">{{ block.title }}</h6>
-                  <h6 *ngIf="block.theme">{{ appService.getThemePuzzleByValue(block.theme).nameEs }}</h6>
-                  <h6 *ngIf="block.openingFamily">{{ appService.getOpeningByValue( block.openingFamily).nameEs }}</h6>
+                  <h6 *ngIf="block.theme">{{ appService.getNameThemePuzzleByValue(block.theme) }}</h6>
+                  <h6 *ngIf="block.openingFamily">{{ appService.getNameOpeningByValue( block.openingFamily) }}</h6>
                 </ion-label>
                 <div slot="end" *ngIf="showBlockTimer">{{ timeLeftBlock | secondsToMinutesSeconds }}</div>
                 <div slot="end" *ngIf="totalPuzzlesInBlock > 0"> {{ countPuzzlesPlayedBlock }} / {{totalPuzzlesInBlock
@@ -24,8 +24,8 @@
               <ion-item class="item-block-training-info ion-hide-lg-down" lines="none" disabled>
                 <ion-label>
                   <h6 *ngIf="block.title">{{ block.title }}</h6>
-                  <h6 *ngIf="block.theme">{{ appService.getThemePuzzleByValue(block.theme).nameEs }}</h6>
-                  <h6 *ngIf="block.openingFamily">{{ appService.getOpeningByValue( block.openingFamily).nameEs }}</h6>
+                  <h6 *ngIf="block.theme">{{ appService.getNameThemePuzzleByValue(block.theme) }}</h6>
+                  <h6 *ngIf="block.openingFamily">{{ appService.getNameOpeningByValue( block.openingFamily) }}</h6>
                 </ion-label>
                 <ion-icon *ngIf="i < currentIndexBlock" color="success" slot="end"
                   name="checkmark-done-outline"></ion-icon>
@@ -48,8 +48,8 @@
             <ion-item slot="header" color="light">
               <ion-label>
                 <h3 *ngIf="block.title">{{ block.title }}</h3>
-                <h3 *ngIf="block.theme">{{ appService.getThemePuzzleByValue(block.theme).nameEs }}</h3>
-                <h3 *ngIf="block.openingFamily">{{ appService.getOpeningByValue( block.openingFamily).nameEs }}</h3>
+                <h3 *ngIf="block.theme">{{ appService.getNameThemePuzzleByValue(block.theme) }}</h3>
+                <h3 *ngIf="block.openingFamily">{{ appService.getNameOpeningByValue( block.openingFamily) }}</h3>
                 <p>
                   {{ block.description }}
                 </p>
@@ -108,7 +108,7 @@
               {{totalPuzzlesPlayed}}
             </ion-note>
             <ion-note color="medium">
-              Total: {{ timeTraining | secondsToMinutesSeconds }}
+              {{ 'PUZZLES.total' | transloco }}: {{ timeTraining | secondsToMinutesSeconds }}
             </ion-note>
           </span>
         </p>

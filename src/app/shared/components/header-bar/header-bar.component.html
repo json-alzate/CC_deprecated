@@ -23,16 +23,19 @@
             </ion-button> -->
             <ion-button color="dark" (click)="goTo('/puzzles')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="barbell-outline" slot="start"></ion-icon>
-                Entrenamiento
+                {{ 'MENU.training' | transloco }}
+                <!-- Entrenamiento -->
             </ion-button>
             <ion-button color="dark" (click)="goTo('/squares')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="heart-half-outline" slot="start"></ion-icon>
-                Casillas
+                {{ 'MENU.squares' | transloco }}
+                <!-- Casillas -->
             </ion-button>
 
             <ion-button color="dark" (click)="goTo('/coordinates')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="locate-outline" slot="start"></ion-icon>
-                Coordenadas
+                {{ 'MENU.coordinates' | transloco }}
+                <!-- Coordenadas -->
             </ion-button>
 
 

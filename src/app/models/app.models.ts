@@ -7,6 +7,8 @@ export interface AppPuzzleThemesGroup {
 export interface AppPuzzlesThemes {
     nameEs: string;
     descriptionEs: string;
+    nameEn: string;
+    descriptionEn: string;
     count: number;
     img: string;
     value: string; // Name to send to the DB query

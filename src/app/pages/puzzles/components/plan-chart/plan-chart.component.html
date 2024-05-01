@@ -4,7 +4,10 @@
       <img [src]="'assets/images/plan-icons/'+ planType +'.png'" />
     </ion-thumbnail>
     <ion-title>
-      <h6 class="ion-text-center ion-no-margin ion-no-padding">Puntuación</h6>
+      <h6 class="ion-text-center ion-no-margin ion-no-padding">
+        {{ 'PUZZLES.score' | transloco }}
+        <!-- Puntaje -->
+      </h6>
       <ion-text color="primary">
         <h3 class="ion-text-center ion-no-margin ion-no-padding">{{ totalElo }}</h3>
       </ion-text>
@@ -49,12 +52,14 @@
       <ion-button
         [color]="(segment === 'themesUp' || segment === 'themesDown' || segment === 'themesItems') ? 'primary' : ''"
         (click)="segment = 'themesUp'">
-        Tema
+        {{ 'PUZZLES.theme' | transloco }}
+        <!-- Tema -->
       </ion-button>
       <ion-button
         [color]="(segment === 'openingsUp' || segment === 'openingsDown' || segment === 'openingsItems') ? 'primary' : ''"
         (click)="segment = 'openingsUp'">
-        Apertura
+        {{ 'PUZZLES.opening' | transloco }}
+        <!-- Apertura -->
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

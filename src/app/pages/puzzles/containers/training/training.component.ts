@@ -8,6 +8,8 @@ import { GoogleTagManagerService } from 'angular-google-tag-manager';
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+import { TranslocoService } from '@ngneat/transloco';
+
 /**
  * Funcionalidad: que al mostrar la solución lo haga que cada jugada deje flechas,  después
  * las piezas se disuelvan y queden las flechas en un efecto de fade out dramático
@@ -64,6 +66,8 @@ export class TrainingComponent implements OnInit {
 
   profile: Profile;
 
+  currentLanguage = this.translocoService.getActiveLang();
+
   constructor(
     private planService: PlanService,
     private blockService: BlockService,
@@ -72,6 +76,7 @@ export class TrainingComponent implements OnInit {
     private modalController: ModalController,
     public appService: AppService,
     private soundsService: SoundsService,
+    private translocoService: TranslocoService,
     private meta: Meta,
     private googleTagManagerService: GoogleTagManagerService
   ) {
@@ -124,8 +129,8 @@ export class TrainingComponent implements OnInit {
     const openingFamily = this.plan.blocks[this.currentIndexBlock].openingFamily;
     const blockDescription = this.plan.blocks[this.currentIndexBlock].description;
     const themeOrOpeningName = themeName ?
-      this.appService.getThemePuzzleByValue(themeName).nameEs :
-      this.appService.getOpeningByValue(openingFamily).nameEs;
+      this.appService.getNameThemePuzzleByValue(themeName) :
+      this.appService.getNameOpeningByValue(openingFamily);
 
     const title = this.plan.blocks[this.currentIndexBlock].title ?
       this.plan.blocks[this.currentIndexBlock].title :
@@ -142,8 +147,8 @@ export class TrainingComponent implements OnInit {
     }
 
     const description = blockDescription ? blockDescription :
-      (themeName ? this.appService.getThemePuzzleByValue(themeName).descriptionEs :
-        this.appService.getOpeningByValue(openingFamily).descriptionEs);
+      (themeName ? this.appService.getDescriptionThemePuzzleByValue(themeName) :
+        this.appService.getDescriptionOpeningByValue(openingFamily));
 
     const modal = await this.modalController.create({
       component: BlockPresentationComponent,

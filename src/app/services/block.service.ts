@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 
-import { Puzzle, PuzzleQueryOptions } from '../models/puzzle.model';
-import { Block } from '../models/plan.model';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
+import { Block } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
 import { PuzzlesService } from '@services/puzzles.service';
@@ -18,7 +20,8 @@ export class BlockService {
   constructor(
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
-    private appService: AppService
+    private appService: AppService,
+    private translocoService: TranslocoService
   ) { }
 
   async getPuzzlesForBlock(blockSettings: Block): Promise<Puzzle[]> {
@@ -54,6 +57,9 @@ export class BlockService {
       const profile: Profile = this.profileService.getProfile;
       const defaultEloStart = 800;
       const defaultElo = 1500;
+
+      const whiteColorText = this.translocoService.translate('PUZZLES.white');
+      const blackColorText = this.translocoService.translate('PUZZLES.black');
 
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
@@ -134,6 +140,8 @@ export class BlockService {
           }
 
           const eloThemeWeakness5 = profile?.elos?.plan5 ? profile?.elos?.plan5[themeWeakness5] : undefined;
+          console.log(this.translocoService.translate('randomThemeWith'), 'el trans');
+
 
 
           const block5: Block[] = [
@@ -141,7 +149,8 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeRandom5,
-              description: 'Tema Random con ' + color5 === 'white' ? 'Blancas' : 'Negras',
+              // eslint-disable-next-line max-len
+              description: this.translocoService.translate('randomThemeWith') + color5 === 'white' ? whiteColorText : blackColorText,
               elo: themeRandomElo5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -156,7 +165,7 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeWeakness5,
-              description: 'Debilidad con ' + color5 === 'white' ? 'Blancas' : 'Negras',
+              description: this.translocoService.translate('weaknessWith') + color5 === 'white' ? whiteColorText : blackColorText,
               elo: eloThemeWeakness5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -247,7 +256,7 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              description: 'Misma apertura y mismo tema',
+              description: this.translocoService.translate('sameOpeningAndTheme'),
               theme: theme10,
               openingFamily: opening10,
               elo: eloTheme10 || defaultElo,
@@ -265,7 +274,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme10,
-              description: 'Mismo tema menos tiempo',
+              description: this.translocoService.translate('sameThemeLessTime'),
               elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
@@ -326,7 +335,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Mismo tema random a ciegas',
+              description: this.translocoService.translate('sameOpeningRandomThemeBlind'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -344,7 +353,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Mismo tema random',
+              description: this.translocoService.translate('sameRandomTheme'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -366,7 +375,7 @@ export class BlockService {
               time: 180,
               puzzlesCount: 0,
               theme: themeWeakness20,
-              description: 'Debilidades con cualquier color',
+              description: this.translocoService.translate('weaknessWithAnyColor'),
               elo: eloThemeWeakness20 || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -382,7 +391,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Tema Random con cualquier color',
+              description: this.translocoService.translate('randomThemeWithAnyColor'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -413,7 +422,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Mismo tema random con menos tiempo',
+              description: this.translocoService.translate('sameThemeLessTime'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -491,7 +500,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: themeWeakness30,
-              description: 'Debilidad con ' + color30 === 'white' ? 'Blancas' : 'Negras',
+              description: this.translocoService.translate('weaknessWith') + color30 === 'white' ? whiteColorText : blackColorText,
               elo: eloThemeWeakness30 || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -507,7 +516,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: '',
-              description: 'Apertura Random',
+              description: this.translocoService.translate('randomOpening'),
               openingFamily: opening30Random,
               elo: eloOpening30Random || defaultElo,
               color: color30,
@@ -524,7 +533,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
-              description: 'Tema Random',
+              description: this.translocoService.translate('randomTheme'),
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -540,7 +549,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
-              description: 'Mismo tema random a ciegas',
+              description: this.translocoService.translate('sameOpeningRandomThemeBlind'),
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {

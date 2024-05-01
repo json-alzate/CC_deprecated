@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { TranslocoService } from '@ngneat/transloco';
+
 import { lastValueFrom, take } from 'rxjs';
 
 import {
@@ -23,6 +25,7 @@ export class AppService {
 
   constructor(
     private httpClient: HttpClient,
+    private translocoService: TranslocoService
   ) { }
 
   get getThemesPuzzle() {
@@ -43,6 +46,24 @@ export class AppService {
       this.logError('No se encontró el tema', value);
     }
     return theme;
+  }
+
+  getNameThemePuzzleByValue(value: string) {
+    const lang = this.translocoService.getActiveLang();
+    if (lang === 'es') {
+      return this.getThemePuzzleByValue(value)?.nameEs || '';
+    } else {
+      return this.getThemePuzzleByValue(value)?.nameEn || '';
+    }
+  }
+
+  getDescriptionThemePuzzleByValue(value: string) {
+    const lang = this.translocoService.getActiveLang();
+    if (lang === 'es') {
+      return this.getThemePuzzleByValue(value)?.descriptionEs || '';
+    } else {
+      return this.getThemePuzzleByValue(value)?.descriptionEn || '';
+    }
   }
 
   async loadThemesPuzzle() {
@@ -68,6 +89,23 @@ export class AppService {
     return opening;
   }
 
+  getNameOpeningByValue(value: string) {
+    const lang = this.translocoService.getActiveLang();
+    if (lang === 'es') {
+      return this.getOpeningByValue(value).nameEs;
+    } else {
+      return this.getOpeningByValue(value).nameEn;
+    }
+  }
+
+  getDescriptionOpeningByValue(value: string) {
+    const lang = this.translocoService.getActiveLang();
+    if (lang === 'es') {
+      return this.getOpeningByValue(value).descriptionEs;
+    } else {
+      return this.getOpeningByValue(value).descriptionEn;
+    }
+  }
 
 
   logWaring(message: string, ...optionalParams: any[]) {
