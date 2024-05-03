@@ -1,14 +1,15 @@
 .board {
-    max-height: 65vh;
-    max-width: 65vh;
+    // max-height: 65vh;
+    max-width: 580px;
     margin: 0 auto;
     display: block;
-    margin-top: 2vh;
+    // margin-top: 2vh;
 }
 
 ion-card {
     border-radius: 0;
     height: 100%;
+
     ion-card-content {
         height: 100%;
     }

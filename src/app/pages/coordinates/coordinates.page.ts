@@ -310,7 +310,6 @@ export class CoordinatesPage implements OnInit {
 
   async presentAlertScore() {
     const alert = await this.alertController.create({
-      header: 'Tu puntuación',
       subHeader: `${this.score}`,
       cssClass: 'alert-score',
       buttons: ['OK']

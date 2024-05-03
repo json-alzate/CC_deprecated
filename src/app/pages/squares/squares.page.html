@@ -10,7 +10,10 @@
     <div [ngSwitch]="gameStatus">
       <span *ngSwitchCase="'waiting'">
         <ion-text color="primary">
-          <h1 class="ion-text-center">Desliza</h1>
+          <h1 class="ion-text-center">
+            {{ 'SQUARES.play' | transloco }}
+            <!-- Desliza para jugar -->
+          </h1>
         </ion-text>
       </span>
       <span *ngSwitchCase="'win'">

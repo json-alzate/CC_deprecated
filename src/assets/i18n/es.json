@@ -16,6 +16,13 @@
     "Send": "Enviar",
     "PasswordRestoreMessage": "Correo enviado con instrucciones para la restablecer contraseña",
     "PasswordRestoreTitle": "Enviaremos un correo electrónico con las instrucciones para recuperar tu contraseña.",
+    "loadingPuzzles": "Cargando ejercicios del entrenamiento...",
+    "MENU": {
+        "home": "Inicio",
+        "training": "Entrenamiento",
+        "coordinates": "Coordenadas",
+        "squares": "Casillas"
+    },
     "LOGIN": {
         "ERRORS": {
             "EmailRequired": "El Email es requerido",
@@ -25,5 +32,42 @@
             "ConfirmPasswordRequired": "La confirmación de contraseña es requerida",
             "ConfirmPasswordNotMatch": "Las contraseñas no coinciden"
         }
+    },
+    "PUZZLES": {
+        "MENU": {
+            "warmup": "Calentamiento",
+            "puzzles_by": "ejercicios por"
+        },
+        "total": "Total",
+        "start": "Empezar",
+        "score": "Puntaje",
+        "theme": "Tema",
+        "opening": "Apertura",
+        "randomThemeWith": "Tema Random con ",
+        "weaknessWith": "Debilidad con ",
+        "sameOpeningAndTheme": "Misma apertura y mismo tema",
+        "sameThemeLessTime": "Mismo tema menos tiempo",
+        "sameOpeningRandomThemeBlind": "Mismo tema random a ciegas",
+        "sameRandomTheme": "Mismo tema random",
+        "weaknessWithAnyColor": "Debilidades con cualquier color",
+        "randomThemeWithAnyColor": "Tema Random con cualquier color",
+        "randomOpening": "Apertura Random",
+        "randomTheme": "Tema Random",
+        "white": "Blancas",
+        "black": "Negras"
+    },
+    "COORDINATES_PUZZLES": {
+        "coordinates": "Coordenadas",
+        "pieces": "Piezas",
+        "play": "Jugar"
+    },
+    "SQUARES": {
+        "play": "Desliza para jugar"
+    },
+    "PROFILE": {
+        "pieces": "Piezas",
+        "board": "Tablero",
+        "language": "Idioma",
+        "exit": "Salir"
     }
 }

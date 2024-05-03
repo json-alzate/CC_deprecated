@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 
-import { Puzzle, PuzzleQueryOptions } from '../models/puzzle.model';
-import { Block } from '../models/plan.model';
+import { TranslocoService } from '@ngneat/transloco';
+
+import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
+import { Block } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
 import { PuzzlesService } from '@services/puzzles.service';
@@ -18,7 +20,8 @@ export class BlockService {
   constructor(
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
-    private appService: AppService
+    private appService: AppService,
+    private translocoService: TranslocoService
   ) { }
 
   async getPuzzlesForBlock(blockSettings: Block): Promise<Puzzle[]> {
@@ -54,6 +57,9 @@ export class BlockService {
       const profile: Profile = this.profileService.getProfile;
       const defaultEloStart = 800;
       const defaultElo = 1500;
+
+      const whiteColorText = this.translocoService.translate('PUZZLES.white');
+      const blackColorText = this.translocoService.translate('PUZZLES.black');
 
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
@@ -141,7 +147,8 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeRandom5,
-              description: 'Tema Random con ' + color5 === 'white' ? 'Blancas' : 'Negras',
+              // eslint-disable-next-line max-len
+              description: this.translocoService.translate('PUZZLES.randomThemeWith') + (color5 === 'white' ? whiteColorText : blackColorText),
               elo: themeRandomElo5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -156,7 +163,7 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeWeakness5,
-              description: 'Debilidad con ' + color5 === 'white' ? 'Blancas' : 'Negras',
+              description: this.translocoService.translate('PUZZLES.weaknessWith') + (color5 === 'white' ? whiteColorText : blackColorText),
               elo: eloThemeWeakness5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -247,7 +254,7 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              description: 'Misma apertura y mismo tema',
+              description: this.translocoService.translate('PUZZLES.sameOpeningAndTheme'),
               theme: theme10,
               openingFamily: opening10,
               elo: eloTheme10 || defaultElo,
@@ -265,7 +272,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme10,
-              description: 'Mismo tema menos tiempo',
+              description: this.translocoService.translate('PUZZLES.sameThemeLessTime'),
               elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
@@ -326,7 +333,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Mismo tema random a ciegas',
+              description: this.translocoService.translate('PUZZLES.sameOpeningRandomThemeBlind'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -344,7 +351,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Mismo tema random',
+              description: this.translocoService.translate('PUZZLES.sameRandomTheme'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -366,7 +373,7 @@ export class BlockService {
               time: 180,
               puzzlesCount: 0,
               theme: themeWeakness20,
-              description: 'Debilidades con cualquier color',
+              description: this.translocoService.translate('PUZZLES.weaknessWithAnyColor'),
               elo: eloThemeWeakness20 || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -382,7 +389,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Tema Random con cualquier color',
+              description: this.translocoService.translate('PUZZLES.randomThemeWithAnyColor'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -413,7 +420,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: 'Mismo tema random con menos tiempo',
+              description: this.translocoService.translate('PUZZLES.sameThemeLessTime'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -491,7 +498,8 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: themeWeakness30,
-              description: 'Debilidad con ' + color30 === 'white' ? 'Blancas' : 'Negras',
+              // eslint-disable-next-line max-len
+              description: this.translocoService.translate('PUZZLES.weaknessWith') + (color30 === 'white' ? whiteColorText : blackColorText),
               elo: eloThemeWeakness30 || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -507,7 +515,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: '',
-              description: 'Apertura Random',
+              description: this.translocoService.translate('PUZZLES.randomOpening'),
               openingFamily: opening30Random,
               elo: eloOpening30Random || defaultElo,
               color: color30,
@@ -524,7 +532,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
-              description: 'Tema Random',
+              description: this.translocoService.translate('PUZZLES.randomTheme'),
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -540,7 +548,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
-              description: 'Mismo tema random a ciegas',
+              description: this.translocoService.translate('PUZZLES.sameOpeningRandomThemeBlind'),
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -687,15 +695,23 @@ export class BlockService {
   getWeaknessInPlan(plan: {
     [key: string]: number;
   }): string {
+    // se filtra solo para devolver los temas que existan en la lista de la app
+    const themesList = this.appService.getThemesPuzzlesList;
+    let planElosFiltered: { [key: string]: number } = {};
+
+    Object.keys(plan).forEach(key => {
+      if (themesList.find(item => item.value === key)) {
+        planElosFiltered = { ...planElosFiltered, [key]: plan[key] };
+      }
+    });
     // se elige el tema con el elo mas bajo que el usuario tenga en el plan,
     // sino elige un tema random de la lista de temas
-    let theme = this.profileService.getWeakness(plan);
+    let theme = this.profileService.getWeakness(planElosFiltered);
     if (!theme) {
       theme = this.appService.getThemesPuzzlesList[
         Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
       ].value;
     }
-
     return theme;
   }
 
@@ -706,9 +722,18 @@ export class BlockService {
   getWeaknessInPlanOpenings(plan: {
     [key: string]: number;
   }): string {
+
+    // se filtra solo para devolver las aperturas que existan en la lista de la app
+    const openingsList = this.appService.getOpeningsList;
+    let planOpeningsFiltered: { [key: string]: number } = {};
+    Object.keys(plan).forEach(key => {
+      if (openingsList.find(item => item.value === key)) {
+        planOpeningsFiltered = { ...planOpeningsFiltered, [key]: plan[key] };
+      }
+    });
     // se elige la apertura con el elo mas bajo que el usuario tenga en el plan,
     // sino elige una apertura random de la lista de aperturas
-    let opening = this.profileService.getWeakness(plan);
+    let opening = this.profileService.getWeakness(planOpeningsFiltered);
     if (!opening) {
       opening = this.appService.getOpeningsList[
         Math.floor(Math.random() * this.appService.getOpeningsList.length)

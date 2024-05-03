@@ -12,7 +12,10 @@
     <ion-accordion value="first">
       <ion-item slot="header">
         <ion-icon slot="start" name="color-filter-outline"></ion-icon>
-        <ion-label>Piezas</ion-label>
+        <ion-label>
+          {{ 'PROFILE.pieces' | transloco }}
+          <!-- Piezas -->
+        </ion-label>
       </ion-item>
       <div class="ion-padding" slot="content">
 
@@ -39,7 +42,10 @@
       <ion-item slot="header">
         <ion-icon slot="start" name="grid-outline"></ion-icon>
 
-        <ion-label>Tablero</ion-label>
+        <ion-label>
+          {{ 'PROFILE.board' | transloco }}
+          <!-- Tablero -->
+        </ion-label>
       </ion-item>
       <div class="ion-padding" slot="content">
 
@@ -58,16 +64,43 @@
 
       </div>
     </ion-accordion>
+
+    <ion-accordion value="third">
+      <ion-item slot="header">
+        <ion-icon slot="start" name="language-outline"></ion-icon>
+        <ion-label>
+          {{ 'PROFILE.language' | transloco }}
+          <!-- Idioma -->
+        </ion-label>
+      </ion-item>
+
+      <div class="ion-padding" slot="content">
+
+        <ion-list>
+          <ion-item button (click)="changeLanguage('es') ">
+            <ion-label>Español</ion-label>
+            <ion-icon color="primary" *ngIf="currentLanguage === 'es'" slot="end" name="checkmark-outline"></ion-icon>
+          </ion-item>
+          <ion-item button (click)="changeLanguage('en')">
+            <ion-label>English</ion-label>
+            <ion-icon color="primary" *ngIf="currentLanguage === 'en'" slot="end" name="checkmark-outline"></ion-icon>
+          </ion-item>
+        </ion-list>
+
+      </div>
+
+    </ion-accordion>
+
   </ion-accordion-group>
-
-
-
 
 
 
 
   <ion-item button detail="false" (click)="logout()">
     <ion-icon name="log-out-outline" slot="start"></ion-icon>
-    <ion-label>Salir</ion-label>
+    <ion-label>
+      {{ 'PROFILE.exit' | transloco }}
+      <!-- Salir -->
+    </ion-label>
   </ion-item>
 </ion-list>

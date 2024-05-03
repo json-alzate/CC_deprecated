@@ -22,6 +22,7 @@ import { PlanTypes } from '@models/plan.model';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
+import { AppService } from '@services/app.service';
 
 // components
 
@@ -38,6 +39,7 @@ export class ProfileService {
 
   constructor(
     private store: Store<AuthState>,
+    private appService: AppService,
     private translocoService: TranslocoService,
     private firestoreService: FirestoreService
   ) { }
@@ -52,7 +54,19 @@ export class ProfileService {
   }
 
   public getElosThemesByPlanType(planType: PlanTypes): { [key: string]: number } {
-    return this.profile?.elos && this.profile?.elos[planType] ? this.profile?.elos[planType] : {};
+    const elos = this.profile?.elos && this.profile?.elos[planType] ? this.profile?.elos[planType] : {};
+    // se filtra solo para devolver los temas que existan en la lista de la app
+    const themesList = this.appService.getThemesPuzzlesList;
+    let filteredElos: { [key: string]: number };
+
+    Object.keys(elos).forEach(key => {
+      if (themesList.find(theme => theme.value === key)) {
+        filteredElos = { ...filteredElos, [key]: elos[key] };
+      }
+    });
+
+    return filteredElos;
+
   }
 
   public getEloTotalByPlanType(planType: PlanTypes): number {
@@ -60,7 +74,17 @@ export class ProfileService {
   }
 
   public getElosOpeningsByPlanType(planType: PlanTypes): { [key: string]: number } {
-    return this.profile?.elos && this.profile?.elos[`${planType}Openings`] ? this.profile?.elos[`${planType}Openings`] : {};
+    const openings = this.profile?.elos && this.profile?.elos[`${planType}Openings`] ? this.profile?.elos[`${planType}Openings`] : {};
+    const openingsList = this.appService.getOpeningsList;
+    let filteredOpenings: { [key: string]: number } = {};
+
+    Object.keys(openings).forEach(key => {
+      if (openingsList.find(opening => opening.value === key)) {
+        filteredOpenings = { ...filteredOpenings, [key]: openings[key] };
+      }
+    });
+
+    return filteredOpenings;
   }
 
 

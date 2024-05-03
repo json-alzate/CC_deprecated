@@ -39,7 +39,10 @@
         <ion-menu-toggle>
           <ion-item button (click)="goTo('/')" detail="false">
             <ion-icon name="home-outline" slot="start"></ion-icon>
-            <ion-label>Inicio</ion-label>
+            <ion-label>
+              {{ 'MENU.home' | transloco }}
+              <!-- Inicio -->
+            </ion-label>
           </ion-item>
         </ion-menu-toggle>
 
@@ -53,14 +56,20 @@
         <ion-menu-toggle>
           <ion-item button (click)="goTo('/puzzles/training-menu')" detail="false">
             <ion-icon name="barbell-outline" slot="start"></ion-icon>
-            <ion-label>Entrenamiento</ion-label>
+            <ion-label>
+              {{ 'MENU.training' | transloco }}
+              <!-- Entrenamiento -->
+            </ion-label>
           </ion-item>
         </ion-menu-toggle>
 
         <ion-menu-toggle>
           <ion-item button (click)="goTo('/squares')" detail="false">
             <ion-icon name="heart-half-outline" slot="start"></ion-icon>
-            <ion-label>Casillas</ion-label>
+            <ion-label>
+              {{ 'MENU.squares' | transloco }}
+              <!-- Casillas -->
+            </ion-label>
           </ion-item>
         </ion-menu-toggle>
 
@@ -69,7 +78,8 @@
 
           <ion-item button (click)="goTo('/coordinates')" detail="false">
             <ion-icon name="locate-outline" slot="start"></ion-icon>
-            Coordenadas
+            {{ 'MENU.coordinates' | transloco }}
+            <!-- Coordenadas -->
           </ion-item>
         </ion-menu-toggle>
 
@@ -112,7 +122,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <app-profile (closeProfile)="onLogout()"></app-profile>
+      <app-profile [currentLanguage]="currentLang" (closeProfile)="onLogout()"></app-profile>
     </ion-content>
     <ion-footer class="ion-no-border">
       <ion-toolbar>

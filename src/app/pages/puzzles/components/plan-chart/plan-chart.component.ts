@@ -8,6 +8,7 @@ import { Chart, registerables } from 'chart.js';
 import { PlanTypes } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
+import { AppService } from '@services/app.service';
 import { ProfileService } from '@services/profile.service';
 
 
@@ -59,7 +60,8 @@ export class PlanChartComponent implements OnInit, AfterViewInit {
 
   constructor(
     private modalController: ModalController,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private appService: AppService
   ) {
     Chart.register(...registerables);
   }
@@ -81,12 +83,12 @@ export class PlanChartComponent implements OnInit, AfterViewInit {
     // get from shortened object
 
     elosShort.forEach(([key, value]) => {
-      this.themesLabels = [...this.themesLabels, key];
+      this.themesLabels = [...this.themesLabels, this.appService.getNameThemePuzzleByValue(key) || key];
       this.themesElos = [...this.themesElos, value];
     });
 
     openingsShort.forEach(([key, value]) => {
-      this.openingsLabels = [...this.openingsLabels, key];
+      this.openingsLabels = [...this.openingsLabels, this.appService.getNameOpeningByValue(key) || key];
       this.openingsElos = [...this.openingsElos, value];
     });
 
