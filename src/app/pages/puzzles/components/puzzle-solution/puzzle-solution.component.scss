@@ -1,20 +1,5 @@
 .board {
-    // max-height: 65vh;
-    max-width: 580px;
+    max-width: 67vh;
     margin: 0 auto;
     display: block;
-    // margin-top: 2vh;
-}
-
-ion-card {
-    border-radius: 0;
-    height: 100%;
-
-    ion-card-content {
-        height: 100%;
-    }
-}
-
-ion-fab-button {
-    --box-shadow: none;
 }

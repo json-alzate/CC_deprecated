@@ -5,5 +5,5 @@ export const environment = {
   production: false,
   environmentName: 'staging',
   apiPuzzlesUrl: 'https://puzzles.chesscolate.com/puzzles/',
-  version: '1.1.0'
+  version: '1.2.0'
 };

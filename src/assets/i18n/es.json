@@ -17,6 +17,7 @@
     "PasswordRestoreMessage": "Correo enviado con instrucciones para la restablecer contraseña",
     "PasswordRestoreTitle": "Enviaremos un correo electrónico con las instrucciones para recuperar tu contraseña.",
     "loadingPuzzles": "Cargando ejercicios del entrenamiento...",
+    "Close": "Cerrar",
     "MENU": {
         "home": "Inicio",
         "training": "Entrenamiento",

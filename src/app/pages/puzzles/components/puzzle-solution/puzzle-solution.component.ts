@@ -42,7 +42,9 @@ export class PuzzleSolutionComponent implements OnInit {
 
   close() {
     this.closeCancelMoves = true;
-    this.modalController.dismiss();
+    if (this.modalController) {
+      this.modalController.dismiss();
+    }
   }
 
   buildBoard(fen) {
