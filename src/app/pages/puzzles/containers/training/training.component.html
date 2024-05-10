@@ -64,16 +64,17 @@
                   <ion-card class="ion-no-margin">
 
                     <ion-card-content class="ion-no-padding">
-                      <app-fen-board
-                        [setFen]="{ fen: userPuzzle.fenStartUserPuzzle, firstMoveSquaresHighlight: userPuzzle.firstMoveSquaresHighlight }"></app-fen-board>
+                      <app-fen-board [setFen]="{ fen: userPuzzle.fenStartUserPuzzle, 
+                          firstMoveSquaresHighlight: userPuzzle.firstMoveSquaresHighlight,
+                          puzzle: userPuzzle.rawPuzzle
+                          }" (onPuzzleShowSolution)="onPuzzleShowSolution($event)"></app-fen-board>
                     </ion-card-content>
                     <!-- <ion-item>
                     <ion-label>
                       {{userPuzzle.eloPuzzle}}
-                    </ion-label>
-
+                    </ion-label>                 
                   </ion-item> -->
-                    <div class="icon-puzzle-result">
+                    <div class="icon-puzzle-result" (click)="onPuzzleShowSolution(userPuzzle.rawPuzzle)">
                       <ng-container *ngIf="userPuzzle.failByTime; else elseTemplateFailByTime">
                         <img src="assets/images/icons/alarm.png" />
                       </ng-container>

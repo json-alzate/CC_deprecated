@@ -1,3 +1,6 @@
+import { Puzzle } from '@models/puzzle.model';
+
+
 export interface UserPuzzle {
     uid: string;
     uidUser: string;
@@ -14,4 +17,5 @@ export interface UserPuzzle {
     fenPuzzle?: string;
     fenStartUserPuzzle?: string;
     firstMoveSquaresHighlight?: string[];
+    rawPuzzle?: Puzzle;
 }

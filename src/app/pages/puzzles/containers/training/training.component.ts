@@ -285,7 +285,8 @@ export class TrainingComponent implements OnInit {
       openingVariation: puzzleCompleted.openingVariation,
       fenPuzzle: puzzleCompleted.fen,
       fenStartUserPuzzle: puzzleCompleted.fenStartUserPuzzle,
-      firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight
+      firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight,
+      rawPuzzle: puzzleCompleted
     };
 
     // Crear una copia del bloque actual
@@ -360,6 +361,18 @@ export class TrainingComponent implements OnInit {
       }
     });
 
+  }
+
+
+  async onPuzzleShowSolution(puzzle: Puzzle) {
+
+    const modal = await this.modalController.create({
+      component: PuzzleSolutionComponent,
+      componentProps: {
+        puzzle
+      }
+    });
+    await modal.present();
   }
 
   endPlan() {

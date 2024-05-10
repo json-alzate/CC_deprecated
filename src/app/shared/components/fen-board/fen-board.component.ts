@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output } from '@angular/core';
 
 import {
   Chessboard,
@@ -9,6 +9,9 @@ import { Markers } from 'cm-chessboard/src/extensions/markers/markers';
 
 
 import { createUid } from '@utils/create-uid';
+
+// models
+import { Puzzle } from '@models/puzzle.model';
 
 // Services
 import { UiService } from '@services/ui.service';
@@ -24,17 +27,20 @@ export class FenBoardComponent implements OnInit, AfterViewInit {
   squaresHighlight: string[];
   uid: string;
   board;
+  puzzle: Puzzle;
 
+  @Output() onPuzzleShowSolution = new EventEmitter<Puzzle>();
 
   constructor(
     private uiService: UiService
   ) { }
 
 
-  @Input() set setFen(data: { fen: string; firstMoveSquaresHighlight: string[] }) {
+  @Input() set setFen(data: { fen: string; firstMoveSquaresHighlight: string[]; puzzle: Puzzle }) {
     this.uid = createUid();
     this.fen = data.fen;
     this.squaresHighlight = data.firstMoveSquaresHighlight;
+    this.puzzle = data.puzzle;
   };
 
 
@@ -82,6 +88,10 @@ export class FenBoardComponent implements OnInit, AfterViewInit {
       this.board.addMarker(marker, from);
       this.board.addMarker(marker, to);
     }
+  }
+
+  onShowSolution() {
+    this.onPuzzleShowSolution.emit(this.puzzle);
   }
 
 }
