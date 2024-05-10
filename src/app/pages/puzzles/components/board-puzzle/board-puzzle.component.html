@@ -8,7 +8,7 @@
     <ion-item>
       <ion-label *ngIf="showTimer" [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
       <ion-buttons slot="end">
-        <ion-button *ngIf="goshPuzzleTime > -1" size="large" fill="clear">
+        <ion-button *ngIf="goshPuzzleTime > -1" size="large" fill="clear" color="dark">
 
           <span *ngIf="goshPuzzleTime === 0">
             <ion-icon name="eye-off-outline"></ion-icon>
@@ -19,24 +19,28 @@
           </span>
 
         </ion-button>
-        <ion-button fill="clear" (click)="turnRoundBoard()">
-          <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
+        <ion-button fill="clear" color="dark" (click)="turnRoundBoard()">
+          <ion-icon slot="icon-only" name="swap-vertical-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" [disabled]="!allowMoveArrows || currentMoveNumber === 0" (click)="starPosition()">
+        <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows || currentMoveNumber === 0"
+          (click)="starPosition()">
           <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" [disabled]="!allowMoveArrows  || currentMoveNumber === 0" (click)="backMove()">
+        <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows  || currentMoveNumber === 0"
+          (click)="backMove()">
           <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
         </ion-button>
 
-        <ion-button fill="clear" [disabled]="!allowMoveArrows || currentMoveNumber === totalMoves" (click)="nextMove()">
+        <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows || currentMoveNumber === totalMoves"
+          (click)="nextMove()">
           <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
         </ion-button>
-        <ion-button fill="clear" [disabled]="!allowMoveArrows || currentMoveNumber >= totalMoves" (click)="moveToEnd()">
+        <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows || currentMoveNumber >= totalMoves"
+          (click)="moveToEnd()">
           <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
         </ion-button>
 
-        <ion-button disabled>
+        <ion-button disabled fill="clear" color="dark">
           <ion-icon slot="icon-only"
             [name]=" piecePathKingTurn === 'wK.svg' ? 'radio-button-on' : 'radio-button-off'"></ion-icon>
         </ion-button>

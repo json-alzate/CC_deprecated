@@ -190,7 +190,7 @@ export class TrainingComponent implements OnInit {
     }
 
     // calcular si queda menos de 10 puzzles por jugar, para cargar mas puzzles
-    const puzzlesLeftToPlay = this.plan.blocks[this.currentIndexBlock].puzzles?.length - this.countPuzzlesPlayedBlock;
+    const puzzlesLeftToPlay = this.plan.blocks[this.currentIndexBlock]?.puzzles?.length - this.countPuzzlesPlayedBlock;
     if (puzzlesLeftToPlay < 10) {
       this.blockService.getPuzzlesForBlock(this.plan.blocks[this.currentIndexBlock]).then((puzzlesToAdd: Puzzle[]) => {
         this.plan.blocks[this.currentIndexBlock].puzzles = [...puzzlesToAdd];
