@@ -41,7 +41,73 @@
 
       <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="8"
         offset-Xl="2" *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
-        <app-plan-chart [planType]="plan.planType"></app-plan-chart>
+
+
+
+        <!-- <app-plan-chart [planType]="plan.planType"></app-plan-chart> -->
+
+        <ion-item lines="none">
+          <ion-thumbnail class="ion-hide-md-down" slot="start">
+            <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
+          </ion-thumbnail>
+          <ion-label>
+            <div class="ion-text-center">
+
+              <ion-text color="dark">
+                <h1>{{plan.eloTotal}}</h1>
+              </ion-text>
+            </div>
+
+          </ion-label>
+          <ion-button class="ion-hide-md-down" color="dark" fill="clear" slot="end" (click)="showChart(plan.planType)">
+            <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
+            <!-- Panel -->
+            {{ 'PUZZLES.panel' | transloco }}
+          </ion-button>
+        </ion-item>
+        <ion-item lines="none" class="ion-margin-bottom">
+          <ion-label>
+            <div class="ion-text-center">
+              <ion-button size="large" fill="solid" [routerLink]="'/puzzles/training-menu'">
+                <!-- Continuar entrenamiento -->
+                {{ 'PUZZLES.continueTraining' | transloco }}
+              </ion-button>
+            </div>
+          </ion-label>
+        </ion-item>
+
+
+
+
+
+        <!-- 
+          TODO: crear un componente que sirva como menu para los planes y poderlos iniciar desde aquí
+          <ion-row>
+          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
+            <ion-card>
+              <img src="assets/images/plan-icons/plan5.png" alt="" srcset="">
+            </ion-card>
+          </ion-col>
+          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
+            <ion-card>
+              <img src="assets/images/plan-icons/plan10.png" alt="" srcset="">
+            </ion-card>
+          </ion-col>
+          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
+            <ion-card>
+              <img src="assets/images/plan-icons/plan20.png" alt="" srcset="">
+            </ion-card>
+          </ion-col>
+          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
+            <ion-card>
+              <img src="assets/images/plan-icons/plan30.png" alt="" srcset="">
+            </ion-card>
+          </ion-col>
+        </ion-row> -->
+
+
+
+
         <ion-accordion-group multiple="true" [value]="valueAccordionGroup">
 
           <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
@@ -120,31 +186,3 @@
 
 
 </ion-content>
-
-<ion-footer>
-  <ion-toolbar class="ion-padding-horizontal">
-
-
-    <ion-thumbnail slot="start" class="ion-margin-vertical">
-      <img [src]="'assets/images/plan-icons/plan5.png'" />
-    </ion-thumbnail>
-    <ion-thumbnail slot="start" class="ion-margin-vertical">
-      <img [src]="'assets/images/plan-icons/plan10.png'" />
-    </ion-thumbnail>
-    <ion-thumbnail slot="start" class="ion-margin-vertical">
-      <img [src]="'assets/images/plan-icons/plan20.png'" />
-    </ion-thumbnail>
-    <ion-thumbnail slot="start" class="ion-margin-vertical">
-      <img [src]="'assets/images/plan-icons/plan30.png'" />
-    </ion-thumbnail>
-
-    <ion-buttons slot="end">
-      <ion-button slot="end" color="primary" fill="clear">
-        <ion-icon slot="icon-only" name="repeat-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-
-
-  </ion-toolbar>
-</ion-footer>

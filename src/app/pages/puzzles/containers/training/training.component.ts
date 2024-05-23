@@ -19,7 +19,7 @@ import { TranslocoService } from '@ngneat/transloco';
 // models
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
-import { Plan, Block } from '@models/plan.model';
+import { Plan, PlanTypes } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
 // Services
@@ -35,6 +35,7 @@ import { createUid } from '@utils/create-uid';
 // components
 import { BlockPresentationComponent } from '@pages/puzzles/components/block-presentation/block-presentation.component';
 import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
+import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 
 
 @Component({
@@ -401,5 +402,20 @@ export class TrainingComponent implements OnInit {
     this.timerUnsubscribe$.complete();
     this.timerUnsubscribeBlock$.next();
     this.timerUnsubscribeBlock$.complete();
+  }
+
+  // TODO: Esto debe estar en otro componente
+  async showChart(planType: PlanTypes) {
+
+    const modal = await this.modalController.create({
+      component: PlanChartComponent,
+      componentProps: {
+        planType,
+        isModal: true
+      }
+    });
+
+    await modal.present();
+    // this.googleTagManagerService.pushTag({ event: 'showChart', planType: planType });
   }
 }
