@@ -19,7 +19,7 @@ import { TranslocoService } from '@ngneat/transloco';
 // models
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
-import { Plan, Block } from '@models/plan.model';
+import { Plan, PlanTypes } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
 // Services
@@ -35,6 +35,7 @@ import { createUid } from '@utils/create-uid';
 // components
 import { BlockPresentationComponent } from '@pages/puzzles/components/block-presentation/block-presentation.component';
 import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
+import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 
 
 @Component({
@@ -190,7 +191,7 @@ export class TrainingComponent implements OnInit {
     }
 
     // calcular si queda menos de 10 puzzles por jugar, para cargar mas puzzles
-    const puzzlesLeftToPlay = this.plan.blocks[this.currentIndexBlock].puzzles?.length - this.countPuzzlesPlayedBlock;
+    const puzzlesLeftToPlay = this.plan.blocks[this.currentIndexBlock]?.puzzles?.length - this.countPuzzlesPlayedBlock;
     if (puzzlesLeftToPlay < 10) {
       this.blockService.getPuzzlesForBlock(this.plan.blocks[this.currentIndexBlock]).then((puzzlesToAdd: Puzzle[]) => {
         this.plan.blocks[this.currentIndexBlock].puzzles = [...puzzlesToAdd];
@@ -285,7 +286,8 @@ export class TrainingComponent implements OnInit {
       openingVariation: puzzleCompleted.openingVariation,
       fenPuzzle: puzzleCompleted.fen,
       fenStartUserPuzzle: puzzleCompleted.fenStartUserPuzzle,
-      firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight
+      firstMoveSquaresHighlight: puzzleCompleted.firstMoveSquaresHighlight,
+      rawPuzzle: puzzleCompleted
     };
 
     // Crear una copia del bloque actual
@@ -362,6 +364,18 @@ export class TrainingComponent implements OnInit {
 
   }
 
+
+  async onPuzzleShowSolution(puzzle: Puzzle) {
+
+    const modal = await this.modalController.create({
+      component: PuzzleSolutionComponent,
+      componentProps: {
+        puzzle
+      }
+    });
+    await modal.present();
+  }
+
   endPlan() {
     this.showEndPlan = true;
     this.setValuesAccordionGroup();
@@ -388,5 +402,20 @@ export class TrainingComponent implements OnInit {
     this.timerUnsubscribe$.complete();
     this.timerUnsubscribeBlock$.next();
     this.timerUnsubscribeBlock$.complete();
+  }
+
+  // TODO: Esto debe estar en otro componente
+  async showChart(planType: PlanTypes) {
+
+    const modal = await this.modalController.create({
+      component: PlanChartComponent,
+      componentProps: {
+        planType,
+        isModal: true
+      }
+    });
+
+    await modal.present();
+    // this.googleTagManagerService.pushTag({ event: 'showChart', planType: planType });
   }
 }

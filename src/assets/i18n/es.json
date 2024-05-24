@@ -55,7 +55,9 @@
         "randomOpening": "Apertura Random",
         "randomTheme": "Tema Random",
         "white": "Blancas",
-        "black": "Negras"
+        "black": "Negras",
+        "continueTraining": "Continuar Entrenamiento",
+        "panel": "Panel"
     },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordenadas",
