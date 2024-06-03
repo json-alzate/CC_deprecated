@@ -59,7 +59,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     };
 
     this.lineChartWhite = new Chart(this.lineCanvasWhite.nativeElement, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: [],
         datasets: [
@@ -68,8 +68,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
             data: [],
             backgroundColor: 'rgba(250, 250, 250, 0.6)',
             borderColor: 'rgba(250, 250, 250, 1)',
-            borderWidth: 1,
-            fill: true
+            borderWidth: 1
           }
         ]
       },
@@ -77,7 +76,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     });
 
     this.lineChartBlack = new Chart(this.lineCanvasBlack.nativeElement, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: [],
         datasets: [
@@ -87,7 +86,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
             backgroundColor: 'rgba(139, 140, 147, 0.5)',
             borderColor: 'rgba(82, 82, 82, 1)',
             borderWidth: 1,
-            fill: true
+            // fill: true
           }
         ]
       },

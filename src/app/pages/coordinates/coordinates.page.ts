@@ -34,6 +34,7 @@ import { Profile } from '@models/profile.model';
 import { CoordinatesPuzzlesService } from '@services/coordinates-puzzles.service';
 import { ProfileService } from '@services/profile.service';
 import { UiService } from '@services/ui.service';
+import { SoundsService } from '@services/sounds.service';
 
 // components
 
@@ -83,6 +84,7 @@ export class CoordinatesPage implements OnInit {
     public uiService: UiService,
     private meta: Meta,
     private router: Router,
+    private soundsService: SoundsService,
     private googleTagManagerService: GoogleTagManagerService
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
@@ -149,6 +151,7 @@ export class CoordinatesPage implements OnInit {
               } else {
                 this.timeColor = 'danger';
                 this.squaresBad.push(this.currentPuzzle);
+                this.soundsService.playErrorCoordinates();
               }
             }
 
@@ -251,13 +254,13 @@ export class CoordinatesPage implements OnInit {
 
   initInterval() {
 
-    const seconds = interval(1000);
+    const seconds = interval(10);
     this.subsSeconds = seconds.pipe(
       takeUntil(this.unsubscribeIntervalSeconds$)
     );
 
     this.subsSeconds.subscribe(() => {
-      this.time = this.time - 1;
+      this.time = this.time - 0.01;
       this.progressValue = this.time / 60;
       if (this.time < 1) {
         this.stopGame();
