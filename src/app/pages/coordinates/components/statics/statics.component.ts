@@ -32,6 +32,8 @@ export class StaticsComponent implements OnInit, AfterViewInit {
   lineChartWhite: Chart;
   lineChartBlack: Chart;
 
+  showCharts = false;
+
 
   constructor(
     private store: State<CoordinatesPuzzlesState>
@@ -103,6 +105,10 @@ export class StaticsComponent implements OnInit, AfterViewInit {
   // llega un máximo de 20 elementos (parámetro enviado en el selector)
   updateLineChart(coordinatesPuzzles: CoordinatesPuzzle[]) {
 
+    if (coordinatesPuzzles.length > 0) {
+      this.showCharts = true;
+    }
+
     const dataForW: number[] = [];
     const dataForB: number[] = [];
     const labels: string[] = [];
@@ -121,6 +127,9 @@ export class StaticsComponent implements OnInit, AfterViewInit {
 
     this.lineChartWhite.data.datasets[0].data = dataForW;
     this.lineChartBlack.data.datasets[0].data = dataForB;
+
+    console.log(labels);
+    console.log(dataForW);
 
     this.lineChartWhite.update();
     this.lineChartBlack.update();
