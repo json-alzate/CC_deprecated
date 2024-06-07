@@ -17,6 +17,7 @@ export class SoundsService {
   checkMate;
   castle;
   lowTime;
+  errorCoordinates;
 
   constructor() {
     this.loadSounds();
@@ -52,6 +53,9 @@ export class SoundsService {
     });
     this.lowTime = new Howl({
       src: [basePath + 'LowTime.mp3']
+    });
+    this.errorCoordinates = new Howl({
+      src: ['assets/sounds/standard/Error.mp3']
     });
 
   }
@@ -92,6 +96,10 @@ export class SoundsService {
 
   playGood() {
     this.good.play();
+  }
+
+  playErrorCoordinates() {
+    this.errorCoordinates.play();
   }
 
 }

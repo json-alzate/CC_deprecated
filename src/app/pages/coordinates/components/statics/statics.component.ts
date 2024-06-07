@@ -32,6 +32,8 @@ export class StaticsComponent implements OnInit, AfterViewInit {
   lineChartWhite: Chart;
   lineChartBlack: Chart;
 
+  showCharts = false;
+
 
   constructor(
     private store: State<CoordinatesPuzzlesState>
@@ -59,7 +61,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     };
 
     this.lineChartWhite = new Chart(this.lineCanvasWhite.nativeElement, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: [],
         datasets: [
@@ -68,8 +70,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
             data: [],
             backgroundColor: 'rgba(250, 250, 250, 0.6)',
             borderColor: 'rgba(250, 250, 250, 1)',
-            borderWidth: 1,
-            fill: true
+            borderWidth: 1
           }
         ]
       },
@@ -77,7 +78,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
     });
 
     this.lineChartBlack = new Chart(this.lineCanvasBlack.nativeElement, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: [],
         datasets: [
@@ -87,7 +88,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
             backgroundColor: 'rgba(139, 140, 147, 0.5)',
             borderColor: 'rgba(82, 82, 82, 1)',
             borderWidth: 1,
-            fill: true
+            // fill: true
           }
         ]
       },
@@ -103,6 +104,10 @@ export class StaticsComponent implements OnInit, AfterViewInit {
 
   // llega un máximo de 20 elementos (parámetro enviado en el selector)
   updateLineChart(coordinatesPuzzles: CoordinatesPuzzle[]) {
+
+    if (coordinatesPuzzles.length > 0) {
+      this.showCharts = true;
+    }
 
     const dataForW: number[] = [];
     const dataForB: number[] = [];
@@ -122,6 +127,9 @@ export class StaticsComponent implements OnInit, AfterViewInit {
 
     this.lineChartWhite.data.datasets[0].data = dataForW;
     this.lineChartBlack.data.datasets[0].data = dataForB;
+
+    console.log(labels);
+    console.log(dataForW);
 
     this.lineChartWhite.update();
     this.lineChartBlack.update();

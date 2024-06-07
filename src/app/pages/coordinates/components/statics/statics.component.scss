@@ -1,4 +1,9 @@
 .div-chart-container {
+    opacity: 0;
+}
+
+.visible {
+    opacity: 1;
 }
 
 canvas {

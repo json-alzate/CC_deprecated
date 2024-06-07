@@ -33,7 +33,7 @@ export class StaticsComponent implements OnInit, AfterViewInit {
 
   lineChartMethod() {
     this.lineChart = new Chart(this.lineCanvas.nativeElement, {
-      type: 'line',
+      type: 'bar',
       data: {
         labels: [],
         datasets: [
@@ -42,18 +42,12 @@ export class StaticsComponent implements OnInit, AfterViewInit {
             data: [],
             backgroundColor: 'rgba(66,140,255, 0.2)',
             borderColor: 'rgba(66,140,255, 1)',
-            borderWidth: 1,
-            fill: true,
+            borderWidth: 1
           }
         ]
       },
       options: {
         responsive: true,
-        scales: {
-          y: {  // configuración del eje Y
-            // beginAtZero: true,  // hace que el eje Y comience en 0
-          },
-        },
         plugins: {
           legend: {
             display: false,
@@ -64,8 +58,10 @@ export class StaticsComponent implements OnInit, AfterViewInit {
   }
 
   updateChart() {
-    this.lineChart.data.labels = this.scores.map((score, index) => index + 1);
+    this.lineChart.data.labels = this.scores.map((score, index) => '');
     this.lineChart.data.datasets[0].data = this.scores;
+    console.log(this.scores);
+
     this.lineChart.update();
   }
 
