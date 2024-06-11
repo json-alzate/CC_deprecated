@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="path/to/image.png" alt="ChessColate Logo">
+  <img src="https://github.com/json-alzate/ChessColate/blob/master/docs/images/chesscolate.com_puzzles_training-menu.png" alt="ChessColate Screenshot">
 </p>
 
 # ChessColate
