@@ -1,7 +1,7 @@
 {
 	"appId": "com.jheison.chesscolate",
 	"appName": "ChessColate",
-	"webDir": "www",
+	"webDir": "dist/app/browser",
 	"bundledWebRuntime": false,
 	"plugins": {
 		"GoogleAuth": {

@@ -30,7 +30,7 @@ It features a database populated with over 3 million records from lichess:
       }
     };
     ```
-3. Install the packages:
+3. Install the necessary packages:
     ```
     npm install
     ```
@@ -53,9 +53,33 @@ docker tag chesscolate-web jsonfront/chesscolate-web
 docker push jsonfront/chesscolate-web
 ```
 
+## Android build
+
+It's a [Capacitor](https://capacitorjs.com/) project with adjustments for compiling due to [Angular SSR](https://docs.angular.lat/guide/universal).
+
+- Build the project with:
+  ```
+  ionic build
+  ```
+  This will generate the compiled folder at `dist/app/browser` due to SSR.
+
+  - Modify `webDir` in the `capacitor.config.json` file to point to the compiled folder.
+  - Then execute:
+    ```
+    npm run clean:build:android
+    ```
+    This script cleans the build directory from packaged files like .map, etc.
+
+    - Next, compile the project normally for Android with:
+      ```
+      ionic cap sync android
+      ionic cap copy android
+      ```
+
+      etc.
+
 ## Icons
 
 The icons used in the project are from:
 - [Icongeek26 on Flaticon](https://www.flaticon.com/authors/icongeek26) - Glyph style
-
 

@@ -14,7 +14,8 @@
     "dev:ssr": "ng run app:serve-ssr",
     "serve:ssr": "node dist/app/server/main.js",
     "build:ssr": "ng build --configuration=production && ng run app:server:production",
-    "prerender": "ng run app:prerender"
+    "prerender": "ng run app:prerender",
+    "clean:build:android": "node -e \"const fs = require('fs'); const path = require('path'); const deleteFiles = (directory, extensions) => { fs.readdir(directory, (err, files) => { if (err) throw err; for (const file of files) { const filePath = path.join(directory, file); fs.stat(filePath, (err, stat) => { if (err) throw err; if (stat.isDirectory()) { deleteFiles(filePath, extensions); } else if (extensions.some(ext => filePath.endsWith(ext))) { fs.unlink(filePath, err => { if (err) throw err; }); } }); } }); }; const distPath = path.join(__dirname, 'android/app/src/main/assets/public'); deleteFiles(distPath, ['.gz', '.br', '.map']);\""
   },
   "private": true,
   "dependencies": {
@@ -104,6 +105,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "protractor": "~7.0.0",
+    "rimraf": "^5.0.7",
     "ts-node": "~8.3.0",
     "typescript": "~5.1.6"
   },
