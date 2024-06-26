@@ -4,12 +4,9 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
-
-import { IonCard, Platform, Gesture, GestureController, AlertController } from '@ionic/angular';
-
+import { IonCard, Platform, AlertController } from '@ionic/angular';
 
 import { interval, Subscription } from 'rxjs';
-
 
 import { SoundsService } from '@services/sounds.service';
 import { SquaresService } from '@services/squares.service';
@@ -26,7 +23,6 @@ interface SquareColorMap {
 })
 export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
 
-  // Tus casillas
   public squares: SquareColorMap[] = [];
   squaresColorsMap: SquareColorMap[] = this.getSquaresColorsMap();
   gameStatus: 'waiting' | 'playing' | 'win' | 'lose' = 'waiting';
@@ -37,12 +33,10 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
   isTimerStarted = false;
   score = 0;
 
-
   @ViewChildren(IonCard, { read: ElementRef }) cards: QueryList<ElementRef>;
 
   constructor(
     private platform: Platform,
-    private gestureCtrl: GestureController,
     private soundsService: SoundsService,
     private squaresService: SquaresService,
     private alertController: AlertController,
@@ -78,85 +72,89 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit() {
     const cardArray = this.cards.toArray();
-    this.useSwiperGesture(cardArray);
+    this.addSwipeEventListeners(cardArray);
   }
 
   generateSquares() {
-    // genera 1000 casillar aleatorias con su correspondiente color
     for (let i = 0; i < 1000; i++) {
       const randomIndex = Math.floor(Math.random() * this.squaresColorsMap.length);
       this.squares.push(this.squaresColorsMap[randomIndex]);
     }
   }
 
-  useSwiperGesture(cardArray: ElementRef[]) {
-    // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < cardArray.length; i++) {
-      const card = cardArray[i];
+  addSwipeEventListeners(cardArray: ElementRef[]) {
+    cardArray.forEach(card => {
+      const element = card.nativeElement;
 
-      const gesture: Gesture = this.gestureCtrl.create({
-        el: card.nativeElement,
-        threshold: 15,
-        gestureName: 'swipe',
-        onMove: ev => {
-          card.nativeElement.style.transform = `translateX(${ev.deltaX}px) rotate(${ev.deltaX / 10}deg)`;
-          this.setCardColor(ev.deltaX, card.nativeElement);
-          if (!this.isTimerStarted) {
-            this.isTimerStarted = true;
-            this.startTimer();
-          }
+      element.addEventListener('mousedown', (event) => this.onSwipeStart(event, element));
+      element.addEventListener('mousemove', (event) => this.onSwipeMove(event, element));
+      element.addEventListener('mouseup', (event) => this.onSwipeEnd(event, element));
+      element.addEventListener('mouseleave', (event) => this.onSwipeEnd(event, element));
+      element.addEventListener('touchstart', (event) => this.onSwipeStart(event, element));
+      element.addEventListener('touchmove', (event) => this.onSwipeMove(event, element));
+      element.addEventListener('touchend', (event) => this.onSwipeEnd(event, element));
+    });
+  }
 
-        },
-        onEnd: ev => {
-          let movement: 'right' | 'left';
-
-          card.nativeElement.style.transition = '.5s ease-out';
-
-          if (ev.deltaX > 250) {
-            card.nativeElement.style.transform = `translateX(${this.platform.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
-            // Aquí puedes agregar la lógica para cuando el usuario adivina que la casilla es blanca
-            movement = 'right';
-
-          } else if (ev.deltaX < -250) {
-            card.nativeElement.style.transform = `translateX(-${this.platform.width() * 2}px) rotate(${ev.deltaX / 2}deg)`;
-            // Aquí puedes agregar la lógica para cuando el usuario adivina que la casilla es negra
-            movement = 'left';
-          } else {
-            card.nativeElement.style.transform = '';
-          }
-          if (movement) {
-
-            if (this.squares[i].color === 'white' && movement === 'right') {
-              this.gameStatus = 'win';
-              this.score++;
-              this.soundsService.playSelect();
-            } else if (this.squares[i].color === 'black' && movement === 'left') {
-              this.gameStatus = 'win';
-              this.score++;
-              this.soundsService.playSelect();
-            } else {
-              this.gameStatus = 'lose';
-              this.soundsService.playError();
-            }
-
-          }
-
-
-          // this.checkGuess(movement, this.squares[i].name);
-          card.nativeElement.style.background = '';
-        }
-
-      });
-
-      gesture.enable(true);
+  onSwipeStart(event: MouseEvent | TouchEvent, element: HTMLElement) {
+    element.style.transition = 'none';
+    const startX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+    element.setAttribute('data-startX', startX.toString());
+    if (!this.isTimerStarted) {
+      this.isTimerStarted = true;
+      this.startTimer();
     }
   }
 
+  onSwipeMove(event: MouseEvent | TouchEvent, element: HTMLElement) {
+    const startX = parseFloat(element.getAttribute('data-startX'));
+    const currentX = event instanceof MouseEvent ? event.clientX : event.touches[0].clientX;
+    const deltaX = currentX - startX;
+
+    element.style.transform = `translateX(${deltaX}px) rotate(${deltaX / 10}deg)`;
+    this.setCardColor(deltaX, element);
+  }
+
+  onSwipeEnd(event: MouseEvent | TouchEvent, element: HTMLElement) {
+    const deltaX = parseFloat(element.style.transform.match(/translateX\(([-\d.]+)px\)/)[1]);
+
+    element.style.transition = '.5s ease-out';
+    if (deltaX > 250) {
+      element.style.transform = `translateX(${this.platform.width() * 2}px) rotate(${deltaX / 2}deg)`;
+      this.checkGuess('right', element);
+    } else if (deltaX < -250) {
+      element.style.transform = `translateX(-${this.platform.width() * 2}px) rotate(${deltaX / 2}deg)`;
+      this.checkGuess('left', element);
+    } else {
+      element.style.transform = '';
+    }
+    element.style.background = '';
+  }
+
+  checkGuess(movement: 'right' | 'left', element: HTMLElement) {
+    const index = this.cards.toArray().findIndex(card => card.nativeElement === element);
+    if (index < 0 || index >= this.squares.length) {
+      console.error('Index out of range or element not found.');
+      return;
+    }
+    const square = this.squares[index];
+
+    if (square.color === 'white' && movement === 'right') {
+      this.gameStatus = 'win';
+      this.score++;
+      this.soundsService.playSelect();
+    } else if (square.color === 'black' && movement === 'left') {
+      this.gameStatus = 'win';
+      this.score++;
+      this.soundsService.playSelect();
+    } else {
+      this.gameStatus = 'lose';
+      this.soundsService.playError();
+    }
+  }
 
   getSquaresColorsMap(): SquareColorMap[] {
-    // Aquí puedes agregar la lógica para saber si la casilla es blanca o negra
     const squaresColorsMap: SquareColorMap[] = [];
-
     const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     const colors = ['white', 'black'];
 
@@ -164,13 +162,11 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
       for (let col = 0; col < 8; col++) {
         const square = letters[col] + row;
         const color = colors[(row + col) % 2];
-        const toAdd = { name: square, color };
-        squaresColorsMap.push(toAdd);
+        squaresColorsMap.push({ name: square, color });
       }
     }
 
     return squaresColorsMap;
-
   }
 
   setCardColor(deltaX: number, element: HTMLElement) {
@@ -184,16 +180,6 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
     }
     element.style.background = color;
   }
-
-  decimalToHex(d: number, padding: number) {
-    let hex = Number(d).toString(16);
-    padding = typeof padding === 'undefined' || padding === null ? (padding = 2) : padding;
-    while (hex.length < padding) {
-      hex = '0' + hex;
-    }
-    return hex;
-  }
-
 
   startTimer() {
     const timer$ = interval(1000);
@@ -219,15 +205,9 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
     await alert.present();
   }
 
-
   ngOnDestroy() {
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
   }
-
-
-
-
-
 }
