@@ -37,3 +37,4 @@ src/environments/private/keys.ts
 .firebase
 *-debug.log
 .runtimeconfig.json
+/android/app/google-services.json

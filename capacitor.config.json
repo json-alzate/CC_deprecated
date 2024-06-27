@@ -4,6 +4,12 @@
 	"webDir": "dist/app/browser",
 	"bundledWebRuntime": false,
 	"plugins": {
+		"FirebaseAuthentication": {
+			"skipNativeAuth": false,
+			"providers": [
+				"google.com"
+			]
+		},
 		"GoogleAuth": {
 			"scopes": [
 				"profile",
