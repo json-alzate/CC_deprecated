@@ -7,7 +7,7 @@
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-          <ion-title> {{ profile.name || profile.email }} </ion-title>
+          <ion-title> {{ profile.name }} </ion-title>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
             <ion-button>
