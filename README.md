@@ -77,6 +77,10 @@ It's a [Capacitor](https://capacitorjs.com/) project with adjustments for compil
       ```
 
       etc.
+- Generate icon and splash screens with:
+  ```
+  npx @capacitor/assets generate --iconBackgroundColor '#eeeeee' --iconBackgroundColorDark '#121212' --splashBackgroundColor '#eeeeee' --splashBackgroundColorDark '#121212'
+  ```
 
 ## Icons
 
