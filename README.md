@@ -2,7 +2,7 @@
   <img src="https://github.com/json-alzate/ChessColate/blob/master/docs/images/chesscolate.com_puzzles_training-menu.png" alt="ChessColate Screenshot">
 </p>
 
-# ChessColate
+# [chesscolate.com](https://chesscolate.com/)
 
 ChessColate is an application focused on improving chess tactics through personalized training plans.
 
