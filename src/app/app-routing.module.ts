@@ -24,10 +24,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/squares/squares.module').then(m => m.SquaresPageModule)
   },
   {
+    path: 'privacy',
+    loadChildren: () => import('./pages/privacy/privacy.module').then(m => m.PrivacyPageModule)
+  },
+  {
     path: '**',
     redirectTo: 'puzzles',
     pathMatch: 'full'
   }
+
 
 ];
 
