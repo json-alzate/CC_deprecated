@@ -1,0 +1,15 @@
+<ion-content class="ion-padding ion-text-justify">
+
+    <ion-buttons>
+        <ion-button (click)="changeLanguage('en')">
+            {{ 'English' | transloco }}
+        </ion-button>
+        <ion-button (click)="changeLanguage('es')">
+            {{ 'Spanish' | transloco }}
+        </ion-button>
+    </ion-buttons>
+
+
+    <div innerHTML="{{ 'PRIVACY' | transloco }}"></div>
+
+</ion-content>
