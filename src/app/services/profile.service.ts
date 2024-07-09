@@ -1,6 +1,6 @@
 // core and third party libraries
 import { Injectable } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 import { Store, select } from '@ngrx/store';
 
 // rxjs
@@ -40,7 +40,7 @@ export class ProfileService {
   constructor(
     private store: Store<AuthState>,
     private appService: AppService,
-    private translocoService: TranslocoService,
+    private translateService: TranslateService,
     private firestoreService: FirestoreService
   ) { }
 
@@ -239,7 +239,7 @@ export class ProfileService {
       uid: dataAuth.uid,
       email: dataAuth.email,
       elo: 1500,
-      lang: this.translocoService.getActiveLang(),
+      lang: this.translateService.currentLang || 'en',
       createAt: new Date().getTime()
     };
 

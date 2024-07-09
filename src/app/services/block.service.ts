@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/dot-notation */
 import { Injectable } from '@angular/core';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
 import { Block } from '@models/plan.model';
@@ -21,7 +21,7 @@ export class BlockService {
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
     private appService: AppService,
-    private translocoService: TranslocoService
+    private translateService: TranslateService
   ) { }
 
   async getPuzzlesForBlock(blockSettings: Block): Promise<Puzzle[]> {
@@ -58,8 +58,8 @@ export class BlockService {
       const defaultEloStart = 800;
       const defaultElo = 1500;
 
-      const whiteColorText = this.translocoService.translate('PUZZLES.white');
-      const blackColorText = this.translocoService.translate('PUZZLES.black');
+      const whiteColorText = this.translateService.instant('PUZZLES.white');
+      const blackColorText = this.translateService.instant('PUZZLES.black');
 
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
@@ -148,7 +148,7 @@ export class BlockService {
               puzzlesCount: 0,
               theme: themeRandom5,
               // eslint-disable-next-line max-len
-              description: this.translocoService.translate('PUZZLES.randomThemeWith') + (color5 === 'white' ? whiteColorText : blackColorText),
+              description: this.translateService.instant('PUZZLES.randomThemeWith') + (color5 === 'white' ? whiteColorText : blackColorText),
               elo: themeRandomElo5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -163,7 +163,7 @@ export class BlockService {
               time: 150,
               puzzlesCount: 0,
               theme: themeWeakness5,
-              description: this.translocoService.translate('PUZZLES.weaknessWith') + (color5 === 'white' ? whiteColorText : blackColorText),
+              description: this.translateService.instant('PUZZLES.weaknessWith') + (color5 === 'white' ? whiteColorText : blackColorText),
               elo: eloThemeWeakness5 || defaultElo,
               color: color5,
               puzzleTimes: {
@@ -254,7 +254,7 @@ export class BlockService {
             {
               time: 180,
               puzzlesCount: 0,
-              description: this.translocoService.translate('PUZZLES.sameOpeningAndTheme'),
+              description: this.translateService.instant('PUZZLES.sameOpeningAndTheme'),
               theme: theme10,
               openingFamily: opening10,
               elo: eloTheme10 || defaultElo,
@@ -272,7 +272,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme10,
-              description: this.translocoService.translate('PUZZLES.sameThemeLessTime'),
+              description: this.translateService.instant('PUZZLES.sameThemeLessTime'),
               elo: eloTheme10 || defaultElo,
               color: color10,
               puzzleTimes: {
@@ -333,7 +333,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: this.translocoService.translate('PUZZLES.sameOpeningRandomThemeBlind'),
+              description: this.translateService.instant('PUZZLES.sameOpeningRandomThemeBlind'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -351,7 +351,7 @@ export class BlockService {
               time: 60,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: this.translocoService.translate('PUZZLES.sameRandomTheme'),
+              description: this.translateService.instant('PUZZLES.sameRandomTheme'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -373,7 +373,7 @@ export class BlockService {
               time: 180,
               puzzlesCount: 0,
               theme: themeWeakness20,
-              description: this.translocoService.translate('PUZZLES.weaknessWithAnyColor'),
+              description: this.translateService.instant('PUZZLES.weaknessWithAnyColor'),
               elo: eloThemeWeakness20 || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -389,7 +389,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: this.translocoService.translate('PUZZLES.randomThemeWithAnyColor'),
+              description: this.translateService.instant('PUZZLES.randomThemeWithAnyColor'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -420,7 +420,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: this.translocoService.translate('PUZZLES.sameThemeLessTime'),
+              description: this.translateService.instant('PUZZLES.sameThemeLessTime'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -499,7 +499,7 @@ export class BlockService {
               puzzlesCount: 0,
               theme: themeWeakness30,
               // eslint-disable-next-line max-len
-              description: this.translocoService.translate('PUZZLES.weaknessWith') + (color30 === 'white' ? whiteColorText : blackColorText),
+              description: this.translateService.instant('PUZZLES.weaknessWith') + (color30 === 'white' ? whiteColorText : blackColorText),
               elo: eloThemeWeakness30 || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -515,7 +515,7 @@ export class BlockService {
               time: 120,
               puzzlesCount: 0,
               theme: '',
-              description: this.translocoService.translate('PUZZLES.randomOpening'),
+              description: this.translateService.instant('PUZZLES.randomOpening'),
               openingFamily: opening30Random,
               elo: eloOpening30Random || defaultElo,
               color: color30,
@@ -532,7 +532,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
-              description: this.translocoService.translate('PUZZLES.randomTheme'),
+              description: this.translateService.instant('PUZZLES.randomTheme'),
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {
@@ -548,7 +548,7 @@ export class BlockService {
               time: 300,
               puzzlesCount: 0,
               theme: theme30Random,
-              description: this.translocoService.translate('PUZZLES.sameOpeningRandomThemeBlind'),
+              description: this.translateService.instant('PUZZLES.sameOpeningRandomThemeBlind'),
               elo: eloTheme30Random || defaultElo,
               color: color30,
               puzzleTimes: {

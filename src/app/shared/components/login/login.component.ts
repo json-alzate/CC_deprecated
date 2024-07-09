@@ -5,7 +5,7 @@ import { UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms
 
 import { Store } from '@ngrx/store';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 // rxjs
 
@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit {
     private popoverController: PopoverController,
     private modalController: ModalController,
     private authService: AuthService,
-    private translocoService: TranslocoService,
+    private translateService: TranslateService,
     private store: Store<AuthState>
   ) {
     this.buildFormSingUp();
@@ -185,7 +185,7 @@ export class LoginComponent implements OnInit {
     if (this.formSingUp.valid) {
 
       if (this.passwordFielSingUp.value !== this.rePasswordFielSingUp.value) {
-        const message = this.translocoService.translate('PasswordsNoMatch');
+        const message = this.translateService.instant('PasswordsNoMatch');
         const action = setErrorRegister({ error: message });
         this.store.dispatch(action);
         return;

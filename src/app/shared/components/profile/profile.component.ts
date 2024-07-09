@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 // models
 import { PiecesStyle, BoardStyle } from '@models/ui.model';
@@ -21,19 +21,19 @@ export class ProfileComponent implements OnInit {
 
   boardStylesInfo = this.uiService.boardStylesInfo;
 
-  @Input() currentLanguage = this.translocoService.getActiveLang();
+  @Input() currentLanguage = this.translateService.currentLang;
 
   constructor(
     public uiService: UiService,
     private profileService: ProfileService,
-    private translocoService: TranslocoService
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() { }
 
   changeLanguage(lang: string) {
     this.currentLanguage = lang;
-    this.translocoService.setActiveLang(lang);
+    this.translateService.use(lang);
     this.profileService.updateProfile({ lang });
   }
 

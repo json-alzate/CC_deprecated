@@ -25,13 +25,13 @@
       <ion-col size="12">
         <ion-button class="btn-login" expand="block" color="dark" (click)="loginGoogle()">
           <ion-icon slot="start" src="assets\images\logos\Google__G__Logo.svg"></ion-icon>
-          {{ 'LoginGoogle' | transloco }}
+          {{ 'LoginGoogle' | translate }}
         </ion-button>
       </ion-col>
       <ion-col size="12">
         <ion-button expand="block" fill="clear" (click)="showEmailPassword = true">
           <ion-icon slot="start" name="mail-outline"></ion-icon>
-          {{ 'LoginEmailPassword' | transloco }}
+          {{ 'LoginEmailPassword' | translate }}
         </ion-button>
       </ion-col>
     </ion-row>
@@ -47,7 +47,7 @@
 
         <ion-segment value="resetPassword" class="ion-margin-bottom">
           <ion-segment-button value="resetPassword">
-            <ion-label> {{ 'ResetPassword' | transloco }} </ion-label>
+            <ion-label> {{ 'ResetPassword' | translate }} </ion-label>
           </ion-segment-button>
         </ion-segment>
 
@@ -56,9 +56,9 @@
           <ion-row>
             <ion-col size="12">
               <ion-item>
-                <ion-input [label]=" 'Email' | transloco" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
-                ('LOGIN.ERRORS.EmailRequired' | transloco) :
-         (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | transloco) : ''))"
+                <ion-input [label]=" 'Email' | translate" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
+                ('LOGIN.ERRORS.EmailRequired' | translate) :
+         (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | translate) : ''))"
                   formControlName="email" type="email" maxlength="100"></ion-input>
               </ion-item>
             </ion-col>
@@ -68,12 +68,12 @@
             <ion-col size="6">
 
               <ion-button color="danger" (click)="showResetPassword = false" expand="block">
-                {{ 'Cancel' | transloco }}
+                {{ 'Cancel' | translate }}
               </ion-button>
             </ion-col>
             <ion-col size="6">
               <ion-button expand="block" type="submit" [disabled]="!formResetPassword.valid">
-                {{ 'Send' | transloco }}
+                {{ 'Send' | translate }}
               </ion-button>
             </ion-col>
           </ion-row>
@@ -89,10 +89,10 @@
 
         <ion-segment [value]="segmentEmailPassword" class="ion-margin-bottom" (ionChange)="segmentChanged($event)">
           <ion-segment-button value="login">
-            <ion-label> {{ 'Login' | transloco }} </ion-label>
+            <ion-label> {{ 'Login' | translate }} </ion-label>
           </ion-segment-button>
           <ion-segment-button value="singUp">
-            <ion-label>{{ 'Register' | transloco }}</ion-label>
+            <ion-label>{{ 'Register' | translate }}</ion-label>
           </ion-segment-button>
         </ion-segment>
 
@@ -104,22 +104,22 @@
               <ion-row>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-input [label]=" 'Email' | transloco" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
-                    ('LOGIN.ERRORS.EmailRequired' | transloco) :
-             (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | transloco) : ''))"
+                    <ion-input [label]=" 'Email' | translate" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
+                    ('LOGIN.ERRORS.EmailRequired' | translate) :
+             (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | translate) : ''))"
                       formControlName="email" type="email" maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-input [label]=" 'Password' | transloco" labelPlacement="floating" [errorText]="(passwordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.PasswordRequired' | transloco) : 
-                  (passwordFielSingUp?.hasError('minlength') ? ('LOGIN.ERRORS.PasswordMinLength' | transloco) : '')) "
+                    <ion-input [label]=" 'Password' | translate" labelPlacement="floating" [errorText]="(passwordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.PasswordRequired' | translate) : 
+                  (passwordFielSingUp?.hasError('minlength') ? ('LOGIN.ERRORS.PasswordMinLength' | translate) : '')) "
                       formControlName="password" type="password" maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-button (click)=" showResetPassword = true " expand="block" fill="clear">
-                    {{ 'ResetPassword' | transloco }}
+                    {{ 'ResetPassword' | translate }}
                   </ion-button>
                 </ion-col>
               </ion-row>
@@ -127,7 +127,7 @@
               <ion-row>
                 <ion-col size="12">
                   <ion-button type="submit" expand="block" [disabled]="!formLogin.valid">
-                    {{ 'Login' | transloco }}
+                    {{ 'Login' | translate }}
                   </ion-button>
                 </ion-col>
               </ion-row>
@@ -141,7 +141,7 @@
                 <ion-label>
                   <ion-icon slot="start" name="alert-circle-outline"></ion-icon>
                   <small>
-                    {{ 'PasswordRestoreMessage' | transloco }}
+                    {{ 'PasswordRestoreMessage' | translate }}
                   </small>
                 </ion-label>
               </div>
@@ -169,25 +169,25 @@
               <ion-row>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-input [label]=" 'Email' | transloco" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
-                    ('LOGIN.ERRORS.EmailRequired' | transloco) :
-             (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | transloco) : ''))"
+                    <ion-input [label]=" 'Email' | translate" labelPlacement="floating" [errorText]="(emailFieldSingUp?.hasError('required') ? 
+                    ('LOGIN.ERRORS.EmailRequired' | translate) :
+             (emailFieldSingUp?.hasError('pattern') ? ('LOGIN.ERRORS.EmailInvalid' | translate) : ''))"
                       formControlName="email" type="email" maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-input [label]=" 'Password' | transloco" labelPlacement="floating"
-                      [errorText]="(passwordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.PasswordRequired' | transloco) : 
-                    (passwordFielSingUp?.hasError('minlength') ? ('LOGIN.ERRORS.PasswordMinLength' | transloco) : '')) " formControlName="password" type="password"
+                    <ion-input [label]=" 'Password' | translate" labelPlacement="floating"
+                      [errorText]="(passwordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.PasswordRequired' | translate) : 
+                    (passwordFielSingUp?.hasError('minlength') ? ('LOGIN.ERRORS.PasswordMinLength' | translate) : '')) " formControlName="password" type="password"
                       maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
                 <ion-col size="12">
                   <ion-item>
-                    <ion-input [label]=" 'ConfirmPassword' | transloco" labelPlacement="floating"
-                      [errorText]="(rePasswordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.ConfirmPasswordRequired' | transloco) :
-                    (rePasswordFielSingUp?.value !== passwordFielSingUp?.value ? ('LOGIN.ERRORS.ConfirmPasswordNotMatch' | transloco) : '')) " formControlName="rePassword" type="password"
+                    <ion-input [label]=" 'ConfirmPassword' | translate" labelPlacement="floating"
+                      [errorText]="(rePasswordFielSingUp?.hasError('required') ? ('LOGIN.ERRORS.ConfirmPasswordRequired' | translate) :
+                    (rePasswordFielSingUp?.value !== passwordFielSingUp?.value ? ('LOGIN.ERRORS.ConfirmPasswordNotMatch' | translate) : '')) " formControlName="rePassword" type="password"
                       maxlength="100"></ion-input>
                   </ion-item>
                 </ion-col>
@@ -196,7 +196,7 @@
               <ion-row>
                 <ion-col size="12">
                   <ion-button type="submit" expand="block" [disabled]="!formSingUp.valid">
-                    {{ 'Register' | transloco }}
+                    {{ 'Register' | translate }}
                   </ion-button>
                 </ion-col>
               </ion-row>

@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { Platform } from '@ionic/angular';
 
 import { FirebaseAuthentication } from '@capacitor-firebase/authentication';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 
 import {
@@ -55,7 +55,7 @@ export class AuthService {
 
   constructor(
     private platform: Platform,
-    private translocoService: TranslocoService,
+    private translateService: TranslateService,
     private store: Store<AuthState>
   ) { }
 
@@ -126,9 +126,9 @@ export class AuthService {
   async createUserWithEmailAndPassword(email: string, password: string) {
     const auth = this.setAuth();
     createUserWithEmailAndPassword(auth, email, password).catch(error => {
-      let message = this.translocoService.translate('RegisterError');
+      let message = this.translateService.instant('RegisterError');
       if (error.code === 'auth/email-already-in-use') {
-        message = this.translocoService.translate('EmailReadyInUse');
+        message = this.translateService.instant('EmailReadyInUse');
       }
       const action = setErrorRegister({ error: message });
       this.store.dispatch(action);

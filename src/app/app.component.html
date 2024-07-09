@@ -19,7 +19,7 @@
         <ng-template #elseTemplateLoginButton>
 
           <ion-button (click)="presentModalLogin()" expand="block" fill="clear">
-            {{ 'LoginMenuBar' | transloco }}
+            {{ 'LoginMenuBar' | translate }}
           </ion-button>
 
         </ng-template>
@@ -40,7 +40,7 @@
           <ion-item button (click)="goTo('/')" detail="false">
             <ion-icon name="home-outline" slot="start"></ion-icon>
             <ion-label>
-              {{ 'MENU.home' | transloco }}
+              {{ 'MENU.home' | translate }}
               <!-- Inicio -->
             </ion-label>
           </ion-item>
@@ -57,7 +57,7 @@
           <ion-item button (click)="goTo('/puzzles/training-menu')" detail="false">
             <ion-icon name="barbell-outline" slot="start"></ion-icon>
             <ion-label>
-              {{ 'MENU.training' | transloco }}
+              {{ 'MENU.training' | translate }}
               <!-- Entrenamiento -->
             </ion-label>
           </ion-item>
@@ -67,7 +67,7 @@
           <ion-item button (click)="goTo('/squares')" detail="false">
             <ion-icon name="heart-half-outline" slot="start"></ion-icon>
             <ion-label>
-              {{ 'MENU.squares' | transloco }}
+              {{ 'MENU.squares' | translate }}
               <!-- Casillas -->
             </ion-label>
           </ion-item>
@@ -78,7 +78,7 @@
 
           <ion-item button (click)="goTo('/coordinates')" detail="false">
             <ion-icon name="locate-outline" slot="start"></ion-icon>
-            {{ 'MENU.coordinates' | transloco }}
+            {{ 'MENU.coordinates' | translate }}
             <!-- Coordenadas -->
           </ion-item>
         </ion-menu-toggle>

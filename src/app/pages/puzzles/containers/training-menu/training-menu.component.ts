@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController, ModalController } from '@ionic/angular';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Meta } from '@angular/platform-browser';
 import { GoogleTagManagerService } from 'angular-google-tag-manager';
@@ -37,7 +37,7 @@ export class TrainingMenuComponent implements OnInit {
     private meta: Meta,
     private googleTagManagerService: GoogleTagManagerService,
     private modalController: ModalController,
-    private translocoService: TranslocoService
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class TrainingMenuComponent implements OnInit {
 
   async showLoading() {
     this.loader = await this.loadingController.create({
-      message: this.translocoService.translate('loadingPuzzles'),
+      message: this.translateService.instant('loadingPuzzles'),
     });
 
     this.loader.present();
