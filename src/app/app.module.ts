@@ -2,7 +2,11 @@ import { APP_INITIALIZER, ErrorHandler, NgModule, isDevMode } from '@angular/cor
 import { BrowserModule } from '@angular/platform-browser';
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+
+
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
@@ -30,7 +34,12 @@ import * as fromGuards from '@guards/index';
 
 
 
-import { TranslocoRootModule } from './transloco-root.module';
+// AoT requires an exported function for factories
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions, @typescript-eslint/naming-convention
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http);
+}
+
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 
@@ -57,6 +66,14 @@ if (environment.production) {
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     AppRoutingModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'en'
+    }),
     /* NGRX */
     StoreRouterConnectingModule.forRoot({
       serializer: CustomRouterStateSerializer
@@ -64,7 +81,8 @@ if (environment.production) {
     StoreModule.forRoot(appReducers),
     ...devImports,
     EffectsModule.forRoot(fromEffects.EFFECTS),
-    TranslocoRootModule,
+    // SocketIoModule.forRoot(config),
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule,

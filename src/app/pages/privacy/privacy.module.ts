@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 import { PrivacyPageRoutingModule } from './privacy-routing.module';
@@ -15,7 +15,7 @@ import { PrivacyPage } from './privacy.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    TranslocoModule,
+    TranslateModule,
     PrivacyPageRoutingModule
   ],
   declarations: [PrivacyPage]

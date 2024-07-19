@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-privacy',
@@ -11,7 +11,7 @@ export class PrivacyPage implements OnInit {
 
 
   constructor(
-    private translocoService: TranslocoService
+    private translateService: TranslateService
   ) {
 
   }
@@ -20,7 +20,7 @@ export class PrivacyPage implements OnInit {
   }
 
   changeLanguage(lang: string) {
-    this.translocoService.setActiveLang(lang);
+    this.translateService.use(lang);
   }
 
 }

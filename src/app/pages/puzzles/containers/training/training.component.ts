@@ -7,7 +7,7 @@ import { Meta } from '@angular/platform-browser';
 import { Subject, interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 /**
  * Funcionalidad: que al mostrar la solución lo haga que cada jugada deje flechas,  después
@@ -66,7 +66,7 @@ export class TrainingComponent implements OnInit {
 
   profile: Profile;
 
-  currentLanguage = this.translocoService.getActiveLang();
+  currentLanguage = this.translateService.currentLang;
 
   constructor(
     private planService: PlanService,
@@ -76,9 +76,8 @@ export class TrainingComponent implements OnInit {
     private modalController: ModalController,
     public appService: AppService,
     private soundsService: SoundsService,
-    private translocoService: TranslocoService,
-    private meta: Meta
-  ) {
+    private translateService: TranslateService,
+    private meta: Meta) {
   }
 
   ngOnInit() {

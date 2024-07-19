@@ -62,7 +62,7 @@
           <ion-button class="ion-hide-md-down" color="dark" fill="clear" slot="end" (click)="showChart(plan.planType)">
             <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
             <!-- Panel -->
-            {{ 'PUZZLES.panel' | transloco }}
+            {{ 'PUZZLES.panel' | translate }}
           </ion-button>
         </ion-item>
         <ion-item lines="none" class="ion-margin-bottom">
@@ -70,7 +70,7 @@
             <div class="ion-text-center">
               <ion-button size="large" fill="solid" [routerLink]="'/puzzles/training-menu'">
                 <!-- Continuar entrenamiento -->
-                {{ 'PUZZLES.continueTraining' | transloco }}
+                {{ 'PUZZLES.continueTraining' | translate }}
               </ion-button>
             </div>
           </ion-label>
@@ -175,7 +175,7 @@
               {{totalPuzzlesPlayed}}
             </ion-note>
             <ion-note color="medium">
-              {{ 'PUZZLES.total' | transloco }}: {{ timeTraining | secondsToMinutesSeconds }}
+              {{ 'PUZZLES.total' | translate }}: {{ timeTraining | secondsToMinutesSeconds }}
             </ion-note>
           </span>
         </p>

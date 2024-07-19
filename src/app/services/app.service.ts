@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 
 import { lastValueFrom, take } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class AppService {
 
   constructor(
     private httpClient: HttpClient,
-    private translocoService: TranslocoService
+    private translateService: TranslateService
   ) { }
 
   get getThemesPuzzle() {
@@ -49,7 +49,7 @@ export class AppService {
   }
 
   getNameThemePuzzleByValue(value: string) {
-    const lang = this.translocoService.getActiveLang();
+    const lang = this.translateService.currentLang;
     if (lang === 'es') {
       return this.getThemePuzzleByValue(value)?.nameEs || '';
     } else {
@@ -58,7 +58,7 @@ export class AppService {
   }
 
   getDescriptionThemePuzzleByValue(value: string) {
-    const lang = this.translocoService.getActiveLang();
+    const lang = this.translateService.currentLang;
     if (lang === 'es') {
       return this.getThemePuzzleByValue(value)?.descriptionEs || '';
     } else {
@@ -90,7 +90,7 @@ export class AppService {
   }
 
   getNameOpeningByValue(value: string) {
-    const lang = this.translocoService.getActiveLang();
+    const lang = this.translateService.currentLang;
     if (lang === 'es') {
       return this.getOpeningByValue(value).nameEs;
     } else {
@@ -99,7 +99,7 @@ export class AppService {
   }
 
   getDescriptionOpeningByValue(value: string) {
-    const lang = this.translocoService.getActiveLang();
+    const lang = this.translateService.currentLang;
     if (lang === 'es') {
       return this.getOpeningByValue(value).descriptionEs;
     } else {
