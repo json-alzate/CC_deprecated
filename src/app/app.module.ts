@@ -91,10 +91,10 @@ if (environment.production) {
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    })], providers: [
-      PROVIDERS,
-      { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-      provideHttpClient(withInterceptorsFromDi()),
-    ]
+    })],
+  providers: [
+    PROVIDERS,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+  ]
 })
 export class AppModule { }

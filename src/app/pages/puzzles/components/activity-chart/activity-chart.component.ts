@@ -6,7 +6,6 @@ import { Chart, LinearScale, CategoryScale, PointElement, LineElement, Title, To
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { formatISO, format, endOfToday } from 'date-fns';
 import { es } from 'date-fns/locale';
-import 'chartjs-adapter-date-fns';
 
 import { Plan } from '@models/plan.model';
 
