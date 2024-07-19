@@ -52,8 +52,6 @@
     "@nguniversal/express-engine": "^16.2.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
-    "@sentry/angular-ivy": "^7.54.0",
-    "@sentry/capacitor": "^0.18.0",
     "@types/lodash": "^4.14.186",
     "angular-google-tag-manager": "^1.8.0",
     "animate.css": "^4.1.1",

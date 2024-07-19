@@ -31,25 +31,8 @@ import { CustomRouterStateSerializer } from '@redux/states/router.state';
 import * as fromEffects from '@redux/effects';
 import * as fromGuards from '@guards/index';
 
-import * as Sentry from '@sentry/capacitor';
-import * as SentryAngular from '@sentry/angular-ivy';
 
-Sentry.init(
-  {
-    dsn: 'https://4716d5ae6b19528674465cfafd357307@o4507017740681216.ingest.us.sentry.io/4507019628314624',
-    // To set your release and dist versions
-    release: 'chesscolate@' + environment.version,
-    dist: '1',
-    // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-    // We recommend adjusting this value in production.
-    tracesSampleRate: environment.production ? 0.25 : 1,
-    environment: environment.production ? 'production' : 'development',
-    ignoreErrors: [
-    ],
-  },
-  // Forward the init method from @sentry/angular
-  SentryAngular.init
-);
+
 
 
 // AoT requires an exported function for factories
@@ -117,22 +100,7 @@ if (environment.production) {
   ],
   providers: [
     PROVIDERS,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {
-      provide: ErrorHandler,
-      // Attach the Sentry ErrorHandler
-      useValue: SentryAngular.createErrorHandler(),
-    },
-    {
-      provide: SentryAngular.TraceService,
-      deps: [Router],
-    },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => () => { },
-      deps: [SentryAngular.TraceService],
-      multi: true,
-    },
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
 })
