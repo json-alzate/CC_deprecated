@@ -34,7 +34,6 @@
 		"KeyboardPlugin",
 		"CAPNetworkPlugin",
 		"PushNotificationsPlugin",
-		"StatusBarPlugin",
-		"SentryCapacitor"
+		"StatusBarPlugin"
 	]
 }
