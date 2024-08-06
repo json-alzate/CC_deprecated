@@ -3,7 +3,6 @@ import { NavController, LoadingController, ModalController } from '@ionic/angula
 import { TranslateService } from '@ngx-translate/core';
 
 import { Meta } from '@angular/platform-browser';
-import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
@@ -35,7 +34,6 @@ export class TrainingMenuComponent implements OnInit {
     private loadingController: LoadingController,
     private profileService: ProfileService,
     private meta: Meta,
-    private googleTagManagerService: GoogleTagManagerService,
     private modalController: ModalController,
     private translateService: TranslateService
   ) { }
@@ -76,7 +74,6 @@ export class TrainingMenuComponent implements OnInit {
 
     const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
     this.closeLoading();
-    this.googleTagManagerService.pushTag({ event: 'newPlan', planType, planTime: option });
     this.goTo('/puzzles/training');
 
   }
@@ -107,7 +104,6 @@ export class TrainingMenuComponent implements OnInit {
     });
 
     await modal.present();
-    // this.googleTagManagerService.pushTag({ event: 'showChart', planType: planType });
   }
 
 

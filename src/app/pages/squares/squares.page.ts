@@ -2,7 +2,6 @@ import { Component, OnInit, ElementRef, ViewChildren, QueryList, AfterViewInit, 
 import { Router, NavigationEnd } from '@angular/router';
 
 import { Meta } from '@angular/platform-browser';
-import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 
 import { IonCard, Platform, Gesture, GestureController, AlertController } from '@ionic/angular';
@@ -47,9 +46,7 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
     private squaresService: SquaresService,
     private alertController: AlertController,
     private meta: Meta,
-    private router: Router,
-    private googleTagManagerService: GoogleTagManagerService
-  ) {
+    private router: Router) {
     this.generateSquares();
   }
 
@@ -66,12 +63,8 @@ export class SquaresPage implements OnInit, AfterViewInit, OnDestroy {
     ]);
     this.router.events.forEach(item => {
       if (item instanceof NavigationEnd) {
-        const gtmTag = {
-          event: 'page',
-          pageName: item.url
-        };
+        // TODO: track event
 
-        this.googleTagManagerService.pushTag(gtmTag);
       }
     });
   }

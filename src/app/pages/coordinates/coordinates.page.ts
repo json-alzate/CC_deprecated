@@ -2,7 +2,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { Meta } from '@angular/platform-browser';
-import { GoogleTagManagerService } from 'angular-google-tag-manager';
 
 
 import { AlertController } from '@ionic/angular';
@@ -85,7 +84,6 @@ export class CoordinatesPage implements OnInit {
     private meta: Meta,
     private router: Router,
     private soundsService: SoundsService,
-    private googleTagManagerService: GoogleTagManagerService
   ) {
     this.profileService.subscribeToProfile().subscribe((profile: Profile) => {
       this.profile = profile;
@@ -105,12 +103,7 @@ export class CoordinatesPage implements OnInit {
     ]);
     this.router.events.forEach(item => {
       if (item instanceof NavigationEnd) {
-        const gtmTag = {
-          event: 'page',
-          pageName: item.url
-        };
-
-        this.googleTagManagerService.pushTag(gtmTag);
+        // TODO: track event
       }
     });
   }

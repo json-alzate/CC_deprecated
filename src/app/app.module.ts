@@ -43,7 +43,6 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 import { ServiceWorkerModule } from '@angular/service-worker';
 
-import { GoogleTagManagerModule } from 'angular-google-tag-manager';
 
 
 
@@ -94,9 +93,7 @@ if (environment.production) {
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
       registrationStrategy: 'registerWhenStable:30000'
-    }),
-    GoogleTagManagerModule.forRoot({ id: 'G-20ME9L8R51' })
-
+    })
   ],
   providers: [
     PROVIDERS,
