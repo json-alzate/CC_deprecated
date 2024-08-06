@@ -1,7 +1,7 @@
 // core and third party libraries
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { TranslocoService } from '@ngneat/transloco';
+import { TranslateService } from '@ngx-translate/core';
 import { ModalController, Platform, isPlatform, NavController, MenuController } from '@ionic/angular';
 import { Device } from '@capacitor/device';
 // import { Socket } from 'ngx-socket-io';
@@ -54,7 +54,7 @@ export class AppComponent {
 
   constructor(
     private modalController: ModalController,
-    private translocoService: TranslocoService,
+    private translateService: TranslateService,
     private authService: AuthService,
     private profileService: ProfileService,
     private platform: Platform,
@@ -122,12 +122,12 @@ export class AppComponent {
   async getLang(langToUse?: string) {
 
     if (langToUse) {
-      this.translocoService.setActiveLang(langToUse);
+      this.translateService.use(langToUse);
       this.currentLang = langToUse;
     } else {
       const lang = await Device.getLanguageCode();
       if (lang.value.slice(0, 2) === 'es') {
-        this.translocoService.setActiveLang('es');
+        this.translateService.use('es');
         this.currentLang = 'es';
       }
     }

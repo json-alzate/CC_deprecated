@@ -3,7 +3,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { CommonModule } from '@angular/common';
-import { TranslocoModule } from '@ngneat/transloco';
+import { TranslateModule } from '@ngx-translate/core';
+
 
 
 import * as fromComponents from './components/';
@@ -25,11 +26,11 @@ import { SecondsToMinutesSecondsPipe } from './pipes/seconds-to-minutes-seconds.
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslocoModule
+    TranslateModule
   ],
   exports: [
     ...fromComponents.ENTRY_COMPONENTS,
-    TranslocoModule,
+    TranslateModule,
     ...fromPipes.PIPES,
   ]
 })

@@ -32,13 +32,13 @@
                 <ion-buttons>
                   <ion-button (click)="toggleBoardCoordinates()" [disabled]="isPlaying"
                     [color]="showCoordinates ? 'dark' : 'medium'">
-                    {{ 'COORDINATES_PUZZLES.coordinates' | transloco }}
+                    {{ 'COORDINATES_PUZZLES.coordinates' | translate }}
                     <!-- Coordenadas -->
                     <ion-icon slot="end" [name]=" showCoordinates ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
                   </ion-button>
                   <ion-button (click)="toggleShowPieces()" [disabled]="isPlaying"
                     [color]=" showPieces ? 'dark' : 'medium'">
-                    {{ 'COORDINATES_PUZZLES.pieces' | transloco }}
+                    {{ 'COORDINATES_PUZZLES.pieces' | translate }}
                     <!-- Piezas -->
                     <ion-icon slot="end" [name]=" showPieces ? 'eye-outline' : 'eye-off-outline'"></ion-icon>
                   </ion-button>
@@ -80,7 +80,7 @@
           <ion-row class="ion-margin-top">
             <ion-col size="12">
               <ion-button size="large" (click)="play()" expand="block">
-                {{ 'COORDINATES_PUZZLES.play' | transloco }}
+                {{ 'COORDINATES_PUZZLES.play' | translate }}
                 <!-- Jugar -->
               </ion-button>
             </ion-col>
