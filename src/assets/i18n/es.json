@@ -38,8 +38,7 @@
     },
     "PUZZLES": {
         "MENU": {
-            "warmup": "Calentamiento",
-            "puzzles_by": "ejercicios por"
+            "warmup": "Calentamiento"
         },
         "total": "Total",
         "start": "Empezar",
