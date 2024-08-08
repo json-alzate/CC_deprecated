@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { ModalController } from '@ionic/angular';
+
+import { BlockSettingsComponent } from '@pages/puzzles/components/block-settings/block-settings.component';
+
 @Component({
   selector: 'app-custom-training',
   templateUrl: './custom-training.component.html',
@@ -7,8 +11,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CustomTrainingComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private modalController: ModalController
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
+
+  async openBlockSettingsModal() {
+    const modal = await this.modalController.create({
+      component: BlockSettingsComponent
+    });
+    modal.present();
+  }
 
 }

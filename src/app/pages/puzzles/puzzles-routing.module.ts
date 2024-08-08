@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PuzzlesPage } from './puzzles.page';
 import { TrainingComponent } from './containers/training/training.component';
 import { TrainingMenuComponent } from './containers/training-menu/training-menu.component';
+import { CustomTrainingComponent } from './containers/custom-training/custom-training.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'training',
     component: TrainingComponent
+  },
+  {
+    path: 'custom-training',
+    component: CustomTrainingComponent
   },
   {
     path: '**',

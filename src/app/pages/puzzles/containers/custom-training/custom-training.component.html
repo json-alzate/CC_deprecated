@@ -1,3 +1,40 @@
-<p>
-  custom-training works!
-</p>
+<ion-content class="ion-padding">
+
+    <h2>
+        Crea un plan de entrenamiento
+    </h2>
+
+    <ul>
+        <li>
+            <ion-text color="medium">
+                Un plan se compone de tantos bloques como quieras.
+            </ion-text>
+        </li>
+        <li>
+            <ion-text color="medium">
+                Cada bloque puede contener una serie de ejercicios con los ajustes que definas.
+            </ion-text>
+        </li>
+    </ul>
+
+    <ion-list>
+        <ion-item>
+            <ion-label>Awesome Label</ion-label>
+        </ion-item>
+    </ion-list>
+    <ion-button fill="clear" size="large" expand="block" (click)="openBlockSettingsModal()">
+        <ion-icon slot="start" name="add"></ion-icon>
+        Adicionar bloque
+    </ion-button>
+
+</ion-content>
+
+<ion-footer>
+    <ion-row>
+        <ion-col size="8" offset="2">
+            <ion-button size="large" expand="block">
+                Guardar y jugar
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-footer>
