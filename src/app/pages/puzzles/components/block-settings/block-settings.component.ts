@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 
+import { ModalController } from '@ionic/angular';
+
 import { AppPuzzlesThemes, AppPuzzleThemesGroup } from '@models/app.models';
 import { Block } from '@models/plan.model';
 
@@ -28,7 +30,8 @@ export class BlockSettingsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private appService: AppService,
-    public uiService: UiService
+    public uiService: UiService,
+    private modalController: ModalController
   ) {
     this.puzzlesGroupsThemes = this.appService.getThemesPuzzle;
 
@@ -60,12 +63,6 @@ export class BlockSettingsComponent implements OnInit {
   }
 
 
-  @Input()
-  set obligatoryDuration(value: boolean) {
-    this.dashObligatoryDuration = value;
-    this.updateFormValidators();
-  }
-
 
 
   ngOnInit() {
@@ -75,10 +72,8 @@ export class BlockSettingsComponent implements OnInit {
 
   buildForm() {
     this.form = this.formBuilder.group({
-      time: [{ value: null, disabled: true }, Validators.min(3)],
-      durationTime: false,
-      puzzlesCount: [{ value: null, disabled: true }, Validators.min(1)],
-      durationCount: false,
+      time: [3, Validators.required],
+      puzzlesCount: [],
       // adicionar validacion minimo 800 y maximo 3000
       eloStart: [800, Validators.compose([Validators.required, Validators.min(800), Validators.max(2900)])],
       eloEnd: [3000, Validators.compose([Validators.required, Validators.min(900), Validators.max(3000)])],
@@ -89,18 +84,10 @@ export class BlockSettingsComponent implements OnInit {
       showPuzzleSolution: true,
       goshPuzzle: false,
       goshPuzzleTime: [{ value: 30, disabled: true }]
-    }, {
-      validators: [this.rangeDifferenceValidator, this.durationValidator()]
     });
 
     this.form.get('goshPuzzle').valueChanges.subscribe(() => {
       this.toggleFieldBasedOnBoolean('goshPuzzle', 'goshPuzzleTime');
-    });
-    this.form.get('durationTime').valueChanges.subscribe(() => {
-      this.toggleFieldBasedOnBoolean('durationTime', 'time');
-    });
-    this.form.get('durationCount').valueChanges.subscribe(() => {
-      this.toggleFieldBasedOnBoolean('durationCount', 'puzzlesCount');
     });
   }
 
@@ -113,19 +100,7 @@ export class BlockSettingsComponent implements OnInit {
     return null;
   }
 
-  durationValidator(): ValidatorFn {
-    return (group: FormGroup): ValidationErrors | null => {
-      if (this.obligatoryDuration) {
-        const timeValue = group.get('time').value;
-        const puzzlesCountValue = group.get('puzzlesCount').value;
 
-        if (!timeValue && !puzzlesCountValue) {
-          return { durationRequired: true };
-        }
-      }
-      return null;
-    };
-  }
 
   toggleFieldBasedOnBoolean(booleanControlName: string, targetControlName: string) {
     const booleanControl = this.form.get(booleanControlName);
@@ -147,11 +122,9 @@ export class BlockSettingsComponent implements OnInit {
       return; // Si el formulario aún no está inicializado, simplemente regresa
     }
 
-    if (this.obligatoryDuration) {
-      this.form.setValidators([this.rangeDifferenceValidator, this.durationValidator()]);
-    } else {
-      this.form.setValidators([this.rangeDifferenceValidator]);
-    }
+
+    this.form.setValidators([this.rangeDifferenceValidator]);
+
     this.form.updateValueAndValidity();
   }
 
@@ -167,7 +140,9 @@ export class BlockSettingsComponent implements OnInit {
     // emit new block
 
     this.newBlock.emit({ ...this.form.value, color: this.color, themes: themesValue !== 'all' ? [themesValue] : [] });
+  }
 
-
+  close() {
+    this.modalController.dismiss();
   }
 }
