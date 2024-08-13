@@ -49,17 +49,19 @@ export class BlockSettingsComponent implements OnInit {
     return this.form.get('themes');
   }
 
-  get eloStartField() {
-    return this.form.get('eloStart');
+  get eloLevelField() {
+    return this.form.get('eloLevel');
   }
-
-  get eloEndField() {
-    return this.form.get('eloEnd');
-  }
-
-
   get obligatoryDuration(): boolean {
     return this.dashObligatoryDuration;
+  }
+
+  get puzzleTimeField() {
+    return this.form.get('puzzleTime');
+  }
+
+  get goshPuzzleTimeField() {
+    return this.form.get('goshPuzzleTime');
   }
 
 
@@ -72,11 +74,10 @@ export class BlockSettingsComponent implements OnInit {
 
   buildForm() {
     this.form = this.formBuilder.group({
-      time: [3, Validators.required],
+      time: [300, Validators.required],
       puzzlesCount: [],
       // adicionar validacion minimo 800 y maximo 3000
-      eloStart: [800, Validators.compose([Validators.required, Validators.min(800), Validators.max(2900)])],
-      eloEnd: [3000, Validators.compose([Validators.required, Validators.min(900), Validators.max(3000)])],
+      eloLevel: [0],
       themes: 'all',
       openingFamily: '',
       puzzleTime: [60, Validators.required],
@@ -91,13 +92,8 @@ export class BlockSettingsComponent implements OnInit {
     });
   }
 
-  rangeDifferenceValidator(group: FormGroup): { [key: string]: boolean } | null {
-    const eloStart = group.get('eloStart').value;
-    const eloEnd = group.get('eloEnd').value;
-    if (eloEnd - eloStart < 100) {
-      return { rangeTooSmall: true };
-    }
-    return null;
+  formatPin(value: number) {
+    return value > 0 ? `+${value}` : `${value}`;
   }
 
 
@@ -121,9 +117,6 @@ export class BlockSettingsComponent implements OnInit {
     if (!this.form) {
       return; // Si el formulario aún no está inicializado, simplemente regresa
     }
-
-
-    this.form.setValidators([this.rangeDifferenceValidator]);
 
     this.form.updateValueAndValidity();
   }

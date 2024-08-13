@@ -13,7 +13,7 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit($event)">
 
-      <ion-accordion-group multiple>
+      <ion-accordion-group>
 
 
         <ion-accordion value="duration">
@@ -22,11 +22,14 @@
             <div slot="end">
               <ng-container *ngIf="timeField.value || puzzlesCountField.value; else elseTemplateDurationInfo">
                 <ion-text color="primary">
-                  <p>
-                    {{ timeField.value ? timeField.value + ' min.' : '' }}
-                    {{ puzzlesCountField.value ? puzzlesCountField.value + ' ejercicios' : '' }}
-                  </p>
+                  <span *ngIf="timeField?.value"
+                    [innerHTML]="(timeField?.value | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
                 </ion-text>
+                <span *ngIf="timeField.value && puzzlesCountField.value">ó</span>
+                <ion-text color="primary">
+                  {{ puzzlesCountField.value ? puzzlesCountField.value + ' ejercicios' : '' }}
+                </ion-text>
+
               </ng-container>
               <ng-template #elseTemplateDurationInfo>
                 <ion-icon name="infinite-outline"></ion-icon>
@@ -34,95 +37,147 @@
             </div>
           </ion-item>
           <div class="ion-padding" slot="content">
-
             <ion-list>
-
-              <div class="duration">
+              <div class="range-container">
 
                 <div class="time">
                   <div class="header">
-                    <div class="label">Tiempo</div>
+                    <div class="label">Tiempo: </div>
                     <div class="note">
-                      <ion-badge>{{ timeField?.value }}</ion-badge>
+                      <span *ngIf="timeField?.value === 0">Ilimitado</span>
+                      <span *ngIf="timeField?.value !== 0">
+                        {{ timeField?.value | secondsToMinutesSeconds }} <small><i>(min:seg)</i></small>
+                      </span>
                     </div>
                   </div>
                   <div class="control">
-                    <ion-range formControlName="time" aria-label="Range time" [pin]="true" [ticks]="true" [snaps]="true"
-                      [min]="0" [max]="30"></ion-range>
+                    <ion-range formControlName="time" aria-label="Range time" [min]="0" [max]="1500"
+                      [step]="30"></ion-range>
                   </div>
                 </div>
 
                 <div class="count">
-                  <div class="label">Cantidad de ejercicios</div>
+                  <div class="header">
+                    <div class="label">Cantidad de ejercicios: </div>
+
+                    <div class="note">
+                      <span *ngIf="puzzlesCountField?.value === 0">Ilimitado</span>
+                      <span *ngIf="puzzlesCountField?.value !== 0">
+                        {{ puzzlesCountField?.value }} Ejercicios
+                      </span>
+                    </div>
+
+                  </div>
                   <div class="control">
                     <div class="range">
                       <ion-range formControlName="puzzlesCount" [step]="3" aria-label="Range count" [pin]="true"
                         [ticks]="true" [snaps]="true" [min]="0" [max]="100"></ion-range>
                     </div>
-                    <div class="note">
-                      <ion-badge slot="end">
-                        {{ puzzlesCountField?.value }}
-                      </ion-badge>
-                    </div>
                   </div>
                 </div>
 
-
-
-
-
               </div>
             </ion-list>
-
-
-
-
           </div>
         </ion-accordion>
 
-        <ion-accordion value="elo">
+
+        <ion-accordion value="puzzles">
           <ion-item slot="header" color="light">
-            <ion-label>Elo</ion-label>
-            <ion-note slot="end">
-              {{ eloStartField.value ? eloStartField.value + ' - ' + eloEndField.value : '' }}
-            </ion-note>
+            <ion-label>Ejercicios</ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
 
             <ion-list>
+
+              <div class="range-container">
+
+                <div class="time-puzzles">
+                  <div class="header">
+                    <div class="label">Tiempo por ejercicio: </div>
+                    <div class="note">
+                      {{ puzzleTimeField?.value | secondsToMinutesSeconds }} <small><i>(min:seg)</i></small>
+                    </div>
+                  </div>
+                  <div class="control">
+                    <ion-range formControlName="puzzleTime" aria-label="Range time puzzles" [min]="5"
+                      [max]="600"></ion-range>
+                  </div>
+                </div>
+
+              </div>
+
+
               <ion-item>
-                <ion-label position="floating">Mínimo</ion-label>
-                <ion-input formControlName="eloStart" type="number" min="800" max="2900" aria-label=""></ion-input>
-              </ion-item>
-              <ion-item>
-                <ion-label position="floating">Máximo</ion-label>
-                <ion-input formControlName="eloEnd" type="number" min="900" max="3000" aria-label=""></ion-input>
+                <ion-label>Mostrar solución</ion-label>
+                <ion-checkbox formControlName="showPuzzleSolution" slot="end" aria-label=""></ion-checkbox>
               </ion-item>
 
-              <div style="width: 100%;" *ngIf="form.hasError('rangeTooSmall')">
-                <ion-text color="danger">
-                  <p class="ion-padding-start">La diferencia entre los valores debe ser de al menos 100.</p>
-                </ion-text>
+
+              <ion-item>
+                <ion-label>A ciegas</ion-label>
+                <ion-toggle formControlName="goshPuzzle" slot="end" aria-label=""></ion-toggle>
+              </ion-item>
+
+
+              <div class="range-container">
+
+                <div class="time-puzzles">
+                  <div class="header">
+                    <div class="label">Tiempo visible: </div>
+                    <div class="note">
+                      {{ goshPuzzleTimeField?.value | secondsToMinutesSeconds }} <small><i>(min:seg)</i></small>
+                    </div>
+                  </div>
+                  <div class="control">
+                    <ion-range formControlName="goshPuzzleTime" aria-label="Range time puzzles visible" [min]="5"
+                      [max]="540"></ion-range>
+                  </div>
+                </div>
+
               </div>
+
+
+
             </ion-list>
+
+
 
           </div>
         </ion-accordion>
 
         <ion-accordion value="theme">
           <ion-item slot="header" color="light">
-            <ion-label>Tema</ion-label>
+            <ion-label>
+              Tema
+            </ion-label>
 
-            <ion-thumbnail class="thumbnail-theme" slot="end" *ngIf="themesField.value !== 'all'">
+            <ion-thumbnail class="thumbnail-theme" slot="end"
+              *ngIf="themesField.value !== 'all' && themesField.value !== 'weakness'">
               <img [src]="'/assets/images/puzzle-themes/'+themesField.value+'.svg'" />
             </ion-thumbnail>
+
+            <ion-icon name="shuffle" slot="end" *ngIf="themesField.value === 'all'"></ion-icon>
+            <ion-icon name="trending-down" slot="end" *ngIf="themesField.value === 'weakness'"></ion-icon>
           </ion-item>
           <div class="content-accordion-themes" slot="content">
 
             <ion-radio-group name="auto" formControlName="themes">
               <ion-item>
-                <ion-label>Todos</ion-label>
-                <ion-radio value="all" aria-label=""></ion-radio>
+                <ion-icon slot="start" name="shuffle"></ion-icon>
+                <ion-radio value="all" aria-label="all">
+                  Aleatorio
+                  <br>
+                  <small>Un tema diferente cada vez que se juegue</small>
+                </ion-radio>
+              </ion-item>
+              <ion-item>
+                <ion-icon slot="start" name="trending-down"></ion-icon>
+                <ion-radio value="weakness" aria-label="weakness">
+                  Debilidad
+                  <br>
+                  <small>El tema con el menor elo disponible en el plan</small>
+                </ion-radio>
               </ion-item>
 
               <ion-list>
@@ -135,20 +190,12 @@
 
                   <ion-item *ngFor="let puzzlesGroup of puzzlesGroupThemes.themes">
 
-                    <ion-thumbnail slot="start">
+                    <ion-thumbnail slot="start" class="ion-padding">
                       <img [src]="'/assets/images/puzzle-themes/'+puzzlesGroup.img" />
                     </ion-thumbnail>
-                    <ion-label>
-                      <h2>
-                        {{ puzzlesGroup.nameEs }}
-                      </h2>
-                      <p>
-                        <small>
-                          {{ puzzlesGroup.descriptionEs }}
-                        </small>
-                      </p>
-                    </ion-label>
-                    <ion-radio [value]="puzzlesGroup.value" aria-label=""></ion-radio>
+                    <ion-radio [value]="puzzlesGroup.value" aria-label="">
+                      {{ puzzlesGroup.nameEs }}
+                    </ion-radio>
                   </ion-item>
 
                 </div>
@@ -160,41 +207,56 @@
           </div>
         </ion-accordion>
 
-        <ion-accordion value="puzzles">
+
+        <ion-accordion value="elo">
           <ion-item slot="header" color="light">
-            <ion-label>Ejercicios</ion-label>
+            <ion-label>Dificultad</ion-label>
+            <ion-note slot="end">
+              <span *ngIf="eloLevelField.value === 0">Equilibrado</span>
+              <span *ngIf="eloLevelField.value > 0">
+                Elo
+                <ion-text [color]="(eloLevelField?.value <= 300) ?'warning': 'danger'">
+                  +{{eloLevelField.value}}
+                </ion-text>
+              </span>
+              <span *ngIf="eloLevelField.value < 0">
+                Elo
+                <ion-text
+                  [color]="(eloLevelField?.value <= -300 && eloLevelField?.value >= -600 ) ?'success': 'secondary'">
+                  {{eloLevelField.value}}
+                </ion-text>
+              </span>
+
+            </ion-note>
           </ion-item>
           <div class="ion-padding" slot="content">
 
             <ion-list>
+              <div class="range-container">
 
-              <ion-item>
-                <ion-label position="floating">Tiempo por ejercicio (seg.)</ion-label>
-                <ion-input formControlName="puzzleTime" aria-label=""></ion-input>
-              </ion-item>
+                <div class="time">
+                  <div class="header">
+                    <div class="label">Elo:</div>
+                    <div class="note">
+                      <span *ngIf="eloLevelField?.value === 0">Normal</span>
+                      <span *ngIf="eloLevelField?.value > 0">Aumenta {{ eloLevelField?.value}}</span>
+                      <span *ngIf="eloLevelField?.value < 0">Disminuye {{ eloLevelField?.value}}</span>
+                    </div>
+                  </div>
+                  <div class="control">
+                    <ion-range formControlName="eloLevel" aria-label="Range elo" [step]="100" [pinFormatter]="formatPin"
+                      [pin]="true" [ticks]="true" [snaps]="true" [min]="-600" [max]="600"></ion-range>
+                  </div>
+                </div>
 
-
-              <ion-item>
-                <ion-label>mostrar solución</ion-label>
-                <ion-checkbox formControlName="showPuzzleSolution" slot="end" aria-label=""></ion-checkbox>
-              </ion-item>
-
-
-              <ion-item>
-                <ion-label>A ciegas</ion-label>
-                <ion-toggle formControlName="goshPuzzle" slot="end" aria-label=""></ion-toggle>
-              </ion-item>
-
-              <ion-item>
-                <ion-label position="floating">Tiempo visible (seg.)</ion-label>
-                <ion-input formControlName="goshPuzzleTime" aria-label=""></ion-input>
-              </ion-item>
+              </div>
             </ion-list>
-
-
 
           </div>
         </ion-accordion>
+
+
+
 
 
       </ion-accordion-group>
