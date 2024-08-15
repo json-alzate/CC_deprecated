@@ -15,7 +15,6 @@
 
       <ion-accordion-group>
 
-
         <ion-accordion value="duration">
           <ion-item slot="header" color="light">
             <ion-label>Duración</ion-label>
@@ -25,7 +24,7 @@
                   <span *ngIf="timeField?.value"
                     [innerHTML]="(timeField?.value | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
                 </ion-text>
-                <span *ngIf="timeField.value && puzzlesCountField.value">ó</span>
+                <span *ngIf="timeField.value && puzzlesCountField.value"> ó</span>
                 <ion-text color="primary">
                   {{ puzzlesCountField.value ? puzzlesCountField.value + ' ejercicios' : '' }}
                 </ion-text>
@@ -81,7 +80,6 @@
           </div>
         </ion-accordion>
 
-
         <ion-accordion value="puzzles">
           <ion-item slot="header" color="light">
             <ion-label>Ejercicios</ion-label>
@@ -100,7 +98,7 @@
                     </div>
                   </div>
                   <div class="control">
-                    <ion-range formControlName="puzzleTime" aria-label="Range time puzzles" [min]="5"
+                    <ion-range formControlName="puzzleTime" aria-label="Range time puzzles" [min]="10" [step]="10"
                       [max]="600"></ion-range>
                   </div>
                 </div>
@@ -153,16 +151,16 @@
             </ion-label>
 
             <ion-thumbnail class="thumbnail-theme" slot="end"
-              *ngIf="themesField.value !== 'all' && themesField.value !== 'weakness'">
-              <img [src]="'/assets/images/puzzle-themes/'+themesField.value+'.svg'" />
+              *ngIf="themeField.value !== 'all' && themeField.value !== 'weakness'">
+              <img [src]="'/assets/images/puzzle-themes/'+themeField.value+'.svg'" />
             </ion-thumbnail>
 
-            <ion-icon name="shuffle" slot="end" *ngIf="themesField.value === 'all'"></ion-icon>
-            <ion-icon name="trending-down" slot="end" *ngIf="themesField.value === 'weakness'"></ion-icon>
+            <ion-icon name="shuffle" slot="end" *ngIf="themeField.value === 'all'"></ion-icon>
+            <ion-icon name="trending-down" slot="end" *ngIf="themeField.value === 'weakness'"></ion-icon>
           </ion-item>
           <div class="content-accordion-themes" slot="content">
 
-            <ion-radio-group name="auto" formControlName="themes">
+            <ion-radio-group name="auto" formControlName="theme">
               <ion-item>
                 <ion-icon slot="start" name="shuffle"></ion-icon>
                 <ion-radio value="all" aria-label="all">
@@ -207,25 +205,17 @@
           </div>
         </ion-accordion>
 
-
         <ion-accordion value="elo">
           <ion-item slot="header" color="light">
             <ion-label>Dificultad</ion-label>
             <ion-note slot="end">
-              <span *ngIf="eloLevelField.value === 0">Equilibrado</span>
-              <span *ngIf="eloLevelField.value > 0">
-                Elo
-                <ion-text [color]="(eloLevelField?.value <= 300) ?'warning': 'danger'">
-                  +{{eloLevelField.value}}
-                </ion-text>
-              </span>
-              <span *ngIf="eloLevelField.value < 0">
-                Elo
-                <ion-text
-                  [color]="(eloLevelField?.value <= -300 && eloLevelField?.value >= -600 ) ?'success': 'secondary'">
-                  {{eloLevelField.value}}
-                </ion-text>
-              </span>
+
+              <ng-container *ngIf="eloLevelField.value === 0; else elseTemplateEloLevel">
+                Equilibrado
+              </ng-container>
+              <ng-template #elseTemplateEloLevel>
+                Elo <span *ngIf="eloLevelField.value > 0">+</span>{{eloLevelField.value}}
+              </ng-template>
 
             </ion-note>
           </ion-item>
@@ -254,10 +244,6 @@
 
           </div>
         </ion-accordion>
-
-
-
-
 
       </ion-accordion-group>
 

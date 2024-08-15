@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
+import { Block } from '@models/plan.model';
+
 import { BlockSettingsComponent } from '@pages/puzzles/components/block-settings/block-settings.component';
 
 @Component({
@@ -10,6 +12,10 @@ import { BlockSettingsComponent } from '@pages/puzzles/components/block-settings
   styleUrls: ['./custom-training.component.scss'],
 })
 export class CustomTrainingComponent implements OnInit {
+
+
+  blocks: Block[] = [];
+
 
   constructor(
     private modalController: ModalController
@@ -25,6 +31,12 @@ export class CustomTrainingComponent implements OnInit {
 
     });
     modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    if (data) {
+      this.blocks.push(data);
+      console.log(data);
+    }
   }
 
 }

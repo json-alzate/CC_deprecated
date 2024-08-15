@@ -24,7 +24,6 @@ export class BlockSettingsComponent implements OnInit {
   puzzlesGroupsThemes: AppPuzzleThemesGroup[] = [];
   form: FormGroup;
 
-  private dashObligatoryDuration: boolean;
 
 
   constructor(
@@ -45,15 +44,12 @@ export class BlockSettingsComponent implements OnInit {
     return this.form.get('puzzlesCount');
   }
 
-  get themesField() {
-    return this.form.get('themes');
+  get themeField() {
+    return this.form.get('theme');
   }
 
   get eloLevelField() {
     return this.form.get('eloLevel');
-  }
-  get obligatoryDuration(): boolean {
-    return this.dashObligatoryDuration;
   }
 
   get puzzleTimeField() {
@@ -76,9 +72,8 @@ export class BlockSettingsComponent implements OnInit {
     this.form = this.formBuilder.group({
       time: [300, Validators.required],
       puzzlesCount: [],
-      // adicionar validacion minimo 800 y maximo 3000
       eloLevel: [0],
-      themes: 'all',
+      theme: 'all',
       openingFamily: '',
       puzzleTime: [60, Validators.required],
       nextPuzzleImmediately: true,
@@ -117,7 +112,6 @@ export class BlockSettingsComponent implements OnInit {
     if (!this.form) {
       return; // Si el formulario aún no está inicializado, simplemente regresa
     }
-
     this.form.updateValueAndValidity();
   }
 
@@ -131,8 +125,8 @@ export class BlockSettingsComponent implements OnInit {
 
     const themesValue = this.form.value.themes;
     // emit new block
-
-    this.newBlock.emit({ ...this.form.value, color: this.color, themes: themesValue !== 'all' ? [themesValue] : [] });
+    const newBlock = { ...this.form.value, color: this.color, themes: themesValue !== 'all' ? [themesValue] : [] };
+    this.modalController.dismiss(newBlock);
   }
 
   close() {
