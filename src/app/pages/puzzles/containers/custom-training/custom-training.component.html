@@ -18,55 +18,52 @@
     </ul>
 
     <ion-list>
-        <ion-item *ngFor="let block of blocks">
+        <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
+            <ion-item *ngFor="let block of blocks">
+
+                <ion-avatar slot="start" *ngIf="block.theme !== 'all' && block.theme !== 'weakness'">
+                    <img [src]="'/assets/images/puzzle-themes/'+block.theme+'.svg'" />
+                </ion-avatar>
+                <ion-icon name="shuffle" slot="start" *ngIf="block.theme === 'all'"></ion-icon>
+                <ion-icon name="trending-down" slot="start" *ngIf="block.theme === 'weakness'"></ion-icon>
 
 
-            <ion-avatar slot="start" *ngIf="block.theme !== 'all' && block.theme !== 'weakness'">
-                <img [src]="'/assets/images/puzzle-themes/'+block.theme+'.svg'" />
-            </ion-avatar>
-            <ion-icon name="shuffle" slot="start" *ngIf="block.theme === 'all'"></ion-icon>
-            <ion-icon name="trending-down" slot="start" *ngIf="block.theme === 'weakness'"></ion-icon>
-
-
-            <ion-label>
-                <h2>
-
-
-                    <ng-container *ngIf="block.time || block.puzzlesCount; else elseTemplateDurationInfo">
-                        <span *ngIf="block.time"
-                            [innerHTML]="(block.time | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
-                        {{ block.time && block.puzzlesCount ?' ó' : '' }}
-                        {{ block.puzzlesCount ? block.puzzlesCount + ' ejercicios' : '' }}
-                    </ng-container>
-                    <ng-template #elseTemplateDurationInfo>
-                        <ion-icon name="infinite-outline"></ion-icon>
-                    </ng-template>
-                </h2>
-                <ion-note>
-                    <span [ngSwitch]="block.color">
-                        <span *ngSwitchCase="'white'">
-                            Con blancas
+                <ion-label>
+                    <h2>
+                        <ng-container *ngIf="block.time || block.puzzlesCount; else elseTemplateDurationInfo">
+                            <span *ngIf="block.time"
+                                [innerHTML]="(block.time | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
+                            {{ block.time && block.puzzlesCount ?' ó' : '' }}
+                            {{ block.puzzlesCount ? block.puzzlesCount + ' ejercicios' : '' }}
+                        </ng-container>
+                        <ng-template #elseTemplateDurationInfo>
+                            <ion-icon name="infinite-outline"></ion-icon>
+                        </ng-template>
+                    </h2>
+                    <ion-note>
+                        <span [ngSwitch]="block.color">
+                            <span *ngSwitchCase="'white'">
+                                Con blancas
+                            </span>
+                            <span *ngSwitchCase="'black'">
+                                Con negras
+                            </span>
+                            <span *ngSwitchDefault>
+                                Cualquier color
+                            </span>
                         </span>
-                        <span *ngSwitchCase="'black'">
-                            Con negras
-                        </span>
-                        <span *ngSwitchDefault>
-                            Cualquier color
-                        </span>
-                    </span>
-                </ion-note>
-            </ion-label>
+                    </ion-note>
+                </ion-label>
 
-            <ion-buttons slot="end">
-                <ion-button *ngIf="block.goshPuzzle" disabled>
-                    <ion-icon slot="icon-only" name="eye-off-outline"></ion-icon>
-                </ion-button>
-                <ion-button slot="end" fill="clear" color="dark" shape="round">
-                    <ion-icon slot="icon-only" name="ellipsis-vertical-outline"></ion-icon>
-                </ion-button>
-            </ion-buttons>
+                <ion-buttons slot="end">
+                    <ion-button *ngIf="block.goshPuzzle" disabled>
+                        <ion-icon slot="icon-only" name="eye-off-outline"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+                <ion-reorder slot="end"></ion-reorder>
 
-        </ion-item>
+            </ion-item>
+        </ion-reorder-group>
     </ion-list>
     <ion-button class="ion-margin-top" fill="clear" size="large" expand="block" (click)="openBlockSettingsModal()">
         <ion-icon slot="start" name="add"></ion-icon>
@@ -80,7 +77,7 @@
 <ion-footer>
     <ion-row>
         <ion-col size="8" offset="2">
-            <ion-button size="large" expand="block" [disabled]="blocks.length === 0">
+            <ion-button size="large" expand="block" [disabled]="blocks.length === 0" (click)="saveAndPlay()">
                 Guardar y jugar
             </ion-button>
         </ion-col>

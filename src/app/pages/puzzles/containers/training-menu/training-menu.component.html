@@ -5,7 +5,9 @@
 
 
       <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
-        <h2>Planes de entrenamiento</h2>
+        <ion-text color="primary">
+          <h2>Planes de entrenamiento</h2>
+        </ion-text>
       </ion-col>
 
     </ion-row>
@@ -134,13 +136,18 @@
         <ion-button expand="block" size="large" color="light" (click)="goTo('/puzzles/custom-training')">
           Rutina personalizada
         </ion-button>
+        <ion-button expand="block" fill="clear" color="dark">
+          Libre
+        </ion-button>
 
       </ion-col>
     </ion-row>
 
-    <ion-row class="ion-margin-top">
+    <ion-row>
       <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
-        <h2 class="ion-no-margin ion-margin-top">Mapa de actividad</h2>
+        <ion-text color="primary">
+          <h2 class="ion-no-margin ion-margin-top">Mapa de actividad</h2>
+        </ion-text>
       </ion-col>
       <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
         <div *ngIf="loadActivityChart">

@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { ModalController } from '@ionic/angular';
 
-import { Block } from '@models/plan.model';
+import { createUid } from '@utils/create-uid';
+
+import { Plan, Block } from '@models/plan.model';
+
+import { ProfileService } from '@services/profile.service';
 
 import { BlockSettingsComponent } from '@pages/puzzles/components/block-settings/block-settings.component';
 
@@ -18,7 +22,8 @@ export class CustomTrainingComponent implements OnInit {
 
 
   constructor(
-    private modalController: ModalController
+    private modalController: ModalController,
+    private profileService: ProfileService
   ) { }
 
   ngOnInit() { }
@@ -37,6 +42,33 @@ export class CustomTrainingComponent implements OnInit {
       this.blocks.push(data);
       console.log(data);
     }
+  }
+
+  doReorder(event: any) {
+    // Reordenar los elementos de la lista
+    const itemMove = this.blocks.splice(event.detail.from, 1)[0];
+    this.blocks.splice(event.detail.to, 0, itemMove);
+    // Completar el evento de reorder
+    event.detail.complete();
+  }
+
+  saveAndPlay() {
+    // TODO: Se suma el tiempo de los bloques, y se calcula el tiempo total para obtener el elo total,
+    // obteniéndolo de un plan predeterminado (si se tiene), sino es 1500
+
+    // Se calcula el tiempo total de los bloques
+    const totalBlockTime = this.blocks.reduce((sum, block) => sum + block.time, 0);
+    console.log('totalBlockTime', totalBlockTime);
+
+
+    const newPlan: Plan = {
+      uid: createUid(),
+      uidUser: this.profileService.getProfile.uid,
+      createdAt: new Date().getTime(),
+      planType: 'custom',
+      blocks: this.blocks
+    };
+
   }
 
 }
