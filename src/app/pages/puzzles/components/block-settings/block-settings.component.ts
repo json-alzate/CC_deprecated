@@ -122,10 +122,8 @@ export class BlockSettingsComponent implements OnInit {
     if (this.form.invalid) {
       return;
     }
-
-    const themesValue = this.form.value.themes;
     // emit new block
-    const newBlock = { ...this.form.value, color: this.color, themes: themesValue !== 'all' ? [themesValue] : [] };
+    const newBlock = { ...this.form.value, color: this.color };
     this.modalController.dismiss(newBlock);
   }
 

@@ -244,32 +244,22 @@ export class FirestoreService {
    * */
   async savePlan(plan: Plan): Promise<string> {
     const docRef = await addDoc(collection(this.db, 'plans'), plan);
-
-    console.log('Document written with ID: ', docRef.id);
-
     return docRef.id;
   }
 
-
-
-  //------- Admin only
-
-  // add new puzzle
-  async adminAddNewPuzzle(puzzleToAdd: Puzzle): Promise<string> {
-    await setDoc(doc(this.db, 'puzzles', puzzleToAdd.uid), puzzleToAdd);
-    return puzzleToAdd.uid;
+  /**
+ // ----------------------------------------------------------------------------
+  Custom Plan's
+   */
+  /**
+   * Get custom plans from firestore
+   *
+   * @param plan
+   * @returns
+   * */
+  async saveCustomPlan(plan: Plan): Promise<string | void> {
+    return setDoc(doc(this.db, 'custom-plans', plan.uid), plan);
   }
-
-  // get total number of puzzles in db
-  async adminGetTotalPuzzles(): Promise<number> {
-    const q = query(
-      collection(this.db, 'puzzles'),
-    );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.size;
-  }
-
-
 
 
 

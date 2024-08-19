@@ -37,8 +37,12 @@ export class PlanService {
   /**
    * Actions
    */
-  requestSavePlanAction(plan: Plan) {
 
+  setPlanAction(plan: Plan) {
+    this.store.dispatch(setPlan({ plan }));
+  }
+
+  requestSavePlanAction(plan: Plan) {
     // clear puzzles in blocks
     plan.blocks = plan.blocks.map((block: Block) => {
       block.puzzles = [];
@@ -70,20 +74,15 @@ export class PlanService {
    * @param time in seconds (-1 for infinite)
    * */
   newPlan(blocks: Block[], planType: PlanTypes, time = -1): Promise<Plan> {
-
     return new Promise((resolve, reject) => {
-
       const plan: Plan = {
         uid: createUid(),
         blocks,
         planType,
         createdAt: new Date().getTime(),
       };
-
-      this.store.dispatch(setPlan({ plan }));
-
+      this.setPlanAction(plan);
       resolve(plan);
-
     });
   }
 
@@ -91,17 +90,12 @@ export class PlanService {
    * Get the current plan
    * */
   getPlan(): Promise<Plan> {
-
     return new Promise((resolve, reject) => {
-
       this.store.select(getPlan).subscribe((plan: Plan) => {
         resolve(plan);
       });
-
     });
-
   }
-
 
   /**
    * Save the plan

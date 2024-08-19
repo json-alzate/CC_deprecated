@@ -70,9 +70,4 @@ export class PuzzlesService {
   }
 
 
-  async getTotalPuzzlesInDB() {
-    return await this.firestoreService.adminGetTotalPuzzles();
-  }
-
-
 }

@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 
 import { createUid } from '@utils/create-uid';
 
 import { Plan, Block } from '@models/plan.model';
 
 import { ProfileService } from '@services/profile.service';
+import { PlanService } from '@services/plan.service';
+import { CustomPlansService } from '@services/custom-plans.service';
+import { BlockService } from '@services/block.service';
 
 import { BlockSettingsComponent } from '@pages/puzzles/components/block-settings/block-settings.component';
 
@@ -23,7 +26,11 @@ export class CustomTrainingComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private planService: PlanService,
+    private customPlansService: CustomPlansService,
+    private blockService: BlockService,
+    private navController: NavController
   ) { }
 
   ngOnInit() { }
@@ -52,7 +59,7 @@ export class CustomTrainingComponent implements OnInit {
     event.detail.complete();
   }
 
-  saveAndPlay() {
+  async saveAndPlay() {
     // TODO: Se suma el tiempo de los bloques, y se calcula el tiempo total para obtener el elo total,
     // obteniéndolo de un plan predeterminado (si se tiene), sino es 1500
 
@@ -60,15 +67,26 @@ export class CustomTrainingComponent implements OnInit {
     const totalBlockTime = this.blocks.reduce((sum, block) => sum + block.time, 0);
     console.log('totalBlockTime', totalBlockTime);
 
-
     const newPlan: Plan = {
       uid: createUid(),
       uidUser: this.profileService.getProfile.uid,
       createdAt: new Date().getTime(),
       planType: 'custom',
-      blocks: this.blocks
+      blocks: { ...this.blocks }
     };
 
+    this.customPlansService.saveCustomPlan(newPlan);
+    // se recorre cada bloque para generar los puzzles
+    for (const block of this.blocks) {
+      block.puzzles = await this.blockService.getPuzzlesForBlock(block);
+    }
+    // update plan with puzzles
+    const newPlanToPlay: Plan = {
+      ...newPlan,
+      blocks: { ...this.blocks }
+    };
+    this.planService.setPlanAction(newPlanToPlay);
+    this.navController.navigateForward('/puzzles/training');
   }
 
 }

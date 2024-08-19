@@ -4,12 +4,15 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { Meta } from '@angular/platform-browser';
 
+import { Profile } from '@models/profile.model';
 import { Plan, Block, PlanTypes } from '@models/plan.model';
 import { PlanService } from '@services/plan.service';
+
 import { BlockService } from '@services/block.service';
 import { ProfileService } from '@services/profile.service';
 
 import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
+import { LoginComponent } from '@shared/components/login/login.component';
 
 @Component({
   selector: 'app-training-menu',
@@ -19,6 +22,7 @@ import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-ch
 export class TrainingMenuComponent implements OnInit {
 
   loader: any;
+  profile: Profile;
   generalEloPlan5: string | number = '1500?';
   generalEloPlan10: string | number = '1500?';
   generalEloPlan20: string | number = '1500?';
@@ -53,6 +57,7 @@ export class TrainingMenuComponent implements OnInit {
 
   ionViewDidEnter() {
     this.profileService.subscribeToProfile().subscribe((profile) => {
+      this.profile = profile;
       if (profile) {
         this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
         this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
@@ -103,6 +108,22 @@ export class TrainingMenuComponent implements OnInit {
       }
     });
 
+    await modal.present();
+  }
+
+  goToCustomPlanCreate() {
+    if (this.profile) {
+      this.goTo('/puzzles/custom-training');
+    } else {
+      this.presentModalLogin();
+    }
+  }
+
+  async presentModalLogin() {
+    const modal = await this.modalController.create({
+      component: LoginComponent,
+      componentProps: { showAs: 'modal' },
+    });
     await modal.present();
   }
 
