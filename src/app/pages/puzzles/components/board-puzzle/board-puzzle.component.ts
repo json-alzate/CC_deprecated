@@ -46,6 +46,10 @@ import { createUid } from '@utils/create-uid';
 })
 export class BoardPuzzleComponent implements OnInit {
 
+  @Output() puzzleCompleted = new EventEmitter<Puzzle>();
+  @Output() puzzleFailed = new EventEmitter<Puzzle>();
+  @Output() puzzleEndByTime = new EventEmitter<Puzzle>();
+
   puzzle: Puzzle;
 
   currentMoveNumber = 0;
@@ -72,9 +76,7 @@ export class BoardPuzzleComponent implements OnInit {
   chessInstance = new Chess();
   piecePathKingTurn = '';
 
-  @Output() puzzleCompleted = new EventEmitter<Puzzle>();
-  @Output() puzzleFailed = new EventEmitter<Puzzle>();
-  @Output() puzzleEndByTime = new EventEmitter<Puzzle>();
+
 
   constructor(
     private renderer: Renderer2,

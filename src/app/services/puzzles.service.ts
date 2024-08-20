@@ -58,6 +58,9 @@ export class PuzzlesService {
       path = path + `&color=${options.color}`;
     }
 
+    console.log(path);
+
+
     const newPuzzlesFromDB = await firstValueFrom(this.http.get<Puzzle[]>(environment.apiPuzzlesUrl + path));
     if (!actionMethod || actionMethod === 'toStore') {
       // adicionar puzzles al estado de redux

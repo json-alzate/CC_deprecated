@@ -4,7 +4,7 @@ import { ModalController, NavController } from '@ionic/angular';
 
 import { createUid } from '@utils/create-uid';
 
-import { Plan, Block } from '@models/plan.model';
+import { Plan, Block, PlanTypes } from '@models/plan.model';
 
 import { ProfileService } from '@services/profile.service';
 import { PlanService } from '@services/plan.service';
@@ -60,33 +60,66 @@ export class CustomTrainingComponent implements OnInit {
   }
 
   async saveAndPlay() {
-    // TODO: Se suma el tiempo de los bloques, y se calcula el tiempo total para obtener el elo total,
+    // Se suma el tiempo de los bloques, y se calcula el tiempo total para obtener el elo total,
     // obteniéndolo de un plan predeterminado (si se tiene), sino es 1500
 
     // Se calcula el tiempo total de los bloques
     const totalBlockTime = this.blocks.reduce((sum, block) => sum + block.time, 0);
-    console.log('totalBlockTime', totalBlockTime);
+    const profile = this.profileService.getProfile;
+    let eloToStart = 1500;
+    let planEloChosen: PlanTypes;// en caso de que se tenga que elegir el elo de una debilidad en un bloque
+
+    if (profile) {
+      if (totalBlockTime <= 3000 && profile.elos?.plan5Total) {
+        eloToStart = profile.elos?.plan5Total;
+        planEloChosen = 'plan5';
+      } else if ((totalBlockTime > 3000 && totalBlockTime <= 6000) && profile.elos?.plan10Total) {
+        eloToStart = profile.elos?.plan10Total;
+        planEloChosen = 'plan10';
+      } else if ((totalBlockTime > 6000 && totalBlockTime <= 12000) && profile.elos?.plan20Total) {
+        eloToStart = profile.elos?.plan20Total;
+        planEloChosen = 'plan20';
+      } else if ((totalBlockTime > 12000) && profile.elos?.plan30Total) {
+        eloToStart = profile.elos?.plan30Total;
+        planEloChosen = 'plan30';
+      }
+    }
 
     const newPlan: Plan = {
       uid: createUid(),
       uidUser: this.profileService.getProfile.uid,
       createdAt: new Date().getTime(),
       planType: 'custom',
-      blocks: { ...this.blocks }
+      blocks: [...this.blocks]
     };
 
     this.customPlansService.saveCustomPlan(newPlan);
     // se recorre cada bloque para generar los puzzles
     for (const block of this.blocks) {
-      block.puzzles = await this.blockService.getPuzzlesForBlock(block);
+      const theme = (block.theme === 'weakness' || block.theme === 'all') ?
+        this.getThemeRandomOrWeakness(block, planEloChosen) : block.theme;
+      block.puzzles = await this.blockService.getPuzzlesForBlock({ ...block, elo: eloToStart, theme });
+      block.puzzlesPlayed = [];
     }
     // update plan with puzzles
     const newPlanToPlay: Plan = {
       ...newPlan,
-      blocks: { ...this.blocks }
+      blocks: [...this.blocks]
     };
     this.planService.setPlanAction(newPlanToPlay);
     this.navController.navigateForward('/puzzles/training');
+  }
+
+  getThemeRandomOrWeakness(block: Block, planEloChosen: PlanTypes) {
+    if (block.theme === 'all') {
+      // get random theme
+      return this.blockService.getRandomTheme();
+    } else if (block.theme === 'weakness') {
+      // get weakness in plan
+      return this.blockService.getWeaknessInPlan(this.profileService.getElosThemesByPlanType(planEloChosen));
+    } else {
+      return block.theme;
+    }
   }
 
 }

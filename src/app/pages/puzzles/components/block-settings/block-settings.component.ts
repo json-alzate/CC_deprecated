@@ -123,7 +123,15 @@ export class BlockSettingsComponent implements OnInit {
       return;
     }
     // emit new block
-    const newBlock = { ...this.form.value, color: this.color };
+    const newBlock: Block = {
+      ...this.form.value,
+      color: this.color,
+      puzzleTimes: {
+        total: this.form.value.puzzleTime,
+        warningOn: this.form.value.puzzleTime / 2,
+        dangerOn: this.form.value.puzzleTime / 4
+      }
+    };
     this.modalController.dismiss(newBlock);
   }
 

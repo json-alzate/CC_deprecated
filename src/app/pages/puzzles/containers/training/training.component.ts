@@ -59,7 +59,6 @@ export class TrainingComponent implements OnInit {
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
   totalPuzzlesPlayed = 0;
-  showEndPlan = false;
   forceStopTimerInPuzzleBoard = false;
 
   valueAccordionGroup: string[] = [];
@@ -90,6 +89,8 @@ export class TrainingComponent implements OnInit {
         return;
       }
       this.plan = plan;
+      console.log('Plan ', this.plan);
+
       this.playPlanTimer();
       this.playNextBlock();
     });
@@ -107,8 +108,6 @@ export class TrainingComponent implements OnInit {
     }
 
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
-
-
 
     this.countPuzzlesPlayedBlock = 0;
     this.showBlockTimer = false;
@@ -259,7 +258,7 @@ export class TrainingComponent implements OnInit {
 
   stopPlanTimer() {
     this.stopBlockTimer();
-    this.showEndPlan = true;
+    // this.showEndPlan = true;
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
   }
@@ -374,7 +373,7 @@ export class TrainingComponent implements OnInit {
   }
 
   endPlan() {
-    this.showEndPlan = true;
+    // this.showEndPlan = true;
     this.setValuesAccordionGroup();
     this.stopPlanTimer();
     if (this.profileService.getProfile?.uid) {
