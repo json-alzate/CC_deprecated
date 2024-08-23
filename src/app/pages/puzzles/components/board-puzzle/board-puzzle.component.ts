@@ -51,6 +51,7 @@ export class BoardPuzzleComponent implements OnInit {
   @Output() puzzleEndByTime = new EventEmitter<Puzzle>();
 
   puzzle: Puzzle;
+  isPlaying = false;
 
   currentMoveNumber = 0;
   arrayFenSolution = [];
@@ -68,15 +69,10 @@ export class BoardPuzzleComponent implements OnInit {
   timerUnsubscribe$ = new Subject<void>();
 
   timeUsed = 0;
-
   goshPuzzleTime = 0;
-
-
   board;
   chessInstance = new Chess();
   piecePathKingTurn = '';
-
-
 
   constructor(
     private renderer: Renderer2,
@@ -93,7 +89,6 @@ export class BoardPuzzleComponent implements OnInit {
 
   @Input() set setForceStopTimer(data: boolean) {
     if (data) {
-      // por que no se detiene el timer?
       this.stopTimer();
     }
   }
@@ -139,6 +134,8 @@ export class BoardPuzzleComponent implements OnInit {
 
     // ejecutar primera jugada
     this.puzzleMoveResponse();
+
+    this.isPlaying = true;
 
     // se valida si el puzzle tiene un tiempo limite para resolverlo
     if (this.puzzle?.times?.total) {
@@ -255,7 +252,6 @@ export class BoardPuzzleComponent implements OnInit {
     let endSquare;
     this.board.enableSquareSelect((event) => {
 
-
       const ctrKeyPressed = event.mouseEvent.ctrlKey;
       const shiftKeyPressed = event.mouseEvent.shiftKey;
       const altKeyPressed = event.mouseEvent.altKey;
@@ -286,7 +282,6 @@ export class BoardPuzzleComponent implements OnInit {
         } else if (ctrKeyPressed) {
           arrowType = { ...arrowType, class: 'arrow-red' };
         }
-
 
         this.board.addArrow(arrowType, startSquare, endSquare);
       }
@@ -329,7 +324,6 @@ export class BoardPuzzleComponent implements OnInit {
           this.board.addMarker(myOwnMarker, event.square);
         }
 
-
       }
     });
 
@@ -348,7 +342,6 @@ export class BoardPuzzleComponent implements OnInit {
         this.board.removeMarkers(marker.type, square);
       }
     });
-
 
   }
 
@@ -405,6 +398,7 @@ export class BoardPuzzleComponent implements OnInit {
             firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
           });
           this.stopTimer();
+          this.isPlaying = false;
         }
       } else {
         this.time++;
@@ -467,6 +461,7 @@ export class BoardPuzzleComponent implements OnInit {
         firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
       });
       this.stopTimer();
+      this.isPlaying = false;
     }
 
     // Actualiza el tablero después de un movimiento de enroque
@@ -495,6 +490,7 @@ export class BoardPuzzleComponent implements OnInit {
         firstMoveSquaresHighlight: [this.arrayMovesSolution[0].slice(0, 2), this.arrayMovesSolution[0].slice(2, 4)]
       });
       this.stopTimer();
+      this.isPlaying = false;
     } else {
 
       await new Promise<void>((resolve, reject) => {
