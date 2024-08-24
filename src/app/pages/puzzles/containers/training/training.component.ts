@@ -51,14 +51,12 @@ export class TrainingComponent implements OnInit {
   plan: Plan;
 
   puzzleToPlay: Puzzle;
-  timeTraining = 0;
   timerUnsubscribe$ = new Subject<void>();
 
   timeLeftBlock = 0;
   timerUnsubscribeBlock$ = new Subject<void>();
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
-  totalPuzzlesPlayed = 0;
   forceStopTimerInPuzzleBoard = false;
 
   valueAccordionGroup: string[] = [];
@@ -91,7 +89,6 @@ export class TrainingComponent implements OnInit {
       this.plan = plan;
       console.log('Plan ', this.plan);
 
-      this.playPlanTimer();
       this.playNextBlock();
     });
 
@@ -170,7 +167,6 @@ export class TrainingComponent implements OnInit {
         this.stopBlockTimer();
       }
       this.forceStopTimerInPuzzleBoard = false;
-      this.playPlanTimer();
     });
 
 
@@ -205,19 +201,8 @@ export class TrainingComponent implements OnInit {
     }
 
     this.puzzleToPlay = puzzle;
-    this.totalPuzzlesPlayed++;
   }
 
-  // init countDown
-  playPlanTimer() {
-
-    const countDown = interval(1000);
-    countDown.pipe(
-      takeUntil(this.timerUnsubscribe$)
-    ).subscribe(() => {
-      this.timeTraining++;
-    });
-  }
 
   initTimeToEndBlock(timeBlock: number) {
     this.timeLeftBlock = timeBlock;

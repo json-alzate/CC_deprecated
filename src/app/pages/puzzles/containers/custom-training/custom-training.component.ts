@@ -100,6 +100,7 @@ export class CustomTrainingComponent implements OnInit {
         this.getThemeRandomOrWeakness(block, planEloChosen) : block.theme;
       block.puzzles = await this.blockService.getPuzzlesForBlock({ ...block, elo: eloToStart, theme });
       block.puzzlesPlayed = [];
+      block.theme = theme;
     }
     // update plan with puzzles
     const newPlanToPlay: Plan = {
