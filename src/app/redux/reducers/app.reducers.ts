@@ -11,6 +11,7 @@ import { puzzlesReducer } from '@redux/reducers/puzzles.reducer';
 import { userPuzzlesReducer } from '@redux/reducers/user-puzzles.reducer';
 import { planReducer } from '@redux/reducers/plan.reducer';
 import { plansHistoryReducer } from '@redux/reducers/plans-history.reducer';
+import { plansElosReducer } from '@redux/reducers/plans-elos.reducer';
 
 
 // states
@@ -29,7 +30,8 @@ export const appReducers: ActionReducerMap<AppState> = {
     puzzles: puzzlesReducer,
     userPuzzles: userPuzzlesReducer,
     plan: planReducer,
-    plansHistory: plansHistoryReducer
+    plansHistory: plansHistoryReducer,
+    plansElos: plansElosReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
