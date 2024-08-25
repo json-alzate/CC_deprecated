@@ -35,7 +35,7 @@ import { createUid } from '@utils/create-uid';
 import { BlockPresentationComponent } from '@pages/puzzles/components/block-presentation/block-presentation.component';
 import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
 import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
-
+import { PlansElosService } from '@services/plans-elos.service';
 
 @Component({
   selector: 'app-training',
@@ -74,6 +74,7 @@ export class TrainingComponent implements OnInit {
     public appService: AppService,
     private soundsService: SoundsService,
     private translateService: TranslateService,
+    private plansElosService: PlansElosService,
     private meta: Meta) {
   }
 
@@ -88,6 +89,10 @@ export class TrainingComponent implements OnInit {
       }
       this.plan = plan;
       console.log('Plan ', this.plan);
+
+      if (this.plan.planType === 'custom') {
+
+      }
 
       this.playNextBlock();
     });
@@ -290,14 +295,29 @@ export class TrainingComponent implements OnInit {
 
 
 
-    // se actualizan los elo's del usuario
-    this.profileService.calculateEloPuzzlePlan(
-      puzzleCompleted.rating,
-      puzzleStatus === 'good' ? 1 : 0,
-      this.plan.planType,
-      puzzleCompleted.themes,
-      puzzleCompleted.openingFamily,
-    );
+    if (this.plan.planType === 'custom') {
+
+      this.plansElosService.calculatePlanElos(
+        puzzleCompleted.rating,
+        puzzleStatus === 'good' ? 1 : 0,
+        this.plan?.uid,
+        this.profileService.getProfile?.uid,
+        puzzleCompleted.themes,
+        puzzleCompleted.openingFamily,
+      );
+
+    } else {
+      // se actualizan los elo's del usuario
+      this.profileService.calculateEloPuzzlePlan(
+        puzzleCompleted.rating,
+        puzzleStatus === 'good' ? 1 : 0,
+        this.plan.planType,
+        puzzleCompleted.themes,
+        puzzleCompleted.openingFamily,
+      );
+    }
+
+
 
     switch (puzzleStatus) {
       case 'good':

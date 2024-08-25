@@ -209,9 +209,6 @@ export class ProfileService {
     // calcular el elo total del plan, con el parámetro del perfil
     const currentTotalElo = this.profile?.elos && this.profile?.elos[`${planType}Total`] ? this.profile?.elos[`${planType}Total`] : 1500;
     const newTotalElo = calculateElo(currentTotalElo, puzzleElo, result);
-
-
-
     // Inicializa el objeto de cambios con una copia de los elos existentes para evitar la sobrescritura
     const changes = { elos: { ...elos } };
 
@@ -227,7 +224,6 @@ export class ProfileService {
         [openingFamily]: eloOpening
       };
     }
-
     // se actualiza el perfil con los cambios
     this.requestUpdateProfile(changes);
   }

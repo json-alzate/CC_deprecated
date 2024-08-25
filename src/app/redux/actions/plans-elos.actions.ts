@@ -5,7 +5,7 @@ import { PlanElos } from '@models/planElos.model';
 
 export const requestLoadPlanElos = createAction(
     '[PlanElos] requestPlanElos',
-    props<{ uidPlan: string }>()
+    props<{ uidPlan: string; uidUser: string }>()
 );
 
 export const requestAddOnePlanElo = createAction(

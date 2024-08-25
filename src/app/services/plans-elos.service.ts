@@ -33,7 +33,25 @@ export class PlansElosService {
     private firestoreService: FirestoreService
   ) { }
 
-  requestGetPlanElos(uidPlan: string) {
+  requestGetPlanElos(uidPlan: string, uidUser: string) {
+    return this.firestoreService.getPlanElos(uidPlan, uidUser);
+  }
+
+  savePlanElo(planElo: PlanElos) {
+    return this.firestoreService.savePlanElo(planElo);
+  }
+
+  updatePlanElo(planElo: PlanElos) {
+    return this.firestoreService.updatePlanElo(planElo);
+  }
+
+  calculatePlanElos(
+    puzzleElo: number, result: 1 | 0.5 | 0,
+    planUid: string,
+    uidUser: string,
+    themes: string[],
+    openingFamily: string,
+  ) {
 
   }
 }

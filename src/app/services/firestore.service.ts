@@ -23,7 +23,8 @@ import {
   collection, query, where, getDocs,
   increment,
   limit,
-  Query
+  Query,
+  UpdateData
 } from 'firebase/firestore';
 
 
@@ -33,6 +34,7 @@ import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 import { Plan } from '@models/plan.model';
+import { PlanElos } from '@models/planElos.model';
 
 @Injectable({
   providedIn: 'root'
@@ -260,6 +262,53 @@ export class FirestoreService {
   async saveCustomPlan(plan: Plan): Promise<string | void> {
     return setDoc(doc(this.db, 'custom-plans', plan.uid), plan);
   }
+
+
+  /**
+   * Get planElos from firestore
+   *
+   * @param uidPlan
+   * @param uidUser
+   * @returns
+   * */
+
+  async getPlanElos(uidPlan: string, uidUser: string): Promise<PlanElos> {
+
+    const q = query(
+      collection(this.db, 'planElos'),
+      where('uidPlan', '==', uidPlan),
+      where('uidUser', '==', uidUser)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.size > 0) {
+      const planElo = querySnapshot.docs[0].data() as PlanElos;
+      return planElo;
+    }
+    return null;
+  }
+
+  /**
+   * Save a planElo in firestore
+   *
+   * @param planElo
+   * @returns
+   * */
+  async savePlanElo(planElo: PlanElos): Promise<string> {
+    const docRef = await addDoc(collection(this.db, 'planElos'), planElo);
+    return docRef.id;
+  }
+
+  /**
+   * Update a planElo in firestore
+   *
+   * @param planElo
+   * @returns
+   * */
+  async updatePlanElo(planElo: PlanElos) {
+    return updateDoc(doc(this.db, 'planElos', planElo.uid), { ...planElo });
+  }
+
 
 
 
