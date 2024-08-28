@@ -16,7 +16,7 @@ import { PlansElosService } from '@services/plans-elos.service';
 @Injectable({
   providedIn: 'root'
 })
-export class PlansGuard {
+export class PlansElosGuard {
 
   constructor(
     private plansElosService: PlansElosService,
@@ -46,7 +46,7 @@ export class PlansGuard {
     combineLatest([countPlansElosStates$, profile$]).subscribe(data => {
 
       if (data[0] === 0 && data[1]) {
-        this.plansElosService.requestGetPlansAction(data[1].uid);
+        this.plansElosService.requestGetPlansElosAction(data[1].uid);
       }
 
     });

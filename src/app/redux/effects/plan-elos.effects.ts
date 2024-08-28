@@ -5,7 +5,7 @@ import { from } from 'rxjs';
 import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 
 import {
-    requestAddOnePlanElo, addOnePlanElo, requestLoadPlanElos, updatePlanElos, requestUpdatePlanElos
+    requestAddOnePlanElo, addOnePlanElo, requestLoadPlansElos, addPlansElos, updatePlanElos, requestUpdatePlanElos
 } from '@redux/actions/plans-elos.actions';
 
 import { PlansElosService } from '@services/plans-elos.service';
@@ -14,14 +14,14 @@ import { PlansElosService } from '@services/plans-elos.service';
 export class PlaneElosEffects {
 
 
-    requestLoadPlanElos$ = createEffect(() =>
+    requestLoadPlansElos$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(requestLoadPlanElos),
-            switchMap(({ uidPlan, uidUser }) =>
-                from(this.planElosService.requestGetPlanElos(uidPlan, uidUser)).pipe(
-                    mergeMap((planElo) => [addOnePlanElo({ planElo })]),
+            ofType(requestLoadPlansElos),
+            switchMap(({ uidUser }) =>
+                from(this.planElosService.requestGetPlansElos(uidUser)).pipe(
+                    mergeMap((plansElos) => [addPlansElos({ plansElos })]),
                     catchError((error) => {
-                        console.error('Error getting planElos', error);
+                        console.error('Error getting plansElos', error);
                         return [];
                     })
                 ))
@@ -34,7 +34,9 @@ export class PlaneElosEffects {
             ofType(requestAddOnePlanElo),
             switchMap(({ planElo }) =>
                 from(this.planElosService.savePlanElo(planElo)).pipe(
-                    mergeMap(() => []),
+                    mergeMap(() => [
+                        addOnePlanElo({ planElo })
+                    ]),
                     catchError((error) => {
                         console.error('Error saving planElos', error);
                         return [];

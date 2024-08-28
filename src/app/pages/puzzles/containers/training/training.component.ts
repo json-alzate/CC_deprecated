@@ -294,6 +294,8 @@ export class TrainingComponent implements OnInit {
     };
 
 
+    console.log('Plan actualizado ', this.plan);
+
 
     if (this.plan.planType === 'custom') {
 

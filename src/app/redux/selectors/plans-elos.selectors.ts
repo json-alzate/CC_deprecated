@@ -14,6 +14,12 @@ export const {
 // get one planElo
 export const getPlanElo = (uidPlan: string) => createSelector(
     getAllPlansElos,
-    (plansElos: PlanElos[]) => plansElos.find(planElo => planElo.uidPlan === uidPlan)
+    (plansElos: PlanElos[]) => {
+        if (plansElos) {
+            return plansElos.find(planElo => planElo.uidPlan === uidPlan) || null;
+        } else {
+            return null;
+        }
+    }
 );
 

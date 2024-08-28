@@ -263,6 +263,30 @@ export class FirestoreService {
     return setDoc(doc(this.db, 'custom-plans', plan.uid), plan);
   }
 
+  /**
+   * Get plasElos from firestore
+   *
+   * @param uidUser
+   * @returns PlanElos[]
+   * */
+
+  async getPlansElos(uidUser: string): Promise<PlanElos[]> {
+    const plansToReturn: PlanElos[] = [];
+    const q = query(
+      collection(this.db, 'plansElos'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const planToAdd = document.data() as PlanElos;
+      planToAdd.uid = document.id;
+      plansToReturn.push(planToAdd);
+    });
+
+    return plansToReturn;
+  }
+
 
   /**
    * Get planElos from firestore
@@ -275,7 +299,7 @@ export class FirestoreService {
   async getPlanElos(uidPlan: string, uidUser: string): Promise<PlanElos> {
 
     const q = query(
-      collection(this.db, 'planElos'),
+      collection(this.db, 'plansElos'),
       where('uidPlan', '==', uidPlan),
       where('uidUser', '==', uidUser)
     );
@@ -294,9 +318,8 @@ export class FirestoreService {
    * @param planElo
    * @returns
    * */
-  async savePlanElo(planElo: PlanElos): Promise<string> {
-    const docRef = await addDoc(collection(this.db, 'planElos'), planElo);
-    return docRef.id;
+  async savePlanElo(planElo: PlanElos): Promise<string | void> {
+    return setDoc(doc(this.db, 'plansElos', planElo.uid), planElo);
   }
 
   /**
@@ -306,7 +329,7 @@ export class FirestoreService {
    * @returns
    * */
   async updatePlanElo(planElo: PlanElos) {
-    return updateDoc(doc(this.db, 'planElos', planElo.uid), { ...planElo });
+    return updateDoc(doc(this.db, 'plansElos', planElo.uid), { ...planElo });
   }
 
 

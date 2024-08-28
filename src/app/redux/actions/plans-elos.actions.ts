@@ -5,9 +5,15 @@ import { PlanElos } from '@models/planElos.model';
 import { Update } from '@ngrx/entity';
 
 
-export const requestLoadPlanElos = createAction(
-    '[PlanElos] requestPlanElos',
-    props<{ uidPlan: string; uidUser: string }>()
+export const requestLoadPlansElos = createAction(
+    '[PlanElos] requestPlansElos',
+    props<{ uidUser: string }>()
+);
+
+
+export const addPlansElos = createAction(
+    '[PlanElos] addPlansElos',
+    props<{ plansElos: PlanElos[] }>()
 );
 
 export const requestAddOnePlanElo = createAction(

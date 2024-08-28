@@ -10,4 +10,4 @@ export const planElosStateAdapter: EntityAdapter<PlanElos> = createEntityAdapter
     selectId: (planElos) => planElos.uid
 });
 
-export const getPlansElosState = createFeatureSelector<PlansElosState>('planElos');
+export const getPlansElosState = createFeatureSelector<PlansElosState>('plansElos');
