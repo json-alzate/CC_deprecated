@@ -10,7 +10,8 @@ export const initialState: PlansElosState = planElosStateAdapter.getInitialState
 export const iplansElosReducer = createReducer(
     initialState,
     on(addOnePlanElo, (state, { planElo }) => planElosStateAdapter.addOne(planElo, state)),
-    on(updatePlanElos, (state, { planElo }) => planElosStateAdapter.updateOne({ id: planElo.uid, changes: planElo }, state))
+
+    on(updatePlanElos, (state, { planElo }) => planElosStateAdapter.updateOne(planElo, state))
 );
 
 export const plansElosReducer = (state: PlansElosState | undefined, action: Action) => iplansElosReducer(state, action);

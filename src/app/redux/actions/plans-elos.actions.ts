@@ -1,6 +1,8 @@
 import { createAction, props } from '@ngrx/store';
 
+
 import { PlanElos } from '@models/planElos.model';
+import { Update } from '@ngrx/entity';
 
 
 export const requestLoadPlanElos = createAction(
@@ -25,5 +27,5 @@ export const requestUpdatePlanElos = createAction(
 
 export const updatePlanElos = createAction(
     '[PlanElos] updatePlanElos',
-    props<{ planElo: PlanElos }>()
+    props<{ planElo: Update<PlanElos> }>()
 );

@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
 
-
-
-
 import { Store, select } from '@ngrx/store';
 import { take, switchMap } from 'rxjs/operators';
 
 import { Observable, of, forkJoin, combineLatest } from 'rxjs';
 
-import { PlansHistoryState } from '@redux/states/plans-history.state';
+import { PlansElosState } from '@redux/states/plans-elos.state';
 
-import { getCountAllPlansHistory } from '@redux/selectors/plans-history.selectors';
+import { getCountAllPlansElos } from '@redux/selectors/plans-elos.selectors';
 import { getProfile } from '@redux/selectors/auth.selectors';
 
-import { PlanService } from '@services/plan.service';
+import { PlansElosService } from '@services/plans-elos.service';
 
 
 @Injectable({
@@ -22,23 +19,23 @@ import { PlanService } from '@services/plan.service';
 export class PlansGuard {
 
   constructor(
-    private planService: PlanService,
-    private store: Store<PlansHistoryState>
+    private plansElosService: PlansElosService,
+    private store: Store<PlansElosState>
   ) { }
 
   canActivate(): Observable<boolean> {
     return forkJoin([
-      this.checkPlansHistoryState(),
+      this.checkPlansElosState(),
     ]).pipe(
       switchMap(() => of(true))
     );
   }
 
 
-  private checkPlansHistoryState() {
+  private checkPlansElosState() {
 
-    const countPlansHistoryStates$ = this.store.pipe(
-      select(getCountAllPlansHistory),
+    const countPlansElosStates$ = this.store.pipe(
+      select(getCountAllPlansElos),
       take(1)
     );
 
@@ -46,10 +43,10 @@ export class PlansGuard {
       select(getProfile)
     );
 
-    combineLatest([countPlansHistoryStates$, profile$]).subscribe(data => {
+    combineLatest([countPlansElosStates$, profile$]).subscribe(data => {
 
       if (data[0] === 0 && data[1]) {
-        this.planService.requestGetPlansAction(data[1].uid);
+        this.plansElosService.requestGetPlansAction(data[1].uid);
       }
 
     });

@@ -49,7 +49,9 @@ export class PlaneElosEffects {
             ofType(requestUpdatePlanElos),
             switchMap(({ planElo }) =>
                 from(this.planElosService.updatePlanElo(planElo)).pipe(
-                    mergeMap(() => []),
+                    mergeMap(() => [
+                        updatePlanElos({ planElo: { id: planElo.uid, changes: planElo } })
+                    ]),
                     catchError((error) => {
                         console.error('Error updating planElos', error);
                         return [];
