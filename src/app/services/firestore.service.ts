@@ -244,9 +244,8 @@ export class FirestoreService {
    * @param plan
    * @returns
    * */
-  async savePlan(plan: Plan): Promise<string> {
-    const docRef = await addDoc(collection(this.db, 'plans'), plan);
-    return docRef.id;
+  async savePlan(plan: Plan): Promise<string | void> {
+    return setDoc(doc(this.db, 'plans', plan.uid), plan);
   }
 
   /**

@@ -100,7 +100,7 @@ export class PlanService {
   /**
    * Save the plan
    */
-  savePlan(plan: Plan): Promise<string> {
+  savePlan(plan: Plan) {
     return this.firestoreService.savePlan(plan);
   }
 }

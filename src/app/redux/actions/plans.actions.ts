@@ -13,6 +13,11 @@ export const requestSavePlan = createAction(
     props<{ plan: Plan }>()
 );
 
+export const addPlan = createAction(
+    '[PLAN] addPlan',
+    props<{ plan: Plan }>()
+);
+
 export const requestGetPlans = createAction(
     '[PLAN] requestGetPlans',
     props<{ uidUser: string }>()
