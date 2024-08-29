@@ -31,9 +31,9 @@
                 <ion-label>
                     <h2>
                         <ng-container *ngIf="block.time || block.puzzlesCount; else elseTemplateDurationInfo">
-                            <span *ngIf="block.time"
+                            <span *ngIf="block.time && block.time > 0"
                                 [innerHTML]="(block.time | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
-                            {{ block.time && block.puzzlesCount ?' ó' : '' }}
+                            {{ (block.time && block.time > 0) && block.puzzlesCount ?' ó' : '' }}
                             {{ block.puzzlesCount ? block.puzzlesCount + ' ejercicios' : '' }}
                         </ng-container>
                         <ng-template #elseTemplateDurationInfo>

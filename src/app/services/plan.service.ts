@@ -44,10 +44,13 @@ export class PlanService {
 
   requestSavePlanAction(plan: Plan) {
     // clear puzzles in blocks
-    plan.blocks = plan.blocks.map((block: Block) => {
-      block.puzzles = [];
-      return block;
-    });
+    plan = {
+      ...plan,
+      blocks: plan.blocks.map((block: Block) => ({
+        ...block,
+        puzzles: []
+      }))
+    };
     this.store.dispatch(requestSavePlan({ plan }));
   }
 

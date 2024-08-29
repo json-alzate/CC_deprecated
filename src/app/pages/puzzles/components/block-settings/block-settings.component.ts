@@ -126,6 +126,7 @@ export class BlockSettingsComponent implements OnInit {
     const newBlock: Block = {
       ...this.form.value,
       color: this.color,
+      time: this.form.value.time === 0 ? -1 : this.form.value.time,
       puzzleTimes: {
         total: this.form.value.puzzleTime,
         warningOn: this.form.value.puzzleTime / 2,

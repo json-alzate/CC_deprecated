@@ -7,7 +7,7 @@ export const CONTAINERS: any[] = [
     TrainingComponent,
     TrainingMenuComponent,
     CustomTrainingComponent,
-    // PlanPlayedComponent
+    PlanPlayedComponent
 ];
 
 export const ENTRY_CONTAINERS: any[] = [

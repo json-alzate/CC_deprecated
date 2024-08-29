@@ -1,11 +1,11 @@
 <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="8"
-  offset-Xl="2" *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
+  offset-Xl="2">
 
 
 
   <!-- <app-plan-chart [planType]="plan.planType"></app-plan-chart> -->
 
-  <ion-item lines="none">
+  <ion-item lines="none" *ngIf="plan">
     <ion-thumbnail class="ion-hide-md-down" slot="start">
       <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
     </ion-thumbnail>
@@ -18,7 +18,7 @@
       </div>
 
     </ion-label>
-    <ion-button class="ion-hide-md-down" color="dark" fill="clear" slot="end" (click)="showChart(plan.planType)">
+    <ion-button class="ion-hide-md-down" color="dark" fill="clear" slot="end">
       <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
       <!-- Panel -->
       {{ 'PUZZLES.panel' | translate }}

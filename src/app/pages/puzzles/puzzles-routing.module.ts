@@ -5,6 +5,7 @@ import { PuzzlesPage } from './puzzles.page';
 import { TrainingComponent } from './containers/training/training.component';
 import { TrainingMenuComponent } from './containers/training-menu/training-menu.component';
 import { CustomTrainingComponent } from './containers/custom-training/custom-training.component';
+import { PlanPlayedComponent } from './containers/plan-played/plan-played.component';
 
 const routes: Routes = [
   {
@@ -18,6 +19,10 @@ const routes: Routes = [
   {
     path: 'custom-training',
     component: CustomTrainingComponent
+  },
+  {
+    path: 'plan-played',
+    component: PlanPlayedComponent
   },
   {
     path: '**',

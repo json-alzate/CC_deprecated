@@ -59,7 +59,7 @@ export class TrainingComponent implements OnInit {
   totalPuzzlesInBlock = 0;
   forceStopTimerInPuzzleBoard = false;
 
-  valueAccordionGroup: string[] = [];
+
 
   profile: Profile;
 
@@ -87,13 +87,8 @@ export class TrainingComponent implements OnInit {
         this.navController.navigateRoot('/puzzles/training-menu');
         return;
       }
-      this.plan = plan;
+      this.plan = { ...plan };
       console.log('Plan ', this.plan);
-
-      if (this.plan.planType === 'custom') {
-
-      }
-
       this.playNextBlock();
     });
 
@@ -179,6 +174,13 @@ export class TrainingComponent implements OnInit {
 
 
   selectPuzzleToPlay() {
+
+    console.log('block index ', this.currentIndexBlock, ' count puzzles played', this.countPuzzlesPlayedBlock);
+    // se valida si se ha llegado al final del plan
+    if (this.currentIndexBlock === this.plan.blocks.length) {
+      this.endPlan();
+      return;
+    }
 
     // se valida si el bloque es por cantidad de puzzles y si ya se jugaron todos
     if (this.plan.blocks[this.currentIndexBlock]?.puzzlesCount !== 0 &&
@@ -368,35 +370,27 @@ export class TrainingComponent implements OnInit {
   }
 
 
-  async onPuzzleShowSolution(puzzle: Puzzle) {
-
-    const modal = await this.modalController.create({
-      component: PuzzleSolutionComponent,
-      componentProps: {
-        puzzle
-      }
-    });
-    await modal.present();
-  }
 
   endPlan() {
     // this.showEndPlan = true;
-    this.setValuesAccordionGroup();
+
     this.stopPlanTimer();
     if (this.profileService.getProfile?.uid) {
-      this.plan.uidUser = this.profileService.getProfile?.uid;
+      this.plan = { ...this.plan, uidUser: this.profileService.getProfile?.uid };
       this.profile = this.profileService.getProfile;
-      this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
+      if (this.plan.planType !== 'custom') {
+        this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
+      }
       // console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
+      this.planService.setPlanAction(this.plan);
+      this.navController.navigateRoot('/puzzles/plan-played');
     }
     // TODO: Track end plan
   }
 
 
-  setValuesAccordionGroup() {
-    this.valueAccordionGroup = this.plan.blocks.map((_, i) => this.plan.uid + i);
-  }
+
 
   ionViewWillLeave() {
     this.forceStopTimerInPuzzleBoard = true;
