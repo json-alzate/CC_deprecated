@@ -7,6 +7,9 @@ import { Device } from '@capacitor/device';
 // import { Socket } from 'ngx-socket-io';
 import { initializeApp } from 'firebase/app';
 import { environment } from '@environments/environment';
+import { register } from 'swiper/element/bundle';
+
+register();
 
 
 
