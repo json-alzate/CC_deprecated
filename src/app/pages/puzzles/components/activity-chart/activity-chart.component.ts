@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,7 +23,7 @@ import { PlanService } from '@services/plan.service';
   templateUrl: './activity-chart.component.html',
   styleUrls: ['./activity-chart.component.scss'],
 })
-export class ActivityChartComponent implements OnInit, AfterViewInit {
+export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
 
   @ViewChild('matrixChart') matrixChartRef: ElementRef;
