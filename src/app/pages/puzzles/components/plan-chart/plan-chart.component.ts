@@ -24,11 +24,13 @@ export class PlanChartComponent implements OnInit, AfterViewInit {
   @ViewChild('openingsUpCanvas') openingsUpCanvas;
   @ViewChild('openingsDownCanvas') openingsDownCanvas;
 
+  @Input() planType: PlanTypes;
+  @Input() isModal: boolean;
+  @Input() showEloPlanHeader = true;
+
   themeChart: Chart;
   openingChart: Chart;
 
-  @Input() planType: PlanTypes;
-  @Input() isModal: boolean;
   profile: Profile;
   totalElo = 1500;
   themesLabels: string[] = [];

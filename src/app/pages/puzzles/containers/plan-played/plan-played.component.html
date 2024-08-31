@@ -1,73 +1,34 @@
-<ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="8"
-  offset-Xl="2">
+<ion-content>
 
-
-
-  <!-- <app-plan-chart [planType]="plan.planType"></app-plan-chart> -->
-
-  <ion-item lines="none" *ngIf="plan">
-    <ion-thumbnail class="ion-hide-md-down" slot="start">
-      <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
-    </ion-thumbnail>
-    <ion-label>
-      <div class="ion-text-center">
-
-        <ion-text color="dark">
-          <h1>{{plan.eloTotal}}</h1>
-        </ion-text>
-      </div>
-
-    </ion-label>
-    <ion-button class="ion-hide-md-down" color="dark" fill="clear" slot="end">
-      <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
-      <!-- Panel -->
-      {{ 'PUZZLES.panel' | translate }}
+  <ion-item lines="none">
+    <ion-label></ion-label>
+    <ion-button slot="end" expand="block" fill="clear">
+      Cerrar
     </ion-button>
   </ion-item>
-  <ion-item lines="none" class="ion-margin-bottom">
+  <ion-item lines="none" *ngIf="plan">
     <ion-label>
-      <div class="ion-text-center">
-        <ion-button size="large" fill="solid" [routerLink]="'/puzzles/training-menu'">
-          <!-- Continuar entrenamiento -->
-          {{ 'PUZZLES.continueTraining' | translate }}
-        </ion-button>
-      </div>
+      <ion-text color="primary">
+        <h2>Elo del plan:</h2>
+      </ion-text>
+      <ion-text color="dark">
+        <h1>{{plan.eloTotal}}</h1>
+      </ion-text>
     </ion-label>
+    <ion-thumbnail slot="end">
+      <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
+    </ion-thumbnail>
   </ion-item>
 
 
-
-
-
-  <!-- 
-  TODO: crear un componente que sirva como menu para los planes y poderlos iniciar desde aquí
-  <ion-row>
-  <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-    <ion-card>
-      <img src="assets/images/plan-icons/plan5.png" alt="" srcset="">
-    </ion-card>
-  </ion-col>
-  <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-    <ion-card>
-      <img src="assets/images/plan-icons/plan10.png" alt="" srcset="">
-    </ion-card>
-  </ion-col>
-  <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-    <ion-card>
-      <img src="assets/images/plan-icons/plan20.png" alt="" srcset="">
-    </ion-card>
-  </ion-col>
-  <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-    <ion-card>
-      <img src="assets/images/plan-icons/plan30.png" alt="" srcset="">
-    </ion-card>
-  </ion-col>
-</ion-row> -->
-
-
-
-
-  <ion-accordion-group multiple="true" [value]="valueAccordionGroup">
+  <ion-item class="ion-margin-top" lines="none">
+    <ion-label>
+      <ion-text color="primary">
+        <h2>Ejercicios:</h2>
+      </ion-text>
+    </ion-label>
+  </ion-item>
+  <ion-accordion-group class="ion-margin-bottom" multiple="true">
 
     <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
       <ion-item slot="header" color="light">
@@ -94,11 +55,6 @@
                   puzzle: userPuzzle.rawPuzzle
                   }" (onPuzzleShowSolution)="onPuzzleShowSolution($event)"></app-fen-board>
               </ion-card-content>
-              <!-- <ion-item>
-            <ion-label>
-              {{userPuzzle.eloPuzzle}}
-            </ion-label>                 
-          </ion-item> -->
               <div class="icon-puzzle-result" (click)="onPuzzleShowSolution(userPuzzle.rawPuzzle)">
                 <ng-container *ngIf="userPuzzle.failByTime; else elseTemplateFailByTime">
                   <img src="assets/images/icons/alarm.png" />
@@ -117,4 +73,15 @@
     </ion-accordion>
 
   </ion-accordion-group>
-</ion-col>
+
+  <ion-item lines="none">
+    <ion-label>
+      <ion-text color="primary">
+        <h2>Estadísticas</h2>
+      </ion-text>
+    </ion-label>
+  </ion-item>
+
+  <app-plan-chart *ngIf="plan && plan.planType" [planType]="plan.planType" [showEloPlanHeader]="false"></app-plan-chart>
+
+</ion-content>

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+/* eslint-disable @typescript-eslint/naming-convention */
+import { Component, OnInit } from '@angular/core';
 
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 
 import { Plan } from '@models/plan.model';
 import { Puzzle } from '@models/puzzle.model';
@@ -26,7 +27,8 @@ export class PlanPlayedComponent implements OnInit {
   constructor(
     public appService: AppService,
     private planService: PlanService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private navController: NavController,
   ) { }
 
   ngOnInit() { }
@@ -34,13 +36,12 @@ export class PlanPlayedComponent implements OnInit {
   ionViewDidEnter() {
     this.planService.getPlan().then((plan: Plan) => {
       if (!plan) {
-        // TODO: manejar error
-        console.log('No hay plan');
+        this.navController.navigateRoot('/puzzles/training-menu');
         return;
       }
       this.plan = plan;
       this.setValuesAccordionGroup();
-      console.log('Plan ', this.plan);
+      console.log('Plan ', JSON.stringify(this.plan));
     });
   }
 

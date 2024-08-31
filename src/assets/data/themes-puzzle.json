@@ -432,6 +432,20 @@
         ]
     },
     {
+        "groupName": "Especiales",
+        "themes": [
+            {
+                "nameEs": "Promoción",
+                "descriptionEs": "Promover uno de sus peones a una dama o una pieza menor",
+                "nameEn": "Promotion",
+                "descriptionEn": "Promote one of your pawns to a queen or a minor piece",
+                "count": 42995,
+                "img": "promotion.svg",
+                "value": "promotion"
+            }
+        ]
+    },
+    {
         "groupName": "Objetivos",
         "themes": [
             {
