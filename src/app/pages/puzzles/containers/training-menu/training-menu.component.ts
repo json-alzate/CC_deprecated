@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController, ModalController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Meta } from '@angular/platform-browser';
@@ -30,6 +31,7 @@ export class TrainingMenuComponent implements OnInit {
 
   loadActivityChart = false;
 
+  plansHistory$: Observable<Plan[]>;
 
   constructor(
     private navController: NavController,
@@ -43,6 +45,10 @@ export class TrainingMenuComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+    this.plansHistory$ = this.planService.getPlansHistoryState();
+
+
     this.meta.addTags([
       { name: 'title', content: 'ChessColate' },
       { name: 'description', content: 'Planes de entrenamiento táctico de ajedrez listos para jugar.' },

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+
+import { Plan } from '@models/plan.model';
 
 @Component({
   selector: 'app-plans-history-slides',
@@ -7,8 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PlansHistorySlidesComponent implements OnInit {
 
+  @Input() plans: Plan[] = [];
+  @Output() slideClick: EventEmitter<boolean> = new EventEmitter();
+
+  slidesOPtions = {
+    slidesPerView: 3,
+  };
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
 }

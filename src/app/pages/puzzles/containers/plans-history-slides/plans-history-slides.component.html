@@ -1,5 +1,21 @@
-<swiper-container>
-  <swiper-slide>Slide 1</swiper-slide>
-  <swiper-slide>Slide 2</swiper-slide>
+<swiper-container [slidesPerView]="1.7" [spaceBetween]="0.1">
+  <swiper-slide *ngFor="let plan of plans; let i = index" [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}">
+
+    <ion-item>
+      <ion-thumbnail slot="end">
+        <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
+      </ion-thumbnail>
+    </ion-item>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Awesome Subtitle</ion-card-subtitle>
+        <ion-card-title>Awesome Title</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        Awesome content
+      </ion-card-content>
+    </ion-card>
+
+  </swiper-slide>
   <swiper-slide>Slide 3</swiper-slide>
 </swiper-container>

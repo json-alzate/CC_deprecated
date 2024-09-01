@@ -25,6 +25,9 @@ import { PlanService } from '@services/plan.service';
 })
 export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
+  // TODO: recibir planes por input, en el onInit se verifica si ya tiene planes para hacer el setData()
+  // y se activa una bantedera, en caso tal de que no tenga datos todavia, y en el input set
+  // se verifica esa bandera, si esta activa es porque ya se cargo el onInit y el grafico esta listo para ser poblado
 
   @ViewChild('matrixChart') matrixChartRef: ElementRef;
 
@@ -45,6 +48,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
       LineElement, Title, Tooltip, Filler,
       TimeScale);
 
+    // TODO: esto se debe recibir por el Input
     this.planService.getPlansHistoryState().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.setData(data);
     });
