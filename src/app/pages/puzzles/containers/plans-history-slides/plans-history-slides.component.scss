@@ -1,0 +1,39 @@
+swiper-slide {
+    padding: 0px 4px;
+}
+.plan-history-card {
+    border-radius: 11px;
+    overflow: hidden;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    background-color: var(--ion-color-light);
+
+    .card-header {
+        position: absolute;
+        top: 5px;
+        display: flex;
+        width: 100%;
+        padding: 4px;
+        .title {
+            flex: 1;
+            align-self: center;
+            font-size: 14px;
+        }
+        img {
+            width: 24px;
+            margin-right: 10px;
+        }
+    }
+    .card-body {
+        display: flex;
+        height: 250px;
+    }
+    .card-footer {
+        position: absolute;
+        bottom: 5px;
+        width: 100%;
+        padding: 4px;
+    }
+}
