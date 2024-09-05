@@ -17,7 +17,7 @@ import { setPlan, requestSavePlan, requestGetPlans } from '@redux/actions/plans.
 
 // Selectors
 import { getPlan } from '@redux/selectors/plan.selectors';
-import { getAllPlansHistory } from '@redux/selectors/plans-history.selectors';
+import { getPlansHistoryOrderByDate } from '@redux/selectors/plans-history.selectors';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
@@ -68,7 +68,7 @@ export class PlanService {
   /** STATE OBSERVABLES */
 
   getPlansHistoryState(): Observable<Plan[]> {
-    return this.store.select(getAllPlansHistory);
+    return this.store.select(getPlansHistoryOrderByDate);
   }
 
   /**
