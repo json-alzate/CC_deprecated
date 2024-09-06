@@ -87,3 +87,4 @@ It's a [Capacitor](https://capacitorjs.com/) project with adjustments for compil
 The icons used in the project are from:
 - [Icongeek26 on Flaticon](https://www.flaticon.com/authors/icongeek26) - Glyph style
 
+## Color gold: #bf811c

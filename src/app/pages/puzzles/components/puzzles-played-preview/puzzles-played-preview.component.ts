@@ -27,6 +27,7 @@ export class PuzzlesPlayedPreviewComponent implements OnInit {
 
   @Input() blocks: Block[] = [];
   puzzlesToShow: UserPuzzle[] = [];
+  winPercentage = 0;
   uidBoard = createUid();
   chessInstance = new Chess();
   board;
@@ -82,6 +83,12 @@ export class PuzzlesPlayedPreviewComponent implements OnInit {
     if (this.puzzlesToShow[0]) {
       this.playPuzzle(0);
     }
+
+    // ejem: 0.57
+    this.winPercentage = this.calculatePercentageWin() / 100;
+    console.log('this.winPercentage ', this.winPercentage);
+
+
 
   }
 
@@ -158,9 +165,15 @@ export class PuzzlesPlayedPreviewComponent implements OnInit {
       index = 0;
       this.playPuzzle(index);
     }
-    console.log('index ', index);
 
 
+  }
+
+  calculatePercentageWin() {
+    if (this.puzzlesToShow.length > 0) {
+      return Math.round((this.puzzlesToShow.filter(puzzle => puzzle.resolved).length / this.puzzlesToShow.length) * 100);
+    }
+    return 0;
   }
 
 }
