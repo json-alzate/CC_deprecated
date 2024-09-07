@@ -1,5 +1,6 @@
 <swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1">
-  <swiper-slide *ngFor="let plan of plans; let i = index" [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}">
+  <swiper-slide *ngFor="let plan of plans; let i = index" [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}"
+    (click)="goToPlanDetails(plan)">
 
     <!--  -->
     <div class="plan-history-card">
@@ -30,5 +31,12 @@
     </div>
 
   </swiper-slide>
-  <swiper-slide>Slide 3</swiper-slide>
+  <swiper-slide>
+    <div class="more-button-container">
+
+      <ion-button expand="block" fill="clear" color="dark">
+        Ver más
+      </ion-button>
+    </div>
+  </swiper-slide>
 </swiper-container>

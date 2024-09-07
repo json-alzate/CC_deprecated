@@ -20,4 +20,9 @@ export class PlansHistorySlidesComponent implements OnInit {
 
   ngOnInit() { }
 
+  goToPlanDetails(plan) {
+    console.log('Plan ', plan);
+
+  }
+
 }
