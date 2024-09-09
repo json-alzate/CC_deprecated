@@ -1,6 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
+import { Router } from '@angular/router';
+
+import { NavController } from '@ionic/angular';
+
 import { Plan } from '@models/plan.model';
+
+import { PlanService } from '@services/plan.service';
 
 @Component({
   selector: 'app-plans-history-slides',
@@ -16,13 +22,19 @@ export class PlansHistorySlidesComponent implements OnInit {
     slidesPerView: 3,
   };
 
-  constructor() { }
+  constructor(
+    private navController: NavController,
+    private planService: PlanService,
+    private router: Router
+  ) { }
 
   ngOnInit() { }
 
   goToPlanDetails(plan) {
+    this.planService.setPlanAction(plan);
     console.log('Plan ', plan);
 
+    this.router.navigate(['/puzzles/plan-played']);
   }
 
 }

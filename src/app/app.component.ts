@@ -159,9 +159,7 @@ export class AppComponent {
 
 
   goTo(path) {
-    console.log(path);
-
-    this.navController.navigateForward(path);
+    this.navController.navigateRoot(path);
   }
 
   closeMenu() {
