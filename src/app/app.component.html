@@ -7,11 +7,12 @@
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-          <ion-title> {{ profile.name }} </ion-title>
+          <ion-title> {{ profile.email }} </ion-title>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
-            <ion-button>
-              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            <ion-button [color]=" !showProfile ? 'dark' : 'primary'">
+              <ion-icon slot="icon-only" [ngStyle]="{ 'font-size': showProfile ? '2.5em' : '1.5em' }"
+                name="settings-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
 
@@ -53,25 +54,15 @@
           </ion-item>
         </ion-menu-toggle> -->
 
-        <ion-menu-toggle>
-          <ion-item button (click)="goTo('/puzzles/training-menu')" detail="false">
-            <ion-icon name="barbell-outline" slot="start"></ion-icon>
-            <ion-label>
-              {{ 'MENU.training' | translate }}
-              <!-- Entrenamiento -->
-            </ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-
-        <ion-menu-toggle>
+        <!-- <ion-menu-toggle>
           <ion-item button (click)="goTo('/squares')" detail="false">
             <ion-icon name="heart-half-outline" slot="start"></ion-icon>
             <ion-label>
-              {{ 'MENU.squares' | translate }}
-              <!-- Casillas -->
-            </ion-label>
+              {{ 'MENU.squares' | translate }} -->
+        <!-- Casillas -->
+        <!-- </ion-label>
           </ion-item>
-        </ion-menu-toggle>
+        </ion-menu-toggle> -->
 
 
         <ion-menu-toggle>

@@ -16,12 +16,12 @@ import { ProfileService } from '@services/profile.service';
 export class ProfileComponent implements OnInit {
 
   @Output() closeProfile = new EventEmitter();
+  @Input() currentLanguage = this.translateService.currentLang;
 
   piecesStylesInfo = this.uiService.piecesStylesInfo;
 
   boardStylesInfo = this.uiService.boardStylesInfo;
 
-  @Input() currentLanguage = this.translateService.currentLang;
 
   constructor(
     public uiService: UiService,
