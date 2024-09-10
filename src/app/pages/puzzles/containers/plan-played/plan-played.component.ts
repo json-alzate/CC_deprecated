@@ -5,6 +5,7 @@ import { ModalController, NavController } from '@ionic/angular';
 
 import { Plan } from '@models/plan.model';
 import { Puzzle } from '@models/puzzle.model';
+import { UserPuzzle } from '@models/user-puzzles.model';
 
 import { AppService } from '@services/app.service';
 import { PlanService } from '@services/plan.service';
@@ -22,7 +23,8 @@ export class PlanPlayedComponent implements OnInit {
 
   plan: Plan;
 
-  valueAccordionGroup: string[] = [];
+  userPuzzlesToShowInBoards: UserPuzzle[] = [];
+  showBoards = false;
 
   constructor(
     public appService: AppService,
@@ -40,14 +42,12 @@ export class PlanPlayedComponent implements OnInit {
         return;
       }
       this.plan = plan;
-      this.setValuesAccordionGroup();
-      console.log('Plan ', JSON.stringify(this.plan));
+      setTimeout(() => {
+        this.showBoards = true;
+      }, 500);
     });
   }
 
-  setValuesAccordionGroup() {
-    this.valueAccordionGroup = this.plan.blocks.map((_, i) => this.plan.uid + i);
-  }
 
   async onPuzzleShowSolution(puzzle: Puzzle) {
 

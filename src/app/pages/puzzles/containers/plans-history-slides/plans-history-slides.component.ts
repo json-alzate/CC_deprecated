@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 import { Router } from '@angular/router';
 
-import { NavController } from '@ionic/angular';
 
 import { Plan } from '@models/plan.model';
 
@@ -23,7 +22,6 @@ export class PlansHistorySlidesComponent implements OnInit {
   };
 
   constructor(
-    private navController: NavController,
     private planService: PlanService,
     private router: Router
   ) { }
@@ -32,8 +30,6 @@ export class PlansHistorySlidesComponent implements OnInit {
 
   goToPlanDetails(plan) {
     this.planService.setPlanAction(plan);
-    console.log('Plan ', plan);
-
     this.router.navigate(['/puzzles/plan-played']);
   }
 

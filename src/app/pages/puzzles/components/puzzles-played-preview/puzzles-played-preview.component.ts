@@ -86,10 +86,6 @@ export class PuzzlesPlayedPreviewComponent implements OnInit {
 
     // ejem: 0.57
     this.winPercentage = this.calculatePercentageWin() / 100;
-    console.log('this.winPercentage ', this.winPercentage);
-
-
-
   }
 
   turnRoundBoard(orientation?: 'w' | 'b') {

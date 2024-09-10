@@ -23,7 +23,7 @@
   </ion-item>
   <ion-accordion-group class="ion-margin-bottom" multiple="true">
 
-    <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
+    <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i" [disabled]="!showBoards">
       <ion-item slot="header" color="light">
         <ion-label>
           <h3 *ngIf="block.title">{{ block.title }}</h3>
@@ -33,6 +33,7 @@
             {{ block.description }}
           </p>
         </ion-label>
+        <ion-spinner *ngIf="!showBoards" slot="start" name="dots"></ion-spinner>
       </ion-item>
       <div class="ion-padding" slot="content">
 
@@ -43,10 +44,16 @@
             <ion-card class="ion-no-margin">
 
               <ion-card-content class="ion-no-padding">
-                <app-fen-board [setFen]="{ fen: userPuzzle.fenStartUserPuzzle, 
+
+                <div *ngIf="showBoards">
+
+                  <app-fen-board [setFen]="{ fen: userPuzzle.fenStartUserPuzzle, 
                   firstMoveSquaresHighlight: userPuzzle.firstMoveSquaresHighlight,
                   puzzle: userPuzzle.rawPuzzle
                   }" (onPuzzleShowSolution)="onPuzzleShowSolution($event)"></app-fen-board>
+                </div>
+
+
               </ion-card-content>
               <div class="icon-puzzle-result" (click)="onPuzzleShowSolution(userPuzzle.rawPuzzle)">
                 <ng-container *ngIf="userPuzzle.failByTime; else elseTemplateFailByTime">
