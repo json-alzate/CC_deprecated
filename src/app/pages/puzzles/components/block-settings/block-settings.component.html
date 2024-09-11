@@ -1,7 +1,10 @@
 <ion-content>
 
   <ion-toolbar>
-    <ion-title>Nuevo bloque</ion-title>
+    <ion-title>
+      {{ 'NEW_BLOCK.title' | translate }}
+      <!-- Nuevo bloque -->
+    </ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
@@ -17,16 +20,19 @@
 
         <ion-accordion value="duration">
           <ion-item slot="header" color="light">
-            <ion-label>Duración</ion-label>
+            <ion-label>
+              {{ 'NEW_BLOCK.duration' | translate }}
+              <!-- Duración -->
+            </ion-label>
             <div slot="end">
               <ng-container *ngIf="timeField.value || puzzlesCountField.value; else elseTemplateDurationInfo">
                 <ion-text color="primary">
                   <span *ngIf="timeField?.value"
-                    [innerHTML]="(timeField?.value | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
+                    [innerHTML]="(timeField?.value | secondsToMinutesSeconds) + ' <small><i>(' + ('NEW_BLOCK.min:sec' | translate) + ')</i></small>'"></span>
                 </ion-text>
-                <span *ngIf="timeField.value && puzzlesCountField.value"> ó</span>
+                <span *ngIf="timeField.value && puzzlesCountField.value"> {{ "NEW_BLOCK.or" | translate }}</span>
                 <ion-text color="primary">
-                  {{ puzzlesCountField.value ? puzzlesCountField.value + ' ejercicios' : '' }}
+                  {{ puzzlesCountField.value ? puzzlesCountField.value + ' ' + ('NEW_BLOCK.puzzles' | translate) : '' }}
                 </ion-text>
 
               </ng-container>
@@ -41,11 +47,15 @@
 
                 <div class="time">
                   <div class="header">
-                    <div class="label">Tiempo: </div>
+                    <div class="label">{{ 'NEW_BLOCK.time' | translate}}: </div>
                     <div class="note">
-                      <span *ngIf="timeField?.value === 0">Ilimitado</span>
+                      <span *ngIf="timeField?.value === 0">
+                        {{ 'NEW_BLOCK.unlimited' | translate }}
+                        <!-- Ilimitado -->
+                      </span>
                       <span *ngIf="timeField?.value !== 0">
-                        {{ timeField?.value | secondsToMinutesSeconds }} <small><i>(min:seg)</i></small>
+                        {{ timeField?.value | secondsToMinutesSeconds }} <small><i>({{ 'NEW_BLOCK.min:sec' |
+                            translate}})</i></small>
                       </span>
                     </div>
                   </div>
@@ -57,12 +67,18 @@
 
                 <div class="count">
                   <div class="header">
-                    <div class="label">Cantidad de ejercicios: </div>
+                    <div class="label">
+                      {{ 'NEW_BLOCK.puzzlesCount' | translate }}:
+                      <!-- Cantidad de ejercicios:  -->
+                    </div>
 
                     <div class="note">
-                      <span *ngIf="puzzlesCountField?.value === 0">Ilimitado</span>
+                      <span *ngIf="puzzlesCountField?.value === 0">
+                        {{ 'NEW_BLOCK.unlimited' | translate }}
+                        <!-- Ilimitado -->
+                      </span>
                       <span *ngIf="puzzlesCountField?.value !== 0">
-                        {{ puzzlesCountField?.value }} Ejercicios
+                        {{ puzzlesCountField?.value }} {{ 'NEW_BLOCK.puzzles' | translate }}
                       </span>
                     </div>
 
@@ -82,7 +98,10 @@
 
         <ion-accordion value="puzzles">
           <ion-item slot="header" color="light">
-            <ion-label>Ejercicios</ion-label>
+            <ion-label>
+              {{ 'NEW_BLOCK.puzzles' | translate }}
+              <!-- Ejercicios -->
+            </ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
 
@@ -92,9 +111,13 @@
 
                 <div class="time-puzzles">
                   <div class="header">
-                    <div class="label">Tiempo por ejercicio: </div>
+                    <div class="label">
+                      {{ 'NEW_BLOCK.timeByPuzzle' | translate }}:
+                      <!-- Tiempo por ejercicio:  -->
+                    </div>
                     <div class="note">
-                      {{ puzzleTimeField?.value | secondsToMinutesSeconds }} <small><i>(min:seg)</i></small>
+                      {{ puzzleTimeField?.value | secondsToMinutesSeconds }} <small><i>({{ 'NEW_BLOCK.min:sec' |
+                          translate}})</i></small>
                     </div>
                   </div>
                   <div class="control">
@@ -107,13 +130,19 @@
 
 
               <ion-item>
-                <ion-label>Mostrar solución</ion-label>
+                <ion-label>
+                  {{ 'NEW_BLOCK.showSolution' | translate }}
+                  <!-- Mostrar solución -->
+                </ion-label>
                 <ion-checkbox formControlName="showPuzzleSolution" slot="end" aria-label=""></ion-checkbox>
               </ion-item>
 
 
               <ion-item>
-                <ion-label>A ciegas</ion-label>
+                <ion-label>
+                  {{ 'NEW_BLOCK.blind' | translate }}
+                  <!-- A ciegas -->
+                </ion-label>
                 <ion-toggle formControlName="goshPuzzle" slot="end" aria-label=""></ion-toggle>
               </ion-item>
 
@@ -122,9 +151,13 @@
 
                 <div class="time-puzzles">
                   <div class="header">
-                    <div class="label">Tiempo visible: </div>
+                    <div class="label">
+                      {{ 'NEW_BLOCK.timeVisible' | translate }}:
+                      <!-- Tiempo visible:  -->
+                    </div>
                     <div class="note">
-                      {{ goshPuzzleTimeField?.value | secondsToMinutesSeconds }} <small><i>(min:seg)</i></small>
+                      {{ goshPuzzleTimeField?.value | secondsToMinutesSeconds }} <small><i>({{ 'NEW_BLOCK.min:sec' |
+                          translate}})</i></small>
                     </div>
                   </div>
                   <div class="control">
@@ -147,7 +180,8 @@
         <ion-accordion value="theme">
           <ion-item slot="header" color="light">
             <ion-label>
-              Tema
+              {{ 'NEW_BLOCK.theme' | translate }}
+              <!-- Tema -->
             </ion-label>
 
             <ion-thumbnail class="thumbnail-theme" slot="end"
@@ -164,17 +198,25 @@
               <ion-item>
                 <ion-icon slot="start" name="shuffle"></ion-icon>
                 <ion-radio value="all" aria-label="all">
-                  Aleatorio
+                  {{ 'NEW_BLOCK.random' | translate }}
+                  <!-- Aleatorio -->
                   <br>
-                  <small>Un tema diferente cada vez que se juegue</small>
+                  <small>
+                    {{ 'NEW_BLOCK.randomDescription' | translate }}
+                    <!-- Un tema diferente cada vez que se juegue -->
+                  </small>
                 </ion-radio>
               </ion-item>
               <ion-item>
                 <ion-icon slot="start" name="trending-down"></ion-icon>
                 <ion-radio value="weakness" aria-label="weakness">
-                  Debilidad
+                  {{ 'NEW_BLOCK.weakness' | translate }}
+                  <!-- Debilidad -->
                   <br>
-                  <small>El tema con el menor elo disponible en el plan</small>
+                  <small>
+                    {{ 'NEW_BLOCK.weaknessDescription' | translate }}
+                    <!-- El tema con el menor elo disponible en el plan -->
+                  </small>
                 </ion-radio>
               </ion-item>
 
@@ -192,7 +234,15 @@
                       <img [src]="'/assets/images/puzzle-themes/'+puzzlesGroup.img" />
                     </ion-thumbnail>
                     <ion-radio [value]="puzzlesGroup.value" aria-label="">
-                      {{ puzzlesGroup.nameEs }}
+
+                      <ng-container *ngIf="lang === 'es'; else elseTemplateLangGroup">
+                        {{ puzzlesGroup.nameEs }}
+                      </ng-container>
+                      <ng-template #elseTemplateLangGroup>
+                        {{ puzzlesGroup.nameEn }}
+                      </ng-template>
+
+
                     </ion-radio>
                   </ion-item>
 
@@ -207,11 +257,15 @@
 
         <ion-accordion value="elo">
           <ion-item slot="header" color="light">
-            <ion-label>Dificultad</ion-label>
+            <ion-label>
+              {{ 'NEW_BLOCK.difficulty' | translate }}
+              <!-- Dificultad -->
+            </ion-label>
             <ion-note slot="end">
 
               <ng-container *ngIf="eloLevelField.value === 0; else elseTemplateEloLevel">
-                Equilibrado
+                {{ 'NEW_BLOCK.balanced' | translate }}
+                <!-- Equilibrado -->
               </ng-container>
               <ng-template #elseTemplateEloLevel>
                 Elo <span *ngIf="eloLevelField.value > 0">+</span>{{eloLevelField.value}}
@@ -228,9 +282,14 @@
                   <div class="header">
                     <div class="label">Elo:</div>
                     <div class="note">
-                      <span *ngIf="eloLevelField?.value === 0">Normal</span>
-                      <span *ngIf="eloLevelField?.value > 0">Aumenta {{ eloLevelField?.value}}</span>
-                      <span *ngIf="eloLevelField?.value < 0">Disminuye {{ eloLevelField?.value}}</span>
+                      <span *ngIf="eloLevelField?.value === 0">
+                        {{ 'NEW_BLOCK.normal' | translate }}
+                        <!-- Normal -->
+                      </span>
+                      <span *ngIf="eloLevelField?.value > 0">
+                        {{ 'NEW_BLOCK.increase' | translate }} {{ eloLevelField?.value}}</span>
+                      <span *ngIf="eloLevelField?.value < 0">{{ 'NEW_BLOCK.decrease' | translate }} {{
+                        eloLevelField?.value}}</span>
                     </div>
                   </div>
                   <div class="control">
@@ -274,7 +333,7 @@
       <ion-row>
         <ion-col size="12">
           <ion-button type="submit" [disabled]="!form.valid" class="ion-margin" expand="block" size="large">
-            Adicionar
+            {{ 'NEW_BLOCK.add' | translate }}
           </ion-button>
         </ion-col>
       </ion-row>

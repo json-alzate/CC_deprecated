@@ -24,7 +24,8 @@
         "home": "Inicio",
         "training": "Entrenamiento",
         "coordinates": "Coordenadas",
-        "squares": "Casillas"
+        "squares": "Casillas",
+        "privacy": "Privacidad"
     },
     "LOGIN": {
         "ERRORS": {
@@ -38,8 +39,12 @@
     },
     "PUZZLES": {
         "MENU": {
-            "warmup": "Calentamiento"
+            "title": "Planes de entrenamiento",
+            "warmup": "Calentamiento",
+            "customTraining": "Rutina personalizada",
+            "history": "Historial"
         },
+        "puzzles": "Ejercicios",
         "total": "Total",
         "start": "Empezar",
         "score": "Puntaje",
@@ -59,6 +64,41 @@
         "black": "Negras",
         "continueTraining": "Continuar Entrenamiento",
         "panel": "Panel"
+    },
+    "CUSTOM_TRAINING": {
+        "title": "Crea tu plan de entrenamiento",
+        "description1": "Un plan se compone de hasta 5 bloques.",
+        "description2": "Cada bloque puede contener una serie de ejercicios con los ajustes que definas.",
+        "withWhite": "Con blancas",
+        "withBlack": "Con negras",
+        "anyColor": "Cualquier color",
+        "addBlock": "Añadir bloque",
+        "saveAndPlay": "Guardar y jugar"
+    },
+    "NEW_BLOCK": {
+        "title": "Nuevo bloque",
+        "duration": "Duración",
+        "min:sec": "min:seg",
+        "or": "ó",
+        "puzzles": "ejercicios",
+        "tiempo": "tiempo",
+        "unlimited": "Ilimitado",
+        "puzzlesCount": "Cantidad de ejercicios",
+        "timeByPuzzle": "Tiempo por ejercicio",
+        "showSolution": "Mostrar solución",
+        "blind": "A ciegas",
+        "timeVisible": "Tiempo visible",
+        "theme": "Tema",
+        "random": "Aleatorio",
+        "randomDescription": "Un tema diferente cada vez que se juegue",
+        "weakness": "Debilidad",
+        "weaknessDescription": "El tema con el menor elo disponible en el plan",
+        "difficulty": "Dificultad",
+        "balanced": "Equilibrado",
+        "normal": "Normal",
+        "increase": "Aumenta",
+        "decrease": "Disminuye",
+        "add": "Añadir"
     },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordenadas",
