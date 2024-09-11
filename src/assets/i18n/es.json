@@ -100,6 +100,10 @@
         "decrease": "Disminuye",
         "add": "Añadir"
     },
+    "PLAN_PLAYED": {
+        "puzzlesPlayed": "Ejercicios jugados",
+        "statistics": "Estadísticas del plan"
+    },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordenadas",
         "pieces": "Piezas",

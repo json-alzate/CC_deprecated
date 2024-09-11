@@ -1,26 +1,19 @@
 <ion-content>
-  <ion-item lines="none" *ngIf="plan">
-    <ion-label>
-      <ion-text color="primary">
-        <h2>Elo del plan:</h2>
-      </ion-text>
-      <ion-text color="dark">
-        <h1>{{plan.eloTotal}}</h1>
-      </ion-text>
-    </ion-label>
-    <ion-thumbnail slot="end">
-      <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
-    </ion-thumbnail>
-  </ion-item>
 
 
-  <ion-item class="ion-margin-top" lines="none">
-    <ion-label>
+  <ion-row>
+    <ion-col size="12">
       <ion-text color="primary">
-        <h2>Ejercicios:</h2>
+        <h2>
+          {{ 'PLAN_PLAYED.puzzlesPlayed' | translate }}
+          <!-- Ejercicios jugados: -->
+        </h2>
       </ion-text>
-    </ion-label>
-  </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+
   <ion-accordion-group class="ion-margin-bottom" multiple="true">
 
     <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i" [disabled]="!showBoards">
@@ -74,13 +67,32 @@
 
   </ion-accordion-group>
 
-  <ion-item lines="none">
-    <ion-label>
+  <ion-row>
+    <ion-col size="12">
       <ion-text color="primary">
-        <h2>Estadísticas</h2>
+        <h2>
+          {{ 'PLAN_PLAYED.statistics' | translate }}
+          <!-- Estadísticas del plan -->
+        </h2>
+      </ion-text>
+    </ion-col>
+  </ion-row>
+
+  <ion-item lines="none" *ngIf="plan">
+    <ion-label>
+      <ion-text color="dark">
+        <h2>Elo total:</h2>
+      </ion-text>
+      <ion-text color="dark">
+        <h1>{{plan.eloTotal}}</h1>
       </ion-text>
     </ion-label>
+    <ion-thumbnail slot="end">
+      <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
+    </ion-thumbnail>
   </ion-item>
+
+
 
   <app-plan-chart *ngIf="plan && plan.planType" [planType]="plan.planType" [showEloPlanHeader]="false"></app-plan-chart>
 
