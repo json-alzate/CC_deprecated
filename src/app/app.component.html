@@ -7,11 +7,12 @@
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-          <ion-title> {{ profile.name }} </ion-title>
+          <ion-title> {{ profile.email }} </ion-title>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
-            <ion-button>
-              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            <ion-button [color]=" !showProfile ? 'dark' : 'primary'">
+              <ion-icon slot="icon-only" [ngStyle]="{ 'font-size': showProfile ? '2.5em' : '1.5em' }"
+                name="settings-outline"></ion-icon>
             </ion-button>
           </ion-buttons>
 
@@ -37,7 +38,7 @@
 
 
         <ion-menu-toggle>
-          <ion-item button (click)="goTo('/')" detail="false">
+          <ion-item button (click)="goTo('/puzzles/training-menu')" detail="false">
             <ion-icon name="home-outline" slot="start"></ion-icon>
             <ion-label>
               {{ 'MENU.home' | translate }}
@@ -46,36 +47,7 @@
           </ion-item>
         </ion-menu-toggle>
 
-        <!-- <ion-menu-toggle>
-          <ion-item button (click)="goTo('/puzzles/training')" detail="false">
-            <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
-            <ion-label>Ejercicios</ion-label>
-          </ion-item>
-        </ion-menu-toggle> -->
-
         <ion-menu-toggle>
-          <ion-item button (click)="goTo('/puzzles/training-menu')" detail="false">
-            <ion-icon name="barbell-outline" slot="start"></ion-icon>
-            <ion-label>
-              {{ 'MENU.training' | translate }}
-              <!-- Entrenamiento -->
-            </ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-
-        <ion-menu-toggle>
-          <ion-item button (click)="goTo('/squares')" detail="false">
-            <ion-icon name="heart-half-outline" slot="start"></ion-icon>
-            <ion-label>
-              {{ 'MENU.squares' | translate }}
-              <!-- Casillas -->
-            </ion-label>
-          </ion-item>
-        </ion-menu-toggle>
-
-
-        <ion-menu-toggle>
-
           <ion-item button (click)="goTo('/coordinates')" detail="false">
             <ion-icon name="locate-outline" slot="start"></ion-icon>
             {{ 'MENU.coordinates' | translate }}
@@ -85,16 +57,31 @@
 
       </ng-template>
 
+
+
+
     </ion-content>
 
     <ion-footer class="ion-no-border">
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-toggle>
+            <ion-button (click)="goTo('/privacy')">
+              <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+              Privacidad
+            </ion-button>
+          </ion-menu-toggle>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+          <ion-menu-toggle>
+            <ion-button color="medium" fill="clear">
+              V.{{ version }}
+            </ion-button>
+          </ion-menu-toggle>
+        </ion-buttons>
 
 
-        <ion-button color="medium" fill="clear" expand="block">
-          {{ version }}
-          <ion-icon slot="end" name="information-circle-outline"></ion-icon>
-        </ion-button>
 
       </ion-toolbar>
     </ion-footer>

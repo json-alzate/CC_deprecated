@@ -3,8 +3,7 @@
   <ion-grid>
     <ion-row>
 
-      <ion-col *ngIf="!showEndPlan" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3"
-        class="ion-margin-top">
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3" class="ion-margin-top">
 
         <ion-list>
           <div *ngFor="let block of plan?.blocks; let i=index">
@@ -38,147 +37,10 @@
 
       </ion-col>
 
-
-      <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="12" size-xl="8"
-        offset-Xl="2" *ngIf="showEndPlan; else elseTemplateBoardPuzzle">
-
-
-
-        <!-- <app-plan-chart [planType]="plan.planType"></app-plan-chart> -->
-
-        <ion-item lines="none">
-          <ion-thumbnail class="ion-hide-md-down" slot="start">
-            <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
-          </ion-thumbnail>
-          <ion-label>
-            <div class="ion-text-center">
-
-              <ion-text color="dark">
-                <h1>{{plan.eloTotal}}</h1>
-              </ion-text>
-            </div>
-
-          </ion-label>
-          <ion-button class="ion-hide-md-down" color="dark" fill="clear" slot="end" (click)="showChart(plan.planType)">
-            <ion-icon slot="start" name="stats-chart-outline"></ion-icon>
-            <!-- Panel -->
-            {{ 'PUZZLES.panel' | translate }}
-          </ion-button>
-        </ion-item>
-        <ion-item lines="none" class="ion-margin-bottom">
-          <ion-label>
-            <div class="ion-text-center">
-              <ion-button size="large" fill="solid" [routerLink]="'/puzzles/training-menu'">
-                <!-- Continuar entrenamiento -->
-                {{ 'PUZZLES.continueTraining' | translate }}
-              </ion-button>
-            </div>
-          </ion-label>
-        </ion-item>
-
-
-
-
-
-        <!-- 
-          TODO: crear un componente que sirva como menu para los planes y poderlos iniciar desde aquí
-          <ion-row>
-          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-            <ion-card>
-              <img src="assets/images/plan-icons/plan5.png" alt="" srcset="">
-            </ion-card>
-          </ion-col>
-          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-            <ion-card>
-              <img src="assets/images/plan-icons/plan10.png" alt="" srcset="">
-            </ion-card>
-          </ion-col>
-          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-            <ion-card>
-              <img src="assets/images/plan-icons/plan20.png" alt="" srcset="">
-            </ion-card>
-          </ion-col>
-          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="2" size-xl="2">
-            <ion-card>
-              <img src="assets/images/plan-icons/plan30.png" alt="" srcset="">
-            </ion-card>
-          </ion-col>
-        </ion-row> -->
-
-
-
-
-        <ion-accordion-group multiple="true" [value]="valueAccordionGroup">
-
-          <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i">
-            <ion-item slot="header" color="light">
-              <ion-label>
-                <h3 *ngIf="block.title">{{ block.title }}</h3>
-                <h3 *ngIf="block.theme">{{ appService.getNameThemePuzzleByValue(block.theme) }}</h3>
-                <h3 *ngIf="block.openingFamily">{{ appService.getNameOpeningByValue( block.openingFamily) }}</h3>
-                <p>
-                  {{ block.description }}
-                </p>
-              </ion-label>
-            </ion-item>
-            <div class="ion-padding" slot="content">
-
-              <ion-row>
-                <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3"
-                  *ngFor="let userPuzzle of block.puzzlesPlayed">
-
-                  <ion-card class="ion-no-margin">
-
-                    <ion-card-content class="ion-no-padding">
-                      <app-fen-board [setFen]="{ fen: userPuzzle.fenStartUserPuzzle, 
-                          firstMoveSquaresHighlight: userPuzzle.firstMoveSquaresHighlight,
-                          puzzle: userPuzzle.rawPuzzle
-                          }" (onPuzzleShowSolution)="onPuzzleShowSolution($event)"></app-fen-board>
-                    </ion-card-content>
-                    <!-- <ion-item>
-                    <ion-label>
-                      {{userPuzzle.eloPuzzle}}
-                    </ion-label>                 
-                  </ion-item> -->
-                    <div class="icon-puzzle-result" (click)="onPuzzleShowSolution(userPuzzle.rawPuzzle)">
-                      <ng-container *ngIf="userPuzzle.failByTime; else elseTemplateFailByTime">
-                        <img src="assets/images/icons/alarm.png" />
-                      </ng-container>
-                      <ng-template #elseTemplateFailByTime>
-                        <img *ngIf="userPuzzle.resolved" src="assets/images/icons/checkmark-circle.png" />
-                        <img *ngIf="!userPuzzle.resolved" src="assets/images/icons/close-circle.png" />
-                      </ng-template>
-                    </div>
-                  </ion-card>
-
-                </ion-col>
-              </ion-row>
-
-            </div>
-          </ion-accordion>
-
-        </ion-accordion-group>
-      </ion-col>
-      <ng-template #elseTemplateBoardPuzzle>
-        <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
-          <app-board-puzzle [setPuzzle]="puzzleToPlay" [setForceStopTimer]="forceStopTimerInPuzzleBoard"
-            (puzzleCompleted)="onPuzzleCompleted($event, 'good')" (puzzleFailed)="onPuzzleCompleted($event, 'bad')"
-            (puzzleEndByTime)="onPuzzleCompleted($event, 'timeOut')"></app-board-puzzle>
-        </ion-col>
-      </ng-template>
-
-      <ion-col size-sm="12" size-md="12" size-lg="3" size-xl="3" class="ion-margin-top">
-
-        <p class="ion-text-center">
-          <span *ngIf="!showEndPlan" class="span-totals-container">
-            <ion-note color="medium">
-              {{totalPuzzlesPlayed}}
-            </ion-note>
-            <ion-note color="medium">
-              {{ 'PUZZLES.total' | translate }}: {{ timeTraining | secondsToMinutesSeconds }}
-            </ion-note>
-          </span>
-        </p>
+      <ion-col class="ion-no-padding ion-margin-top" size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
+        <app-board-puzzle [setPuzzle]="puzzleToPlay" [setForceStopTimer]="forceStopTimerInPuzzleBoard"
+          (puzzleCompleted)="onPuzzleCompleted($event, 'good')" (puzzleFailed)="onPuzzleCompleted($event, 'bad')"
+          (puzzleEndByTime)="onPuzzleCompleted($event, 'timeOut')"></app-board-puzzle>
       </ion-col>
 
     </ion-row>

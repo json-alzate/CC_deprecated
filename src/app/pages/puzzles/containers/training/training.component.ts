@@ -35,7 +35,7 @@ import { createUid } from '@utils/create-uid';
 import { BlockPresentationComponent } from '@pages/puzzles/components/block-presentation/block-presentation.component';
 import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
 import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
-
+import { PlansElosService } from '@services/plans-elos.service';
 
 @Component({
   selector: 'app-training',
@@ -51,18 +51,15 @@ export class TrainingComponent implements OnInit {
   plan: Plan;
 
   puzzleToPlay: Puzzle;
-  timeTraining = 0;
   timerUnsubscribe$ = new Subject<void>();
 
   timeLeftBlock = 0;
   timerUnsubscribeBlock$ = new Subject<void>();
   countPuzzlesPlayedBlock = 0;
   totalPuzzlesInBlock = 0;
-  totalPuzzlesPlayed = 0;
-  showEndPlan = false;
   forceStopTimerInPuzzleBoard = false;
 
-  valueAccordionGroup: string[] = [];
+
 
   profile: Profile;
 
@@ -77,6 +74,7 @@ export class TrainingComponent implements OnInit {
     public appService: AppService,
     private soundsService: SoundsService,
     private translateService: TranslateService,
+    private plansElosService: PlansElosService,
     private meta: Meta) {
   }
 
@@ -89,8 +87,8 @@ export class TrainingComponent implements OnInit {
         this.navController.navigateRoot('/puzzles/training-menu');
         return;
       }
-      this.plan = plan;
-      this.playPlanTimer();
+      this.plan = { ...plan };
+      console.log('Plan ', this.plan);
       this.playNextBlock();
     });
 
@@ -107,8 +105,6 @@ export class TrainingComponent implements OnInit {
     }
 
     this.totalPuzzlesInBlock = this.plan.blocks[this.currentIndexBlock].puzzlesCount;
-
-
 
     this.countPuzzlesPlayedBlock = 0;
     this.showBlockTimer = false;
@@ -171,7 +167,6 @@ export class TrainingComponent implements OnInit {
         this.stopBlockTimer();
       }
       this.forceStopTimerInPuzzleBoard = false;
-      this.playPlanTimer();
     });
 
 
@@ -179,6 +174,13 @@ export class TrainingComponent implements OnInit {
 
 
   selectPuzzleToPlay() {
+
+    console.log('block index ', this.currentIndexBlock, ' count puzzles played', this.countPuzzlesPlayedBlock);
+    // se valida si se ha llegado al final del plan
+    if (this.currentIndexBlock === this.plan.blocks.length) {
+      this.endPlan();
+      return;
+    }
 
     // se valida si el bloque es por cantidad de puzzles y si ya se jugaron todos
     if (this.plan.blocks[this.currentIndexBlock]?.puzzlesCount !== 0 &&
@@ -206,19 +208,8 @@ export class TrainingComponent implements OnInit {
     }
 
     this.puzzleToPlay = puzzle;
-    this.totalPuzzlesPlayed++;
   }
 
-  // init countDown
-  playPlanTimer() {
-
-    const countDown = interval(1000);
-    countDown.pipe(
-      takeUntil(this.timerUnsubscribe$)
-    ).subscribe(() => {
-      this.timeTraining++;
-    });
-  }
 
   initTimeToEndBlock(timeBlock: number) {
     this.timeLeftBlock = timeBlock;
@@ -259,7 +250,7 @@ export class TrainingComponent implements OnInit {
 
   stopPlanTimer() {
     this.stopBlockTimer();
-    this.showEndPlan = true;
+    // this.showEndPlan = true;
     this.timerUnsubscribe$.next();
     this.timerUnsubscribe$.complete();
   }
@@ -305,15 +296,32 @@ export class TrainingComponent implements OnInit {
     };
 
 
+    console.log('Plan actualizado ', this.plan);
 
-    // se actualizan los elo's del usuario
-    this.profileService.calculateEloPuzzlePlan(
-      puzzleCompleted.rating,
-      puzzleStatus === 'good' ? 1 : 0,
-      this.plan.planType,
-      puzzleCompleted.themes,
-      puzzleCompleted.openingFamily,
-    );
+
+    if (this.plan.planType === 'custom') {
+
+      this.plansElosService.calculatePlanElos(
+        puzzleCompleted.rating,
+        puzzleStatus === 'good' ? 1 : 0,
+        this.plan?.uid,
+        this.profileService.getProfile?.uid,
+        puzzleCompleted.themes,
+        puzzleCompleted.openingFamily,
+      );
+
+    } else {
+      // se actualizan los elo's del usuario
+      this.profileService.calculateEloPuzzlePlan(
+        puzzleCompleted.rating,
+        puzzleStatus === 'good' ? 1 : 0,
+        this.plan.planType,
+        puzzleCompleted.themes,
+        puzzleCompleted.openingFamily,
+      );
+    }
+
+
 
     switch (puzzleStatus) {
       case 'good':
@@ -362,35 +370,27 @@ export class TrainingComponent implements OnInit {
   }
 
 
-  async onPuzzleShowSolution(puzzle: Puzzle) {
-
-    const modal = await this.modalController.create({
-      component: PuzzleSolutionComponent,
-      componentProps: {
-        puzzle
-      }
-    });
-    await modal.present();
-  }
 
   endPlan() {
-    this.showEndPlan = true;
-    this.setValuesAccordionGroup();
+    // this.showEndPlan = true;
+
     this.stopPlanTimer();
     if (this.profileService.getProfile?.uid) {
-      this.plan.uidUser = this.profileService.getProfile?.uid;
+      this.plan = { ...this.plan, uidUser: this.profileService.getProfile?.uid };
       this.profile = this.profileService.getProfile;
-      this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
+      if (this.plan.planType !== 'custom') {
+        this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
+      }
       // console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
+      this.planService.setPlanAction(this.plan);
+      this.navController.navigateRoot('/puzzles/plan-played');
     }
     // TODO: Track end plan
   }
 
 
-  setValuesAccordionGroup() {
-    this.valueAccordionGroup = this.plan.blocks.map((_, i) => this.plan.uid + i);
-  }
+
 
   ionViewWillLeave() {
     this.forceStopTimerInPuzzleBoard = true;

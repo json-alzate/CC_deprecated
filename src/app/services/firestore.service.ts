@@ -23,7 +23,8 @@ import {
   collection, query, where, getDocs,
   increment,
   limit,
-  Query
+  Query,
+  UpdateData
 } from 'firebase/firestore';
 
 
@@ -33,6 +34,7 @@ import { CoordinatesPuzzle } from '@models/coordinates-puzzles.model';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 import { Plan } from '@models/plan.model';
+import { PlanElos } from '@models/planElos.model';
 
 @Injectable({
   providedIn: 'root'
@@ -242,33 +244,92 @@ export class FirestoreService {
    * @param plan
    * @returns
    * */
-  async savePlan(plan: Plan): Promise<string> {
-    const docRef = await addDoc(collection(this.db, 'plans'), plan);
-
-    console.log('Document written with ID: ', docRef.id);
-
-    return docRef.id;
+  async savePlan(plan: Plan): Promise<string | void> {
+    return setDoc(doc(this.db, 'plans', plan.uid), plan);
   }
 
-
-
-  //------- Admin only
-
-  // add new puzzle
-  async adminAddNewPuzzle(puzzleToAdd: Puzzle): Promise<string> {
-    await setDoc(doc(this.db, 'puzzles', puzzleToAdd.uid), puzzleToAdd);
-    return puzzleToAdd.uid;
+  /**
+ // ----------------------------------------------------------------------------
+  Custom Plan's
+   */
+  /**
+   * Get custom plans from firestore
+   *
+   * @param plan
+   * @returns
+   * */
+  async saveCustomPlan(plan: Plan): Promise<string | void> {
+    return setDoc(doc(this.db, 'custom-plans', plan.uid), plan);
   }
 
-  // get total number of puzzles in db
-  async adminGetTotalPuzzles(): Promise<number> {
+  /**
+   * Get plasElos from firestore
+   *
+   * @param uidUser
+   * @returns PlanElos[]
+   * */
+
+  async getPlansElos(uidUser: string): Promise<PlanElos[]> {
+    const plansToReturn: PlanElos[] = [];
     const q = query(
-      collection(this.db, 'puzzles'),
+      collection(this.db, 'plansElos'),
+      where('uidUser', '==', uidUser)
     );
     const querySnapshot = await getDocs(q);
-    return querySnapshot.size;
+
+    querySnapshot.forEach((document) => {
+      const planToAdd = document.data() as PlanElos;
+      planToAdd.uid = document.id;
+      plansToReturn.push(planToAdd);
+    });
+
+    return plansToReturn;
   }
 
+
+  /**
+   * Get planElos from firestore
+   *
+   * @param uidPlan
+   * @param uidUser
+   * @returns
+   * */
+
+  async getPlanElos(uidPlan: string, uidUser: string): Promise<PlanElos> {
+
+    const q = query(
+      collection(this.db, 'plansElos'),
+      where('uidPlan', '==', uidPlan),
+      where('uidUser', '==', uidUser)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.size > 0) {
+      const planElo = querySnapshot.docs[0].data() as PlanElos;
+      return planElo;
+    }
+    return null;
+  }
+
+  /**
+   * Save a planElo in firestore
+   *
+   * @param planElo
+   * @returns
+   * */
+  async savePlanElo(planElo: PlanElos): Promise<string | void> {
+    return setDoc(doc(this.db, 'plansElos', planElo.uid), planElo);
+  }
+
+  /**
+   * Update a planElo in firestore
+   *
+   * @param planElo
+   * @returns
+   * */
+  async updatePlanElo(planElo: PlanElos) {
+    return updateDoc(doc(this.db, 'plansElos', planElo.uid), { ...planElo });
+  }
 
 
 

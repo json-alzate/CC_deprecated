@@ -1,39 +1,19 @@
 <ion-content>
 
-  <ion-grid class="ion-margin-top">
+  <ion-grid>
     <ion-row>
 
 
-      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3" class="ion-padding">
-
-        <ion-button expand="block" mode="ios" color="light" (click)="createPlan(0, 'warmup')">
-          <ion-icon slot="start" name="flame"></ion-icon>
-          {{ 'PUZZLES.MENU.warmup' | translate }}
-          <!-- Calentamiento -->
-        </ion-button>
-
-
+      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+        <ion-text color="primary">
+          <h2>Planes de entrenamiento</h2>
+        </ion-text>
       </ion-col>
-
-      <!-- <ion-col size="3" offset="3" class="ion-padding">
-        <ion-button expand="block" mode="ios" color="light">
-          <ion-icon slot="start" name="cube"></ion-icon>
-          Bloque
-        </ion-button>
-      </ion-col>
-
-
-      <ion-col size="3" class="ion-padding">
-        <ion-button expand="block" mode="ios" color="light">
-          <ion-icon slot="start" name="grid"></ion-icon>
-          Rutina
-        </ion-button>
-      </ion-col> -->
 
     </ion-row>
 
     <ion-row>
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-no-padding">
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
@@ -62,7 +42,7 @@
 
 
       </ion-col>
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-no-padding">
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
@@ -90,8 +70,10 @@
 
       </ion-col>
 
+    </ion-row>
+    <ion-row>
 
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-no-padding">
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
@@ -118,7 +100,7 @@
         </ion-card>
 
       </ion-col>
-      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3">
+      <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="3" size-xl="3" class="ion-no-padding">
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
@@ -148,25 +130,41 @@
 
     </ion-row>
 
-    <ion-row class="ion-margin-top">
-      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
+    <ion-row>
+      <ion-col size="12">
 
+        <ion-button expand="block" size="large" color="light" (click)="goToCustomPlanCreate()">
+          Rutina personalizada
+        </ion-button>
+        <!-- <ion-button expand="block" fill="clear" color="dark">
+          Libre
+        </ion-button> -->
+
+
+
+      </ion-col>
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
         <div *ngIf="loadActivityChart">
           <app-activity-chart></app-activity-chart>
         </div>
       </ion-col>
     </ion-row>
 
+    <ion-row>
+      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+        <ion-text color="primary">
+          <h2>Historial</h2>
+        </ion-text>
+      </ion-col>
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
+        <app-plans-history-slides [plans]="plansHistory$ | async | slice:0:5"></app-plans-history-slides>
+      </ion-col>
+    </ion-row>
+
+
+
   </ion-grid>
 
-
-
-  <ion-note>
-    <p class="ion-text-center ion-margin-top">
-      3.764.379 {{ 'PUZZLES.MENU.puzzles_by' | translate }} <a href="https://lichess.org/training" target="_blank"
-        rel="noopener noreferrer">Lichess</a>
-    </p>
-  </ion-note>
 
 
 </ion-content>

@@ -5,7 +5,7 @@ import { from } from 'rxjs';
 import { mergeMap, switchMap, catchError } from 'rxjs/operators';
 
 import {
-    requestSavePlan, requestGetPlans, addPlans
+    requestSavePlan, requestGetPlans, addPlans, addPlan
 } from '@redux/actions/plans.actions';
 
 import { PlanService } from '@services/plan.service';
@@ -34,7 +34,9 @@ export class PlanEffects {
             ofType(requestSavePlan),
             switchMap(({ plan }) =>
                 from(this.planService.savePlan(plan)).pipe(
-                    mergeMap(() => []),
+                    mergeMap(() => [
+                        addPlan({ plan })
+                    ]),
                     catchError((error) => {
                         console.error('Error saving plan', error);
                         return [];

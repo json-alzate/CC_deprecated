@@ -5,6 +5,7 @@ import { ActivityChartComponent } from './activity-chart/activity-chart.componen
 import { BlockPresentationComponent } from './block-presentation/block-presentation.component';
 import { PuzzleSolutionComponent } from './puzzle-solution/puzzle-solution.component';
 import { PlanChartComponent } from './plan-chart/plan-chart.component';
+import { PuzzlesPlayedPreviewComponent } from './puzzles-played-preview/puzzles-played-preview.component';
 
 export const COMPONENTS = [
     StaticsComponent,
@@ -13,11 +14,13 @@ export const COMPONENTS = [
     ActivityChartComponent,
     BlockPresentationComponent,
     PuzzleSolutionComponent,
-    PlanChartComponent
+    PlanChartComponent,
+    PuzzlesPlayedPreviewComponent
 ];
 
 export const ENTRY_COMPONENTS: any[] = [
     BlockPresentationComponent,
     PuzzleSolutionComponent,
-    PlanChartComponent
+    PlanChartComponent,
+    BlockSettingsComponent
 ];

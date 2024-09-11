@@ -1,4 +1,4 @@
-<ion-header>
+<ion-header class="ion-no-border">
     <ion-toolbar>
 
         <!--Web only-->
@@ -17,20 +17,13 @@
 
         <ion-buttons slot="start" class="ion-hide-md-down">
 
-            <!-- <ion-button (click)="goTo('/puzzles/training')" class="ion-text-capitalize" fill="clear">
-                <ion-icon name="extension-puzzle-outline" slot="start"></ion-icon>
-                Ejercicios
-            </ion-button> -->
+
             <ion-button color="dark" (click)="goTo('/puzzles')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="barbell-outline" slot="start"></ion-icon>
                 {{ 'MENU.training' | translate }}
                 <!-- Entrenamiento -->
             </ion-button>
-            <ion-button color="dark" (click)="goTo('/squares')" class="ion-text-capitalize" fill="clear">
-                <ion-icon name="heart-half-outline" slot="start"></ion-icon>
-                {{ 'MENU.squares' | translate }}
-                <!-- Casillas -->
-            </ion-button>
+
 
             <ion-button color="dark" (click)="goTo('/coordinates')" class="ion-text-capitalize" fill="clear">
                 <ion-icon name="locate-outline" slot="start"></ion-icon>

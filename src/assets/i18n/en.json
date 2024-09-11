@@ -38,8 +38,7 @@
     },
     "PUZZLES": {
         "MENU": {
-            "warmup": "Warmup",
-            "puzzles_by": "exercises by"
+            "warmup": "Warmup"
         },
         "total": "Total",
         "start": "Start",
