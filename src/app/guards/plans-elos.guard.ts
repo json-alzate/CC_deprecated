@@ -23,12 +23,11 @@ export class PlansElosGuard {
     private store: Store<PlansElosState>
   ) { }
 
+
   canActivate(): Observable<boolean> {
-    return forkJoin([
-      this.checkPlansElosState(),
-    ]).pipe(
-      switchMap(() => of(true))
-    );
+    // Permitir la activación sin bloquear
+    this.checkPlansElosState();
+    return of(true);
   }
 
 
