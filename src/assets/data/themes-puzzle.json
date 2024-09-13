@@ -525,5 +525,19 @@
                 "value": "veryLong"
             }
         ]
+    },
+    {
+        "groupName": "Otros",
+        "themes": [
+            {
+                "nameEs": "Maestro",
+                "descriptionEs": "El movimiento de un maestro.",
+                "nameEn": "Master",
+                "descriptionEn": "The move of a master.",
+                "count": 1000,
+                "img": "master.svg",
+                "value": "master"
+            }
+        ]
     }
 ]

@@ -60,6 +60,10 @@ export class PlansElosService {
     return this.firestoreService.updatePlanElo(planElo);
   }
 
+  async getOnePlanElo(planUid: string) {
+    return await firstValueFrom(this.store.select(getPlanElo(planUid)));
+  }
+
   async calculatePlanElos(
     puzzleElo: number,
     result: 1 | 0.5 | 0,

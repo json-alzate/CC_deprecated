@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, EventEmitter, Output, ChangeDetectionStrategy } from '@angular/core';
 
 import {
   Chessboard,
@@ -20,6 +20,7 @@ import { UiService } from '@services/ui.service';
   selector: 'app-fen-board',
   templateUrl: './fen-board.component.html',
   styleUrls: ['./fen-board.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FenBoardComponent implements OnInit, AfterViewInit {
 

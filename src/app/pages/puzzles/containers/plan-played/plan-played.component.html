@@ -1,99 +1,106 @@
 <ion-content>
 
+  <ng-container *ngIf="plan; else elseTemplate">
+    <ion-row>
+      <ion-col size="12">
 
-  <ion-row>
-    <ion-col size="12">
-      <ion-text color="primary">
         <h2>
           {{ 'PLAN_PLAYED.puzzlesPlayed' | translate }}
           <!-- Ejercicios jugados: -->
         </h2>
-      </ion-text>
-    </ion-col>
-  </ion-row>
 
+      </ion-col>
+    </ion-row>
 
+    <ion-accordion-group class="ion-margin-bottom" multiple="true">
 
-  <ion-accordion-group class="ion-margin-bottom" multiple="true">
+      <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="i">
+        <ion-item slot="header" color="light">
+          <ion-label>
+            <h3 *ngIf="block.title">{{ block.title }}</h3>
+            <h3 *ngIf="block.theme">{{ appService.getNameThemePuzzleByValue(block.theme) }}</h3>
+            <h3 *ngIf="block.openingFamily">{{ appService.getNameOpeningByValue( block.openingFamily) }}</h3>
+            <p>
+              {{ block.description }}
+            </p>
+          </ion-label>
 
-    <ion-accordion *ngFor="let block of plan?.blocks; let i=index" [value]="plan?.uid+i" [disabled]="!showBoards">
-      <ion-item slot="header" color="light">
-        <ion-label>
-          <h3 *ngIf="block.title">{{ block.title }}</h3>
-          <h3 *ngIf="block.theme">{{ appService.getNameThemePuzzleByValue(block.theme) }}</h3>
-          <h3 *ngIf="block.openingFamily">{{ appService.getNameOpeningByValue( block.openingFamily) }}</h3>
-          <p>
-            {{ block.description }}
-          </p>
-        </ion-label>
-        <ion-spinner *ngIf="!showBoards" slot="start" name="dots"></ion-spinner>
-      </ion-item>
-      <div class="ion-padding" slot="content">
+        </ion-item>
+        <div class="ion-padding" slot="content">
 
-        <ion-row>
-          <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3"
-            *ngFor="let userPuzzle of block.puzzlesPlayed">
+          <ion-row>
+            <ion-col size-xs="6" size-sm="6" size-md="6" size-lg="4" size-xl="3"
+              *ngFor="let userPuzzle of userPuzzlesToShowInBoards[i]">
 
-            <ion-card class="ion-no-margin">
+              <ion-card class="ion-no-margin">
 
-              <ion-card-content class="ion-no-padding">
-
-                <div *ngIf="showBoards">
+                <ion-card-content class="ion-no-padding">
 
                   <app-fen-board [setFen]="{ fen: userPuzzle.fenStartUserPuzzle, 
-                  firstMoveSquaresHighlight: userPuzzle.firstMoveSquaresHighlight,
-                  puzzle: userPuzzle.rawPuzzle
-                  }" (onPuzzleShowSolution)="onPuzzleShowSolution($event)"></app-fen-board>
+                    firstMoveSquaresHighlight: userPuzzle.firstMoveSquaresHighlight,
+                    puzzle: userPuzzle.rawPuzzle
+                    }" (onPuzzleShowSolution)="onPuzzleShowSolution($event)"></app-fen-board>
+
+                </ion-card-content>
+                <div class="icon-puzzle-result" (click)="onPuzzleShowSolution(userPuzzle.rawPuzzle)">
+                  <ng-container *ngIf="userPuzzle.failByTime; else elseTemplateFailByTime">
+                    <img src="assets/images/icons/alarm.png" />
+                  </ng-container>
+                  <ng-template #elseTemplateFailByTime>
+                    <img *ngIf="userPuzzle.resolved" src="assets/images/icons/checkmark-circle.png" />
+                    <img *ngIf="!userPuzzle.resolved" src="assets/images/icons/close-circle.png" />
+                  </ng-template>
                 </div>
+              </ion-card>
 
+            </ion-col>
+          </ion-row>
+          <ion-button expand="block" fill="clear" *ngIf="showMoreButtons[i]" (click)="loadMorePuzzles(i)">
+            Cargar más
+          </ion-button>
+        </div>
+      </ion-accordion>
 
-              </ion-card-content>
-              <div class="icon-puzzle-result" (click)="onPuzzleShowSolution(userPuzzle.rawPuzzle)">
-                <ng-container *ngIf="userPuzzle.failByTime; else elseTemplateFailByTime">
-                  <img src="assets/images/icons/alarm.png" />
-                </ng-container>
-                <ng-template #elseTemplateFailByTime>
-                  <img *ngIf="userPuzzle.resolved" src="assets/images/icons/checkmark-circle.png" />
-                  <img *ngIf="!userPuzzle.resolved" src="assets/images/icons/close-circle.png" />
-                </ng-template>
-              </div>
-            </ion-card>
+    </ion-accordion-group>
 
-          </ion-col>
-        </ion-row>
-
-      </div>
-    </ion-accordion>
-
-  </ion-accordion-group>
-
-  <ion-row>
-    <ion-col size="12">
-      <ion-text color="primary">
+    <ion-row>
+      <ion-col size="12">
         <h2>
           {{ 'PLAN_PLAYED.statistics' | translate }}
           <!-- Estadísticas del plan -->
         </h2>
-      </ion-text>
-    </ion-col>
-  </ion-row>
+      </ion-col>
+    </ion-row>
 
-  <ion-item lines="none" *ngIf="plan">
-    <ion-label>
-      <ion-text color="dark">
-        <h2>Elo total:</h2>
-      </ion-text>
-      <ion-text color="dark">
-        <h1>{{plan.eloTotal}}</h1>
-      </ion-text>
-    </ion-label>
-    <ion-thumbnail slot="end">
-      <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
-    </ion-thumbnail>
-  </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        <ion-text color="dark">
+          <h6>Elo total:</h6>
+        </ion-text>
+        <ion-text color="dark">
+          <h1>{{eloTotal}}</h1>
+        </ion-text>
+      </ion-label>
+      <ion-thumbnail slot="end">
+        <img [src]="'assets/images/plan-icons/'+ plan.planType +'.png'" />
+      </ion-thumbnail>
+    </ion-item>
+
+    <app-plan-chart *ngIf="plan && plan.planType" [plan]="plan" [showEloPlanHeader]="false"></app-plan-chart>
+  </ng-container>
+  <ng-template #elseTemplate>
+    <ion-progress-bar type="indeterminate"></ion-progress-bar>
+  </ng-template>
 
 
 
-  <app-plan-chart *ngIf="plan && plan.planType" [planType]="plan.planType" [showEloPlanHeader]="false"></app-plan-chart>
+
 
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary" expand="block">
+      Jugar plan
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
