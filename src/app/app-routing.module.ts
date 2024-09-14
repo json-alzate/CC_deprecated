@@ -4,13 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { CoordinatesPuzzlesGuard } from '@guards/coordinates-puzzles.guard';
 import { PlansGuard } from '@guards/plans.guard';
 import { PlansElosGuard } from '@guards/plans-elos.guard';
+import { CustomPlansGuard } from '@guards/custom-plans.guard';
 
 import { CustomPreloadingStrategy } from '@services/preloading-strategy.service';
 
 const routes: Routes = [
   {
     path: 'puzzles',
-    canActivate: [PlansGuard, PlansElosGuard],
+    canActivate: [PlansGuard, PlansElosGuard, CustomPlansGuard],
     loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   },
   {

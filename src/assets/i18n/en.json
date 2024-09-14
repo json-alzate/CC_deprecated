@@ -102,7 +102,8 @@
     },
     "PLAN_PLAYED": {
         "puzzlesPlayed": "Puzzles played",
-        "statistics": "Statistics of the plan"
+        "statistics": "Statistics of the plan",
+        "playPlan": "Play the plan"
     },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordinates",
