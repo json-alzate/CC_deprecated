@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, SimpleChanges, ViewChild, ElementRef, Aft
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Chart, LinearScale, CategoryScale, PointElement, LineElement, Title, Tooltip, Filler, TimeScale } from 'chart.js';
+import { Chart, LinearScale, CategoryScale, PointElement, LineElement, Title, Filler, TimeScale } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { formatISO, format, endOfToday } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -45,7 +45,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
   ngOnInit() {
     Chart.register(MatrixController, MatrixElement,
       LinearScale, CategoryScale, PointElement,
-      LineElement, Title, Tooltip, Filler,
+      LineElement, Title, Filler,
       TimeScale);
 
     // TODO: esto se debe recibir por el Input
@@ -150,20 +150,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
       options: {
         aspectRatio: 5,
         plugins: {
-          tooltip: {
-            displayColors: false,
-            callbacks: {
-              // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-              title() {
-                return '';
-              },
-              // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
-              label(context) {
-                const v = context.dataset.data[context.dataIndex] as any;
-                return [v.x, v.v];
-              }
-            }
-          },
+
           legend: {
             display: false,
           },

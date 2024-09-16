@@ -2,7 +2,7 @@
 
   <!--Mobile-->
   <ion-menu [swipeGesture]="false" side="start" menuId="first" contentId="main">
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar>
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">

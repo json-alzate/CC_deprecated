@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 
 
 import { Store, select } from '@ngrx/store';
-import { take, switchMap } from 'rxjs/operators';
+import { take, switchMap, filter, distinctUntilChanged } from 'rxjs/operators';
 
 import { Observable, of, forkJoin, combineLatest } from 'rxjs';
 
@@ -19,7 +19,7 @@ import { getProfile } from '@redux/selectors/auth.selectors';
 @Injectable({
   providedIn: 'root'
 })
-export class CoordinatesPuzzlesGuard  {
+export class CoordinatesPuzzlesGuard {
 
   constructor(
     private store: Store<CoordinatesPuzzlesState>
@@ -38,19 +38,18 @@ export class CoordinatesPuzzlesGuard  {
 
     const countCoordinatesPuzzlesStates$ = this.store.pipe(
       select(getCountAllCoordinatesPuzzles),
-      take(1)
     );
 
     const profile$ = this.store.pipe(
       select(getProfile)
     );
 
-    combineLatest([countCoordinatesPuzzlesStates$, profile$]).subscribe(data => {
 
-      if (data[0] === 0 && data[1]) {
-        this.requestLoadCoordinatesPuzzles(data[1].uid);
-      }
-
+    combineLatest([countCoordinatesPuzzlesStates$, profile$]).pipe(
+      filter(data => data[0] === 0 && !!data[1]),
+      distinctUntilChanged()
+    ).subscribe(data => {
+      this.requestLoadCoordinatesPuzzles(data[1].uid);
     });
 
     return of(true);

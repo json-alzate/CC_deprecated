@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { take } from 'rxjs/operators';
+import { distinctUntilChanged, filter, take } from 'rxjs/operators';
 
 import { Observable, of, combineLatest } from 'rxjs';
 
@@ -34,20 +34,18 @@ export class CustomPlansGuard {
   private checkCustomPlansState() {
 
     const countCustomPlansStates$ = this.store.pipe(
-      select(getCountAllCustomPlans),
-      take(1)
+      select(getCountAllCustomPlans)
     );
 
     const profile$ = this.store.pipe(
       select(getProfile)
     );
 
-    combineLatest([countCustomPlansStates$, profile$]).subscribe(data => {
-
-      if (data[0] === 0 && data[1]) {
-        this.customPlansService.requestGetCustomPlansAction(data[1].uid);
-      }
-
+    combineLatest([countCustomPlansStates$, profile$]).pipe(
+      filter(data => data[0] === 0 && !!data[1]),
+      distinctUntilChanged()
+    ).subscribe(data => {
+      this.customPlansService.requestGetCustomPlansAction(data[1].uid);
     });
 
     return of(true);

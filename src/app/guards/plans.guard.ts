@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { take, filter, switchMap } from 'rxjs/operators';
-import { Observable, of, combineLatest } from 'rxjs';
+import { take, filter, switchMap, distinctUntilChanged } from 'rxjs/operators';
+import { Observable, of, combineLatest, forkJoin } from 'rxjs';
 
 import { PlansHistoryState } from '@redux/states/plans-history.state';
 import { getCountAllPlansHistory } from '@redux/selectors/plans-history.selectors';
@@ -19,12 +19,14 @@ export class PlansGuard {
   ) { }
 
   canActivate(): Observable<boolean> {
-    // Permitir la activación sin bloquear
-    this.checkPlansHistoryState();
-    return of(true);
+    return forkJoin([
+      this.checkPlansHistoryState(),
+    ]).pipe(
+      switchMap(() => of(true))
+    );
   }
 
-  private checkPlansHistoryState(): void {
+  private checkPlansHistoryState() {
     const countPlansHistoryStates$ = this.store.pipe(
       select(getCountAllPlansHistory)
     );
@@ -34,15 +36,13 @@ export class PlansGuard {
     );
 
     combineLatest([countPlansHistoryStates$, profile$]).pipe(
-      filter(([countPlansHistoryStates, profile]) => profile !== null),
-      take(1),
-      switchMap(([countPlansHistoryStates, profile]) => {
-        if (countPlansHistoryStates === 0 && profile) {
-          // Realizar la petición si el historial de planes está vacío y hay un perfil disponible
-          this.planService.requestGetPlansAction(profile.uid);
-        }
-        return of(null); // Retornar un observable vacío si no es necesario hacer la petición
-      })
-    ).subscribe();
+      filter(data => data[0] === 0 && !!data[1]),
+      distinctUntilChanged()
+    ).subscribe(data => {
+      this.planService.requestGetPlansAction(data[1].uid);
+    });
+
+    return of(true);
+
   }
 }

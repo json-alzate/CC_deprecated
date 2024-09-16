@@ -270,6 +270,7 @@ export class FirestoreService {
       planToAdd.uid = document.id;
       plansToReturn.push(planToAdd);
     });
+    console.log('getPlansElos plansToReturn', plansToReturn);
 
     return plansToReturn;
   }
