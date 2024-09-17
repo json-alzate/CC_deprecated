@@ -4,45 +4,19 @@ swiper-slide {
 
 .plan-history-card {
     border-radius: 11px;
-    overflow: hidden;
-    padding: 6px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
     background-color: var(--ion-color-light);
-
-    .card-body {
-        height: 250px;
+    .card-container {
+        overflow: hidden;
+        padding: 6px;
         display: flex;
         flex-direction: column;
-        .blocks-container {
+
+        .card-body {
+            height: 215px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            flex: 1;
-            .block {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-            }
-            ion-thumbnail {
-                --size: 30px;
-            }
         }
-
-        .fab-container {
-            display: flex;
-            align-items: flex-end;
-            flex-direction: column;
-            ion-fab-button {
-                --box-shadow: none;
-            }
-        }
-    }
-
-    .card-footer {
-        width: 100%;
-        padding: 4px;
     }
 }
 
