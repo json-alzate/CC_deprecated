@@ -29,6 +29,7 @@ export interface Block {
 
 export interface Plan {
     uid: string;
+    title?: string;
     uidUser?: string;
     eloTotal?: number;
     blocks: Block[];

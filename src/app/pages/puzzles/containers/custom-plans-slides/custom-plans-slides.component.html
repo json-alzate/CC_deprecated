@@ -1,0 +1,95 @@
+<swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1">
+  <swiper-slide *ngFor="let plan of plans; let i = index" [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}">
+
+    <!--  -->
+    <div class="plan-history-card">
+
+
+
+      <div class="card-body">
+        <h2>
+          {{ plan.title }}Titulo del plan
+        </h2>
+
+
+        <div class="blocks-container">
+
+          <div class="block" *ngFor="let block of plan.blocks">
+
+            <ion-thumbnail slot="start" *ngIf="block.theme !== 'all' && block.theme !== 'weakness'">
+              <img [src]="'/assets/images/puzzle-themes/'+block.theme+'.svg'" />
+            </ion-thumbnail>
+            <ion-icon name="shuffle" slot="start" *ngIf="block.theme === 'all'"></ion-icon>
+            <ion-icon name="trending-down" slot="start" *ngIf="block.theme === 'weakness'"></ion-icon>
+
+
+            <ion-label>
+              <h2>
+                <ng-container *ngIf="block.time || block.puzzlesCount; else elseTemplateDurationInfo">
+                  <span *ngIf="block.time && block.time > 0"
+                    [innerHTML]="(block.time | secondsToMinutesSeconds) + ' <small><i>(min:seg)</i></small>'"></span>
+                  {{ (block.time && block.time > 0) && block.puzzlesCount ?' ó' : '' }}
+                  {{ block.puzzlesCount ? block.puzzlesCount + ' ejercicios' : '' }}
+                </ng-container>
+                <ng-template #elseTemplateDurationInfo>
+                  <ion-icon name="infinite-outline"></ion-icon>
+                </ng-template>
+              </h2>
+              <ion-note>
+                <span [ngSwitch]="block.color">
+                  <span *ngSwitchCase="'white'">
+                    {{ 'CUSTOM_TRAINING.withWhite' | translate }}
+                    <!-- Con blancas -->
+                  </span>
+                  <span *ngSwitchCase="'black'">
+                    {{ 'CUSTOM_TRAINING.withBlack' | translate }}
+                    <!-- Con negras -->
+                  </span>
+                  <span *ngSwitchDefault>
+                    {{ 'CUSTOM_TRAINING.anyColor' | translate }}
+                    <!-- Cualquier color -->
+                  </span>
+                </span>
+              </ion-note>
+            </ion-label>
+
+            <ion-buttons slot="end">
+              <ion-button *ngIf="block.goshPuzzle" disabled>
+                <ion-icon slot="icon-only" name="eye-off-outline"></ion-icon>
+              </ion-button>
+            </ion-buttons>
+            <ion-reorder slot="end"></ion-reorder>
+
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+
+      <div class="card-footer">
+        <ion-text color="medium">
+          <small>
+            <span class="ion-text-center ion-no-margin ion-no-padding">Jugado 10 veces</span>
+          </small>
+        </ion-text>
+      </div>
+
+
+
+    </div>
+
+
+
+  </swiper-slide>
+  <!-- <swiper-slide>
+    <div class="more-button-container">
+
+      <ion-button expand="block" fill="clear" color="dark">
+        Ver más
+      </ion-button>
+    </div>
+  </swiper-slide> -->
+</swiper-container>

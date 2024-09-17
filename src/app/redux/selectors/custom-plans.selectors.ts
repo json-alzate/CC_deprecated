@@ -23,3 +23,8 @@ export const getPlanCustomPlan = (uidCustomPlan: string) => createSelector(
     }
 );
 
+
+export const getCustomPlansOrderByDate = createSelector(
+    getAllCustomPlans,
+    (plans) => plans.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+);

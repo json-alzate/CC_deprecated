@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 import { Plan } from '@models/plan.model';
 
@@ -17,7 +17,7 @@ import {
 } from '@redux/actions/custom-plans.actions';
 
 // Selectors
-import { getPlanCustomPlan } from '@redux/selectors/custom-plans.selectors';
+import { getPlanCustomPlan, getCustomPlansOrderByDate } from '@redux/selectors/custom-plans.selectors';
 
 
 // services
@@ -57,9 +57,7 @@ export class CustomPlansService {
     return this.firestoreService.updateCustomPlan(customPlan);
   }
 
-  async getOnePlanElo(planUid: string) {
-    return await firstValueFrom(this.store.select(getPlanCustomPlan(planUid)));
-  }
+
 
   requestAddOneCustomPlan(customPlan: Plan) {
     const action = requestAddOneCustomPlan({ customPlan });
@@ -69,4 +67,15 @@ export class CustomPlansService {
   saveCustomPlan(plan: Plan) {
     return this.firestoreService.saveCustomPlan(plan);
   }
+
+  /** STATE OBSERVABLES */
+
+  async getOnePlanElo(planUid: string) {
+    return await firstValueFrom(this.store.select(getPlanCustomPlan(planUid)));
+  }
+
+  getCustomPlansState(): Observable<Plan[]> {
+    return this.store.select(getCustomPlansOrderByDate);
+  }
+
 }

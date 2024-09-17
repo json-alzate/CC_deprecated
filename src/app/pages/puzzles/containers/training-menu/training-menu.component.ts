@@ -11,6 +11,8 @@ import { PlanService } from '@services/plan.service';
 
 import { BlockService } from '@services/block.service';
 import { ProfileService } from '@services/profile.service';
+import { CustomPlansService } from '@services/custom-plans.service';
+
 
 import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -32,6 +34,7 @@ export class TrainingMenuComponent implements OnInit {
   loadActivityChart = false;
 
   plansHistory$: Observable<Plan[]>;
+  customPlans$: Observable<Plan[]>;
 
   constructor(
     private navController: NavController,
@@ -41,12 +44,14 @@ export class TrainingMenuComponent implements OnInit {
     private profileService: ProfileService,
     private meta: Meta,
     private modalController: ModalController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private customPlansService: CustomPlansService
   ) { }
 
   ngOnInit() {
 
     this.plansHistory$ = this.planService.getPlansHistoryState();
+    this.customPlans$ = this.customPlansService.getCustomPlansState();
 
 
     this.meta.addTags([
