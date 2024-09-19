@@ -21,6 +21,15 @@
     </ul>
 
     <ion-list>
+        <ion-list-header>
+            <ion-item>
+                <ion-input [formControl]="namePlanFormControl" [label]=" 'CUSTOM_TRAINING.FIELDS.nameLabel' | translate"
+                    labelPlacement="floating"
+                    [errorText]="(namePlanFormControl?.hasError('required') ? ('CUSTOM_TRAINING.ERRORS.NameRequired' | translate) : 
+                  (namePlanFormControl?.hasError('maxlength') ? ('CUSTOM_TRAINING.ERRORS.NameMaxLength' | translate) : '')) "
+                    maxlength="30"></ion-input>
+            </ion-item>
+        </ion-list-header>
         <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
             <ion-item *ngFor="let block of blocks">
 

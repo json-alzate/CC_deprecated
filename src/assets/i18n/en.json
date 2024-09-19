@@ -73,7 +73,14 @@
         "withBlack": "With black",
         "anyColor": "Any color",
         "addBlock": "Add block",
-        "saveAndPlay": "Save and play"
+        "saveAndPlay": "Save and play",
+        "FIELDS": {
+            "nameLabel": "Name of the plan"
+        },
+        "ERRORS": {
+            "NameRequired": "The name is required",
+            "NameMaxLength": "The name is too long"
+        }
     },
     "NEW_BLOCK": {
         "title": "New block",

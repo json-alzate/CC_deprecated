@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 import { ModalController, NavController } from '@ionic/angular';
 
@@ -22,6 +23,7 @@ export class CustomTrainingComponent implements OnInit {
 
 
   blocks: Block[] = [];
+  namePlanFormControl = new FormControl('', [Validators.required, Validators.maxLength(30)]);
 
 
   constructor(
@@ -63,6 +65,15 @@ export class CustomTrainingComponent implements OnInit {
     // Se suma el tiempo de los bloques, y se calcula el tiempo total para obtener el elo total,
     // obteniéndolo de un plan predeterminado (si se tiene), sino es 1500
 
+    console.log(this.namePlanFormControl.value);
+
+    if (!this.namePlanFormControl.value || !this.namePlanFormControl.valid) {
+      this.namePlanFormControl.markAsTouched();
+      this.namePlanFormControl.markAsDirty();
+      return;
+    }
+
+
     // Se calcula el tiempo total de los bloques
     const totalBlockTime = this.blocks.reduce((sum, block) => sum + block.time, 0);
     const profile = this.profileService.getProfile;
@@ -87,6 +98,7 @@ export class CustomTrainingComponent implements OnInit {
 
     const newPlan: Plan = {
       uid: createUid(),
+      title: this.namePlanFormControl.value,
       uidUser: this.profileService.getProfile.uid,
       createdAt: new Date().getTime(),
       planType: 'custom',
