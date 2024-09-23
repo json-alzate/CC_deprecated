@@ -10,7 +10,7 @@ import { Plan } from '@models/plan.model';
 export class CustomPlansSlidesComponent implements OnInit {
 
   @Input() plans: Plan[] = [];
-  @Output() slideClick: EventEmitter<boolean> = new EventEmitter();
+  @Output() slideClick: EventEmitter<Plan> = new EventEmitter();
   // un arreglo con 5 números aleatorios del 0 al 9 y que ningún numero aparezca mas de una vez
   randomNumber: number[] = this.generateUniqueRandomNumbers(5);
 
@@ -27,6 +27,10 @@ export class CustomPlansSlidesComponent implements OnInit {
       }
     }
     return uniqueNumbers;
+  }
+
+  onChoosePlan(plan: Plan) {
+    this.slideClick.emit(plan);
   }
 
 }

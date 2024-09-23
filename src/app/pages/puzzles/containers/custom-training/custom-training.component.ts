@@ -95,9 +95,11 @@ export class CustomTrainingComponent implements OnInit {
         planEloChosen = 'plan30';
       }
     }
+    const uid = createUid();
 
     const newPlan: Plan = {
-      uid: createUid(),
+      uid,
+      uidCustomPlan: uid,
       title: this.namePlanFormControl.value,
       uidUser: this.profileService.getProfile.uid,
       createdAt: new Date().getTime(),
@@ -106,19 +108,8 @@ export class CustomTrainingComponent implements OnInit {
     };
 
     this.customPlansService.saveCustomPlan(newPlan);
-    // se recorre cada bloque para generar los puzzles
-    for (const block of this.blocks) {
-      const theme = (block.theme === 'weakness' || block.theme === 'all') ?
-        this.getThemeRandomOrWeakness(block, planEloChosen) : block.theme;
-      block.puzzles = await this.blockService.getPuzzlesForBlock({ ...block, elo: eloToStart, theme });
-      block.puzzlesPlayed = [];
-      block.theme = theme;
-    }
-    // update plan with puzzles
-    const newPlanToPlay: Plan = {
-      ...newPlan,
-      blocks: [...this.blocks]
-    };
+
+    const newPlanToPlay = await this.planService.makePlanForPlay(newPlan, eloToStart);
     this.planService.setPlanAction(newPlanToPlay);
     this.navController.navigateForward('/puzzles/training');
   }

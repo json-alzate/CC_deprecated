@@ -7,6 +7,7 @@ import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
 import { Block } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
+import { PlansElosService } from '@services/plans-elos.service';
 import { PuzzlesService } from '@services/puzzles.service';
 import { ProfileService } from '@services/profile.service';
 import { AppService } from '@services/app.service';
@@ -21,7 +22,8 @@ export class BlockService {
     private puzzlesService: PuzzlesService,
     private profileService: ProfileService,
     private appService: AppService,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private plansElosService: PlansElosService
   ) { }
 
   async getPuzzlesForBlock(blockSettings: Block): Promise<Puzzle[]> {
@@ -132,7 +134,7 @@ export class BlockService {
           let themeWeakness5;
 
           if (profile?.elos?.plan5) {
-            themeWeakness5 = this.profileService.getWeakness(profile?.elos?.plan5);
+            themeWeakness5 = this.plansElosService.getWeakness(profile?.elos?.plan5);
           }
 
           if (!themeWeakness5) {
@@ -692,10 +694,13 @@ export class BlockService {
    * según el plan que se le pase
    *
    * */
+  // TODO: esto se elimina y se combina con el metodo del servicio de pla-elos,
+  // importante transladar el mapeo
   getWeaknessInPlan(plan: {
     [key: string]: number;
   }): string {
     // se filtra solo para devolver los temas que existan en la lista de la app
+    // es posible que los temas mapeados al plan desde el back no estén en la lista de temas
     const themesList = this.appService.getThemesPuzzlesList;
     let planElosFiltered: { [key: string]: number } = {};
 
@@ -706,7 +711,7 @@ export class BlockService {
     });
     // se elige el tema con el elo mas bajo que el usuario tenga en el plan,
     // sino elige un tema random de la lista de temas
-    let theme = this.profileService.getWeakness(planElosFiltered);
+    let theme = this.plansElosService.getWeakness(planElosFiltered);
     if (!theme) {
       theme = this.appService.getThemesPuzzlesList[
         Math.floor(Math.random() * this.appService.getThemesPuzzlesList.length)
@@ -733,7 +738,7 @@ export class BlockService {
     });
     // se elige la apertura con el elo mas bajo que el usuario tenga en el plan,
     // sino elige una apertura random de la lista de aperturas
-    let opening = this.profileService.getWeakness(planOpeningsFiltered);
+    let opening = this.plansElosService.getWeakness(planOpeningsFiltered);
     if (!opening) {
       opening = this.appService.getOpeningsList[
         Math.floor(Math.random() * this.appService.getOpeningsList.length)

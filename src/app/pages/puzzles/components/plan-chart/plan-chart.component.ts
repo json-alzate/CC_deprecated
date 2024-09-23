@@ -89,7 +89,7 @@ export class PlanChartComponent implements OnInit, AfterViewInit {
     let openings: { [key: string]: number };
 
     if (this.plan.planType === 'custom') {
-      const planElos: PlanElos = await this.plansElosService.getOnePlanElo(this.plan.uid);
+      const planElos: PlanElos = await this.plansElosService.getOnePlanElo(this.plan.uidCustomPlan);
       elos = planElos.themes;
       openings = planElos.openings;
       this.totalElo = planElos.total;

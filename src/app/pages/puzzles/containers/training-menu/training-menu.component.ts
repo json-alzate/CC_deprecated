@@ -88,7 +88,7 @@ export class TrainingMenuComponent implements OnInit {
       block.puzzles = await this.blockService.getPuzzlesForBlock(block);
     }
 
-    const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
+    const newPlan: Plan = await this.planService.newPlan(blocks, planType);
     this.closeLoading();
     this.goTo('/puzzles/training');
 
@@ -128,6 +128,12 @@ export class TrainingMenuComponent implements OnInit {
     } else {
       this.presentModalLogin();
     }
+  }
+
+  async onChoosePlan(plan: Plan) {
+    const planReadyToPlay = await this.planService.makePlanForPlay(plan);
+    this.planService.setPlanAction(planReadyToPlay);
+    this.navController.navigateForward('/puzzles/training');
   }
 
   async presentModalLogin() {

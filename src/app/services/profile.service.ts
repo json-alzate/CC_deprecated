@@ -88,24 +88,7 @@ export class ProfileService {
   }
 
 
-  /**
-   *
-   * @param themes : or Openings { [key: string]: number; }
-   * @returns Return the name of the theme with the lowest value
-   */
-  public getWeakness(themes: { [key: string]: number }): string {
-    let lowestValue = Infinity; // Inicializar con Infinity para asegurarse de que cualquier valor sea menor.
-    let weakestTheme = ''; // Para almacenar el nombre del tema más débil.
 
-    Object.keys(themes).forEach(key => {
-      if (themes[key] < lowestValue) {
-        lowestValue = themes[key];
-        weakestTheme = key; // Almacenar el nombre del tema.
-      }
-    });
-
-    return weakestTheme; // Devolver el nombre del tema más débil.
-  }
 
   // subscribe to profile
   subscribeToProfile() {

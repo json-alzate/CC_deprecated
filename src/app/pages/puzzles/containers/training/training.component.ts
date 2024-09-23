@@ -304,7 +304,7 @@ export class TrainingComponent implements OnInit {
       this.plansElosService.calculatePlanElos(
         puzzleCompleted.rating,
         puzzleStatus === 'good' ? 1 : 0,
-        this.plan?.uid,
+        this.plan?.uidCustomPlan,
         this.profileService.getProfile?.uid,
         puzzleCompleted.themes,
         puzzleCompleted.openingFamily,

@@ -25,7 +25,7 @@ export class PlanPlayedComponent implements OnInit {
 
   plan: Plan;
 
-  puzzlesPerPage = 6;
+  puzzlesPerPage = 4;
   showMoreButtons: { [blockIndex: number]: boolean } = {};
   userPuzzlesToShowInBoards: { [blockIndex: number]: UserPuzzle[] } = {};
 
@@ -60,7 +60,7 @@ export class PlanPlayedComponent implements OnInit {
 
   async getTotalElo() {
     if (this.plan.planType === 'custom') {
-      this.eloTotal = (await this.plansElosService.getOnePlanElo(this.plan.uid))?.total || 0;
+      this.eloTotal = (await this.plansElosService.getOnePlanElo(this.plan.uidCustomPlan))?.total || 0;
     } else {
       this.eloTotal = this.profileService.getProfile?.elos[this.plan.planType + 'Total'];
     }
