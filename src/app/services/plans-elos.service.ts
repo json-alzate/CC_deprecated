@@ -27,6 +27,7 @@ import { getPlanElo } from '@redux/selectors/plans-elos.selectors';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
+import { AppService } from '@services/app.service';
 
 // utils
 import { calculateElo } from '@utils/calculate-elo';
@@ -40,7 +41,8 @@ export class PlansElosService {
 
   constructor(
     private store: Store<PlansElosState>,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private appService: AppService
   ) { }
 
   requestGetPlansElosAction(uidUser: string) {
@@ -147,12 +149,11 @@ export class PlansElosService {
     let weakestTheme = ''; // Para almacenar el nombre del tema más débil.
 
     Object.keys(themes).forEach(key => {
-      if (themes[key] < lowestValue) {
+      if (themes[key] < lowestValue && this.appService.validateThemesInList(key)) {
         lowestValue = themes[key];
         weakestTheme = key; // Almacenar el nombre del tema.
       }
     });
-
     return weakestTheme; // Devolver el nombre del tema más débil.
   }
 }

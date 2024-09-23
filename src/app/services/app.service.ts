@@ -74,8 +74,6 @@ export class AppService {
     this.themesPuzzlesList = this.themesPuzzle.reduce((acc, themeGroup) =>
       [...acc, ...themeGroup.themes], []);
 
-
-
   }
 
   async loadOpenings() {
@@ -105,6 +103,10 @@ export class AppService {
     } else {
       return this.getOpeningByValue(value).descriptionEn;
     }
+  }
+
+  validateThemesInList(theme: string): boolean {
+    return !!this.themesPuzzlesList.find(themeItem => themeItem.value === theme);
   }
 
 

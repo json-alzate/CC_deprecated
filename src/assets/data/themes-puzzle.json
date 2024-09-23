@@ -432,20 +432,6 @@
         ]
     },
     {
-        "groupName": "Especiales",
-        "themes": [
-            {
-                "nameEs": "Promoción",
-                "descriptionEs": "Promover uno de sus peones a una dama o una pieza menor",
-                "nameEn": "Promotion",
-                "descriptionEn": "Promote one of your pawns to a queen or a minor piece",
-                "count": 42995,
-                "img": "promotion.svg",
-                "value": "promotion"
-            }
-        ]
-    },
-    {
         "groupName": "Objetivos",
         "themes": [
             {
@@ -523,20 +509,6 @@
                 "count": 275301,
                 "img": "veryLong.svg",
                 "value": "veryLong"
-            }
-        ]
-    },
-    {
-        "groupName": "Otros",
-        "themes": [
-            {
-                "nameEs": "Maestro",
-                "descriptionEs": "El movimiento de un maestro.",
-                "nameEn": "Master",
-                "descriptionEn": "The move of a master.",
-                "count": 1000,
-                "img": "master.svg",
-                "value": "master"
             }
         ]
     }
