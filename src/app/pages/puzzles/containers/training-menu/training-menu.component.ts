@@ -79,9 +79,9 @@ export class TrainingMenuComponent implements OnInit {
     this.loadActivityChart = true;
   }
 
-  async createPlan(option: number, planType: PlanTypes) {
+  async createPlan(planType: PlanTypes) {
     this.showLoading();
-    const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
+    const blocks: Block[] = await this.blockService.generateBlocksForPlan(planType);
 
     // se recorre cada bloque para generar los puzzles
     for (const block of blocks) {
@@ -131,7 +131,7 @@ export class TrainingMenuComponent implements OnInit {
   }
 
   async onChoosePlan(plan: Plan) {
-    const planReadyToPlay = await this.planService.makePlanForPlay(plan);
+    const planReadyToPlay = await this.planService.makeCustomPlanForPlay(plan);
     this.planService.setPlanAction(planReadyToPlay);
     this.navController.navigateForward('/puzzles/training');
   }

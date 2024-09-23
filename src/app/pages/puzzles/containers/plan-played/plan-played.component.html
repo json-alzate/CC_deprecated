@@ -99,7 +99,7 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button color="primary" expand="block">
+    <ion-button color="primary" expand="block" (click)="onPlayPlan()" [disabled]="!plan">
       {{ 'PLAN_PLAYED.playPlan' | translate }}
       <!-- Jugar el plan -->
     </ion-button>

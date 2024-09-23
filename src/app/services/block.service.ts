@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
-import { Block } from '@models/plan.model';
+import { Block, PlanTypes } from '@models/plan.model';
 import { Profile } from '@models/profile.model';
 
 import { PlansElosService } from '@services/plans-elos.service';
@@ -52,7 +52,7 @@ export class BlockService {
 
   }
 
-  async generateBlocksForPlan(option: number): Promise<Block[]> {
+  async generateBlocksForPlan(option: PlanTypes): Promise<Block[]> {
 
     return new Promise((resolve, reject) => {
 
@@ -66,7 +66,7 @@ export class BlockService {
       // Nota: si el tiempo del puzzle es mayor que el tiempo del bloque, el tiempo restante
       // para el puzzle se convierte en el tiempo restante del bloque
       switch (option) {
-        case 0: // Calentamiento / un mismo color
+        case 'warmup': // Calentamiento / un mismo color
           //  2 minutos de mates en 1 (elo - 500) / tiempo por puzzle = 10 segundos
           //  1 minuto de mates en 2 / tiempo por puzzle = 10 segundos
           // 1 ejercicio de mate
@@ -115,7 +115,7 @@ export class BlockService {
           ];
           resolve(blocks0);
           break;
-        case 5:
+        case 'plan5':
           /* No Muestra soluciones / un mismo color
               - tema random = t 2.5 minutos / 15 segundos por puzzle
               - tema debilidades (elo - 200) = t 2.5 minutos / 30 segundos por puzzle
@@ -179,7 +179,7 @@ export class BlockService {
           ];
           resolve(block5);
           break;
-        case 10:
+        case 'plan10':
 
           /**  Muestra soluciones / un mismo color
            * - tema random || debilidades = t 2 minutos / 15 segundos por puzzle (elo - 100)
@@ -306,7 +306,7 @@ export class BlockService {
 
           resolve(block10);
           break;
-        case 20:
+        case 'plan20':
           /** Muestra soluciones / cambio de color
            * -  debilidades = t 3 minutos / 40 segundos por puzzle (elo - 500)
            * -  tema random = t 5 minutos / 3 minutos por puzzle
@@ -471,7 +471,7 @@ export class BlockService {
 
 
           break;
-        case 30:
+        case 'plan30':
           /** Muestra soluciones / un mismo color
            * -  debilidades = t 5 minutos / 60 segundos por puzzle (elo - 200)
            * -   apertura random = t 2 minutos / 30 segundos por puzzle
@@ -616,7 +616,7 @@ export class BlockService {
 
 
           break;
-        case -1:
+        case 'backToCalm':
           /**
            * Muestra soluciones / un mismo color
            * Vuelta a la calma

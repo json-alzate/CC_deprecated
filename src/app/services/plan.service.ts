@@ -75,7 +75,7 @@ export class PlanService {
     return this.store.select(getPlansHistoryOrderByDate);
   }
 
-  async makePlanForPlay(planRecibe: Plan, eloToStart = 1500): Promise<Plan> {
+  async makeCustomPlanForPlay(planRecibe: Plan, eloToStart = 1500): Promise<Plan> {
 
     const plan = { ...planRecibe };
 
@@ -94,6 +94,7 @@ export class PlanService {
         if (planElos?.themes) {
           theme = this.plansElosService.getWeakness(planElos.themes);
         } else {
+          // TODO: falta preguntar por las aperturas
           theme = this.blockService.getRandomTheme();
         }
       } else if (block.theme === 'all') {

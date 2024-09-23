@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 
-import { ModalController, NavController } from '@ionic/angular';
+import { ModalController, NavController, LoadingController } from '@ionic/angular';
 
-import { Plan } from '@models/plan.model';
+import { TranslateService } from '@ngx-translate/core';
+
+import { Plan, Block } from '@models/plan.model';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 
@@ -11,6 +13,7 @@ import { AppService } from '@services/app.service';
 import { PlanService } from '@services/plan.service';
 import { ProfileService } from '@services/profile.service';
 import { PlansElosService } from '@services/plans-elos.service';
+import { BlockService } from '@services/block.service';
 
 import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
 
@@ -23,6 +26,7 @@ import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-soluti
 })
 export class PlanPlayedComponent implements OnInit {
 
+  loader: any;
   plan: Plan;
 
   puzzlesPerPage = 4;
@@ -37,7 +41,10 @@ export class PlanPlayedComponent implements OnInit {
     private modalController: ModalController,
     private navController: NavController,
     private profileService: ProfileService,
-    private plansElosService: PlansElosService
+    private plansElosService: PlansElosService,
+    private blockService: BlockService,
+    private translateService: TranslateService,
+    private loadingController: LoadingController
   ) { }
 
   ngOnInit() { }
@@ -91,6 +98,39 @@ export class PlanPlayedComponent implements OnInit {
       }
     });
     await modal.present();
+  }
+
+  async onPlayPlan() {
+    this.showLoading();
+    if (this.plan.planType === 'custom') {
+      const planReadyToPlay = await this.planService.makeCustomPlanForPlay(this.plan);
+      this.planService.setPlanAction(planReadyToPlay);
+    } else {
+
+      const blocks: Block[] = await this.blockService.generateBlocksForPlan(this.plan.planType);
+      // se recorre cada bloque para generar los puzzles
+      for (const block of blocks) {
+        block.puzzles = await this.blockService.getPuzzlesForBlock(block);
+      }
+      const newPlan: Plan = await this.planService.newPlan(blocks, this.plan.planType);
+    }
+    this.closeLoading();
+    this.navController.navigateForward('/puzzles/training');
+
+  }
+
+  async showLoading() {
+    this.loader = await this.loadingController.create({
+      message: this.translateService.instant('loadingPuzzles'),
+    });
+
+    this.loader.present();
+  }
+
+  closeLoading() {
+    if (this.loader) {
+      this.loader.dismiss();
+    }
   }
 
 }

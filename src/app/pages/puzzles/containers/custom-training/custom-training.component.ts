@@ -109,7 +109,7 @@ export class CustomTrainingComponent implements OnInit {
 
     this.customPlansService.saveCustomPlan(newPlan);
 
-    const newPlanToPlay = await this.planService.makePlanForPlay(newPlan, eloToStart);
+    const newPlanToPlay = await this.planService.makeCustomPlanForPlay(newPlan, eloToStart);
     this.planService.setPlanAction(newPlanToPlay);
     this.navController.navigateForward('/puzzles/training');
   }
