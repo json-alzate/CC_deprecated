@@ -22,7 +22,7 @@ import { SharedModule } from '@shared/shared.module';
 
 /* @ngrx */
 import { StoreModule } from '@ngrx/store';
-import { appReducers } from '@redux/reducers/app.reducers';
+import { appReducers, clearStateMetaReducer } from '@redux/reducers/app.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
@@ -80,7 +80,7 @@ if (environment.production) {
     StoreRouterConnectingModule.forRoot({
       serializer: CustomRouterStateSerializer
     }),
-    StoreModule.forRoot(appReducers),
+    StoreModule.forRoot(appReducers, { metaReducers: [clearStateMetaReducer] }),
     ...devImports,
     EffectsModule.forRoot(fromEffects.EFFECTS),
     // SocketIoModule.forRoot(config),

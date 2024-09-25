@@ -43,7 +43,7 @@ export class AppService {
   getThemePuzzleByValue(value: string) {
     const theme = this.themesPuzzlesList.find(themeItem => themeItem.value === value);
     if (!theme) {
-      this.logError('No se encontró el tema', value);
+      console.log('No se encontró el tema', value);
     }
     return theme;
   }

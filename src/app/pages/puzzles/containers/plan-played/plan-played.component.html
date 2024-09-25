@@ -4,7 +4,8 @@
     <ion-row>
       <ion-col size="12">
 
-        <h2>
+        <h4 class="ion-no-margin ion-margin-top">{{ plan.title }}</h4>
+        <h2 class="ion-no-margin ion-margin-bottom">
           {{ 'PLAN_PLAYED.puzzlesPlayed' | translate }}
           <!-- Ejercicios jugados: -->
         </h2>
@@ -24,6 +25,7 @@
               {{ block.description }}
             </p>
           </ion-label>
+          <ion-badge color="medium">{{ block.puzzlesPlayed.length }}</ion-badge>
 
         </ion-item>
         <div class="ion-padding" slot="content">

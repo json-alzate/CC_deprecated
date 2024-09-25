@@ -107,7 +107,7 @@ export class CustomTrainingComponent implements OnInit {
       blocks: [...this.blocks]
     };
 
-    this.customPlansService.saveCustomPlan(newPlan);
+    this.customPlansService.requestAddOneCustomPlan(newPlan);
 
     const newPlanToPlay = await this.planService.makeCustomPlanForPlay(newPlan, eloToStart);
     this.planService.setPlanAction(newPlanToPlay);

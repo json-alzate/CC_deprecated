@@ -162,33 +162,43 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
-        <ion-text color="primary">
-          <h2>
-            {{ 'PUZZLES.MENU.history' | translate }}
-            <!-- Historial -->
-          </h2>
-        </ion-text>
-      </ion-col>
-      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
-        <app-plans-history-slides [plans]="plansHistory$ | async | slice:0:5"></app-plans-history-slides>
-      </ion-col>
-    </ion-row>
+    <ng-container *ngIf="(plansHistory$ | async) as plansHistory">
 
-    <ion-row>
-      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
-        <ion-text color="primary">
-          <h2>
-            Tus creaciones
-          </h2>
-        </ion-text>
-      </ion-col>
-      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
-        <app-custom-plans-slides [plans]="customPlans$ | async "
-          (slideClick)="onChoosePlan($event)"></app-custom-plans-slides>
-      </ion-col>
-    </ion-row>
+      <ion-row *ngIf="plansHistory.length > 0">
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+          <ion-text color="primary">
+            <h2>
+              {{ 'PUZZLES.MENU.history' | translate }}
+              <!-- Historial -->
+            </h2>
+          </ion-text>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
+          <app-plans-history-slides [plans]="plansHistory | slice:0:5"></app-plans-history-slides>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
+
+
+
+    <ng-container *ngIf="(customPlans$ | async) as customPlans">
+
+      <ion-row *ngIf="customPlans.length > 0">
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+          <ion-text color="primary">
+            <h2>
+              Tus creaciones
+            </h2>
+          </ion-text>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
+          <app-custom-plans-slides [plans]="customPlans" (slideClick)="onChoosePlan($event)"></app-custom-plans-slides>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
+
 
 
   </ion-grid>

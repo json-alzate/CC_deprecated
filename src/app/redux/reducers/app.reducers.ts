@@ -1,4 +1,5 @@
-import { ActionReducerMap, MetaReducer } from '@ngrx/store';
+import { Action, ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
+
 import { environment } from '@environments/environment';
 
 import * as fromRouter from '@ngrx/router-store';
@@ -19,6 +20,8 @@ import { customPlansReducer } from '@redux/reducers/custom-plans.reducer';
 import { AppState } from '@redux/states/app.state';
 
 
+import { LOGOUT } from '@redux/actions/auth.actions';
+
 // models
 
 
@@ -37,5 +40,14 @@ export const appReducers: ActionReducerMap<AppState> = {
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
+
+export const clearStateMetaReducer =
+    <State extends unknown>(reducer: ActionReducer<State>): ActionReducer<State> => (state: State, action: Action) => {
+        if (action.type === LOGOUT) {
+            state = {} as State; // ==> Emptying state here
+        }
+        return reducer(state, action);
+    };
+
 
 
