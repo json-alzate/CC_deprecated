@@ -9,7 +9,7 @@ import { Store, select } from '@ngrx/store';
 import { AuthState } from '@redux/states/auth.state';
 
 // actions
-import { setProfile, requestUpdateProfile } from '@redux/actions/auth.actions';
+import { setProfile, requestUpdateProfile, updateProfile } from '@redux/actions/auth.actions';
 
 // selectors
 import { getProfile } from '@redux/selectors/auth.selectors';
@@ -114,8 +114,14 @@ export class ProfileService {
 
   // request update profile
   requestUpdateProfile(profile: Partial<Profile>) {
-    const action = requestUpdateProfile({ profile });
-    this.store.dispatch(action);
+    if (this.profile?.uid) {
+      const action = requestUpdateProfile({ profile });
+      this.store.dispatch(action);
+    } else {
+      this.profile = { ...this.profile, ...profile };
+      const action = updateProfile({ profile });
+      this.store.dispatch(action);
+    }
   }
 
 

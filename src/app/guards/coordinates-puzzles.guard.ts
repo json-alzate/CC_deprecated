@@ -46,7 +46,7 @@ export class CoordinatesPuzzlesGuard {
 
 
     combineLatest([countCoordinatesPuzzlesStates$, profile$]).pipe(
-      filter(data => data[0] === 0 && !!data[1]),
+      filter(data => data[0] === 0 && !!data[1]?.uid),
       distinctUntilChanged()
     ).subscribe(data => {
       this.requestLoadCoordinatesPuzzles(data[1].uid);

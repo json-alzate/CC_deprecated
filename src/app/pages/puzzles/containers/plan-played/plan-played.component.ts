@@ -57,6 +57,7 @@ export class PlanPlayedComponent implements OnInit {
       }
       this.plan = plan;
       this.getTotalElo();
+
       this.plan.blocks.forEach((block, blockIndex) => {
         // Inicialmente carga 5 tableros por bloque
         this.userPuzzlesToShowInBoards[blockIndex] = block.puzzlesPlayed.slice(0, this.puzzlesPerPage);

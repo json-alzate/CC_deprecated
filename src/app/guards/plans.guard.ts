@@ -36,7 +36,7 @@ export class PlansGuard {
     );
 
     combineLatest([countPlansHistoryStates$, profile$]).pipe(
-      filter(data => data[0] === 0 && !!data[1]),
+      filter(data => data[0] === 0 && !!data[1]?.uid),
       distinctUntilChanged()
     ).subscribe(data => {
       this.planService.requestGetPlansAction(data[1].uid);

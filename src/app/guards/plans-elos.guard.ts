@@ -42,7 +42,7 @@ export class PlansElosGuard {
     );
 
     combineLatest([countPlansElosStates$, profile$]).pipe(
-      filter(data => data[0] === 0 && !!data[1]),
+      filter(data => data[0] === 0 && !!data[1]?.uid),
       distinctUntilChanged()
     ).subscribe(data => {
       this.plansElosService.requestGetPlansElosAction(data[1].uid);
