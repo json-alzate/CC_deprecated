@@ -16,7 +16,7 @@ import { PromotionDialog } from 'cm-chessboard/src/extensions/promotion-dialog/P
 import Chess from 'chess.js';
 
 // rxjs
-import { interval, Subject, Observable, Subscription } from 'rxjs';
+import { interval, Subject, Observable, Subscription, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 // models
@@ -414,6 +414,8 @@ export class BoardPuzzleComponent implements OnInit {
   }
 
   initGoshTimer() {
+    console.log('initGoshTimer', this.puzzle.goshPuzzleTime);
+
 
     this.goshPuzzleTime = this.puzzle.goshPuzzleTime || 0;
     if (this.goshPuzzleTime > 0) {
@@ -422,16 +424,19 @@ export class BoardPuzzleComponent implements OnInit {
       const goshUnsubscribe$ = new Subject<void>();
       const subsGoshSeconds = interval(1000);
       subsGoshSeconds.pipe(
-        takeUntil(this.timerUnsubscribe$ || goshUnsubscribe$),
+        takeUntil(merge(this.timerUnsubscribe$, goshUnsubscribe$)),
       ).subscribe(() => {
         this.goshPuzzleTime--;
         if (this.goshPuzzleTime === 0) {
           // Se ocultan las piezas tomando el elemento con la clase "pieces"
           const pieces = document.getElementsByClassName('pieces');
+          console.log('pieces', pieces);
+
           if (pieces.length > 0) {
             this.renderer.setStyle(pieces[0], 'opacity', '0');
           }
           goshUnsubscribe$.next();
+          goshUnsubscribe$.complete();
         }
       });
     }

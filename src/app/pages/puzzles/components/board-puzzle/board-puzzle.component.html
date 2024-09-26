@@ -8,12 +8,9 @@
       <ion-label *ngIf="(showTimer && isPlaying)" [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
 
       <ion-buttons slot="end">
-        <ion-button *ngIf="goshPuzzleTime > -1" size="large" fill="clear" color="dark">
+        <ion-button *ngIf="puzzle?.goshPuzzleTime" size="large" fill="clear" color="dark">
 
-          <span *ngIf="goshPuzzleTime === 0">
-            <ion-icon name="eye-off-outline"></ion-icon>
-          </span>
-          <span *ngIf="goshPuzzleTime > 0">
+          <span>
             {{ goshPuzzleTime | secondsToMinutesSeconds: true }}
             <ion-icon name="eye-outline"></ion-icon>
           </span>
