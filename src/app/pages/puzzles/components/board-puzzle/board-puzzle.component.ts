@@ -103,7 +103,7 @@ export class BoardPuzzleComponent implements OnInit {
   initPuzzle() {
     if (this.board) {
       // en caso de que se haya jugado un puzzle a ciegas anteriormente, se muestra las piezas
-      const pieces = document.getElementsByClassName('pieces');
+      const pieces = document.querySelectorAll('#boardPuzzle .pieces');;
       if (pieces.length > 0) {
         this.renderer.setStyle(pieces[0], 'opacity', '1');
       }
@@ -429,8 +429,8 @@ export class BoardPuzzleComponent implements OnInit {
         this.goshPuzzleTime--;
         if (this.goshPuzzleTime === 0) {
           // Se ocultan las piezas tomando el elemento con la clase "pieces"
-          const pieces = document.getElementsByClassName('pieces');
-          console.log('pieces', pieces);
+          const pieces = document.querySelectorAll('#boardPuzzle .pieces');
+          console.log('pieces', pieces, pieces.length);
 
           if (pieces.length > 0) {
             this.renderer.setStyle(pieces[0], 'opacity', '0');
