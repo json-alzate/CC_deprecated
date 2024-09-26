@@ -101,9 +101,14 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-button color="primary" expand="block" (click)="onPlayPlan()" [disabled]="!plan">
-      {{ 'PLAN_PLAYED.playPlan' | translate }}
-      <!-- Jugar el plan -->
+    <ion-button color="primary" expand="block" (click)="onPlayPlan()" [disabled]="!plan || isLoadingToPlay">
+      <span *ngIf="!isLoadingToPlay">
+        {{ 'PLAN_PLAYED.playPlan' | translate }}
+        <!-- Jugar el plan -->
+      </span>
+      <span *ngIf="isLoadingToPlay">
+        <ion-spinner name="dots"></ion-spinner>
+      </span>
     </ion-button>
   </ion-toolbar>
 </ion-footer>

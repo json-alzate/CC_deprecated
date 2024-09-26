@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Component, OnInit } from '@angular/core';
 
-import { ModalController, NavController, LoadingController } from '@ionic/angular';
+import { ModalController, NavController } from '@ionic/angular';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -26,7 +26,6 @@ import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-soluti
 })
 export class PlanPlayedComponent implements OnInit {
 
-  loader: any;
   plan: Plan;
 
   puzzlesPerPage = 4;
@@ -34,6 +33,8 @@ export class PlanPlayedComponent implements OnInit {
   userPuzzlesToShowInBoards: { [blockIndex: number]: UserPuzzle[] } = {};
 
   eloTotal: number;
+
+  isLoadingToPlay = false;
 
   constructor(
     public appService: AppService,
@@ -43,8 +44,7 @@ export class PlanPlayedComponent implements OnInit {
     private profileService: ProfileService,
     private plansElosService: PlansElosService,
     private blockService: BlockService,
-    private translateService: TranslateService,
-    private loadingController: LoadingController
+    private translateService: TranslateService
   ) { }
 
   ngOnInit() { }
@@ -102,7 +102,7 @@ export class PlanPlayedComponent implements OnInit {
   }
 
   async onPlayPlan() {
-    this.showLoading();
+    this.isLoadingToPlay = true;
     if (this.plan.planType === 'custom') {
       const planReadyToPlay = await this.planService.makeCustomPlanForPlay(this.plan);
       this.planService.setPlanAction(planReadyToPlay);
@@ -115,23 +115,11 @@ export class PlanPlayedComponent implements OnInit {
       }
       const newPlan: Plan = await this.planService.newPlan(blocks, this.plan.planType);
     }
-    this.closeLoading();
+    this.isLoadingToPlay = false;
     this.navController.navigateForward('/puzzles/training');
 
   }
 
-  async showLoading() {
-    this.loader = await this.loadingController.create({
-      message: this.translateService.instant('loadingPuzzles'),
-    });
 
-    this.loader.present();
-  }
-
-  closeLoading() {
-    if (this.loader) {
-      this.loader.dismiss();
-    }
-  }
 
 }
