@@ -37,9 +37,8 @@
           <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
         </ion-button>
 
-        <ion-button disabled fill="clear" color="dark">
-          <ion-icon slot="icon-only"
-            [name]=" piecePathKingTurn === 'wK.svg' ? 'radio-button-on' : 'radio-button-off'"></ion-icon>
+        <ion-button fill="clear" color="dark">
+          <ion-icon slot="icon-only" [src]="uiService.piecesPath + piecePathKingTurn"></ion-icon>
         </ion-button>
 
       </ion-buttons>

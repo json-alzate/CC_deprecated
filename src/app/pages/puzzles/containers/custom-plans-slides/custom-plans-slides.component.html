@@ -12,7 +12,7 @@
             {{ plan.title }}
           </h2>
           <ion-note class="ion-text-center">
-            {{ plan.blocks.length }} Bloques
+            {{ plan.blocks.length }} {{ (plan.blocks.length === 1) ? ('Block' | translate) : ('Blocks' | translate) }}
           </ion-note>
 
         </div>

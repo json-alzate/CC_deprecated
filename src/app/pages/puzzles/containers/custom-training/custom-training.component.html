@@ -22,7 +22,7 @@
 
     <ion-list>
         <ion-list-header>
-            <ion-item>
+            <ion-item lines="none">
                 <ion-input [formControl]="namePlanFormControl" [label]=" 'CUSTOM_TRAINING.FIELDS.nameLabel' | translate"
                     labelPlacement="floating"
                     [errorText]="(namePlanFormControl?.hasError('required') ? ('CUSTOM_TRAINING.ERRORS.NameRequired' | translate) : 
@@ -91,13 +91,15 @@
 
 </ion-content>
 
-<ion-footer>
-    <ion-row>
-        <ion-col size="8" offset="2">
-            <ion-button size="large" expand="block" [disabled]="blocks.length === 0" (click)="saveAndPlay()">
-                {{ 'CUSTOM_TRAINING.saveAndPlay' | translate }}
-                <!-- Guardar y jugar -->
-            </ion-button>
-        </ion-col>
-    </ion-row>
+<ion-footer class="ion-no-border">
+    <ion-toolbar>
+        <ion-row>
+            <ion-col size="8" offset="2">
+                <ion-button size="large" expand="block" [disabled]="blocks.length === 0" (click)="saveAndPlay()">
+                    {{ 'CUSTOM_TRAINING.saveAndPlay' | translate }}
+                    <!-- Guardar y jugar -->
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
 </ion-footer>

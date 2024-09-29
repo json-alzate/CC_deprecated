@@ -20,6 +20,8 @@
     "loadingPuzzles": "Loading puzzles...",
     "English": "English",
     "Spanish": "Spanish",
+    "Block": "Block",
+    "Blocks": "Blocks",
     "MENU": {
         "home": "Home",
         "training": "Training",
@@ -64,6 +66,9 @@
         "black": "Black",
         "continueTraining": "Continue training",
         "panel": "Panel"
+    },
+    "TRAINING-MENU": {
+        "customTrainingSlideTitle": "Your creations"
     },
     "CUSTOM_TRAINING": {
         "title": "Create your training plan",

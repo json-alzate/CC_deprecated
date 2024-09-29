@@ -55,7 +55,10 @@ export class PuzzlesService {
       path = path + `&openingFamily=${options.openingFamily}`;
     }
     if (options.color) {
-      path = path + `&color=${options.color}`;
+      // El color se invierte porque se busca por la posicion inicial del fen,
+      // (luego se hace la jugada, y el puzzle queda listo para resolverse)
+      const colorInverted = options.color === 'w' ? 'b' : 'w';
+      path = path + `&color=${colorInverted}`;
     }
 
     console.log(path);

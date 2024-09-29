@@ -20,6 +20,8 @@
     "Close": "Cerrar",
     "English": "Inglés",
     "Spanish": "Español",
+    "Block": "Bloque",
+    "Blocks": "Bloques",
     "MENU": {
         "home": "Inicio",
         "training": "Entrenamiento",
@@ -64,6 +66,9 @@
         "black": "Negras",
         "continueTraining": "Continuar Entrenamiento",
         "panel": "Panel"
+    },
+    "TRAINING-MENU": {
+        "customTrainingSlideTitle": "Tus creaciones"
     },
     "CUSTOM_TRAINING": {
         "title": "Crea tu plan de entrenamiento",
