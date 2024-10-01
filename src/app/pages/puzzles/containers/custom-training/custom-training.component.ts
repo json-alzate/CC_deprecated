@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 import { ModalController, NavController } from '@ionic/angular';
 
@@ -22,6 +23,7 @@ export class CustomTrainingComponent implements OnInit {
 
 
   blocks: Block[] = [];
+  namePlanFormControl = new FormControl('', [Validators.required, Validators.maxLength(30)]);
 
 
   constructor(
@@ -63,6 +65,15 @@ export class CustomTrainingComponent implements OnInit {
     // Se suma el tiempo de los bloques, y se calcula el tiempo total para obtener el elo total,
     // obteniéndolo de un plan predeterminado (si se tiene), sino es 1500
 
+    console.log(this.namePlanFormControl.value);
+
+    if (!this.namePlanFormControl.value || !this.namePlanFormControl.valid) {
+      this.namePlanFormControl.markAsTouched();
+      this.namePlanFormControl.markAsDirty();
+      return;
+    }
+
+
     // Se calcula el tiempo total de los bloques
     const totalBlockTime = this.blocks.reduce((sum, block) => sum + block.time, 0);
     const profile = this.profileService.getProfile;
@@ -84,29 +95,21 @@ export class CustomTrainingComponent implements OnInit {
         planEloChosen = 'plan30';
       }
     }
+    const uid = createUid();
 
     const newPlan: Plan = {
-      uid: createUid(),
+      uid,
+      uidCustomPlan: uid,
+      title: this.namePlanFormControl.value,
       uidUser: this.profileService.getProfile.uid,
       createdAt: new Date().getTime(),
       planType: 'custom',
       blocks: [...this.blocks]
     };
 
-    this.customPlansService.saveCustomPlan(newPlan);
-    // se recorre cada bloque para generar los puzzles
-    for (const block of this.blocks) {
-      const theme = (block.theme === 'weakness' || block.theme === 'all') ?
-        this.getThemeRandomOrWeakness(block, planEloChosen) : block.theme;
-      block.puzzles = await this.blockService.getPuzzlesForBlock({ ...block, elo: eloToStart, theme });
-      block.puzzlesPlayed = [];
-      block.theme = theme;
-    }
-    // update plan with puzzles
-    const newPlanToPlay: Plan = {
-      ...newPlan,
-      blocks: [...this.blocks]
-    };
+    this.customPlansService.requestAddOneCustomPlan(newPlan);
+
+    const newPlanToPlay = await this.planService.makeCustomPlanForPlay(newPlan, eloToStart);
     this.planService.setPlanAction(newPlanToPlay);
     this.navController.navigateForward('/puzzles/training');
   }

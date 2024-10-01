@@ -248,19 +248,7 @@ export class FirestoreService {
     return setDoc(doc(this.db, 'plans', plan.uid), plan);
   }
 
-  /**
- // ----------------------------------------------------------------------------
-  Custom Plan's
-   */
-  /**
-   * Get custom plans from firestore
-   *
-   * @param plan
-   * @returns
-   * */
-  async saveCustomPlan(plan: Plan): Promise<string | void> {
-    return setDoc(doc(this.db, 'custom-plans', plan.uid), plan);
-  }
+
 
   /**
    * Get plasElos from firestore
@@ -282,6 +270,7 @@ export class FirestoreService {
       planToAdd.uid = document.id;
       plansToReturn.push(planToAdd);
     });
+    console.log('getPlansElos plansToReturn', plansToReturn);
 
     return plansToReturn;
   }
@@ -332,7 +321,59 @@ export class FirestoreService {
   }
 
 
+  /**
+ // ----------------------------------------------------------------------------
+  Custom Plan's
+   */
+  /**
+   * Get custom plans from firestore
+   *
+   * @param plan
+   * @returns
+   * */
+  async saveCustomPlan(plan: Plan): Promise<string | void> {
+    return setDoc(doc(this.db, 'custom-plans', plan.uid), plan);
+  }
 
+
+  /**
+   * Get custom plans from firestore
+   *
+   * @param uidUser
+   * @returns CustomPlan[]
+   * */
+
+  async getCustomPlans(uidUser: string): Promise<Plan[]> {
+    const plansToReturn: Plan[] = [];
+    const q = query(
+      collection(this.db, 'custom-plans'),
+      where('uidUser', '==', uidUser)
+    );
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((document) => {
+      const planToAdd = document.data() as Plan;
+      planToAdd.uid = document.id;
+      plansToReturn.push(planToAdd);
+    });
+
+    console.log('plansToReturn', plansToReturn);
+
+
+    return plansToReturn;
+  }
+
+
+  /**
+   * Update a custom plan in firestore
+   *
+   * @param changes Plan
+   * @returns
+   * */
+
+  async updateCustomPlan(customPlan: Plan): Promise<void> {
+    return updateDoc(doc(this.db, 'custom-plans', customPlan.uid), { ...customPlan });
+  }
 
 
 }

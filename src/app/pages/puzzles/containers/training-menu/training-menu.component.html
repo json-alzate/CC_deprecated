@@ -4,9 +4,12 @@
     <ion-row>
 
 
-      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+      <ion-col size="12">
         <ion-text color="primary">
-          <h2>Planes de entrenamiento</h2>
+          <h2>
+            {{ "PUZZLES.MENU.title" | translate }}
+            <!-- Planes de entrenamiento -->
+          </h2>
         </ion-text>
       </ion-col>
 
@@ -17,15 +20,17 @@
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
-          <div (click)="createPlan(5, 'plan5')">
+          <div (click)="createPlan('plan5')">
             <ion-item class="item-plan-description" lines="none">
               <ion-label>
                 <b>
                   {{generalEloPlan5}}
                 </b>
               </ion-label>
-              <div slot="end" class="ion-hide-lg-down">
-                5 <ion-icon name="timer-outline"></ion-icon>
+              <div slot="end">
+                <ion-note>
+                  5 <ion-icon name="timer-outline"></ion-icon>
+                </ion-note>
               </div>
             </ion-item>
             <ion-img class="img-plan" src="assets/images/plan-icons/plan5.png" alt="rabbit" srcset=""></ion-img>
@@ -46,7 +51,7 @@
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
-          <div (click)="createPlan(10, 'plan10')">
+          <div (click)="createPlan('plan10')">
 
             <ion-item class="item-plan-description" lines="none">
               <ion-label>
@@ -54,8 +59,10 @@
                   {{generalEloPlan10}}
                 </b>
               </ion-label>
-              <div slot="end" class="ion-hide-lg-down">
-                10 <ion-icon name="timer-outline"></ion-icon>
+              <div slot="end">
+                <ion-note>
+                  10 <ion-icon name="timer-outline"></ion-icon>
+                </ion-note>
               </div>
             </ion-item>
             <ion-img class="img-plan" src="assets/images/plan-icons/plan10.png" alt="horse" srcset=""></ion-img>
@@ -77,7 +84,7 @@
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
-          <div (click)="createPlan(20, 'plan20')">
+          <div (click)="createPlan('plan20')">
 
             <ion-item class="item-plan-description" lines="none">
               <ion-label>
@@ -85,8 +92,10 @@
                   {{generalEloPlan20}}
                 </b>
               </ion-label>
-              <div slot="end" class="ion-hide-lg-down">
-                20 <ion-icon name="timer-outline"></ion-icon>
+              <div slot="end">
+                <ion-note>
+                  20 <ion-icon name="timer-outline"></ion-icon>
+                </ion-note>
               </div>
             </ion-item>
             <ion-img class="img-plan" src="assets/images/plan-icons/plan20.png" alt="elephant" srcset=""></ion-img>
@@ -104,7 +113,7 @@
 
         <ion-card color="light" class="ion-activatable">
           <ion-ripple-effect></ion-ripple-effect>
-          <div (click)="createPlan(30, 'plan30')">
+          <div (click)="createPlan('plan30')">
 
             <ion-item class="item-plan-description" lines="none">
               <ion-label>
@@ -112,8 +121,10 @@
                   {{generalEloPlan30}}
                 </b>
               </ion-label>
-              <div slot="end" class="ion-hide-lg-down">
-                30 <ion-icon name="timer-outline"></ion-icon>
+              <div slot="end">
+                <ion-note>
+                  30 <ion-icon name="timer-outline"></ion-icon>
+                </ion-note>
               </div>
             </ion-item>
             <ion-img class="img-plan" src="assets/images/plan-icons/plan30.png" alt="turtle" srcset=""></ion-img>
@@ -131,10 +142,11 @@
     </ion-row>
 
     <ion-row>
-      <ion-col size="12">
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="6">
 
         <ion-button expand="block" size="large" color="light" (click)="goToCustomPlanCreate()">
-          Rutina personalizada
+          {{ 'PUZZLES.MENU.customTraining' | translate }}
+          <!-- Rutina personalizada -->
         </ion-button>
         <!-- <ion-button expand="block" fill="clear" color="dark">
           Libre
@@ -150,16 +162,43 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
-        <ion-text color="primary">
-          <h2>Historial</h2>
-        </ion-text>
-      </ion-col>
-      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
-        <app-plans-history-slides [plans]="plansHistory$ | async | slice:0:5"></app-plans-history-slides>
-      </ion-col>
-    </ion-row>
+    <ng-container *ngIf="(plansHistory$ | async) as plansHistory">
+
+      <ion-row *ngIf="plansHistory.length > 0">
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+          <ion-text color="primary">
+            <h2>
+              {{ 'PUZZLES.MENU.history' | translate }}
+              <!-- Historial -->
+            </h2>
+          </ion-text>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
+          <app-plans-history-slides [plans]="plansHistory | slice:0:5"></app-plans-history-slides>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
+
+
+
+    <ng-container *ngIf="(customPlans$ | async) as customPlans">
+
+      <ion-row *ngIf="customPlans.length > 0">
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="12" size-lg="3" size-xl="3">
+          <ion-text color="primary">
+            <h2>
+              <!-- Tus creaciones -->
+              {{ 'TRAINING-MENU.customTrainingSlideTitle' | translate }}
+            </h2>
+          </ion-text>
+        </ion-col>
+        <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="10" size-xl="6" offset-lg="1" offset-xl="3">
+          <app-custom-plans-slides [plans]="customPlans" (slideClick)="onChoosePlan($event)"></app-custom-plans-slides>
+        </ion-col>
+      </ion-row>
+    </ng-container>
+
 
 
 

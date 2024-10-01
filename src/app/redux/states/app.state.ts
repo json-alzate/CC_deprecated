@@ -14,6 +14,7 @@ import { PuzzlesState } from './puzzles.state';
 import { UserPuzzlesState } from './user-puzzles.state';
 import { PlansHistoryState } from './plans-history.state';
 import { PlansElosState } from './plans-elos.state';
+import { CustomPlansState } from './custom-plans.state';
 
 
 
@@ -27,6 +28,7 @@ export interface AppState {
   plan: Plan;
   plansHistory: PlansHistoryState;
   plansElos: PlansElosState;
+  customPlans: CustomPlansState;
 }
 
 export const getPlanState = createFeatureSelector<Plan>('plan');

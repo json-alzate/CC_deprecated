@@ -118,6 +118,8 @@
             {
                 "nameEs": "Ataque a la descubierta",
                 "descriptionEs": "Mover una pieza que bloqueaba el ataque de otra pieza de largo alcance, como por ejemplo, quitar un caballo del camino de una torre.",
+                "nameEn": "Discovered Attack",
+                "descriptionEn": "Move a piece that blocked the attack of another piece of long range, such as removing a knight from the path of a rook.",
                 "count": 201748,
                 "img": "discoveredAttack.svg",
                 "value": "discoveredAttack"
@@ -428,20 +430,6 @@
                 "count": 9381,
                 "img": "smotheredMate.svg",
                 "value": "smotheredMate"
-            }
-        ]
-    },
-    {
-        "groupName": "Especiales",
-        "themes": [
-            {
-                "nameEs": "Promoción",
-                "descriptionEs": "Promover uno de sus peones a una dama o una pieza menor",
-                "nameEn": "Promotion",
-                "descriptionEn": "Promote one of your pawns to a queen or a minor piece",
-                "count": 42995,
-                "img": "promotion.svg",
-                "value": "promotion"
             }
         ]
     },

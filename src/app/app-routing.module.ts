@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 
 import { CoordinatesPuzzlesGuard } from '@guards/coordinates-puzzles.guard';
-import { PuzzlesGuard } from '@guards/puzzles.guard';
-import { UserPuzzlesGuard } from '@guards/user-puzzles.guard';
 import { PlansGuard } from '@guards/plans.guard';
+import { PlansElosGuard } from '@guards/plans-elos.guard';
+import { CustomPlansGuard } from '@guards/custom-plans.guard';
 
 import { CustomPreloadingStrategy } from '@services/preloading-strategy.service';
 
 const routes: Routes = [
   {
     path: 'puzzles',
-    canActivate: [PlansGuard],
+    canActivate: [PlansGuard, PlansElosGuard, CustomPlansGuard],
     loadChildren: () => import('./pages/puzzles/puzzles.module').then(m => m.PuzzlesPageModule)
   },
   {

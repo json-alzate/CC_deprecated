@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { take, switchMap } from 'rxjs/operators';
+import { take, switchMap, filter, distinctUntilChanged } from 'rxjs/operators';
 
 import { Observable, of, forkJoin, combineLatest } from 'rxjs';
 
@@ -23,32 +23,29 @@ export class PlansElosGuard {
     private store: Store<PlansElosState>
   ) { }
 
+
   canActivate(): Observable<boolean> {
-    return forkJoin([
-      this.checkPlansElosState(),
-    ]).pipe(
-      switchMap(() => of(true))
-    );
+    // Permitir la activación sin bloquear
+    this.checkPlansElosState();
+    return of(true);
   }
 
 
   private checkPlansElosState() {
 
     const countPlansElosStates$ = this.store.pipe(
-      select(getCountAllPlansElos),
-      take(1)
+      select(getCountAllPlansElos)
     );
 
     const profile$ = this.store.pipe(
       select(getProfile)
     );
 
-    combineLatest([countPlansElosStates$, profile$]).subscribe(data => {
-
-      if (data[0] === 0 && data[1]) {
-        this.plansElosService.requestGetPlansElosAction(data[1].uid);
-      }
-
+    combineLatest([countPlansElosStates$, profile$]).pipe(
+      filter(data => data[0] === 0 && !!data[1]?.uid),
+      distinctUntilChanged()
+    ).subscribe(data => {
+      this.plansElosService.requestGetPlansElosAction(data[1].uid);
     });
 
     return of(true);

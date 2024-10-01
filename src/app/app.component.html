@@ -2,12 +2,16 @@
 
   <!--Mobile-->
   <ion-menu [swipeGesture]="false" side="start" menuId="first" contentId="main">
-    <ion-header>
+    <ion-header class="ion-no-border">
       <ion-toolbar>
 
         <ng-container *ngIf="(profile$ | async) as profile; else elseTemplateLoginButton">
 
-          <ion-title> {{ profile.email }} </ion-title>
+          <ion-title>
+            <small>
+              {{ profile.email }}
+            </small>
+          </ion-title>
 
           <ion-buttons slot="end" (click)="showProfile = !showProfile">
             <ion-button [color]=" !showProfile ? 'dark' : 'primary'">
@@ -68,7 +72,8 @@
           <ion-menu-toggle>
             <ion-button (click)="goTo('/privacy')">
               <ion-icon slot="start" name="information-circle-outline"></ion-icon>
-              Privacidad
+              {{ 'MENU.privacy' | translate }}
+              <!-- Privacidad -->
             </ion-button>
           </ion-menu-toggle>
         </ion-buttons>

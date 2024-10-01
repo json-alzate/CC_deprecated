@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors } from '@angular/forms';
 
+import { TranslateService } from '@ngx-translate/core';
+
+
 import { ModalController } from '@ionic/angular';
 
 import { AppPuzzlesThemes, AppPuzzleThemesGroup } from '@models/app.models';
@@ -24,13 +27,16 @@ export class BlockSettingsComponent implements OnInit {
   puzzlesGroupsThemes: AppPuzzleThemesGroup[] = [];
   form: FormGroup;
 
+  lang = this.translateService.currentLang;
+
 
 
   constructor(
     private formBuilder: FormBuilder,
     private appService: AppService,
     public uiService: UiService,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private translateService: TranslateService
   ) {
     this.puzzlesGroupsThemes = this.appService.getThemesPuzzle;
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 
 import { PlanElos } from '@models/planElos.model';
@@ -27,6 +27,7 @@ import { getPlanElo } from '@redux/selectors/plans-elos.selectors';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
+import { AppService } from '@services/app.service';
 
 // utils
 import { calculateElo } from '@utils/calculate-elo';
@@ -40,7 +41,8 @@ export class PlansElosService {
 
   constructor(
     private store: Store<PlansElosState>,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private appService: AppService
   ) { }
 
   requestGetPlansElosAction(uidUser: string) {
@@ -58,6 +60,10 @@ export class PlansElosService {
 
   updatePlanElo(planElo: PlanElos) {
     return this.firestoreService.updatePlanElo(planElo);
+  }
+
+  async getOnePlanElo(planUid: string) {
+    return await firstValueFrom(this.store.select(getPlanElo(planUid)));
   }
 
   async calculatePlanElos(
@@ -131,5 +137,23 @@ export class PlansElosService {
       planElos.uidPlan = planUid;
       this.store.dispatch(requestAddOnePlanElo({ planElo: planElos }));
     }
+  }
+
+
+  /**
+   * @param themes : or Openings { [key: string]: number; }
+   * @returns Return the name of the theme with the lowest value
+   */
+  public getWeakness(themes: { [key: string]: number }): string {
+    let lowestValue = Infinity; // Inicializar con Infinity para asegurarse de que cualquier valor sea menor.
+    let weakestTheme = ''; // Para almacenar el nombre del tema más débil.
+
+    Object.keys(themes).forEach(key => {
+      if (themes[key] < lowestValue && this.appService.validateThemesInList(key)) {
+        lowestValue = themes[key];
+        weakestTheme = key; // Almacenar el nombre del tema.
+      }
+    });
+    return weakestTheme; // Devolver el nombre del tema más débil.
   }
 }

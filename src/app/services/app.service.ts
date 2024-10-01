@@ -43,7 +43,7 @@ export class AppService {
   getThemePuzzleByValue(value: string) {
     const theme = this.themesPuzzlesList.find(themeItem => themeItem.value === value);
     if (!theme) {
-      this.logError('No se encontró el tema', value);
+      console.log('No se encontró el tema', value);
     }
     return theme;
   }
@@ -74,8 +74,6 @@ export class AppService {
     this.themesPuzzlesList = this.themesPuzzle.reduce((acc, themeGroup) =>
       [...acc, ...themeGroup.themes], []);
 
-
-
   }
 
   async loadOpenings() {
@@ -105,6 +103,10 @@ export class AppService {
     } else {
       return this.getOpeningByValue(value).descriptionEn;
     }
+  }
+
+  validateThemesInList(theme: string): boolean {
+    return !!this.themesPuzzlesList.find(themeItem => themeItem.value === theme);
   }
 
 

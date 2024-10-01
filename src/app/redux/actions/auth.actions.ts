@@ -46,6 +46,7 @@ export const addNewNickName = createAction(
     props<{ nickname: string; uidUser: string }>()
 );
 
+export const LOGOUT = '[Auth] logOut';
 export const logOut = createAction(
     '[Auth] logOut'
 );

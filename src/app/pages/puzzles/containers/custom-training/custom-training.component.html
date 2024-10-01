@@ -1,23 +1,35 @@
 <ion-content class="ion-padding">
 
     <h2>
-        Crea un plan de entrenamiento
+        {{ 'CUSTOM_TRAINING.title' | translate }}
+        <!-- Crea tu plan de entrenamiento -->
     </h2>
 
     <ul>
         <li>
             <ion-text color="medium">
-                Un plan se compone de tantos bloques como quieras.
+                {{ 'CUSTOM_TRAINING.description1' | translate }}
+                <!-- Un plan se compone de hasta 5 bloques. -->
             </ion-text>
         </li>
         <li>
             <ion-text color="medium">
-                Cada bloque puede contener una serie de ejercicios con los ajustes que definas.
+                {{ 'CUSTOM_TRAINING.description2' | translate }}
+                <!-- Cada bloque puede contener una serie de ejercicios con los ajustes que definas. -->
             </ion-text>
         </li>
     </ul>
 
     <ion-list>
+        <ion-list-header>
+            <ion-item lines="none">
+                <ion-input [formControl]="namePlanFormControl" [label]=" 'CUSTOM_TRAINING.FIELDS.nameLabel' | translate"
+                    labelPlacement="floating"
+                    [errorText]="(namePlanFormControl?.hasError('required') ? ('CUSTOM_TRAINING.ERRORS.NameRequired' | translate) : 
+                  (namePlanFormControl?.hasError('maxlength') ? ('CUSTOM_TRAINING.ERRORS.NameMaxLength' | translate) : '')) "
+                    maxlength="30"></ion-input>
+            </ion-item>
+        </ion-list-header>
         <ion-reorder-group (ionItemReorder)="doReorder($event)" disabled="false">
             <ion-item *ngFor="let block of blocks">
 
@@ -43,13 +55,16 @@
                     <ion-note>
                         <span [ngSwitch]="block.color">
                             <span *ngSwitchCase="'white'">
-                                Con blancas
+                                {{ 'CUSTOM_TRAINING.withWhite' | translate }}
+                                <!-- Con blancas -->
                             </span>
                             <span *ngSwitchCase="'black'">
-                                Con negras
+                                {{ 'CUSTOM_TRAINING.withBlack' | translate }}
+                                <!-- Con negras -->
                             </span>
                             <span *ngSwitchDefault>
-                                Cualquier color
+                                {{ 'CUSTOM_TRAINING.anyColor' | translate }}
+                                <!-- Cualquier color -->
                             </span>
                         </span>
                     </ion-note>
@@ -65,21 +80,26 @@
             </ion-item>
         </ion-reorder-group>
     </ion-list>
-    <ion-button class="ion-margin-top" fill="clear" size="large" expand="block" (click)="openBlockSettingsModal()">
+    <ion-button [disabled]="blocks.length >= 5" class="ion-margin-top" fill="clear" size="large" expand="block"
+        (click)="openBlockSettingsModal()">
         <ion-icon slot="start" name="add"></ion-icon>
-        Adicionar bloque
+        {{ 'CUSTOM_TRAINING.addBlock' | translate }}
+        <!-- Añadir bloque -->
     </ion-button>
 
 
 
 </ion-content>
 
-<ion-footer>
-    <ion-row>
-        <ion-col size="8" offset="2">
-            <ion-button size="large" expand="block" [disabled]="blocks.length === 0" (click)="saveAndPlay()">
-                Guardar y jugar
-            </ion-button>
-        </ion-col>
-    </ion-row>
+<ion-footer class="ion-no-border">
+    <ion-toolbar>
+        <ion-row>
+            <ion-col size="8" offset="2">
+                <ion-button size="large" expand="block" [disabled]="blocks.length === 0" (click)="saveAndPlay()">
+                    {{ 'CUSTOM_TRAINING.saveAndPlay' | translate }}
+                    <!-- Guardar y jugar -->
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-toolbar>
 </ion-footer>

@@ -20,11 +20,14 @@
     "loadingPuzzles": "Loading puzzles...",
     "English": "English",
     "Spanish": "Spanish",
+    "Block": "Block",
+    "Blocks": "Blocks",
     "MENU": {
         "home": "Home",
         "training": "Training",
         "coordinates": "Coordinates",
-        "squares": "Squares"
+        "squares": "Squares",
+        "privacy": "Privacy"
     },
     "LOGIN": {
         "ERRORS": {
@@ -38,8 +41,12 @@
     },
     "PUZZLES": {
         "MENU": {
-            "warmup": "Warmup"
+            "title": "Training Plans",
+            "warmup": "Warmup",
+            "customTraining": "Custom Training",
+            "history": "History"
         },
+        "puzzles": "Puzzles",
         "total": "Total",
         "start": "Start",
         "score": "Score",
@@ -59,6 +66,56 @@
         "black": "Black",
         "continueTraining": "Continue training",
         "panel": "Panel"
+    },
+    "TRAINING-MENU": {
+        "customTrainingSlideTitle": "Your creations"
+    },
+    "CUSTOM_TRAINING": {
+        "title": "Create your training plan",
+        "description1": "A plan consists of up to 5 blocks.",
+        "description2": "Each block can contain a series of exercises with the adjustments you define.",
+        "withWhite": "With white",
+        "withBlack": "With black",
+        "anyColor": "Any color",
+        "addBlock": "Add block",
+        "saveAndPlay": "Save and play",
+        "FIELDS": {
+            "nameLabel": "Name of the plan"
+        },
+        "ERRORS": {
+            "NameRequired": "The name is required",
+            "NameMaxLength": "The name is too long"
+        }
+    },
+    "NEW_BLOCK": {
+        "title": "New block",
+        "duration": "duración",
+        "min:sec": "min:sec",
+        "or": "or",
+        "puzzles": "puzzles",
+        "time": "tiempo",
+        "unlimited": "Unlimited",
+        "puzzlesCount": "Number of puzzles",
+        "timeByPuzzle": "Time by puzzle",
+        "showSolution": "Show solution",
+        "blind": "Blind",
+        "timeVisible": "Time visible",
+        "theme": "Theme",
+        "random": "Random",
+        "randomDescription": "A different topic every time you play",
+        "weakness": "Weakness",
+        "weaknessDescription": "The topic with the least elo Available in the Plan",
+        "difficulty": "Difficulty",
+        "balanced": "Balanced",
+        "normal": "Normal",
+        "increase": "Increase",
+        "decrease": "Decrease",
+        "add": "Add"
+    },
+    "PLAN_PLAYED": {
+        "puzzlesPlayed": "Puzzles played",
+        "statistics": "Statistics of the plan",
+        "playPlan": "Play the plan"
     },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordinates",

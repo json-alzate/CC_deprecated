@@ -20,11 +20,14 @@
     "Close": "Cerrar",
     "English": "Inglés",
     "Spanish": "Español",
+    "Block": "Bloque",
+    "Blocks": "Bloques",
     "MENU": {
         "home": "Inicio",
         "training": "Entrenamiento",
         "coordinates": "Coordenadas",
-        "squares": "Casillas"
+        "squares": "Casillas",
+        "privacy": "Privacidad"
     },
     "LOGIN": {
         "ERRORS": {
@@ -38,8 +41,12 @@
     },
     "PUZZLES": {
         "MENU": {
-            "warmup": "Calentamiento"
+            "title": "Planes de entrenamiento",
+            "warmup": "Calentamiento",
+            "customTraining": "Rutina personalizada",
+            "history": "Historial"
         },
+        "puzzles": "Ejercicios",
         "total": "Total",
         "start": "Empezar",
         "score": "Puntaje",
@@ -59,6 +66,56 @@
         "black": "Negras",
         "continueTraining": "Continuar Entrenamiento",
         "panel": "Panel"
+    },
+    "TRAINING-MENU": {
+        "customTrainingSlideTitle": "Tus creaciones"
+    },
+    "CUSTOM_TRAINING": {
+        "title": "Crea tu plan de entrenamiento",
+        "description1": "Un plan se compone de hasta 5 bloques.",
+        "description2": "Cada bloque puede contener una serie de ejercicios con los ajustes que definas.",
+        "withWhite": "Con blancas",
+        "withBlack": "Con negras",
+        "anyColor": "Cualquier color",
+        "addBlock": "Añadir bloque",
+        "saveAndPlay": "Guardar y jugar",
+        "FIELDS": {
+            "nameLabel": "Nombre del plan"
+        },
+        "ERRORS": {
+            "NameRequired": "El nombre es requerido",
+            "NameMaxLength": "El nombre Es muy largo"
+        }
+    },
+    "NEW_BLOCK": {
+        "title": "Nuevo bloque",
+        "duration": "Duración",
+        "min:sec": "min:seg",
+        "or": "ó",
+        "puzzles": "ejercicios",
+        "time": "tiempo",
+        "unlimited": "Ilimitado",
+        "puzzlesCount": "Cantidad de ejercicios",
+        "timeByPuzzle": "Tiempo por ejercicio",
+        "showSolution": "Mostrar solución",
+        "blind": "A ciegas",
+        "timeVisible": "Tiempo visible",
+        "theme": "Tema",
+        "random": "Aleatorio",
+        "randomDescription": "Un tema diferente cada vez que se juegue",
+        "weakness": "Debilidad",
+        "weaknessDescription": "El tema con el menor elo disponible en el plan",
+        "difficulty": "Dificultad",
+        "balanced": "Equilibrado",
+        "normal": "Normal",
+        "increase": "Aumenta",
+        "decrease": "Disminuye",
+        "add": "Añadir"
+    },
+    "PLAN_PLAYED": {
+        "puzzlesPlayed": "Ejercicios jugados",
+        "statistics": "Estadísticas del plan",
+        "playPlan": "Jugar el plan"
     },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordenadas",

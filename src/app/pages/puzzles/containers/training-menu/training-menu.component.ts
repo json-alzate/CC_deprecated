@@ -11,6 +11,8 @@ import { PlanService } from '@services/plan.service';
 
 import { BlockService } from '@services/block.service';
 import { ProfileService } from '@services/profile.service';
+import { CustomPlansService } from '@services/custom-plans.service';
+
 
 import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 import { LoginComponent } from '@shared/components/login/login.component';
@@ -32,6 +34,7 @@ export class TrainingMenuComponent implements OnInit {
   loadActivityChart = false;
 
   plansHistory$: Observable<Plan[]>;
+  customPlans$: Observable<Plan[]>;
 
   constructor(
     private navController: NavController,
@@ -41,12 +44,14 @@ export class TrainingMenuComponent implements OnInit {
     private profileService: ProfileService,
     private meta: Meta,
     private modalController: ModalController,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private customPlansService: CustomPlansService
   ) { }
 
   ngOnInit() {
 
     this.plansHistory$ = this.planService.getPlansHistoryState();
+    this.customPlans$ = this.customPlansService.getCustomPlansState();
 
 
     this.meta.addTags([
@@ -74,16 +79,16 @@ export class TrainingMenuComponent implements OnInit {
     this.loadActivityChart = true;
   }
 
-  async createPlan(option: number, planType: PlanTypes) {
+  async createPlan(planType: PlanTypes) {
     this.showLoading();
-    const blocks: Block[] = await this.blockService.generateBlocksForPlan(option);
+    const blocks: Block[] = await this.blockService.generateBlocksForPlan(planType);
 
     // se recorre cada bloque para generar los puzzles
     for (const block of blocks) {
       block.puzzles = await this.blockService.getPuzzlesForBlock(block);
     }
 
-    const newPlan: Plan = await this.planService.newPlan(blocks, planType, option * 60);
+    const newPlan: Plan = await this.planService.newPlan(blocks, planType);
     this.closeLoading();
     this.goTo('/puzzles/training');
 
@@ -123,6 +128,12 @@ export class TrainingMenuComponent implements OnInit {
     } else {
       this.presentModalLogin();
     }
+  }
+
+  async onChoosePlan(plan: Plan) {
+    const planReadyToPlay = await this.planService.makeCustomPlanForPlay(plan);
+    this.planService.setPlanAction(planReadyToPlay);
+    this.navController.navigateForward('/puzzles/training');
   }
 
   async presentModalLogin() {

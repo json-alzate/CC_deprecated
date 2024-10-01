@@ -21,6 +21,8 @@ import { getPlansHistoryOrderByDate } from '@redux/selectors/plans-history.selec
 
 // services
 import { FirestoreService } from '@services/firestore.service';
+import { BlockService } from '@services/block.service';
+import { PlansElosService } from '@services/plans-elos.service';
 
 
 @Injectable({
@@ -30,7 +32,9 @@ export class PlanService {
 
   constructor(
     private store: Store<Store>,
-    private firestoreService: FirestoreService
+    private firestoreService: FirestoreService,
+    private blockService: BlockService,
+    private plansElosService: PlansElosService
   ) { }
 
 
@@ -71,12 +75,56 @@ export class PlanService {
     return this.store.select(getPlansHistoryOrderByDate);
   }
 
+  async makeCustomPlanForPlay(planRecibe: Plan, eloToStart = 1500): Promise<Plan> {
+
+    const plan = { ...planRecibe };
+
+    let uid = plan.uid;
+    if (plan.planType === 'custom') {
+      uid = plan.uidCustomPlan;
+    }
+
+    const planElos = await this.plansElosService.getOnePlanElo(uid);
+
+    // se recorre cada bloque para generar los puzzles
+    const blockUpdatedToAdd = [];
+    for (const block of plan.blocks) {
+      let theme = block.theme;
+      if (block.theme === 'weakness') {
+        if (planElos?.themes) {
+          theme = this.plansElosService.getWeakness(planElos.themes);
+        } else {
+          // TODO: falta preguntar por las aperturas
+          theme = this.blockService.getRandomTheme();
+        }
+      } else if (block.theme === 'all') {
+        theme = this.blockService.getRandomTheme();
+      }
+      const blockObjectToAdd = {
+        ...block,
+        puzzles: await this.blockService.getPuzzlesForBlock({ ...block, elo: planElos?.total || eloToStart, theme }),
+        puzzlesPlayed: [],
+        theme
+      };
+
+      blockUpdatedToAdd.push(blockObjectToAdd);
+    }
+
+    if (plan.planType === 'custom') {
+      return { ...plan, uid: createUid(), uidCustomPlan: plan.uid, blocks: blockUpdatedToAdd, createdAt: new Date().getTime() };
+    }
+
+    return { ...plan, blocks: blockUpdatedToAdd, createdAt: new Date().getTime() };
+
+  }
+
+
   /**
    *
    * @param blocks
    * @param time in seconds (-1 for infinite)
    * */
-  newPlan(blocks: Block[], planType: PlanTypes, time = -1): Promise<Plan> {
+  newPlan(blocks: Block[], planType: PlanTypes): Promise<Plan> {
     return new Promise((resolve, reject) => {
       const plan: Plan = {
         uid: createUid(),

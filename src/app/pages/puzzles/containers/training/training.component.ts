@@ -19,7 +19,6 @@ import { TranslateService } from '@ngx-translate/core';
 import { Puzzle } from '@models/puzzle.model';
 import { UserPuzzle } from '@models/user-puzzles.model';
 import { Plan, PlanTypes } from '@models/plan.model';
-import { Profile } from '@models/profile.model';
 
 // Services
 import { PlanService } from '@services/plan.service';
@@ -59,9 +58,6 @@ export class TrainingComponent implements OnInit {
   totalPuzzlesInBlock = 0;
   forceStopTimerInPuzzleBoard = false;
 
-
-
-  profile: Profile;
 
   currentLanguage = this.translateService.currentLang;
 
@@ -299,12 +295,13 @@ export class TrainingComponent implements OnInit {
     console.log('Plan actualizado ', this.plan);
 
 
+
     if (this.plan.planType === 'custom') {
 
       this.plansElosService.calculatePlanElos(
         puzzleCompleted.rating,
         puzzleStatus === 'good' ? 1 : 0,
-        this.plan?.uid,
+        this.plan?.uidCustomPlan,
         this.profileService.getProfile?.uid,
         puzzleCompleted.themes,
         puzzleCompleted.openingFamily,
@@ -375,17 +372,21 @@ export class TrainingComponent implements OnInit {
     // this.showEndPlan = true;
 
     this.stopPlanTimer();
+    this.forceStopTimerInPuzzleBoard = true;
+    if (this.plan.planType !== 'custom') {
+      this.plan = { ...this.plan, eloTotal: this.profileService.getProfile?.elos[this.plan.planType + 'Total'] };
+    }
+
     if (this.profileService.getProfile?.uid) {
       this.plan = { ...this.plan, uidUser: this.profileService.getProfile?.uid };
-      this.profile = this.profileService.getProfile;
-      if (this.plan.planType !== 'custom') {
-        this.plan = { ...this.plan, eloTotal: this.profile.elos[this.plan.planType + 'Total'] };
-      }
       // console.log('Plan finalizado ', JSON.stringify(this.plan));
       this.planService.requestSavePlanAction(this.plan);
-      this.planService.setPlanAction(this.plan);
-      this.navController.navigateRoot('/puzzles/plan-played');
     }
+
+    console.log('Plan finalizado ', this.plan);
+
+    this.planService.setPlanAction(this.plan);
+    this.navController.navigateRoot('/puzzles/plan-played');
     // TODO: Track end plan
   }
 
