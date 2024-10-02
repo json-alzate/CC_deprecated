@@ -70,10 +70,10 @@ export class TrainingMenuComponent implements OnInit {
     this.profileService.subscribeToProfile().subscribe((profile) => {
       this.profile = profile;
       if (profile) {
-        this.generalEloPlan5 = profile.elos?.plan5Total + 500 || '1500?';
-        this.generalEloPlan10 = profile.elos?.plan10Total + 500 || '1500?';
-        this.generalEloPlan20 = profile.elos?.plan20Total + 500 || '1500?';
-        this.generalEloPlan30 = profile.elos?.plan30Total + 500 || '1500?';
+        this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
+        this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
+        this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
+        this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
       }
     });
     this.loadActivityChart = true;
