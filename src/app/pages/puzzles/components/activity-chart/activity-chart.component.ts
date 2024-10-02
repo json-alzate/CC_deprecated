@@ -5,8 +5,9 @@ import { takeUntil } from 'rxjs/operators';
 import { Chart, LinearScale, CategoryScale, PointElement, LineElement, Title, Filler, TimeScale } from 'chart.js';
 import { MatrixController, MatrixElement } from 'chartjs-chart-matrix';
 import { formatISO, format, endOfToday } from 'date-fns';
-import { es } from 'date-fns/locale';
+import { es, enUS } from 'date-fns/locale';
 import 'chartjs-adapter-date-fns';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Plan } from '@models/plan.model';
 
@@ -36,7 +37,8 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
   private destroy$ = new Subject<void>();
 
   constructor(
-    private planService: PlanService
+    private planService: PlanService,
+    private translateService: TranslateService
   ) {
 
 
@@ -125,6 +127,9 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
 
 
   ngAfterViewInit() {
+    const locale = this.translateService.currentLang === 'es' ? es : enUS;
+
+
     this.chart = new Chart(this.matrixChartRef.nativeElement, {
       type: 'matrix',
       data: {
@@ -161,7 +166,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
             offset: true,
             adapters: {
               date: {
-                locale: es
+                locale
               }
             },
             time: {
@@ -194,7 +199,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
             offset: true,
             adapters: {
               date: {
-                locale: es
+                locale
               }
             },
             time: {
