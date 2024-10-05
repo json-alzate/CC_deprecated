@@ -13,8 +13,11 @@
         </ion-text>
       </ion-col>
       <ion-col size="2">
-        <ion-thumbnail>
+        <ion-thumbnail *ngIf="planBlood === 'warmup'" (click)="createPlan('warmup')">
           <img [src]="'assets/images/plan-icons/warmup.png'" />
+        </ion-thumbnail>
+        <ion-thumbnail *ngIf="planBlood === 'backToCalm'" (click)="createPlan('backToCalm')">
+          <img [src]="'assets/images/plan-icons/backToCalm.png'" />
         </ion-thumbnail>
       </ion-col>
 

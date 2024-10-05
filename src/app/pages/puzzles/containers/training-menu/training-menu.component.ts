@@ -3,6 +3,8 @@ import { NavController, LoadingController, ModalController } from '@ionic/angula
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
+import { differenceInHours } from 'date-fns';
+
 import { Meta } from '@angular/platform-browser';
 
 import { Profile } from '@models/profile.model';
@@ -31,6 +33,8 @@ export class TrainingMenuComponent implements OnInit {
   generalEloPlan20: string | number = '1500?';
   generalEloPlan30: string | number = '1500?';
 
+  planBlood: 'warmup' | 'backToCalm' | 'none' = 'none';
+
   loadActivityChart = false;
 
   plansHistory$: Observable<Plan[]>;
@@ -52,6 +56,29 @@ export class TrainingMenuComponent implements OnInit {
 
     this.plansHistory$ = this.planService.getPlansHistoryState();
     this.customPlans$ = this.customPlansService.getCustomPlansState();
+
+    // Si lleva mas de 2 horas desde el ultimo plan, se activa el warmup
+    // si el ultimo plan es hace menos de 2 horas y es diferente a backToCalm, se activa backToCalm
+    // sino se activa none
+    if (this.plansHistory$) {
+      this.plansHistory$.subscribe((plans) => {
+        if (plans.length > 0) {  // Si hay al menos un plan
+          const lastPlan = plans[0];  // Último plan
+          const diff = differenceInHours(new Date(), new Date(lastPlan.createdAt));
+          // Si lleva más de 2 horas desde el último plan
+          if (diff > 2) {
+            this.planBlood = 'warmup';
+          } else if (lastPlan.planType !== 'backToCalm') {
+            this.planBlood = 'backToCalm';
+          } else {
+            this.planBlood = 'none';
+          }
+        } else {
+          this.planBlood = 'none';
+        }
+      });
+    }
+
 
 
     this.meta.addTags([

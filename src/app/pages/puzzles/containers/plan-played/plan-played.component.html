@@ -58,7 +58,8 @@
             </ion-col>
           </ion-row>
           <ion-button expand="block" fill="clear" *ngIf="showMoreButtons[i]" (click)="loadMorePuzzles(i)">
-            Cargar más
+            <!-- Cargar más -->
+            {{ 'PLAN_PLAYED.loadMore' | translate }}
           </ion-button>
         </div>
       </ion-accordion>
