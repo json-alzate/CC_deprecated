@@ -28,13 +28,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/privacy/privacy.module').then(m => m.PrivacyPageModule)
   },
   {
-    path: 'splash',
-    canActivate: [PlansGuard, PlansElosGuard, CustomPlansGuard],
-    loadChildren: () => import('./pages/splash/splash.module').then(m => m.SplashPageModule)
-  },
-  {
     path: '**',
-    redirectTo: 'splash',
+    redirectTo: 'puzzles',
     pathMatch: 'full'
   }
 ];

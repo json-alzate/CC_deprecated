@@ -74,7 +74,7 @@ export class TrainingMenuComponent implements OnInit {
             this.planBlood = 'none';
           }
         } else {
-          this.planBlood = 'none';
+          this.planBlood = 'warmup';
         }
       });
     }

@@ -95,7 +95,7 @@ export class AppComponent {
 
   }
 
-  initApp() {
+  async initApp() {
 
     this.initFirebase();
     this.appService.loadThemesPuzzle();
@@ -156,8 +156,6 @@ export class AppComponent {
   //   await modal.present();
 
   // }
-
-
   goTo(path) {
     this.navController.navigateRoot(path);
   }

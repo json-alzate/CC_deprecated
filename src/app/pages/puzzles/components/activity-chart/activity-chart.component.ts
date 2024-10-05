@@ -146,8 +146,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
           },
           borderColor: 'rgba(0,0,0,0.5)',
           borderWidth: 1,
-          hoverBackgroundColor: 'yellow',
-          hoverBorderColor: 'yellowgreen',
+
           width: ({ chart }) => ((chart.chartArea || {}).right - (chart.chartArea || {}).left) / 53 - 1,
           height: ({ chart }) => ((chart.chartArea || {}).bottom - (chart.chartArea || {}).top) / 7 - 1,
         }]
