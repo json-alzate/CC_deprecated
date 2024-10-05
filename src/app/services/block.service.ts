@@ -231,7 +231,7 @@ export class BlockService {
               puzzleTimes: {
                 warningOn: 12,
                 dangerOn: 6,
-                total: 15
+                total: 20
               },
               puzzlesPlayed: [],
               nextPuzzleImmediately: true,
@@ -280,7 +280,7 @@ export class BlockService {
               puzzleTimes: {
                 warningOn: 12,
                 dangerOn: 6,
-                total: 20
+                total: 15
               },
               puzzlesPlayed: [],
               nextPuzzleImmediately: true,
@@ -332,10 +332,10 @@ export class BlockService {
           if (Math.random() < 0.5 ? true : false) {
             // tema a ciegas
             randomBlockOrBlind = {
-              time: 60,
+              time: 120,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: this.translateService.instant('PUZZLES.sameOpeningRandomThemeBlind'),
+              description: this.translateService.instant('PUZZLES.sameRandomTheme'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -350,10 +350,10 @@ export class BlockService {
 
           } else {
             randomBlockOrBlind = {
-              time: 60,
+              time: 120,
               puzzlesCount: 0,
               theme: theme20Random,
-              description: this.translateService.instant('PUZZLES.sameRandomTheme'),
+              description: this.translateService.instant('sameOpeningRandomThemeBlind'),
               elo: eloTheme20Random || defaultElo,
               color: 'random',
               puzzleTimes: {
@@ -372,7 +372,7 @@ export class BlockService {
 
           const block20: Block[] = [
             {
-              time: 180,
+              time: 240,
               puzzlesCount: 0,
               theme: themeWeakness20,
               description: this.translateService.instant('PUZZLES.weaknessWithAnyColor'),

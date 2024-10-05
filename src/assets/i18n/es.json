@@ -115,7 +115,8 @@
     "PLAN_PLAYED": {
         "puzzlesPlayed": "Ejercicios jugados",
         "statistics": "Estadísticas del plan",
-        "playPlan": "Jugar el plan"
+        "playPlan": "Jugar el plan",
+        "loadMore": "Cargar más"
     },
     "COORDINATES_PUZZLES": {
         "coordinates": "Coordenadas",
@@ -130,6 +131,5 @@
         "board": "Tablero",
         "language": "Idioma",
         "exit": "Salir"
-    },
-    "PRIVACY": "<h1>Política de Privacidad</h1><p>Fecha de vigencia: 08 de julio de 2024</p><p>Esta Política de Privacidad describe cómo Jheison Alexander Alzate (\"nosotros\", \"nuestro\" o \"nos\") recopila, utiliza y protege la información de los usuarios (\"usted\" o \"su\") de la aplicación ChessColate (\"la aplicación\").</p><h2>1. Información que Recopilamos</h2><h3>1.1 Información de Autenticación</h3><p>Cuando se autentica en nuestra aplicación utilizando su cuenta de Google, recopilamos su dirección de correo electrónico y otra información de perfil básica proporcionada por Google.</p><h3>1.2 Información de Uso</h3><p>Recopilamos datos sobre los ejercicios que realiza en la aplicación, incluyendo su progreso y puntajes de ELO, para llevar un registro de su desempeño en el juego de ajedrez.</p><h2>2. Uso de la Información</h2><p>Utilizamos la información recopilada para:</p><ul><li>Autenticar a los usuarios y permitir el acceso a la aplicación.</li><li>Mantener un registro de su progreso y puntajes de ELO en los ejercicios de ajedrez.</li><li>Mejorar la experiencia del usuario y las funcionalidades de la aplicación.</li></ul><h2>3. Compartición de la Información</h2><p>No compartimos su información personal con terceros, salvo en los siguientes casos:</p><ul><li><strong>Con su consentimiento:</strong>Podremos compartir su información con terceros si usted nos da su consentimiento para hacerlo.</li><li><strong>Cumplimiento de la ley:</strong>Podremos divulgar su información si es requerido por ley o en respuesta a una solicitud válida por parte de las autoridades públicas.</li></ul><h2>4. Seguridad de la Información</h2><p>Implementamos medidas de seguridad adecuadas para proteger su información contra el acceso no autorizado, la alteración, divulgación o destrucción. Utilizamos Firebase para el almacenamiento de datos, que cumple con estándares de seguridad de la industria.</p><h2>5. Retención de la Información</h2><p>Retenemos su información personal mientras su cuenta esté activa o según sea necesario para proporcionarle nuestros servicios. Si desea eliminar su cuenta o solicitar que no usemos más su información, puede contactarnos en developer.alzate@gmail.com.</p><h2>6. Sus Derechos</h2><p>Usted tiene derecho a:</p><ul><li>Acceder a la información que tenemos sobre usted.</li><li>Solicitar la corrección de cualquier información incorrecta.</li><li>Solicitar la eliminación de su información personal.</li></ul><h2>7. Cambios a esta Política de Privacidad</h2><p>Podemos actualizar nuestra Política de Privacidad periódicamente. Le notificaremos sobre cualquier cambio publicando la nueva Política de Privacidad en esta página.</p><h2>8. Contacto</h2><p>Si tiene alguna pregunta sobre esta Política de Privacidad, puede contactarnos en:</p><p>Jheison Alexander Alzate<br>developer.alzate@gmail.com<br></p>"
+    }
 }

@@ -14,6 +14,8 @@ export class CustomPlansSlidesComponent implements OnInit {
   // un arreglo con 5 números aleatorios del 0 al 9 y que ningún numero aparezca mas de una vez
   randomNumber: number[] = this.generateUniqueRandomNumbers(5);
 
+  slideLoading = -1;
+
   constructor() { }
 
   ngOnInit() { }
@@ -29,8 +31,12 @@ export class CustomPlansSlidesComponent implements OnInit {
     return uniqueNumbers;
   }
 
-  onChoosePlan(plan: Plan) {
+  onChoosePlan(plan: Plan, i: number) {
+    this.slideLoading = i;
     this.slideClick.emit(plan);
+    setTimeout(() => {
+      this.slideLoading = -1;
+    }, 2000);
   }
 
 }

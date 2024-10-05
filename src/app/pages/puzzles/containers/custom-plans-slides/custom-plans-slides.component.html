@@ -1,6 +1,6 @@
 <swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1">
   <swiper-slide *ngFor="let plan of plans | slice:0:5; let i = index "
-    [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}" (click)="onChoosePlan(plan)">
+    [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}" (click)="onChoosePlan(plan, i)">
 
     <!--  -->
     <div class="plan-history-card">
@@ -14,12 +14,12 @@
           <ion-note class="ion-text-center">
             {{ plan.blocks.length }} {{ (plan.blocks.length === 1) ? ('Block' | translate) : ('Blocks' | translate) }}
           </ion-note>
-
+          <ion-spinner style="width: 100%s;" *ngIf="slideLoading === i" name="dots"></ion-spinner>
         </div>
+
       </div>
 
     </div>
-
   </swiper-slide>
   <!-- <swiper-slide>
     <div class="more-button-container">

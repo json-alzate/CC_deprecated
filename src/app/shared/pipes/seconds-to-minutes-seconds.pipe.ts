@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+// eslint-disable-next-line @typescript-eslint/naming-convention
 import * as _ from 'lodash';
 
 const secondsToMinutesSeconds = _.memoize((seconds: number, hideMinutes: boolean) => {
