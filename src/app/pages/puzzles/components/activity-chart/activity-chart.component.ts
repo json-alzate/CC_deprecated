@@ -154,7 +154,9 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
       options: {
         aspectRatio: 5,
         plugins: {
-
+          tooltip: {
+            enabled: false, // Desactiva el tooltip
+          },
           legend: {
             display: false,
           },

@@ -93,6 +93,57 @@
   </ng-container>
   <ng-template #elseTemplate>
     <ion-progress-bar type="indeterminate"></ion-progress-bar>
+    <ion-row>
+      <ion-col size="12">
+        <h4 class="ion-no-margin ion-margin-top">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </h4>
+        <h2 class="ion-no-margin ion-margin-bottom">
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </h2>
+      </ion-col>
+    </ion-row>
+    <ion-accordion-group class="ion-margin-bottom">
+
+      <ion-accordion *ngFor="let block of [1, 2,3];">
+        <ion-item slot="header" color="light">
+          <ion-label>
+            <h3> <ion-skeleton-text [animated]="true"></ion-skeleton-text></h3>
+            <p>
+              <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+            </p>
+          </ion-label>
+          <ion-badge color="medium">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-badge>
+
+        </ion-item>
+        <div class="ion-padding" slot="content">
+        </div>
+      </ion-accordion>
+
+    </ion-accordion-group>
+    <ion-row>
+      <ion-col size="12">
+        <h2>
+          <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+        </h2>
+      </ion-col>
+    </ion-row>
+
+    <ion-item lines="none">
+      <ion-label>
+        <ion-text color="dark">
+          <h6> <ion-skeleton-text [animated]="true"></ion-skeleton-text></h6>
+        </ion-text>
+        <ion-text color="dark">
+          <h1> <ion-skeleton-text [animated]="true"></ion-skeleton-text></h1>
+        </ion-text>
+      </ion-label>
+      <ion-thumbnail slot="end">
+        <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+      </ion-thumbnail>
+    </ion-item>
   </ng-template>
 
 
