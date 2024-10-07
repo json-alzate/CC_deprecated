@@ -595,7 +595,7 @@ export class BlockService {
               showPuzzleSolution: true
             },
             {
-              time: 120,
+              time: 180,
               puzzlesCount: 0,
               theme: 'mateIn4',
               elo: eloMateIn430 || defaultElo,
