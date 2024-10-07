@@ -16,7 +16,6 @@ import { ProfileService } from '@services/profile.service';
 import { CustomPlansService } from '@services/custom-plans.service';
 
 
-import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 import { LoginComponent } from '@shared/components/login/login.component';
 
 @Component({
@@ -136,18 +135,7 @@ export class TrainingMenuComponent implements OnInit {
     }
   }
 
-  async showChart(planType: PlanTypes) {
 
-    const modal = await this.modalController.create({
-      component: PlanChartComponent,
-      componentProps: {
-        planType,
-        isModal: true
-      }
-    });
-
-    await modal.present();
-  }
 
   goToCustomPlanCreate() {
     if (this.profile) {
