@@ -1,5 +1,6 @@
 swiper-slide {
     padding: 0px 4px;
+    // height: 315px;
 }
 
 .plan-history-card {
@@ -29,12 +30,14 @@ swiper-slide {
     }
 
     .card-body {
-        height: 215px;
+        // height: 215px;
     }
 
     .card-footer {
         width: 100%;
         padding: 4px;
+        position: absolute;
+        bottom: 3px;
     }
 }
 
@@ -42,4 +45,21 @@ swiper-slide {
     display: flex;
     justify-content: center;
     height: 25vh;
+}
+
+/* Dispositivos Móviles de Mayor Tamaño (teléfonos grandes, modo retrato y paisaje) */
+@media only screen and (min-device-width: 481px) and (max-device-width: 768px) {
+    /* Estilos aquí */
+}
+/* Tablets (modo retrato) */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+    /* Estilos aquí */
+}
+/* Tablets y Computadoras Pequeñas (modo paisaje) */
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1224px) {
+    /* Estilos aquí */
+}
+/* Pantallas Grandes y Monitores (computadoras de escritorio) */
+@media only screen and (min-device-width: 1224px) {
+    /* Estilos aquí */
 }

@@ -1,4 +1,4 @@
-<swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1">
+<swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1" [breakpoints]="breakpoints">
   <swiper-slide *ngFor="let plan of plans; let i = index" [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}"
     (click)="goToPlanDetails(plan)">
 
@@ -19,14 +19,19 @@
 
         <app-puzzles-played-preview [blocks]="plan.blocks"></app-puzzles-played-preview>
 
+        <ion-row class="ion-margin-top">
+          <ion-col size="12">
+            <ion-text color="medium">
+              <small>
+                <span class="ion-text-center ion-no-margin ion-no-padding">{{ plan.createdAt | ago }}</span>
+              </small>
+            </ion-text>
+
+          </ion-col>
+        </ion-row>
       </div>
 
       <div class="card-footer">
-        <ion-text color="medium">
-          <small>
-            <span class="ion-text-center ion-no-margin ion-no-padding">{{ plan.createdAt | ago }}</span>
-          </small>
-        </ion-text>
       </div>
 
     </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-
 import { Router } from '@angular/router';
 
+import { Platform } from '@ionic/angular';
 
 import { Plan } from '@models/plan.model';
 
@@ -17,14 +17,37 @@ export class PlansHistorySlidesComponent implements OnInit {
   @Input() plans: Plan[] = [];
   @Output() slideClick: EventEmitter<boolean> = new EventEmitter();
 
-  slidesOPtions = {
-    slidesPerView: 3,
-  };
+
+
+  breakpoints;
 
   constructor(
     private planService: PlanService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private platform: Platform
+  ) {
+    console.log('PlansHistorySlidesComponent ', this.platform.is('android'));
+
+    if (!this.platform.is('android') && !this.platform.is('ios')) {
+      this.breakpoints = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        0: { slidesPerView: 1, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        640: { slidesPerView: 2, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        768: { slidesPerView: 3, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        1024: { slidesPerView: 3, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        1224: { slidesPerView: 5, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        1440: { slidesPerView: 5, spaceBetween: 0 }
+      };
+    }
+
+
+
+  }
 
   ngOnInit() { }
 
