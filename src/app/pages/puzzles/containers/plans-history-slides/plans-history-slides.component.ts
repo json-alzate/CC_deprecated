@@ -26,7 +26,6 @@ export class PlansHistorySlidesComponent implements OnInit {
     private router: Router,
     private platform: Platform
   ) {
-    console.log('PlansHistorySlidesComponent ', this.platform.is('android'));
 
     if (!this.platform.is('android') && !this.platform.is('ios')) {
       this.breakpoints = {

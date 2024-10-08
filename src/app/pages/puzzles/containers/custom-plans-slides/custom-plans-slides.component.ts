@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Platform } from '@ionic/angular';
 
 import { Plan } from '@models/plan.model';
 
@@ -15,8 +16,29 @@ export class CustomPlansSlidesComponent implements OnInit {
   randomNumber: number[] = this.generateUniqueRandomNumbers(5);
 
   slideLoading = -1;
+  breakpoints;
 
-  constructor() { }
+  constructor(
+    private platform: Platform
+  ) {
+
+    if (!this.platform.is('android') && !this.platform.is('ios')) {
+      this.breakpoints = {
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        0: { slidesPerView: 1, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        640: { slidesPerView: 2, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        768: { slidesPerView: 3, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        1024: { slidesPerView: 3, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        1224: { slidesPerView: 5, spaceBetween: 0 },
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        1440: { slidesPerView: 5, spaceBetween: 0 }
+      };
+    }
+  }
 
   ngOnInit() { }
 

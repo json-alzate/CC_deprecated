@@ -49,7 +49,17 @@ export class TrainingMenuComponent implements OnInit {
     private modalController: ModalController,
     private translateService: TranslateService,
     private customPlansService: CustomPlansService
-  ) { }
+  ) {
+    this.profileService.subscribeToProfile().subscribe((profile) => {
+      this.profile = profile;
+      if (profile) {
+        this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
+        this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
+        this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
+        this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
+      }
+    });
+  }
 
   ngOnInit() {
 
@@ -93,15 +103,7 @@ export class TrainingMenuComponent implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.profileService.subscribeToProfile().subscribe((profile) => {
-      this.profile = profile;
-      if (profile) {
-        this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
-        this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
-        this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
-        this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
-      }
-    });
+
     this.loadActivityChart = true;
   }
 
