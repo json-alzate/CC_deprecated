@@ -57,6 +57,11 @@ export class TrainingMenuComponent implements OnInit {
         this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
         this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
         this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
+      } else {
+        this.generalEloPlan5 = '1500?';
+        this.generalEloPlan10 = '1500?';
+        this.generalEloPlan20 = '1500?';
+        this.generalEloPlan30 = '1500?';
       }
     });
   }
