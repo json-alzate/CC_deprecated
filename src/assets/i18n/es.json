@@ -68,7 +68,12 @@
         "panel": "Panel"
     },
     "TRAINING-MENU": {
-        "customTrainingSlideTitle": "Tus creaciones"
+        "customTrainingSlideTitle": "Tus creaciones",
+        "Warmup": "Calentamiento",
+        "BackToCalm": "Vuelta a la calma",
+        "DownloadAPP": "Descarga la app",
+        "ExercisesFree": "Ejercicios gratuitos",
+        "LoginToStart": "Inicia sesión para registrar tu progreso"
     },
     "CUSTOM_TRAINING": {
         "title": "Crea tu plan de entrenamiento",

@@ -16,7 +16,6 @@ import { ProfileService } from '@services/profile.service';
 import { CustomPlansService } from '@services/custom-plans.service';
 
 
-import { PlanChartComponent } from '@pages/puzzles/components/plan-chart/plan-chart.component';
 import { LoginComponent } from '@shared/components/login/login.component';
 
 @Component({
@@ -50,7 +49,22 @@ export class TrainingMenuComponent implements OnInit {
     private modalController: ModalController,
     private translateService: TranslateService,
     private customPlansService: CustomPlansService
-  ) { }
+  ) {
+    this.profileService.subscribeToProfile().subscribe((profile) => {
+      this.profile = profile;
+      if (profile) {
+        this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
+        this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
+        this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
+        this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
+      } else {
+        this.generalEloPlan5 = '1500?';
+        this.generalEloPlan10 = '1500?';
+        this.generalEloPlan20 = '1500?';
+        this.generalEloPlan30 = '1500?';
+      }
+    });
+  }
 
   ngOnInit() {
 
@@ -94,15 +108,7 @@ export class TrainingMenuComponent implements OnInit {
   }
 
   ionViewDidEnter() {
-    this.profileService.subscribeToProfile().subscribe((profile) => {
-      this.profile = profile;
-      if (profile) {
-        this.generalEloPlan5 = profile.elos?.plan5Total || '1500?';
-        this.generalEloPlan10 = profile.elos?.plan10Total || '1500?';
-        this.generalEloPlan20 = profile.elos?.plan20Total || '1500?';
-        this.generalEloPlan30 = profile.elos?.plan30Total || '1500?';
-      }
-    });
+
     this.loadActivityChart = true;
   }
 
@@ -136,18 +142,7 @@ export class TrainingMenuComponent implements OnInit {
     }
   }
 
-  async showChart(planType: PlanTypes) {
 
-    const modal = await this.modalController.create({
-      component: PlanChartComponent,
-      componentProps: {
-        planType,
-        isModal: true
-      }
-    });
-
-    await modal.present();
-  }
 
   goToCustomPlanCreate() {
     if (this.profile) {
