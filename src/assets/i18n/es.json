@@ -73,7 +73,8 @@
         "BackToCalm": "Vuelta a la calma",
         "DownloadAPP": "Descarga la app",
         "ExercisesFree": "Ejercicios gratuitos",
-        "LoginToStart": "Inicia sesión para registrar tu progreso"
+        "LoginToStart": "Inicia sesión para registrar tu progreso",
+        "CountPlansEnded": "planes terminados en el último año"
     },
     "CUSTOM_TRAINING": {
         "title": "Crea tu plan de entrenamiento",

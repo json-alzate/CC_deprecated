@@ -73,7 +73,8 @@
         "BackToCalm": "Back to calm",
         "DownloadAPP": "Download the app",
         "ExercisesFree": "Exercises free",
-        "LoginToStart": "Log in to register your progress"
+        "LoginToStart": "Log in to register your progress",
+        "CountPlansEnded": "plans completed in the last year"
     },
     "CUSTOM_TRAINING": {
         "title": "Create your training plan",

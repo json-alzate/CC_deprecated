@@ -33,8 +33,10 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
   @ViewChild('matrixChart') matrixChartRef: ElementRef;
 
   dataGroup: DataGroup[] = [];
+  plansLength;
   private chart: Chart; // Instancia del gráfico
   private destroy$ = new Subject<void>();
+
 
   constructor(
     private planService: PlanService,
@@ -53,6 +55,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
     // TODO: esto se debe recibir por el Input
     this.planService.getPlansHistoryState().pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.setData(data);
+
     });
   }
 
@@ -60,6 +63,7 @@ export class ActivityChartComponent implements OnInit, AfterViewInit, OnChanges,
   setData(plans: Plan[]) {
 
     if (plans && plans.length > 0) {
+      this.plansLength = plans.length;
       // Crear un objeto para almacenar los datos agrupados
       const dataGroup = [];
       // Recorrer los mensajes filtrados y agrupar por fecha

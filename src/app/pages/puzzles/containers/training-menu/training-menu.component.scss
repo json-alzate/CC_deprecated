@@ -19,9 +19,14 @@
 ion-card {
     cursor: pointer;
     margin: 2px;
+    box-shadow: none;
     ion-fab-button {
         --box-shadow: none;
     }
+}
+
+ion-button {
+    --box-shadow: none;
 }
 a {
     color: var(--ion-color-medium);

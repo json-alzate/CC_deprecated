@@ -6,5 +6,5 @@ export const environment = {
   production: true,
   environmentName: 'prod',
   apiPuzzlesUrl: 'https://puzzles.chesscolate.com/puzzles/',
-  version: '1.3.2'
+  version: '1.3.3'
 };
