@@ -9,8 +9,8 @@ import { Meta } from '@angular/platform-browser';
 
 import { Profile } from '@models/profile.model';
 import { Plan, Block, PlanTypes } from '@models/plan.model';
-import { PlanService } from '@services/plan.service';
 
+import { PlanService } from '@services/plan.service';
 import { BlockService } from '@services/block.service';
 import { ProfileService } from '@services/profile.service';
 import { CustomPlansService } from '@services/custom-plans.service';

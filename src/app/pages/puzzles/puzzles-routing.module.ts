@@ -6,6 +6,7 @@ import { TrainingComponent } from './containers/training/training.component';
 import { TrainingMenuComponent } from './containers/training-menu/training-menu.component';
 import { CustomTrainingComponent } from './containers/custom-training/custom-training.component';
 import { PlanPlayedComponent } from './containers/plan-played/plan-played.component';
+import { PlansHistoryComponent } from './containers/plans-history/plans-history.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'plan-played',
     component: PlanPlayedComponent
+  },
+  {
+    path: 'plans-history',
+    component: PlansHistoryComponent
   },
   {
     path: '**',

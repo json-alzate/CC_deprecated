@@ -15,6 +15,7 @@ import { PlanService } from '@services/plan.service';
 export class PlansHistorySlidesComponent implements OnInit {
 
   @Input() plans: Plan[] = [];
+  @Input() countAllPlans: number;
   @Output() slideClick: EventEmitter<boolean> = new EventEmitter();
 
 
@@ -53,6 +54,10 @@ export class PlansHistorySlidesComponent implements OnInit {
   goToPlanDetails(plan) {
     this.planService.setPlanAction(plan);
     this.router.navigate(['/puzzles/plan-played']);
+  }
+
+  goToHistoryPage() {
+    this.router.navigate(['/puzzles/plans-history']);
   }
 
 }

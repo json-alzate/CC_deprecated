@@ -1,9 +1,15 @@
-<swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1" [breakpoints]="breakpoints">
-  <swiper-slide *ngFor="let plan of plans; let i = index" [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}"
-    (click)="goToPlanDetails(plan)">
+<ion-content class="ion-padding">
 
-    <!--  -->
-    <div class="plan-history-card">
+  <ion-text color="primary">
+    <h2>
+      {{ "PLANS_HISTORY.title" | translate }}
+      <!-- Historial de planes -->
+    </h2>
+  </ion-text>
+
+  <div class="conteiner-cards">
+
+    <div *ngFor="let plan of plans; let i = index" (click)="goToPlanDetails(plan)" class="plan-history-card">
 
       <div class="card-header">
         <div class="title">
@@ -36,14 +42,10 @@
 
     </div>
 
-  </swiper-slide>
-  <swiper-slide *ngIf="countAllPlans > 5">
-    <div class="more-button-container">
+  </div>
 
-      <ion-button expand="block" fill="clear" color="dark" (click)="goToHistoryPage()">
-        {{ 'PLANS_HISTORY.more' | translate }}
-        <!-- Ver más -->
-      </ion-button>
-    </div>
-  </swiper-slide>
-</swiper-container>
+  <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+</ion-content>
