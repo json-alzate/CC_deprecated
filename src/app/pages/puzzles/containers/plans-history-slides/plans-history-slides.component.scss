@@ -44,7 +44,10 @@ swiper-slide {
 .more-button-container {
     display: flex;
     justify-content: center;
-    height: 25vh;
+    padding-top: 50%;
+    ion-button {
+        align-self: center;
+    }
 }
 
 /* Dispositivos Móviles de Mayor Tamaño (teléfonos grandes, modo retrato y paisaje) */

@@ -37,12 +37,12 @@
     </div>
 
   </swiper-slide>
-  <!-- <swiper-slide>
+  <swiper-slide *ngIf="countAllPlans > 5">
     <div class="more-button-container">
 
-      <ion-button expand="block" fill="clear" color="dark">
+      <ion-button expand="block" fill="clear" color="dark" (click)="goToHistoryPage()">
         Ver más
       </ion-button>
     </div>
-  </swiper-slide> -->
+  </swiper-slide>
 </swiper-container>

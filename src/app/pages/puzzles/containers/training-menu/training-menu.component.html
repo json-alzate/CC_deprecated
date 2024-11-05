@@ -331,7 +331,8 @@
           </ion-text>
         </ion-col>
         <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="8" size-xl="8" offset-lg="2" offset-xl="2">
-          <app-plans-history-slides [plans]="plansHistory | slice:0:5"></app-plans-history-slides>
+          <app-plans-history-slides [plans]="plansHistory | slice:0:5"
+            [countAllPlans]="plansHistory.length"></app-plans-history-slides>
         </ion-col>
       </ion-row>
     </ng-container>
