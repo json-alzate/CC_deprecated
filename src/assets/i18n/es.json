@@ -76,6 +76,10 @@
         "LoginToStart": "Inicia sesión para registrar tu progreso",
         "CountPlansEnded": "planes terminados en el último año"
     },
+    "PLANS_HISTORY": {
+        "title": "Historial de planes",
+        "more": "Ver más"
+    },
     "CUSTOM_TRAINING": {
         "title": "Crea tu plan de entrenamiento",
         "description1": "Un plan se compone de hasta 5 bloques.",

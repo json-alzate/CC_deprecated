@@ -76,6 +76,10 @@
         "LoginToStart": "Log in to register your progress",
         "CountPlansEnded": "plans completed in the last year"
     },
+    "PLANS_HISTORY": {
+        "title": "Plans history",
+        "more": "All history"
+    },
     "CUSTOM_TRAINING": {
         "title": "Create your training plan",
         "description1": "A plan consists of up to 5 blocks.",
