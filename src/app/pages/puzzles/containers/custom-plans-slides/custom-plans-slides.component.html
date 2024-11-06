@@ -1,6 +1,6 @@
 <swiper-container [slidesPerView]="2.5" [spaceBetween]="0.1" [breakpoints]="breakpoints">
-  <swiper-slide *ngFor="let plan of plans | slice:0:5; let i = index "
-    [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}" (click)="onChoosePlan(plan, i)">
+  <swiper-slide *ngFor="let plan of plans; let i = index " [ngStyle]="{'margin-left': i === 0 ? '8px' : '0px'}"
+    (click)="onChoosePlan(plan, i)">
 
     <!--  -->
     <div class="plan-history-card">
