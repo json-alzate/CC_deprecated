@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavController, ModalController } from '@ionic/angular';
+import { NavController, ModalController, AlertController } from '@ionic/angular';
+import { Preferences } from '@capacitor/preferences';
+
 import { Meta } from '@angular/platform-browser';
 
 
@@ -61,6 +63,8 @@ export class TrainingComponent implements OnInit {
 
   currentLanguage = this.translateService.currentLang;
 
+  isGoshHelperShow = false;
+
   constructor(
     private planService: PlanService,
     private blockService: BlockService,
@@ -71,7 +75,14 @@ export class TrainingComponent implements OnInit {
     private soundsService: SoundsService,
     private translateService: TranslateService,
     private plansElosService: PlansElosService,
+    private alertController: AlertController,
     private meta: Meta) {
+    this.checkGoshHelper();
+  }
+
+  async checkGoshHelper() {
+    const { value } = await Preferences.get({ key: 'showGoshPuzzleHelper' });
+    this.isGoshHelperShow = value === 'true';
   }
 
   ngOnInit() {
@@ -203,9 +214,14 @@ export class TrainingComponent implements OnInit {
       puzzle.times = this.plan.blocks[this.currentIndexBlock].puzzleTimes;
     }
 
-    this.puzzleToPlay = puzzle;
-  }
 
+    this.puzzleToPlay = puzzle;
+    if (puzzle.goshPuzzleTime && !this.isGoshHelperShow) {
+      this.isGoshHelperShow = true;
+    } else {
+      this.isGoshHelperShow = false;
+    }
+  }
 
   initTimeToEndBlock(timeBlock: number) {
     this.timeLeftBlock = timeBlock;

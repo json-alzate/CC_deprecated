@@ -36,6 +36,7 @@
     "@capacitor/ios": "6.1.0",
     "@capacitor/keyboard": "6.0.0",
     "@capacitor/network": "^6.0.0",
+    "@capacitor/preferences": "^6.0.2",
     "@capacitor/push-notifications": "^6.0.0",
     "@capacitor/status-bar": "6.0.0",
     "@ionic/angular": "^7.0.3",

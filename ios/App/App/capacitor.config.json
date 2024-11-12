@@ -1,7 +1,7 @@
 {
 	"appId": "com.jheison.chesscolate",
 	"appName": "ChessColate",
-	"webDir": "dist/app/browser",
+	"webDir": "www",
 	"bundledWebRuntime": false,
 	"plugins": {
 		"FirebaseAuthentication": {
@@ -33,6 +33,7 @@
 		"HapticsPlugin",
 		"KeyboardPlugin",
 		"CAPNetworkPlugin",
+		"PreferencesPlugin",
 		"PushNotificationsPlugin",
 		"StatusBarPlugin"
 	]

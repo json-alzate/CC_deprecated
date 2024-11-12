@@ -65,7 +65,9 @@
         "white": "White",
         "black": "Black",
         "continueTraining": "Continue training",
-        "panel": "Panel"
+        "panel": "Panel",
+        "goshHelp": "This puzzle is blindfold, the pieces will become transparent when",
+        "goshHelp2": "reaches"
     },
     "TRAINING-MENU": {
         "customTrainingSlideTitle": "Your creations",
