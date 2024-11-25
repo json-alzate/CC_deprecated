@@ -65,7 +65,9 @@
         "white": "Blancas",
         "black": "Negras",
         "continueTraining": "Continuar Entrenamiento",
-        "panel": "Panel"
+        "panel": "Panel",
+        "goshHelp": "Este ejercicio es a la ciegas, las piezas se harán transparentes cuando el",
+        "goshHelp2": "llegue a"
     },
     "TRAINING-MENU": {
         "customTrainingSlideTitle": "Tus creaciones",

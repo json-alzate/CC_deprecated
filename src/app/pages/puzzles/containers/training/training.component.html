@@ -42,7 +42,13 @@
           (puzzleCompleted)="onPuzzleCompleted($event, 'good')" (puzzleFailed)="onPuzzleCompleted($event, 'bad')"
           (puzzleEndByTime)="onPuzzleCompleted($event, 'timeOut')"></app-board-puzzle>
       </ion-col>
-
+      <ion-col size-xs="12" size-sm="12" size-md="12" size-lg="6" size-xl="6" offset-lg="3" offset-xl="3"
+        *ngIf="isGoshHelperShow">
+        <ion-note>
+          {{ 'PUZZLES.goshHelp' | translate}} <ion-icon [name]="'eye-outline'"></ion-icon> {{ 'PUZZLES.goshHelp2' |
+          translate}} 00:00
+        </ion-note>
+      </ion-col>
     </ion-row>
   </ion-grid>
 

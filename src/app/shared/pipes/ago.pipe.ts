@@ -21,7 +21,7 @@ export class AgoPipe implements PipeTransform {
     return formatDistanceToNow(
       date,
       { includeSeconds: true, addSuffix: true, locale: locale === 'es' ? es : enUS }
-    );
+    ).replace('hace alrededor de', 'alrededor de');
   }
 
 }

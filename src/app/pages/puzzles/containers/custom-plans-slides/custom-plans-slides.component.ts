@@ -40,15 +40,17 @@ export class CustomPlansSlidesComponent implements OnInit {
     }
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.randomNumber = [...this.randomNumber, ...this.generateUniqueRandomNumbers(this.plans.length)];
+  }
 
   generateUniqueRandomNumbers(length: number): number[] {
     const uniqueNumbers: number[] = [];
     while (uniqueNumbers.length < length) {
       const randomNumber = Math.floor(Math.random() * 10);
-      if (!uniqueNumbers.includes(randomNumber)) {
-        uniqueNumbers.push(randomNumber);
-      }
+      // if (!uniqueNumbers.includes(randomNumber)) {
+      uniqueNumbers.push(randomNumber);
+      // }
     }
     return uniqueNumbers;
   }
