@@ -83,12 +83,13 @@ export class BlockService {
               elo: mateIn1Elo0 || defaultElo,
               color: color0,
               puzzleTimes: {
-                warningOn: 6,
-                dangerOn: 3,
-                total: 10
+                warningOn: 12,
+                dangerOn: 6,
+                total: 20
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             },
             {
               time: 60,
@@ -97,12 +98,13 @@ export class BlockService {
               elo: mateIn2Elo0 || defaultElo,
               color: color0,
               puzzleTimes: {
-                warningOn: 6,
-                dangerOn: 3,
-                total: 10
+                warningOn: 12,
+                dangerOn: 6,
+                total: 20
               },
               puzzlesPlayed: [],
-              nextPuzzleImmediately: true
+              nextPuzzleImmediately: true,
+              showPuzzleSolution: true
             },
             {
               time: -1,
@@ -110,7 +112,8 @@ export class BlockService {
               theme: 'mate',
               elo: mateElo0 || defaultElo,
               puzzlesPlayed: [],
-              color: color0
+              color: color0,
+              showPuzzleSolution: true
             }
           ];
           resolve(blocks0);
