@@ -15,6 +15,7 @@ import { Puzzle } from '@models/puzzle.model';
 // services
 import { UiService } from '@services/ui.service';
 import { ToolsService } from '@services/tools.service';
+import { StockfishService } from '@services/stockfish.service';
 
 
 @Component({
@@ -29,21 +30,43 @@ export class PuzzleSolutionComponent implements OnInit {
   board;
   chessInstance = new Chess();
   closeCancelMoves = false;
+  bestMove = '';
 
   constructor(
     private modalController: ModalController,
     private uiService: UiService,
-    private toolsService: ToolsService
+    private toolsService: ToolsService,
+    private stockfishService: StockfishService
   ) { }
 
   ngOnInit() {
     this.buildBoard(this.puzzle.fen);
+
+    // Escucha los mensajes del motor
+    this.stockfishService.onMessage((message) => {
+      console.log('Stockfish:', message);
+
+      if (message.startsWith('bestmove')) {
+        this.bestMove = message.split(' ')[1]; // Extrae la mejor jugada
+      }
+    });
+
+    // Inicia el motor y envía comandos
+    this.stockfishService.postMessage('uci');
+    setTimeout(() => {
+      console.log('FEN', this.puzzle.fen);
+
+      this.stockfishService.postMessage(
+        'position fen 6B1/4b3/2p1P3/p5p1/1p3PK1/1Pk5/P7/8 b - - 0 57'
+      );
+      this.stockfishService.postMessage('go depth 15');
+    }, 2000);
   }
 
   close() {
     this.closeCancelMoves = true;
     if (this.modalController) {
-      this.modalController.dismiss();
+      // this.modalController.dismiss();
     }
   }
 
