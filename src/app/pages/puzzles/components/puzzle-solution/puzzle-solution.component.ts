@@ -42,15 +42,10 @@ export class PuzzleSolutionComponent implements OnInit {
   ngOnInit() {
     this.buildBoard(this.puzzle.fen);
 
-    // Escucha los mensajes del motor
-    this.stockfishService.onMessage((message) => {
-      console.log('Stockfish:', message);
+  }
 
-      if (message.startsWith('bestmove')) {
-        this.bestMove = message.split(' ')[1]; // Extrae la mejor jugada
-      }
-    });
 
+  startStockfish() {
     // Inicia el motor y envía comandos
     this.stockfishService.postMessage('uci');
     setTimeout(() => {
@@ -63,10 +58,21 @@ export class PuzzleSolutionComponent implements OnInit {
     }, 2000);
   }
 
+  listenStockfish() {
+    // Escucha los mensajes del motor
+    this.stockfishService.onMessage((message) => {
+      console.log('Stockfish:', message);
+
+      if (message.startsWith('bestmove')) {
+        this.bestMove = message.split(' ')[1]; // Extrae la mejor jugada
+      }
+    });
+  }
+
   close() {
     this.closeCancelMoves = true;
     if (this.modalController) {
-      // this.modalController.dismiss();
+      this.modalController.dismiss();
     }
   }
 

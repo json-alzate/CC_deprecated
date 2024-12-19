@@ -7,6 +7,9 @@ export class StockfishService {
   private stockfish!: Worker;
 
   constructor() {
+  }
+
+  loadWorker(): void {
     // Cargar el motor Stockfish
     this.stockfish = new Worker('/assets/engine/stockfish-16.1-lite-single.js');
   }
