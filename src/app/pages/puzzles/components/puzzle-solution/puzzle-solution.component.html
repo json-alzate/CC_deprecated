@@ -5,70 +5,97 @@
     </ion-fab-button>
   </ion-fab> -->
 
+  <div class="container">
+
+    <div class="board-container">
+
+      <ion-item>
+        <ion-spinner name="bubbles"></ion-spinner>
+        <ion-label>
+          <h2>Stockfish</h2>
+          <h3>0.0</h3>
+        </ion-label>
+        <ion-toggle color="success" slot="end"></ion-toggle>
+      </ion-item>
 
 
-  <ion-item>
-    <ion-spinner name="bubbles"></ion-spinner>
-    <ion-label>
-      <h2>Stockfish</h2>
-      <h3>0.0</h3>
-    </ion-label>
-    <ion-toggle color="success" slot="end"></ion-toggle>
-  </ion-item>
+      <div class="board" id="boardPuzzleSolution">
+      </div>
 
 
-  <div class="board" id="boardPuzzleSolution">
+      <ion-item lines="none">
+
+        <ion-buttons slot="start">
+          <ion-button size="large" disabled fill="clear" color="dark">
+            {{puzzle?.rating}}
+          </ion-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+
+          <ion-button fill="clear" color="dark" (click)="turnRoundBoard()">
+            <ion-icon slot="icon-only" name="swap-vertical-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="dark">
+            <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="dark">
+            <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
+          </ion-button>
+
+          <ion-button fill="clear" color="dark">
+            <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" color="dark">
+            <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
+          </ion-button>
+
+          <!-- <ion-button fill="clear" color="dark">
+            <ion-icon slot="icon-only" [src]="uiService.piecesPath + piecePathKingTurn"></ion-icon>
+          </ion-button> -->
+
+        </ion-buttons>
+
+        <!-- <ion-thumbnail *ngIf="piecePathKingTurn" slot="end">
+          <img [src]="uiService.piecesPath + piecePathKingTurn" />
+        </ion-thumbnail> -->
+
+      </ion-item>
+    </div>
+
+    <div class="footer-content">
+
+      <div class="chips-container">
+
+        <ion-chip *ngFor="let teme of puzzle?.themes" [disabled]="true">
+          {{teme}}
+        </ion-chip>
+      </div>
+
+      <div class="div-replay-content">
+        <h1>Inténtalo de nuevo</h1>
+        <ion-button expand="block" fill="clear">
+          Pista
+        </ion-button>
+        <ion-button color="primary" expand="block">
+          Reproducir solución
+        </ion-button>
+      </div>
+
+
+      <div class="div-close">
+        <ion-button color="dark" class="ion-margin ion-hide-md-up" (click)="close()" expand="block" fill="clear">
+          {{ 'Close' | translate}}
+        </ion-button>
+      </div>
+
+    </div>
   </div>
 
 
-  <ion-item lines="none">
-
-    <ion-buttons slot="start">
-      <ion-button size="large" disabled fill="clear" color="dark">
-        {{puzzle?.rating}}
-      </ion-button>
-    </ion-buttons>
-
-    <ion-buttons slot="end">
-
-      <ion-button fill="clear" color="dark" (click)="turnRoundBoard()">
-        <ion-icon slot="icon-only" name="swap-vertical-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" color="dark">
-        <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" color="dark">
-        <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
-      </ion-button>
-
-      <ion-button fill="clear" color="dark">
-        <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
-      </ion-button>
-      <ion-button fill="clear" color="dark">
-        <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
-      </ion-button>
-
-      <!-- <ion-button fill="clear" color="dark">
-        <ion-icon slot="icon-only" [src]="uiService.piecesPath + piecePathKingTurn"></ion-icon>
-      </ion-button> -->
-
-    </ion-buttons>
-
-    <!-- <ion-thumbnail *ngIf="piecePathKingTurn" slot="end">
-      <img [src]="uiService.piecesPath + piecePathKingTurn" />
-    </ion-thumbnail> -->
-
-  </ion-item>
-
-  <ion-chip *ngFor="let teme of puzzle?.themes" [disabled]="true">
-    {{teme}}
-  </ion-chip>
 
 
 
-  <ion-button color="dark" class="ion-margin ion-hide-md-up" (click)="close()" expand="block" fill="clear">
-    {{ 'Close' | translate}}
-  </ion-button>
 
 
 

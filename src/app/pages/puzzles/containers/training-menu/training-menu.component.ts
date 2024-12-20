@@ -17,6 +17,7 @@ import { CustomPlansService } from '@services/custom-plans.service';
 
 
 import { LoginComponent } from '@shared/components/login/login.component';
+import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
 
 @Component({
   selector: 'app-training-menu',
@@ -169,6 +170,15 @@ export class TrainingMenuComponent implements OnInit {
 
   goTo(path: string) {
     this.navController.navigateForward(path);
+  }
+
+  async test() {
+    const modal = await this.modalController.create({
+      component: PuzzleSolutionComponent,
+      componentProps: {
+      }
+    });
+    await modal.present();
   }
 
 }
