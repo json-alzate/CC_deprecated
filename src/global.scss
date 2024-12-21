@@ -29,9 +29,9 @@
 @import "./theme/fonts.scss";
 
 // cm-chessboard
-@import './assets/cm-chessboard/extensions/arrows/arrows.scss';
-@import './assets/cm-chessboard/extensions/markers/markers.scss';
-@import './assets/cm-chessboard/extensions/promotion-dialog/promotion-dialog.scss';
+@import "./assets/cm-chessboard/extensions/arrows/arrows.scss";
+@import "./assets/cm-chessboard/extensions/markers/markers.scss";
+@import "./assets/cm-chessboard/extensions/promotion-dialog/promotion-dialog.scss";
 
 // markers
 .cm-chessboard .markers .marker.marker-circle-green {
@@ -61,6 +61,11 @@
 .cm-chessboard .markers .marker.marker-square-green {
     fill: green;
     opacity: 0.2;
+}
+
+.cm-chessboard .markers .marker.marker-square-clue {
+    fill: #46b0e0;
+    opacity: 0.8;
 }
 
 .cm-chessboard .markers .marker.marker-dot-green {
@@ -116,8 +121,6 @@
     stroke-linecap: round;
     opacity: 0.5;
 }
-
-
 
 // end cm-chessboard
 

@@ -63,6 +63,15 @@ export class PuzzleSolutionComponent implements OnInit {
   closeCancelMoves = false;
   bestMove = '';
 
+  currentMoveNumber = 0;
+  arrayFenSolution = [];
+  arrayMovesSolution = [];
+  totalMoves = 0;
+  allowMoveArrows = false;
+  fenToCompareAndPlaySound: string;
+
+  isClueActive = false;
+
   constructor(
     private modalController: ModalController,
     private uiService: UiService,
@@ -71,9 +80,7 @@ export class PuzzleSolutionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(JSON.stringify(this.puzzle));
     this.buildBoard(this.puzzle.fen);
-
   }
 
 
@@ -136,9 +143,107 @@ export class PuzzleSolutionComponent implements OnInit {
     });
 
     this.turnRoundBoard(this.chessInstance.turn() === 'b' ? 'w' : 'b');
+    this.fenToCompareAndPlaySound = this.puzzle.fen;
+    this.getMoves();
     // this.startMoves();
 
   }
+
+  getMoves() {
+    this.currentMoveNumber = 0;
+    this.allowMoveArrows = false;
+
+    this.arrayFenSolution = [];
+    // se construye un arreglo con los fen de la solución
+    this.arrayMovesSolution = this.puzzle.moves.split(' ');
+    this.arrayFenSolution.push(this.chessInstance.fen());
+    for (const move of this.arrayMovesSolution) {
+      this.chessInstance.move(move, { sloppy: true });
+      const fen = this.chessInstance.fen();
+      this.arrayFenSolution.push(fen);
+    }
+    this.totalMoves = this.arrayFenSolution.length - 1;
+
+    // ejecutar primera jugada
+    this.puzzleMoveResponse();
+  }
+
+
+  async puzzleMoveResponse() {
+    this.currentMoveNumber++;
+
+    if (this.arrayFenSolution.length === this.currentMoveNumber) {
+      this.allowMoveArrows = true;
+      this.currentMoveNumber--;
+
+    } else {
+
+      await new Promise<void>((resolve, reject) => {
+        setTimeout(() => resolve(), 500);
+      });
+
+      this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+      const fen = this.chessInstance.fen();
+      this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fen);
+      this.fenToCompareAndPlaySound = fen;
+      this.board.removeMarkers();
+      // this.board.removeArrows();
+
+      await this.board.setPosition(fen, true);
+      const from = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(0, 2);
+      const to = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(2, 4);
+      this.showLastMove(from, to);
+
+    }
+
+
+  }
+
+  async showClue(times?: number) {
+
+    // Marcar el inicio de la ejecución
+    if (!times) {
+      this.isClueActive = true;
+      times = 1; // Inicializa `times` si no se proporciona.
+    }
+
+    const square = this.puzzle.moves.split(' ')[this.currentMoveNumber].slice(0, 2);
+    if (!square) {
+      console.error('No square to mark');
+      this.isClueActive = false;
+      return;
+    }
+
+    // Limpia cualquier marca previa que no sea 'lastMove'.
+    const markersOnSquare = this.board.getMarkers(undefined, square);
+    markersOnSquare.forEach(marker => {
+      if (marker.type.id !== 'lastMove') {
+        this.board.removeMarkers(marker.type, square);
+      }
+    });
+
+    // Alterna el marcador para simular parpadeo.
+    const markerToAdd = { id: 'clue', class: 'marker-square-clue', slice: 'markerSquare' };
+    if (times % 2 === 1) {
+      // Añade marcador.
+      this.board.addMarker(markerToAdd, square);
+    } else {
+      // Elimina marcador.
+      this.board.removeMarkers(markerToAdd, square);
+    }
+
+    // Detén el parpadeo después de 8 alternancias.
+    if (times === 8) {
+      this.isClueActive = false; // Libera la bandera
+      return;
+    }
+
+    // Repite después de 500ms
+    setTimeout(() => this.showClue(times + 1), 500);
+  }
+
+
+  // Board controls -----------------------------------
 
   turnRoundBoard(orientation?: 'w' | 'b') {
     if (orientation) {

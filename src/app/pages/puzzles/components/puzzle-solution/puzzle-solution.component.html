@@ -36,17 +36,17 @@
           <ion-button fill="clear" color="dark" (click)="turnRoundBoard()">
             <ion-icon slot="icon-only" name="swap-vertical-outline"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" color="dark">
+          <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows">
             <ion-icon slot="icon-only" name="play-back-outline"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" color="dark">
+          <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows">
             <ion-icon slot="icon-only" name="play-skip-back-outline"></ion-icon>
           </ion-button>
 
-          <ion-button fill="clear" color="dark">
+          <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows">
             <ion-icon slot="icon-only" name="play-skip-forward-outline"></ion-icon>
           </ion-button>
-          <ion-button fill="clear" color="dark">
+          <ion-button fill="clear" color="dark" [disabled]="!allowMoveArrows">
             <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
           </ion-button>
 
@@ -74,7 +74,7 @@
 
       <div class="div-replay-content">
         <h1>Inténtalo de nuevo</h1>
-        <ion-button expand="block" fill="clear">
+        <ion-button [disabled]="isClueActive" expand="block" fill="clear" (click)="showClue()">
           Pista
         </ion-button>
         <ion-button color="primary" expand="block">
