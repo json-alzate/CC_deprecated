@@ -1,5 +1,5 @@
 <ion-content>
-  <!-- <ion-fab vertical="top" horizontal="end" slot="fixed">
+  <!-- <ion-fab vertical="top" horizontal="start" slot="fixed">
     <ion-fab-button size="small" color="light" (click)="close()">
       <ion-icon name="close-outline"></ion-icon>
     </ion-fab-button>
@@ -8,15 +8,30 @@
   <div class="container">
 
     <div class="board-container">
+      <ion-toolbar>
+        <ion-button slot="start" fill="clear" color="dark">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+        <ion-item>
 
-      <ion-item>
-        <ion-spinner name="bubbles"></ion-spinner>
-        <ion-label>
-          <h2>Stockfish</h2>
-          <h3>0.0</h3>
-        </ion-label>
-        <ion-toggle color="success" slot="end"></ion-toggle>
-      </ion-item>
+          <ion-label>
+            <div class="sf-Label-container">
+              <div class="loader">
+                <!-- <ion-spinner name="bubbles"></ion-spinner> -->
+              </div>
+              <div class="texts">
+                <h4>Stockfish</h4>
+                <h6>--.--</h6>
+              </div>
+            </div>
+          </ion-label>
+          <ion-toggle [enableOnOffLabels]="true" color="success" slot="end" justify="end">
+
+          </ion-toggle>
+        </ion-item>
+      </ion-toolbar>
+
+
 
 
       <div class="board" id="boardPuzzleSolution">
@@ -73,21 +88,42 @@
       </div>
 
       <div class="div-replay-content">
-        <h1>Inténtalo de nuevo</h1>
-        <ion-button [disabled]="isClueActive" expand="block" fill="clear" (click)="showClue()">
-          Pista
-        </ion-button>
-        <ion-button color="primary" expand="block">
-          Reproducir solución
-        </ion-button>
+
+
+
+        <div class="info-container">
+
+          <ion-avatar>
+            <img [src]="uiService.piecesPath + piecePathKingTurn" />
+          </ion-avatar>
+          <p>
+            <ion-icon name="information-circle-outline"></ion-icon>
+            Encuentra el mejor movimiento para las negras
+          </p>
+
+
+        </div>
+        <ion-buttons>
+          <ion-button color="primary" [disabled]="isClueActive" expand="block" fill="clear" (click)="showClue()">
+            Pista
+          </ion-button>
+          <ion-button color="primary" expand="block" fill="clear">
+            Solución
+          </ion-button>
+          <!-- <ion-button color="primary" expand="block" fill="solid">
+            Reproducir y continuar
+          </ion-button> -->
+        </ion-buttons>
+
+
       </div>
 
 
-      <div class="div-close">
+      <!-- <div class="div-close">
         <ion-button color="dark" class="ion-margin ion-hide-md-up" (click)="close()" expand="block" fill="clear">
           {{ 'Close' | translate}}
         </ion-button>
-      </div>
+      </div> -->
 
     </div>
   </div>

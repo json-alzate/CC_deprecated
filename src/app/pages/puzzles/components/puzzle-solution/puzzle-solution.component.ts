@@ -69,12 +69,13 @@ export class PuzzleSolutionComponent implements OnInit {
   totalMoves = 0;
   allowMoveArrows = false;
   fenToCompareAndPlaySound: string;
+  piecePathKingTurn = '';
 
   isClueActive = false;
 
   constructor(
     private modalController: ModalController,
-    private uiService: UiService,
+    public uiService: UiService,
     private toolsService: ToolsService,
     private stockfishService: StockfishService
   ) { }
@@ -117,7 +118,7 @@ export class PuzzleSolutionComponent implements OnInit {
 
   buildBoard(fen) {
     this.chessInstance.load(this.puzzle.fen);
-
+    this.piecePathKingTurn = this.chessInstance.turn() === 'b' ? 'wK.svg' : 'bK.svg';
     // eslint-disable-next-line max-len
     // Se configura la ruta de las piezas con un timestamp para que no se guarde en cache (assetsCache: false, no se ven bien las piezas)
     const uniqueTimestamp = new Date().getTime();
