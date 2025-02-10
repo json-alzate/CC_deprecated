@@ -1,6 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 
+// rxjs
+import { interval, Subject, Observable, Subscription, merge } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 import {
   Chessboard,
   BORDER_TYPE
@@ -71,6 +75,10 @@ export class PuzzleSolutionComponent implements OnInit {
   fenToCompareAndPlaySound: string;
   piecePathKingTurn = '';
 
+  subsSeconds: Observable<number>;
+  timerUnsubscribe$ = new Subject<void>();
+  time = 0;
+
   isClueActive = false;
 
   constructor(
@@ -82,6 +90,7 @@ export class PuzzleSolutionComponent implements OnInit {
 
   ngOnInit() {
     this.buildBoard(this.puzzle.fen);
+    this.startTimer();
   }
 
 
@@ -111,9 +120,19 @@ export class PuzzleSolutionComponent implements OnInit {
 
   close() {
     this.closeCancelMoves = true;
+    this.timerUnsubscribe$.next();
     if (this.modalController) {
       this.modalController.dismiss();
     }
+  }
+
+  startTimer() {
+    this.subsSeconds = interval(1000);
+    this.subsSeconds.pipe(
+      takeUntil(this.timerUnsubscribe$)
+    ).subscribe(() => {
+      this.time++;
+    });
   }
 
   buildBoard(fen) {

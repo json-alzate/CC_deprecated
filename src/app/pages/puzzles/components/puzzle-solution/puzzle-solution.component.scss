@@ -13,6 +13,7 @@
         .sf-Label-container {
             display: flex;
             justify-content: end;
+
             .loader {
                 display: flex;
                 align-items: center;
@@ -27,22 +28,22 @@
         flex: 1;
         justify-content: space-between;
 
-        .div-replay-content {
+        .actions {
             display: flex;
-            flex-direction: column;
-            flex: 1;
-            justify-content: space-evenly;
-            align-items: center;
-
-            .info-container {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                ion-avatar {
-                    height: 6rem;
-                    width: 6rem;
-                }
-            }
+            justify-content: center;
+            margin-top: 32px;
         }
+
+        .timer {
+            h1 {
+                font-size: 32px;
+            }
+
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+
     }
 }

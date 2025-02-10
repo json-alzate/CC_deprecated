@@ -9,7 +9,7 @@
 
     <div class="board-container">
       <ion-toolbar>
-        <ion-button slot="start" fill="clear" color="dark">
+        <ion-button slot="start" fill="clear" color="dark" (click)="close()">
           <ion-icon slot="icon-only" name="close"></ion-icon>
         </ion-button>
         <ion-item>
@@ -80,43 +80,58 @@
 
     <div class="footer-content">
 
-      <div class="chips-container">
-
-        <ion-chip *ngFor="let teme of puzzle?.themes" [disabled]="true">
-          {{teme}}
-        </ion-chip>
-      </div>
-
-      <div class="div-replay-content">
-
-
-
-        <div class="info-container">
-
-          <ion-avatar>
+      <ion-list>
+        <ion-item lines="none">
+          <ion-thumbnail slot="start">
             <img [src]="uiService.piecesPath + piecePathKingTurn" />
-          </ion-avatar>
-          <p>
-            <ion-icon name="information-circle-outline"></ion-icon>
-            Encuentra el mejor movimiento para las negras
-          </p>
+          </ion-thumbnail>
+          <ion-label>
+            <h2>Tu turno</h2>
+            <p>
+              Encuentra el mejor movimiento para las negras
+            </p>
 
+          </ion-label>
 
+        </ion-item>
+        <div class="actions">
+          <ion-buttons>
+            <ion-button size="large" color="primary" [disabled]="isClueActive" expand="block" fill="clear"
+              (click)="showClue()">
+              Pedir una pista
+            </ion-button>
+            <ion-button size="large" color="primary" expand="block" fill="clear">
+              Ver la solución
+            </ion-button>
+          </ion-buttons>
         </div>
-        <ion-buttons>
-          <ion-button color="primary" [disabled]="isClueActive" expand="block" fill="clear" (click)="showClue()">
-            Pista
-          </ion-button>
-          <ion-button color="primary" expand="block" fill="clear">
-            Solución
-          </ion-button>
-          <!-- <ion-button color="primary" expand="block" fill="solid">
-            Reproducir y continuar
-          </ion-button> -->
-        </ion-buttons>
+      </ion-list>
 
 
+      <div class="timer">
+        <h1 class="ion-text-center">{{ time | secondsToMinutesSeconds}}</h1>
+        <ion-button class="ion-margin-horizontal" color="primary" fill="solid" (click)="startMoves()">
+          Reproducir y continuar
+        </ion-button>
       </div>
+
+
+
+      <ion-accordion-group>
+        <ion-accordion value="first">
+          <ion-item slot="header" color="light">
+            <ion-label>Temas</ion-label>
+          </ion-item>
+          <div class="ion-padding" slot="content">
+            <div class="chips-container">
+
+              <ion-chip *ngFor="let teme of puzzle?.themes" [disabled]="true">
+                {{teme}}
+              </ion-chip>
+            </div>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
 
 
       <!-- <div class="div-close">
