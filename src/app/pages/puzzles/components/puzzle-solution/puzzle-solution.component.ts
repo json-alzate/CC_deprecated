@@ -6,12 +6,14 @@ import { interval, Subject, Observable, Subscription, merge } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import {
+  COLOR,
   Chessboard,
   BORDER_TYPE
 } from 'cm-chessboard';
 import Chess from 'chess.js';
 import { MARKER_TYPE, Markers } from 'cm-chessboard/src/extensions/markers/markers';
-
+import { ARROW_TYPE, Arrows } from 'cm-chessboard/src/extensions/arrows/arrows';
+import { PromotionDialog } from 'cm-chessboard/src/extensions/promotion-dialog/PromotionDialog';
 
 // models
 import { Puzzle } from '@models/puzzle.model';
@@ -80,6 +82,7 @@ export class PuzzleSolutionComponent implements OnInit {
   time = 0;
 
   isClueActive = false;
+  okTextShow = false;
 
   constructor(
     private modalController: ModalController,
@@ -135,6 +138,10 @@ export class PuzzleSolutionComponent implements OnInit {
     });
   }
 
+  stopTimer() {
+    this.timerUnsubscribe$.next();
+  }
+
   buildBoard(fen) {
     this.chessInstance.load(this.puzzle.fen);
     this.piecePathKingTurn = this.chessInstance.turn() === 'b' ? 'wK.svg' : 'bK.svg';
@@ -158,8 +165,76 @@ export class PuzzleSolutionComponent implements OnInit {
         }
       },
       extensions: [
-        { class: Markers }
+        { class: Markers },
+        { class: Arrows },
+        { class: PromotionDialog }
       ]
+    });
+
+    this.board.enableMoveInput((event) => {
+
+      // handle user input here
+      switch (event.type) {
+
+        case 'moveInputStarted':
+          // this.removeMarkerNotLastMove(event.square);
+          this.board.removeArrows();
+
+          // mostrar indicadores para donde se puede mover la pieza
+          if (this.chessInstance.moves({ square: event.square }).length > 0) {
+            // adiciona el marcador para la casilla seleccionada
+            const markerSquareSelected = { class: 'marker-square-green', slice: 'markerSquare' };
+            this.board.addMarker(markerSquareSelected, event.square);
+            const possibleMoves = this.chessInstance.moves({ square: event.square, verbose: true });
+            for (const move of possibleMoves) {
+              const markerDotMove = { class: 'marker-dot-green', slice: 'markerDot' };
+              this.board.addMarker(markerDotMove, move.to);
+            }
+          }
+          return true;
+        case 'validateMoveInput':
+
+
+          if ((event?.squareTo?.charAt(1) === '8' || event?.squareTo?.charAt(1) === '1') && event?.piece?.charAt(1) === 'p') {
+
+            const colorToShow = event.piece.charAt(0) === 'w' ? COLOR.white : COLOR.black;
+            // FIXME: se puede promocionar  si se toma un peon y se lleva con el mause a la ultima fila
+            this.board.showPromotionDialog(event.squareTo, colorToShow, (result) => {
+              if (result && result.piece) {
+                // FIXME: No valida la coronación con chess.js
+                this.board.setPiece(result.square, result.piece, true);
+                // remover la piece de la casilla de origen
+                this.board.setPiece(event.squareFrom, undefined, true);
+                const objectMovePromotion = { from: event.squareFrom, to: event.squareTo, promotion: result.piece.charAt(1) };
+                const theMovePromotion = this.chessInstance.move(objectMovePromotion);
+                if (theMovePromotion) {
+                  this.validateMove();
+                }
+              } else {
+                console.log('Promotion canceled');
+              }
+            });
+          }
+
+          const objectMove = { from: event.squareFrom, to: event.squareTo };
+          const theMove = this.chessInstance.move(objectMove);
+
+          if (theMove) {
+            this.board.removeArrows();
+            this.showLastMove();
+            this.validateMove();
+          }
+          // return true, if input is accepted/valid, `false` takes the move back
+          return theMove;
+        case 'moveInputCanceled':
+          // hide the indicators
+          return true;
+        case 'moveInputFinished':
+
+          return true;
+        default:
+          return true;
+      }
     });
 
     this.turnRoundBoard(this.chessInstance.turn() === 'b' ? 'w' : 'b');
@@ -188,12 +263,33 @@ export class PuzzleSolutionComponent implements OnInit {
     this.puzzleMoveResponse();
   }
 
+  validateMove() {
+    const fenChessInstance = this.chessInstance.fen();
 
-  async puzzleMoveResponse() {
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fenChessInstance);
+
+    this.currentMoveNumber++;
+    if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
+      this.puzzleMoveResponse();
+      this.okTextShow = true;
+    } else {
+      // TODO: Failed puzzle
+    }
+
+    // Actualiza el tablero después de un movimiento de enroque
+    if (
+      this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('k') ||
+      this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('q')) {
+      this.board.setPosition(this.chessInstance.fen());
+    }
+  }
+
+  async puzzleMoveResponse(origin?: 'user') {
     this.currentMoveNumber++;
 
     if (this.arrayFenSolution.length === this.currentMoveNumber) {
       this.allowMoveArrows = true;
+      this.stopTimer();
       this.currentMoveNumber--;
 
     } else {
@@ -207,12 +303,15 @@ export class PuzzleSolutionComponent implements OnInit {
       this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fen);
       this.fenToCompareAndPlaySound = fen;
       this.board.removeMarkers();
-      // this.board.removeArrows();
+      this.board.removeArrows();
 
       await this.board.setPosition(fen, true);
       const from = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(0, 2);
       const to = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(2, 4);
       this.showLastMove(from, to);
+      if (origin === 'user') {
+        this.puzzleMoveResponse();
+      }
 
     }
 
@@ -278,50 +377,56 @@ export class PuzzleSolutionComponent implements OnInit {
   }
 
   async startMoves() {
-    const arrayFenSolution = [];
-    const arrayMovesSolution = this.puzzle.moves.split(' ');
-    arrayFenSolution.push(this.chessInstance.fen());
-    for (const move of arrayMovesSolution) {
-      this.chessInstance.move(move, { sloppy: true });
-      const fen = this.chessInstance.fen();
-      arrayFenSolution.push(fen);
-    }
 
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
-    for (let i = 0; i < arrayFenSolution.length; i++) {
+    for (let i = this.currentMoveNumber + 1; i < this.arrayFenSolution.length; i++) {
       if (this.closeCancelMoves) {
         break;
       }
       let lastMove;
-      if (!arrayFenSolution[i - 1]) {
+      if (!this.arrayFenSolution[i - 1]) {
         lastMove = this.puzzle.fen;
       } else {
-        lastMove = arrayFenSolution[i - 1];
+        lastMove = this.arrayFenSolution[i - 1];
       }
-      await this.board.setPosition(arrayFenSolution[i], true);
-      this.toolsService.determineChessMoveType(lastMove, arrayFenSolution[i]);
+      await this.board.setPosition(this.arrayFenSolution[i], true);
+      this.toolsService.determineChessMoveType(lastMove, this.arrayFenSolution[i]);
 
       await new Promise<void>((resolve, reject) => {
         setTimeout(() => resolve(), 1000);
       });
 
-      if (arrayMovesSolution[i]) {
-        const from = arrayMovesSolution[i].slice(0, 2);
-        const to = arrayMovesSolution[i].slice(2, 4);
+      if (this.arrayMovesSolution[i]) {
+        const from = this.arrayMovesSolution[i].slice(0, 2);
+        const to = this.arrayMovesSolution[i].slice(2, 4);
         this.showLastMove(from, to);
       }
 
     }
-
-    // setTimeout(() => this.close(), 1500);
+    setTimeout(() => this.close(), 1500);
 
   }
 
-  showLastMove(from: string, to: string) {
+  showLastMove(from?: string, to?: string) {
     this.board.removeMarkers();
-    const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
-    this.board.addMarker(marker, from);
-    this.board.addMarker(marker, to);
+    if (!from && !to) {
+      // eslint-disable-next-line max-len
+      from = this.chessInstance.history({ verbose: true }).slice(-1)[0]?.from;
+      to = this.chessInstance.history({ verbose: true }).slice(-1)[0]?.to;
+
+      if (!from || !to) {
+        from = this.arrayMovesSolution[this.currentMoveNumber - 1]?.slice(0, 2);
+        to = this.arrayMovesSolution[this.currentMoveNumber - 1]?.slice(2, 4);
+      }
+
+    }
+    if (from && to) {
+      const marker = { id: 'lastMove', class: 'marker-square-green', slice: 'markerSquare' };
+      this.board.addMarker(marker, from);
+      this.board.addMarker(marker, to);
+    }
+
   }
+
 
 }

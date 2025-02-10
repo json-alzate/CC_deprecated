@@ -31,15 +31,16 @@
         .actions {
             display: flex;
             justify-content: center;
-            margin-top: 32px;
+            margin-top: 16px;
         }
 
         .timer {
             h1 {
-                font-size: 32px;
+                font-size: 42px;
             }
 
             display: flex;
+            flex: 1;
             justify-content: center;
             flex-direction: column;
         }

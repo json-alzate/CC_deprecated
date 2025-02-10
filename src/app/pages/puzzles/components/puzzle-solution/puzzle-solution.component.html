@@ -25,7 +25,7 @@
               </div>
             </div>
           </ion-label>
-          <ion-toggle [enableOnOffLabels]="true" color="success" slot="end" justify="end">
+          <ion-toggle [disabled]="!allowMoveArrows" [enableOnOffLabels]="true" color="success" slot="end" justify="end">
 
           </ion-toggle>
         </ion-item>
@@ -86,21 +86,30 @@
             <img [src]="uiService.piecesPath + piecePathKingTurn" />
           </ion-thumbnail>
           <ion-label>
-            <h2>Tu turno</h2>
-            <p>
-              Encuentra el mejor movimiento para las negras
+            <h2 *ngIf="!okTextShow">Tu turno</h2>
+            <ion-text *ngIf="okTextShow" color="success">
+              <h2>El mejor movimiento!</h2>
+            </ion-text>
+            <p *ngIf="!okTextShow">
+              Encuentra el mejor movimiento para las <b>negras</b>
+            </p>
+            <p *ngIf="okTextShow">
+              Continua...
             </p>
 
           </ion-label>
 
+
+
         </ion-item>
         <div class="actions">
           <ion-buttons>
-            <ion-button size="large" color="primary" [disabled]="isClueActive" expand="block" fill="clear"
-              (click)="showClue()">
+            <ion-button size="large" color="primary" [disabled]="isClueActive || allowMoveArrows" expand="block"
+              fill="clear" (click)="showClue()">
               Pedir una pista
             </ion-button>
-            <ion-button size="large" color="primary" expand="block" fill="clear">
+            <ion-button [disabled]="allowMoveArrows" size="large" color="primary" expand="block" fill="clear"
+              (click)="puzzleMoveResponse('user')">
               Ver la solución
             </ion-button>
           </ion-buttons>
@@ -111,7 +120,7 @@
       <div class="timer">
         <h1 class="ion-text-center">{{ time | secondsToMinutesSeconds}}</h1>
         <ion-button class="ion-margin-horizontal" color="primary" fill="solid" (click)="startMoves()">
-          Reproducir y continuar
+          Reproducir y cerrar
         </ion-button>
       </div>
 
@@ -134,22 +143,6 @@
       </ion-accordion-group>
 
 
-      <!-- <div class="div-close">
-        <ion-button color="dark" class="ion-margin ion-hide-md-up" (click)="close()" expand="block" fill="clear">
-          {{ 'Close' | translate}}
-        </ion-button>
-      </div> -->
-
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
 </ion-content>
