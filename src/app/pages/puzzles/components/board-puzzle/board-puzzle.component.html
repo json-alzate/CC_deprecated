@@ -7,7 +7,7 @@
     <ion-item lines="none">
       <ion-label *ngIf="(showTimer && isPlaying)" [color]="timeColor">{{ time | secondsToMinutesSeconds }}</ion-label>
 
-      <ion-buttons slot="end">
+      <ion-buttons>
         <ion-button *ngIf="puzzle?.goshPuzzleTime" size="large" fill="clear" color="dark">
 
           <span>
@@ -43,9 +43,9 @@
 
       </ion-buttons>
 
-      <!-- <ion-thumbnail *ngIf="piecePathKingTurn" slot="end">
+      <ion-thumbnail *ngIf="piecePathKingTurn" slot="end">
         <img [src]="uiService.piecesPath + piecePathKingTurn" />
-      </ion-thumbnail> -->
+      </ion-thumbnail>
 
     </ion-item>
 

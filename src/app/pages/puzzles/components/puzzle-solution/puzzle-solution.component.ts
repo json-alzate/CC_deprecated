@@ -267,20 +267,20 @@ export class PuzzleSolutionComponent implements OnInit {
   }
 
   async validateMove() {
-    const fenChessInstance = this.chessInstance.fen();
-
-    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fenChessInstance);
-
-    this.currentMoveNumber++;
-    if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
-      this.puzzleMoveResponse();
-      this.okTextShow = true;
-      this.wrongTextShow = false;
-    } else {
-      this.okTextShow = false;
-      this.wrongTextShow = true;
-      this.soundsService.playError();
-      this.rollBackMove();
+    if (!this.allowMoveArrows) {
+      const fenChessInstance = this.chessInstance.fen();
+      this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fenChessInstance);
+      this.currentMoveNumber++;
+      if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
+        this.puzzleMoveResponse();
+        this.okTextShow = true;
+        this.wrongTextShow = false;
+      } else {
+        this.okTextShow = false;
+        this.wrongTextShow = true;
+        this.soundsService.playError();
+        this.rollBackMove();
+      }
     }
 
     // Actualiza el tablero después de un movimiento de enroque
@@ -446,6 +446,67 @@ export class PuzzleSolutionComponent implements OnInit {
       this.board.addMarker(marker, to);
     }
 
+  }
+
+
+  // Arrows
+
+  starPosition() {
+    this.board.removeArrows();
+    this.board.removeMarkers();
+    this.board.setPosition(this.puzzle.fen, true);
+    this.chessInstance.load(this.puzzle.fen);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
+    this.currentMoveNumber = 0;
+  }
+
+  /**
+   * Navega a la anterior jugada en el tablero
+   * Navigate to the previous play on the board
+   *
+   */
+  backMove() {
+    if (this.currentMoveNumber <= 0) {
+      return;
+    } else {
+      this.currentMoveNumber--;
+    }
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, this.chessInstance.fen());
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.showLastMove();
+  }
+
+  /**
+   * Navega a la siguiente jugada en el tablero
+   * Navigate to the next play on the board
+   *
+   */
+  nextMove() {
+    if (this.currentMoveNumber >= this.totalMoves) {
+      return;
+    } else {
+      this.currentMoveNumber++;
+    }
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, this.chessInstance.fen());
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
+    this.showLastMove();
+  }
+
+  moveToEnd() {
+    this.currentMoveNumber = this.totalMoves;
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
+    this.showLastMove();
   }
 
 
