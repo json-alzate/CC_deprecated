@@ -21,8 +21,6 @@ export class StockfishService {
   }
 
   postMessage(command: string): void {
-    console.log(command, this.stockfish);
-
     this.stockfish.postMessage(command);
   }
 

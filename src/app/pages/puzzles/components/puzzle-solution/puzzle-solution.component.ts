@@ -119,7 +119,7 @@ export class PuzzleSolutionComponent implements OnInit {
   listenStockfish() {
     // Escucha los mensajes del motor
     this.stockfishService.onMessage((message) => {
-      console.log('Stockfish:', message);
+      // console.log('Stockfish:', message);
       if (message.startsWith('bestmove')) {
         this.bestMove = message.split(' ')[1]; // Extrae la mejor jugada
       }
