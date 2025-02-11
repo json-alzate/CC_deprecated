@@ -22,6 +22,7 @@ import { Puzzle } from '@models/puzzle.model';
 import { UiService } from '@services/ui.service';
 import { ToolsService } from '@services/tools.service';
 import { StockfishService } from '@services/stockfish.service';
+import { SoundsService } from '@services/sounds.service';
 
 
 @Component({
@@ -83,12 +84,14 @@ export class PuzzleSolutionComponent implements OnInit {
 
   isClueActive = false;
   okTextShow = false;
+  wrongTextShow = false;
 
   constructor(
     private modalController: ModalController,
     public uiService: UiService,
     private toolsService: ToolsService,
-    private stockfishService: StockfishService
+    private stockfishService: StockfishService,
+    private soundsService: SoundsService
   ) { }
 
   ngOnInit() {
@@ -263,7 +266,7 @@ export class PuzzleSolutionComponent implements OnInit {
     this.puzzleMoveResponse();
   }
 
-  validateMove() {
+  async validateMove() {
     const fenChessInstance = this.chessInstance.fen();
 
     this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fenChessInstance);
@@ -272,8 +275,12 @@ export class PuzzleSolutionComponent implements OnInit {
     if (fenChessInstance === this.arrayFenSolution[this.currentMoveNumber] || this.chessInstance.in_checkmate()) {
       this.puzzleMoveResponse();
       this.okTextShow = true;
+      this.wrongTextShow = false;
     } else {
-      // TODO: Failed puzzle
+      this.okTextShow = false;
+      this.wrongTextShow = true;
+      this.soundsService.playError();
+      this.rollBackMove();
     }
 
     // Actualiza el tablero después de un movimiento de enroque
@@ -282,6 +289,19 @@ export class PuzzleSolutionComponent implements OnInit {
       this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('q')) {
       this.board.setPosition(this.chessInstance.fen());
     }
+  }
+
+  async rollBackMove() {
+    await new Promise<void>((resolve, reject) => {
+      setTimeout(() => resolve(), 400);
+    });
+    this.currentMoveNumber--;
+    this.board.removeMarkers();
+    this.board.removeArrows();
+    this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
+    this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
+    this.fenToCompareAndPlaySound = this.chessInstance.fen();
+    this.showLastMove();
   }
 
   async puzzleMoveResponse(origin?: 'user') {

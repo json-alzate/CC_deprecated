@@ -86,16 +86,34 @@
             <img [src]="uiService.piecesPath + piecePathKingTurn" />
           </ion-thumbnail>
           <ion-label>
-            <h2 *ngIf="!okTextShow">Tu turno</h2>
-            <ion-text *ngIf="okTextShow" color="success">
-              <h2>El mejor movimiento!</h2>
-            </ion-text>
-            <p *ngIf="!okTextShow">
-              Encuentra el mejor movimiento para las <b>negras</b>
-            </p>
-            <p *ngIf="okTextShow">
-              Continua...
-            </p>
+            <ng-container *ngIf="!okTextShow && !wrongTextShow; else elseTemplateText">
+              <h2>Tu turno</h2>
+              <p>
+                Encuentra el mejor movimiento para las <b>negras</b>
+              </p>
+            </ng-container>
+            <ng-template #elseTemplateText>
+              <ng-container *ngIf="okTextShow; else elseTemplateWrongTexts">
+                <ion-text color="success">
+                  <h2>El mejor movimiento!</h2>
+                </ion-text>
+                <p>
+                  Continua...
+                </p>
+              </ng-container>
+              <ng-template #elseTemplateWrongTexts>
+                <ion-text color="danger">
+                  <h2>Ups!, ese no es el mejor movimiento</h2>
+                </ion-text>
+                <p>
+                  Prueba algo distinto...
+                </p>
+              </ng-template>
+
+
+            </ng-template>
+
+
 
           </ion-label>
 
