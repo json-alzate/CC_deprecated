@@ -72,7 +72,7 @@ export class BoardPuzzleComponent implements OnInit {
   goshPuzzleTime = 0;
   board;
   chessInstance = new Chess();
-  piecePathKingTurn = '';
+
 
   constructor(
     private renderer: Renderer2,
@@ -117,7 +117,6 @@ export class BoardPuzzleComponent implements OnInit {
     // el fen del puzzle inicia siempre con el color contrario al del que le toc a jugar al usuario
     this.turnRoundBoard(this.chessInstance.turn() === 'b' ? 'w' : 'b');
     // eslint-disable-next-line max-len
-    this.piecePathKingTurn = this.chessInstance.turn() === 'b' ? 'wK.svg' : 'bK.svg';
     this.currentMoveNumber = 0;
     this.allowMoveArrows = false;
 

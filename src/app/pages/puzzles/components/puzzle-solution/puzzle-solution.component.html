@@ -25,7 +25,8 @@
               </div>
             </div>
           </ion-label>
-          <ion-toggle [disabled]="!allowMoveArrows" [enableOnOffLabels]="true" color="success" slot="end" justify="end">
+          <ion-toggle (ionChange)="startStockfish($event)" [enableOnOffLabels]="true" color="success" slot="end"
+            justify="end">
 
           </ion-toggle>
         </ion-item>
@@ -71,15 +72,7 @@
             <ion-icon slot="icon-only" name="play-forward-outline"></ion-icon>
           </ion-button>
 
-          <!-- <ion-button fill="clear" color="dark">
-            <ion-icon slot="icon-only" [src]="uiService.piecesPath + piecePathKingTurn"></ion-icon>
-          </ion-button> -->
-
         </ion-buttons>
-
-        <!-- <ion-thumbnail *ngIf="piecePathKingTurn" slot="end">
-          <img [src]="uiService.piecesPath + piecePathKingTurn" />
-        </ion-thumbnail> -->
 
       </ion-item>
     </div>
