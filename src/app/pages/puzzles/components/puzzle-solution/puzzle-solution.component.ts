@@ -68,6 +68,7 @@ export class PuzzleSolutionComponent implements OnInit {
   board;
   chessInstance = new Chess();
   closeCancelMoves = false;
+  stockfishEnabled = false;
   bestMove = '';
 
   currentMoveNumber = 0;
@@ -106,12 +107,17 @@ export class PuzzleSolutionComponent implements OnInit {
 
   startStockfish(event) {
     if (event.detail.checked) {
+      this.stockfishEnabled = true;
       // Inicia el motor y envía comandos
       this.stockfishService.postMessage('uci');
       this.stockfishService.postMessage(
         'position fen ' + this.chessInstance.fen()
       );
       this.stockfishService.postMessage('go depth 15');
+    } else {
+      this.stockfishEnabled = false;
+      this.stockfishService.postMessage('stop');
+      this.board.removeArrows();
     }
 
   }
@@ -121,9 +127,39 @@ export class PuzzleSolutionComponent implements OnInit {
     this.stockfishService.onMessage((message) => {
       // console.log('Stockfish:', message);
       if (message.startsWith('bestmove')) {
-        this.bestMove = message.split(' ')[1]; // Extrae la mejor jugada
+        console.log('bestmove', message);
+        this.bestMove = message; // Extrae la mejor jugada ejem: bestmove h5h4 ponder e2f3
+        this.drawStockfishArrows();
       }
     });
+  }
+
+  drawStockfishArrows() {
+    if (this.bestMove) {
+      const arrowType = {
+        id: 'stockfishBestMove',
+        class: 'arrow-stockfish-best-move',
+        headSize: 7,
+        slice: 'arrowDefault'
+      };
+      console.log(this.bestMove.split(' ')[1]);
+      const bestMove = this.bestMove.split(' ')[1];
+
+      // remove stockfish arrows
+      this.board.removeArrows();
+
+      this.board.addArrow(arrowType, bestMove.slice(0, 2), bestMove.slice(2, 4));
+
+      // const ponderMove = this.bestMove.split(' ')[3];
+      // console.log('ponderMove', ponderMove);
+      // this.board.addArrow({ ...arrowType, class: 'arrow-stockfish-ponder-move' }, ponderMove.slice(0, 2), ponderMove.slice(2, 4));
+    }
+
+  }
+
+  removeArrows() {
+    // remove board arrows not stockfish
+    this.board.removeArrows('stockfishBestMove');
   }
 
   close() {
@@ -183,7 +219,7 @@ export class PuzzleSolutionComponent implements OnInit {
 
         case 'moveInputStarted':
           // this.removeMarkerNotLastMove(event.square);
-          this.board.removeArrows();
+          this.removeArrows();
 
           // mostrar indicadores para donde se puede mover la pieza
           if (this.chessInstance.moves({ square: event.square }).length > 0) {
@@ -225,7 +261,7 @@ export class PuzzleSolutionComponent implements OnInit {
           const theMove = this.chessInstance.move(objectMove);
 
           if (theMove) {
-            this.board.removeArrows();
+            this.removeArrows();
             this.showLastMove();
             this.validateMove();
           }
@@ -291,6 +327,10 @@ export class PuzzleSolutionComponent implements OnInit {
       this.chessInstance.history({ verbose: true }).slice(-1)[0]?.flags.includes('q')) {
       this.board.setPosition(this.chessInstance.fen());
     }
+
+    if (this.stockfishEnabled) {
+      this.startStockfish({ detail: { checked: true } });
+    }
   }
 
   async rollBackMove() {
@@ -299,7 +339,7 @@ export class PuzzleSolutionComponent implements OnInit {
     });
     this.currentMoveNumber--;
     this.board.removeMarkers();
-    this.board.removeArrows();
+    this.removeArrows();
     this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.fenToCompareAndPlaySound = this.chessInstance.fen();
@@ -325,7 +365,7 @@ export class PuzzleSolutionComponent implements OnInit {
       this.toolsService.determineChessMoveType(this.fenToCompareAndPlaySound, fen);
       this.fenToCompareAndPlaySound = fen;
       this.board.removeMarkers();
-      this.board.removeArrows();
+      this.removeArrows();
 
       await this.board.setPosition(fen, true);
       const from = this.arrayMovesSolution[this.currentMoveNumber - 1].slice(0, 2);
@@ -333,6 +373,9 @@ export class PuzzleSolutionComponent implements OnInit {
       this.showLastMove(from, to);
       if (origin === 'user') {
         this.puzzleMoveResponse();
+      }
+      if (this.stockfishEnabled) {
+        this.startStockfish({ detail: { checked: true } });
       }
 
     }
@@ -460,6 +503,9 @@ export class PuzzleSolutionComponent implements OnInit {
     this.chessInstance.load(this.puzzle.fen);
     this.fenToCompareAndPlaySound = this.chessInstance.fen();
     this.currentMoveNumber = 0;
+    if (this.stockfishEnabled) {
+      this.startStockfish({ detail: { checked: true } });
+    }
   }
 
   /**
@@ -479,6 +525,9 @@ export class PuzzleSolutionComponent implements OnInit {
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.board.setPosition(this.arrayFenSolution[this.currentMoveNumber], true);
     this.showLastMove();
+    if (this.stockfishEnabled) {
+      this.startStockfish({ detail: { checked: true } });
+    }
   }
 
   /**
@@ -499,6 +548,9 @@ export class PuzzleSolutionComponent implements OnInit {
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.fenToCompareAndPlaySound = this.chessInstance.fen();
     this.showLastMove();
+    if (this.stockfishEnabled) {
+      this.startStockfish({ detail: { checked: true } });
+    }
   }
 
   moveToEnd() {
@@ -509,6 +561,9 @@ export class PuzzleSolutionComponent implements OnInit {
     this.chessInstance.load(this.arrayFenSolution[this.currentMoveNumber]);
     this.fenToCompareAndPlaySound = this.chessInstance.fen();
     this.showLastMove();
+    if (this.stockfishEnabled) {
+      this.startStockfish({ detail: { checked: true } });
+    }
   }
 
 

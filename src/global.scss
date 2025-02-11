@@ -122,6 +122,30 @@
     opacity: 0.5;
 }
 
+.cm-chessboard .arrow-stockfish-best-move .arrow-head {
+    fill: #7974ff;
+    fill-rule: nonzero;
+    fill-opacity: 1;
+}
+
+.cm-chessboard .arrow-stockfish-best-move .arrow-line {
+    stroke: #7974ff;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
+.cm-chessboard .arrow-stockfish-ponder-move .arrow-head {
+    fill: orange;
+    fill-rule: nonzero;
+    fill-opacity: 1;
+}
+
+.cm-chessboard .arrow-stockfish-ponder-move .arrow-line {
+    stroke: orange;
+    stroke-linecap: round;
+    opacity: 0.5;
+}
+
 // end cm-chessboard
 
 div.message-error {
