@@ -19,6 +19,7 @@ import { PromotionDialog } from 'cm-chessboard/src/extensions/promotion-dialog/P
 import { Puzzle } from '@models/puzzle.model';
 
 // services
+import { AppService } from '@services/app.service';
 import { UiService } from '@services/ui.service';
 import { ToolsService } from '@services/tools.service';
 import { StockfishService } from '@services/stockfish.service';
@@ -65,6 +66,8 @@ export class PuzzleSolutionComponent implements OnInit {
     fenStartUserPuzzle: '8/8/1p6/p1bPKPkp/P1P5/4p3/4B3/8 b - - 2 50'
   };
 
+  themesTranslated = [];
+
   board;
   chessInstance = new Chess();
   closeCancelMoves = false;
@@ -88,6 +91,7 @@ export class PuzzleSolutionComponent implements OnInit {
   wrongTextShow = false;
 
   constructor(
+    private appService: AppService,
     private modalController: ModalController,
     public uiService: UiService,
     private toolsService: ToolsService,
@@ -100,7 +104,7 @@ export class PuzzleSolutionComponent implements OnInit {
   ngOnInit() {
     this.buildBoard(this.puzzle.fen);
     this.startTimer();
-
+    this.translateThemes();
     this.listenStockfish();
   }
 
@@ -147,6 +151,9 @@ export class PuzzleSolutionComponent implements OnInit {
 
       // remove stockfish arrows
       this.board.removeArrows();
+
+      console.log('arrow ', bestMove.slice(0, 2), bestMove.slice(2, 4));
+
 
       this.board.addArrow(arrowType, bestMove.slice(0, 2), bestMove.slice(2, 4));
 
@@ -426,6 +433,10 @@ export class PuzzleSolutionComponent implements OnInit {
     setTimeout(() => this.showClue(times + 1), 500);
   }
 
+
+  translateThemes() {
+    this.puzzle.themes = this.puzzle.themes.map(theme => this.appService.getNameThemePuzzleByValue(theme));
+  }
 
   // Board controls -----------------------------------
 

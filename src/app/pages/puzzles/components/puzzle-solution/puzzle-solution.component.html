@@ -1,9 +1,4 @@
 <ion-content>
-  <!-- <ion-fab vertical="top" horizontal="start" slot="fixed">
-    <ion-fab-button size="small" color="light" (click)="close()">
-      <ion-icon name="close-outline"></ion-icon>
-    </ion-fab-button>
-  </ion-fab> -->
 
   <div class="container">
 
@@ -85,33 +80,63 @@
           <ion-label>
             <ng-container *ngIf="allowMoveArrows; else elseTemplatePlaying">
               <ion-text color="success">
-                <h1>Bien hecho!</h1>
+                <h1>
+                  <!-- Bien hecho! -->
+                  {{ 'PUZZLE-SOLUTION.goodDone' | translate }}
+                </h1>
               </ion-text>
 
             </ng-container>
             <ng-template #elseTemplatePlaying>
 
               <ng-container *ngIf="!okTextShow && !wrongTextShow; else elseTemplateText">
-                <h2>Tu turno</h2>
+                <h2>
+                  <!-- Tu turno -->
+                  {{ 'PUZZLE-SOLUTION.turn' | translate }}
+                </h2>
                 <p>
-                  Encuentra el mejor movimiento para las <b>negras</b>
+                  <!-- Encuentra el mejor movimiento para las  -->
+                  {{ 'PUZZLE-SOLUTION.findBestMove' | translate }}
+                  <ng-container *ngIf="piecePathKingTurn === 'wK.svg'; else elseTemplateTurn">
+                    <b>
+                      <!-- blancas -->
+                      {{ 'Whites' | translate }}
+                    </b>
+
+                  </ng-container>
+                  <ng-template #elseTemplateTurn>
+                    <b>
+                      <!-- negras -->
+                      {{ 'Blacks' | translate }}
+                    </b>
+
+                  </ng-template>
+
                 </p>
               </ng-container>
               <ng-template #elseTemplateText>
                 <ng-container *ngIf="okTextShow; else elseTemplateWrongTexts">
                   <ion-text color="success">
-                    <h2>El mejor movimiento!</h2>
+                    <h2>
+                      <!-- El mejor movimiento! -->
+                      {{ 'PUZZLE-SOLUTION.goodMove' | translate }}
+                    </h2>
                   </ion-text>
                   <p>
-                    Continua...
+                    <!-- Continua... -->
+                    {{ 'PUZZLE-SOLUTION.continue' | translate }}
                   </p>
                 </ng-container>
                 <ng-template #elseTemplateWrongTexts>
                   <ion-text color="danger">
-                    <h2>Ups!, ese no es el mejor movimiento</h2>
+                    <h2>
+                      <!-- Ups!, ese no es el mejor movimiento -->
+                      {{ 'PUZZLE-SOLUTION.wrongMove' | translate }}
+                    </h2>
                   </ion-text>
                   <p>
-                    Prueba algo distinto...
+                    <!-- Prueba algo distinto... -->
+                    {{ 'PUZZLE-SOLUTION.tryAgain' | translate }}
                   </p>
                 </ng-template>
 
@@ -128,11 +153,13 @@
           <ion-buttons>
             <ion-button size="large" color="primary" [disabled]="isClueActive || allowMoveArrows" expand="block"
               fill="clear" (click)="showClue()">
-              Pedir una pista
+              <!-- Pedir una pista -->
+              {{ 'PUZZLE-SOLUTION.clue' | translate }}
             </ion-button>
             <ion-button [disabled]="allowMoveArrows" size="large" color="primary" expand="block" fill="clear"
               (click)="puzzleMoveResponse('user')">
-              Ver la solución
+              <!-- Ver la solución -->
+              {{ 'PUZZLE-SOLUTION.solution' | translate }}
             </ion-button>
           </ion-buttons>
         </div>
@@ -142,7 +169,8 @@
       <div class="timer">
         <h1 class="ion-text-center">{{ time | secondsToMinutesSeconds}}</h1>
         <ion-button class="ion-margin-horizontal" color="primary" fill="solid" (click)="startMoves()">
-          Reproducir y cerrar
+          <!-- Reproducir y cerrar -->
+          {{ 'PUZZLE-SOLUTION.playAndClose' | translate }}
         </ion-button>
       </div>
 
@@ -151,7 +179,10 @@
       <ion-accordion-group>
         <ion-accordion value="first">
           <ion-item slot="header" color="light">
-            <ion-label>Temas</ion-label>
+            <ion-label>
+              <!-- Temas -->
+              {{ 'PUZZLE-SOLUTION.themes' | translate }}
+            </ion-label>
           </ion-item>
           <div class="ion-padding" slot="content">
             <div class="chips-container">

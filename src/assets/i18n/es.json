@@ -22,6 +22,8 @@
     "Spanish": "Español",
     "Block": "Bloque",
     "Blocks": "Bloques",
+    "Whites": "Blancas",
+    "Blacks": "Negras",
     "MENU": {
         "home": "Inicio",
         "training": "Entrenamiento",
@@ -143,5 +145,18 @@
         "board": "Tablero",
         "language": "Idioma",
         "exit": "Salir"
+    },
+    "PUZZLE-SOLUTION": {
+        "turn": "Tu turno",
+        "findBestMove": "Encuentra el mejor movimiento para las",
+        "goodDone": "Bien hecho!",
+        "goodMove": "El mejor movimiento!",
+        "continue": "Continua...",
+        "wrongMove": "Ups!, ese no es el mejor movimiento",
+        "tryAgain": "Prueba algo distinto...",
+        "clue": "Pedir una pista",
+        "solution": "Ver la solución",
+        "playAndClose": "Reproducir y cerrar",
+        "themes": "Temas"
     }
 }
