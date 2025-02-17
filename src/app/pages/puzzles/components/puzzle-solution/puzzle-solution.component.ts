@@ -195,8 +195,6 @@ export class PuzzleSolutionComponent implements OnInit {
     const uniqueTimestamp = new Date().getTime();
     const piecesPath = `${this.uiService.pieces}?t=${uniqueTimestamp}`;
 
-    console.log('piecesPath', piecesPath);
-
 
     const cssClass = this.uiService.currentBoardStyleSelected.name !== 'default' ? this.uiService.currentBoardStyleSelected.name : null;
 
@@ -289,7 +287,6 @@ export class PuzzleSolutionComponent implements OnInit {
     this.fenToCompareAndPlaySound = this.puzzle.fen;
     this.getMoves();
     // this.startMoves();
-
   }
 
   getMoves() {
