@@ -144,16 +144,13 @@ export class PuzzleSolutionComponent implements OnInit {
         id: 'stockfishBestMove',
         class: 'arrow-stockfish-best-move',
         headSize: 7,
-        slice: 'arrowDefault'
+        slice: 'arrowPointy'
       };
       console.log(this.bestMove.split(' ')[1]);
       const bestMove = this.bestMove.split(' ')[1];
 
       // remove stockfish arrows
       this.board.removeArrows();
-
-      console.log('arrow ', bestMove.slice(0, 2), bestMove.slice(2, 4));
-
 
       this.board.addArrow(arrowType, bestMove.slice(0, 2), bestMove.slice(2, 4));
 
@@ -197,6 +194,9 @@ export class PuzzleSolutionComponent implements OnInit {
     // Se configura la ruta de las piezas con un timestamp para que no se guarde en cache (assetsCache: false, no se ven bien las piezas)
     const uniqueTimestamp = new Date().getTime();
     const piecesPath = `${this.uiService.pieces}?t=${uniqueTimestamp}`;
+
+    console.log('piecesPath', piecesPath);
+
 
     const cssClass = this.uiService.currentBoardStyleSelected.name !== 'default' ? this.uiService.currentBoardStyleSelected.name : null;
 
@@ -435,7 +435,7 @@ export class PuzzleSolutionComponent implements OnInit {
 
 
   translateThemes() {
-    this.puzzle.themes = this.puzzle.themes.map(theme => this.appService.getNameThemePuzzleByValue(theme));
+    this.themesTranslated = this.puzzle.themes.map(theme => this.appService.getNameThemePuzzleByValue(theme));
   }
 
   // Board controls -----------------------------------
