@@ -121,7 +121,8 @@ export class PuzzleSolutionComponent implements OnInit {
     } else {
       this.stockfishEnabled = false;
       this.stockfishService.postMessage('stop');
-      this.board.removeArrows();
+      // this.board.removeArrows();
+      this.removeStockfishMarkers();
     }
 
   }
@@ -133,7 +134,8 @@ export class PuzzleSolutionComponent implements OnInit {
       if (message.startsWith('bestmove')) {
         console.log('bestmove', message);
         this.bestMove = message; // Extrae la mejor jugada ejem: bestmove h5h4 ponder e2f3
-        this.drawStockfishArrows();
+        // this.drawStockfishArrows();
+        this.drawStockfishMarkers();
       }
     });
   }
@@ -159,6 +161,25 @@ export class PuzzleSolutionComponent implements OnInit {
       // this.board.addArrow({ ...arrowType, class: 'arrow-stockfish-ponder-move' }, ponderMove.slice(0, 2), ponderMove.slice(2, 4));
     }
 
+  }
+
+  drawStockfishMarkers() {
+    this.removeStockfishMarkers();
+    if (this.bestMove) {
+      const markerType = {
+        id: 'stockfishBestMove',
+        class: 'marker-square-stockfish-best-move',
+        slice: 'markerSquare'
+      };
+      const bestMove = this.bestMove.split(' ')[1];
+      this.board.addMarker(markerType, bestMove.slice(0, 2));
+      this.board.addMarker(markerType, bestMove.slice(2, 4));
+    }
+  }
+
+  removeStockfishMarkers() {
+    // remove stockfish markers
+    this.board.removeMarkers('stockfishBestMove');
   }
 
   removeArrows() {
