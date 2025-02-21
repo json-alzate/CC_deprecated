@@ -48,8 +48,10 @@ export class AppService {
     return theme;
   }
 
-  getNameThemePuzzleByValue(value: string) {
-    const lang = this.translateService.currentLang;
+  getNameThemePuzzleByValue(value: string, lang?: string) {
+    if (!lang) {
+      lang = this.translateService.currentLang;
+    }
     if (lang === 'es') {
       return this.getThemePuzzleByValue(value)?.nameEs || '';
     } else {

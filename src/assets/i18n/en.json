@@ -70,7 +70,7 @@
         "goshHelp2": "reaches"
     },
     "TRAINING-MENU": {
-        "customTrainingSlideTitle": "Your creations",
+        "customTrainingSlideTitle": "Your custom plans",
         "Warmup": "Warmup",
         "BackToCalm": "Back to calm",
         "DownloadAPP": "Download the app",
@@ -143,5 +143,18 @@
         "board": "Board",
         "language": "Language",
         "exit": "Logout"
+    },
+    "PUZZLE-SOLUTION": {
+        "turn": "Your turn",
+        "findBestMove": "Find the best move for the",
+        "goodDone": "Good done!",
+        "goodMove": "The best move!",
+        "continue": "Continue...",
+        "wrongMove": "Ups!, that's not the best move",
+        "tryAgain": "Try something different...",
+        "clue": "Ask a clue",
+        "solution": "See the solution",
+        "playAndClose": "Play and close",
+        "themes": "Themes"
     }
 }

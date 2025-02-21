@@ -67,6 +67,9 @@ export class PuzzlesPlayedPreviewComponent implements OnInit {
       ]
     });
 
+    console.log('board----- ', this.board);
+
+
     // eslint-disable-next-line @typescript-eslint/prefer-for-of
     for (let i = 0; i < this.blocks.length; i++) {
       const block = this.blocks[i];

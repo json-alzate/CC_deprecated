@@ -17,6 +17,7 @@ import { CustomPlansService } from '@services/custom-plans.service';
 
 
 import { LoginComponent } from '@shared/components/login/login.component';
+import { PuzzleSolutionComponent } from '@pages/puzzles/components/puzzle-solution/puzzle-solution.component';
 
 @Component({
   selector: 'app-training-menu',

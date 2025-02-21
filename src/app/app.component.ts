@@ -101,7 +101,7 @@ export class AppComponent {
     this.appService.loadThemesPuzzle();
     this.appService.loadOpenings();
     this.toolsService.loadFlags();
-    this.fcmService.initPush();
+    // this.fcmService.initPush();
   }
 
   async initFirebase() {
@@ -129,9 +129,9 @@ export class AppComponent {
       this.currentLang = langToUse;
     } else {
       const lang = await Device.getLanguageCode();
-      if (lang.value.slice(0, 2) === 'es') {
-        this.translateService.use('es');
-        this.currentLang = 'es';
+      if (lang.value.slice(0, 2) === 'en') {
+        this.translateService.use('en');
+        this.currentLang = 'en';
       }
     }
 
