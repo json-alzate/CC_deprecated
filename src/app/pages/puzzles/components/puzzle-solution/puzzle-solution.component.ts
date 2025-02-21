@@ -33,38 +33,7 @@ import { SoundsService } from '@services/sounds.service';
 })
 export class PuzzleSolutionComponent implements OnInit {
 
-  @Input() puzzle: Puzzle = {
-    fen: '8/8/1p6/p1bP1Pkp/P1P1K3/4p3/4B3/8 w - - 1 50',
-    moves: 'e4e5 h5h4 e5e4 h4h3 e2f3 h3h2',
-    nbPlays: 1243,
-    timeUsed: 19,
-    openingVariation: '',
-    popularity: 90,
-    firstMoveSquaresHighlight: [
-      'e4',
-      'e5'
-    ],
-    times: {
-      total: 20,
-      warningOn: 12,
-      dangerOn: 6
-    },
-    gameUrl: 'https://lichess.org/4pT4PGqi#98',
-    uid: 'qyjOZ',
-    openingFamily: '',
-    rating: 1331,
-    randomNumberQuery: 9788,
-    themes: [
-      'advancedPawn',
-      'bishopEndgame',
-      'crushing',
-      'endgame',
-      'long',
-      'quietMove'
-    ],
-    ratingDeviation: 75,
-    fenStartUserPuzzle: '8/8/1p6/p1bPKPkp/P1P5/4p3/4B3/8 b - - 2 50'
-  };
+  @Input() puzzle: Puzzle;
 
   themesTranslated = [];
 

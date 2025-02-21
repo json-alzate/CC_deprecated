@@ -172,13 +172,4 @@ export class TrainingMenuComponent implements OnInit {
     this.navController.navigateForward(path);
   }
 
-  async test() {
-    const modal = await this.modalController.create({
-      component: PuzzleSolutionComponent,
-      componentProps: {
-      }
-    });
-    await modal.present();
-  }
-
 }
