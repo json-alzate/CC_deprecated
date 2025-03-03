@@ -19,8 +19,8 @@
               </div>
             </div>
           </ion-label>
-          <ion-toggle (ionChange)="startStockfish($event)" [enableOnOffLabels]="true" color="tertiary" slot="end"
-            justify="end">
+          <ion-toggle [disabled]="!allowMoveArrows" (ionChange)="startStockfish($event)" [enableOnOffLabels]="true"
+            color="tertiary" slot="end" justify="end">
           </ion-toggle>
         </ion-item>
       </ion-toolbar>
