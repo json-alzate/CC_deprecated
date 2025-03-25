@@ -16,10 +16,6 @@ import { SecondsToMinutesSecondsPipe } from './pipes/seconds-to-minutes-seconds.
 
 @NgModule({
   declarations: [
-    ...fromComponents.COMPONENTS,
-    ...fromPipes.PIPES,
-    GameClockPipe,
-    SecondsToMinutesSecondsPipe
   ],
   imports: [
     IonicModule,
@@ -29,9 +25,6 @@ import { SecondsToMinutesSecondsPipe } from './pipes/seconds-to-minutes-seconds.
     TranslateModule
   ],
   exports: [
-    ...fromComponents.ENTRY_COMPONENTS,
-    TranslateModule,
-    ...fromPipes.PIPES,
   ]
 })
 export class SharedModule { }

@@ -62,7 +62,7 @@ if (environment.production) {
 }
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -99,6 +99,6 @@ if (environment.production) {
     PROVIDERS,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: []
 })
 export class AppModule { }
