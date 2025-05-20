@@ -44,7 +44,7 @@ export class PuzzlesService {
   ) { }
 
 
-  async getPuzzles(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
+  async getPuzzlesOld(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
 
     let path = `get-puzzles?elo=${options.elo}`;
 
@@ -73,6 +73,97 @@ export class PuzzlesService {
     } else if (actionMethod === 'return') {
       return newPuzzlesFromDB;
     }
+  }
+
+
+  async getPuzzles(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
+    const { elo = 1500, theme, openingFamily, color } = options;
+
+    // remplaza el elo, solo si el que llega es menor a 400
+    if (elo < 400) {
+      options.elo = 400;
+    }
+    console.log('getPuzzles', options);
+
+    const repoBase = this.getRepoBase(theme, openingFamily);
+    const adjustedColor = color === 'w' ? 'b' : color === 'b' ? 'w' : 'N/A';
+
+    // const fileName = openingFamily
+    //   ? `openings/${this.slugify(openingFamily)}_${this.eloRange(elo)}.json`
+    //   : theme
+    //     ? `${theme}/${theme}_${this.eloRange(elo)}.json`
+    //     : null;
+
+    const fileName = !theme ?
+      `puzzlesFilesOpenings/${openingFamily}/${openingFamily}_${this.eloRange(options.elo)}.json`
+      : `puzzlesFilesThemes/${theme}/${theme}_${this.eloRange(options.elo)}.json`;
+
+
+    if (!fileName || !repoBase) {
+      throw new Error('No se puede determinar el archivo de puzzles');
+    }
+
+    const url = `${repoBase}/${fileName}`;
+    console.log('puzzles url', url);
+
+
+    try {
+      const puzzles = await firstValueFrom(this.http.get<Puzzle[]>(url));
+      // TODO: Add to sqlite
+      let filteredPuzzles = puzzles;
+      //  puzzles.filter(p => !color || p.color === adjustedColor);
+      console.log('color filtered', adjustedColor, filteredPuzzles.length);
+
+      if (adjustedColor === 'w' || adjustedColor === 'b') {
+        filteredPuzzles = puzzles.filter(puzzle => {
+          const fenParts = puzzle.fen.split(' ');
+          const puzzleColor = fenParts[1];
+          return puzzleColor === adjustedColor;
+        });
+      }
+
+      if (actionMethod === 'return') { return filteredPuzzles; }
+
+      this.store.dispatch(addPuzzles({ puzzles: filteredPuzzles }));
+      this.puzzles.push(...filteredPuzzles);
+    } catch (error) {
+      console.error('Error al cargar puzzles:', error);
+      throw error;
+    }
+  }
+
+  private getRepoBase(theme?: string, openingFamily?: string): string {
+    const base = 'https://cdn.jsdelivr.net/gh';
+    const user = 'json-alzate'; // Reemplaza por tu usuario o nombre de organización
+
+    if (openingFamily && !theme) {
+      return `${base}/${user}/chesscolate-puzzles-files-openings@main`;
+    }
+
+    if (!theme) { return null; }
+
+    const firstLetter = theme.charAt(0).toLowerCase();
+    if (firstLetter >= 'a' && firstLetter <= 'h') {
+      return `${base}/${user}/chesscolate-puzzles-files-themes-a-h@main`;
+    } else if (firstLetter >= 'i' && firstLetter <= 'o') {
+      return `${base}/${user}/chesscolate-puzzles-files-themes-i-o@main`;
+    } else {
+      return `${base}/${user}/chesscolate-puzzles-files-themes-p-z@main`;
+    }
+  }
+
+  private eloRange(elo: number): string {
+    const start = Math.floor(elo / 20) * 20;
+    const end = start + 19;
+    return `${start}_${end}`;
+  }
+
+  private slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .replace(/\s+/g, '_')
+      .replace(/[^\w\-]+/g, '')
+      .replace(/\-\-+/g, '_');
   }
 
 
