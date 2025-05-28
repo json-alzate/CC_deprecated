@@ -25,8 +25,7 @@ import { Puzzle, PuzzleQueryOptions } from '@models/puzzle.model';
 
 // services
 import { FirestoreService } from '@services/firestore.service';
-import { UserPuzzlesService } from '@services/user-puzzles.service';
-import { AppService } from '@services/app.service';
+import { PuzzlesCacheService } from '@services/puzzles-cache.service';
 
 // utils
 
@@ -40,11 +39,12 @@ export class PuzzlesService {
   constructor(
     private http: HttpClient,
     private firestoreService: FirestoreService,
-    private store: Store<PuzzlesState>
+    private store: Store<PuzzlesState>,
+    private puzzlesCacheService: PuzzlesCacheService,
   ) { }
 
 
-  async getPuzzlesOld(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
+  async getPuzzlesV1(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
 
     let path = `get-puzzles?elo=${options.elo}`;
 
@@ -76,7 +76,7 @@ export class PuzzlesService {
   }
 
 
-  async getPuzzles(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
+  async getPuzzlesV2(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
     const { elo = 1500, theme, openingFamily, color } = options;
 
     // remplaza el elo, solo si el que llega es menor a 400
@@ -126,6 +126,56 @@ export class PuzzlesService {
 
       this.store.dispatch(addPuzzles({ puzzles: filteredPuzzles }));
       this.puzzles.push(...filteredPuzzles);
+    } catch (error) {
+      console.error('Error al cargar puzzles:', error);
+      throw error;
+    }
+  }
+
+  async getPuzzles(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
+    const { elo = 1500, theme, openingFamily, color } = options;
+    if (elo < 400) { options.elo = 400; }
+
+    const repoBase = this.getRepoBase(theme, openingFamily);
+    const adjustedColor = color === 'w' ? 'b' : color === 'b' ? 'w' : 'N/A';
+
+    const fileName = !theme
+      ? `puzzlesFilesOpenings/${openingFamily}/${openingFamily}_${this.eloRange(options.elo)}.json`
+      : `puzzlesFilesThemes/${theme}/${theme}_${this.eloRange(options.elo)}.json`;
+
+    if (!fileName || !repoBase) { throw new Error('No se puede determinar el archivo de puzzles'); }
+
+    const url = `${repoBase}/${fileName}`;
+    console.log('puzzles url', url);
+
+    try {
+      let puzzles: Puzzle[] = [];
+
+      if (await this.puzzlesCacheService.isFileCached(url)) {
+        const cached = await this.puzzlesCacheService.getCachedPuzzles(url);
+        if (cached) {
+          console.log('Usando puzzles cacheados');
+          puzzles = cached;
+        }
+      }
+
+      if (puzzles.length === 0) {
+        console.log('Descargando desde CDN...');
+        puzzles = await firstValueFrom(this.http.get<Puzzle[]>(url));
+        // ⚠ No bloquear: se cachea después
+        this.puzzlesCacheService.cachePuzzles(url, puzzles).catch(e => console.warn('Error cacheando', e));
+      }
+
+      let filteredPuzzles = puzzles;
+      if (adjustedColor === 'w' || adjustedColor === 'b') {
+        filteredPuzzles = puzzles.filter(p => p.fen.split(' ')[1] === adjustedColor);
+      }
+
+      if (actionMethod === 'return') { return filteredPuzzles; }
+
+      this.store.dispatch(addPuzzles({ puzzles: filteredPuzzles }));
+      this.puzzles.push(...filteredPuzzles);
+
     } catch (error) {
       console.error('Error al cargar puzzles:', error);
       throw error;
