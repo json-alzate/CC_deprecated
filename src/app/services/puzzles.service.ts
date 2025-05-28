@@ -109,7 +109,7 @@ export class PuzzlesService {
 
     try {
       const puzzles = await firstValueFrom(this.http.get<Puzzle[]>(url));
-      // TODO: Add to sqlite
+      // TODO: Add to local storage file
       let filteredPuzzles = puzzles;
       //  puzzles.filter(p => !color || p.color === adjustedColor);
       console.log('color filtered', adjustedColor, filteredPuzzles.length);

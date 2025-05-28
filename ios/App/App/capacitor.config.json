@@ -27,9 +27,11 @@
 		}
 	},
 	"packageClassList": [
+		"CapacitorSQLitePlugin",
 		"FirebaseAuthenticationPlugin",
 		"AppPlugin",
 		"DevicePlugin",
+		"FilesystemPlugin",
 		"HapticsPlugin",
 		"KeyboardPlugin",
 		"CAPNetworkPlugin",
