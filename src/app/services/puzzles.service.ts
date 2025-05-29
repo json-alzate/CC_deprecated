@@ -133,6 +133,8 @@ export class PuzzlesService {
   }
 
   async getPuzzles(options: PuzzleQueryOptions, actionMethod?: 'toStore' | 'return') {
+    // TODO: adicionar logica del back para cuando el elo y el tema tienen pocos puzzles (adicionar mas, jugando con el incremento del ELO,
+    // o  decremento del ELO) para garantizar que haya suficientes puzzles para jugar
     const { elo = 1500, theme, openingFamily, color } = options;
     if (elo < 400) { options.elo = 400; }
 
@@ -171,6 +173,7 @@ export class PuzzlesService {
         filteredPuzzles = puzzles.filter(p => p.fen.split(' ')[1] === adjustedColor);
       }
 
+      filteredPuzzles = this.shuffleArrayPuzzles(filteredPuzzles);
       if (actionMethod === 'return') { return filteredPuzzles; }
 
       this.store.dispatch(addPuzzles({ puzzles: filteredPuzzles }));
@@ -180,6 +183,14 @@ export class PuzzlesService {
       console.error('Error al cargar puzzles:', error);
       throw error;
     }
+  }
+
+  private shuffleArrayPuzzles(array: Puzzle[]): Puzzle[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1)); // selecciona un índice aleatorio desde 0 hasta i
+      [array[i], array[j]] = [array[j], array[i]]; // intercambia elementos array[i] y array[j]
+    }
+    return array;
   }
 
   private getRepoBase(theme?: string, openingFamily?: string): string {
